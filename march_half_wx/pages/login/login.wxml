@@ -1,13 +1,14 @@
 <view class="container">
   <view class="header">
-    绑定
+    绑   定
   </view>
+  
   <view class="content">
     <view class="login-from">
       <form bindsubmit="formSubmit" class='form'>
         <view class="myno">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/uerId.png"></image>
+            <image class="nameImage" src="../../utils/imgs/mine.png"></image>
             <view class="weui-cell__bd">
               <input class="weui-input" name="no" bindinput="noinput" value='{{no}}' placeholder="请输入学号" />
             </view>
@@ -15,7 +16,7 @@
         </view>
         <view class="mypwd">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/password.png"></image>
+            <image class="nameImage" src="../../utils/imgs/pass.png"></image>
             <view class="weui-cell__bd">
               <input class="weui-input" type="password" name="pwd" bindinput="pwdinput" placeholder="请输入密码" value='{{pwd}}' />
             </view>

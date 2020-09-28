@@ -12,7 +12,17 @@ page {
   box-sizing: border-box;
 } 
 
-/*登录图片*/
+.header{
+  display: block;
+  text-align: center;
+  font-style: normal;
+  font-family: "Arial","Microsoft YaHei";
+  color: #ffffff;
+  font-size: 100rpx;
+  text-shadow:5px 1px 6px #cccccc;
+  margin-top: 30rpx;
+}
+
 .login-icon{
   flex: none;
   margin: 0 auto;
@@ -24,43 +34,42 @@ page {
   border-radius: 110rpx;
   opacity: 0.6;
 }
- 
-/*表单内容*/
 .login-from {
   margin-top: 90px;
   flex: auto;
   height:100%;
 }
  
-/* 输入框 */
 .myno{
   width: 90%;
   height: 80rpx;
   margin: 0 auto;
-  border:1px solid #ccc;
+  border:1px solid rgba(255, 255, 255,0.7);
   border-radius: 50rpx;
- 
+  background:  rgba(255, 255, 255,0.3);
+  box-shadow: 0rpx 10rpx 50rpx 10rpx rgba(85, 85, 85, 0.10);
 }
 .mypwd{
   width: 90%;
   height: 80rpx;
   margin: 0 auto;
-  border:1px solid #ccc;
+  border:1px solid rgba(255, 255, 255,0.7);
   border-radius: 50rpx;
-  margin-top: 20rpx;
+  margin-top: 50rpx;
+  background:  rgba(255, 255, 255,0.3);
+  box-shadow: 0rpx 10rpx 50rpx 10rpx rgba(85, 85, 85, 0.10);
 }
-/*按钮*/
 
- 
- 
 .nameImage, .keyImage {
-  margin-right: 10px;
-  width: 14px;
-  height: 14px
+  margin: 10px;
+  width: 40rpx;
+  height: 40rpx;
+  float: left;
 }
 
 .loginBtn {
   display: block;
   text-align: center;
+  margin-top: 200rpx;
 }
 
