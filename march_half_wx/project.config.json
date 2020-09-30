@@ -22,7 +22,7 @@
     "uploadWithSourceMap": true,
     "compileHotReLoad": false,
     "useMultiFrameRuntime": false,
-    "useApiHook": true,
+    "useApiHook": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -36,7 +36,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "2.13.0",
-  "appid": "wxb319118916032446",
+  "appid": "wx45c9758e3667e482",
   "projectname": "MRCH_HALF",
   "debugOptions": {
     "hidedInDevtools": []

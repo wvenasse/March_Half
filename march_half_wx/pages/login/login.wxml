@@ -10,7 +10,7 @@
           <view class="weui-cell weui-cell_input">
             <image class="nameImage" src="../../utils/imgs/mine.png"></image>
             <view class="weui-cell__bd">
-              <input class="weui-input" name="no" bindinput="noinput" value='{{no}}' placeholder="请输入学号" placeholder-class="phcolor"/>
+              <input class="weui-input" name="userId" bindinput="uidinput" value='{{userId}}' placeholder="请输入学号" placeholder-class="phcolor"/>
             </view>
           </view>
         </view>
@@ -18,12 +18,12 @@
           <view class="weui-cell weui-cell_input">
             <image class="nameImage" src="../../utils/imgs/pass.png"></image>
             <view class="weui-cell__bd">
-              <input class="weui-input" type="password" name="pwd" bindinput="pwdinput" placeholder="请输入密码" value='{{pwd}}' placeholder-class="phcolor"/>
+              <input class="weui-input" type="password" name="password" bindinput="pwdinput" placeholder="请输入密码" value='{{password}}' placeholder-class="phcolor"/>
             </view>
           </view>
         </view>
         <view class="loginBtnView">
-          <van-button class="loginBtn" color="linear-gradient(to right, #ead6ee, #a0f1ea)">Login </van-button>
+          <van-button class="loginBtn" bindtap="login" color="linear-gradient(to right, #ead6ee, #a0f1ea)">Login </van-button>
         </view>
 
       </form>

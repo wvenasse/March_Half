@@ -5,7 +5,56 @@ Page({
    * 页面的初始数据
    */
   data: {
+    userId:'',
+    password:''
 
+  },
+  uidinput (e) {
+    this.setData({
+      userId: e.detail.value
+    })
+  },
+  pwdinput (e) {
+    this.setData({
+      password: e.detail.value
+    })
+  },
+  login: function (options) {
+    wx.request({
+      url: 'http://localhost:8080/login',
+      data: {
+        userId: this.data.userId,
+        password: this.data.password
+      },
+      header: {'content-type':'application/json'},
+      method: 'GET',
+      dataType: 'json',
+      responseType: 'text',
+      success: (result) => {
+        if (result.data == 'ok') {
+          wx.showToast({
+            title:'登陆成功！'
+          })
+          wx.navigateTo({
+            url: '../index/index',
+            success: (result) => {
+              
+            },
+            fail: () => {},
+            complete: () => {}
+          });
+            
+        }
+        else {
+          wx.showToast({
+            title:'登陆失败！'
+          })
+        }
+      },
+      fail: () => {},
+      complete: () => {}
+    });
+      
   },
 
   /**
