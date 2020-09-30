@@ -10,7 +10,7 @@
           <view class="weui-cell weui-cell_input">
             <image class="nameImage" src="../../utils/imgs/mine.png"></image>
             <view class="weui-cell__bd">
-              <input class="weui-input" name="no" bindinput="noinput" value='{{no}}' placeholder="请输入学号" />
+              <input class="weui-input" name="no" bindinput="noinput" value='{{no}}' placeholder="请输入学号" placeholder-class="phcolor"/>
             </view>
           </view>
         </view>
@@ -18,7 +18,7 @@
           <view class="weui-cell weui-cell_input">
             <image class="nameImage" src="../../utils/imgs/pass.png"></image>
             <view class="weui-cell__bd">
-              <input class="weui-input" type="password" name="pwd" bindinput="pwdinput" placeholder="请输入密码" value='{{pwd}}' />
+              <input class="weui-input" type="password" name="pwd" bindinput="pwdinput" placeholder="请输入密码" value='{{pwd}}' placeholder-class="phcolor"/>
             </view>
           </view>
         </view>
