@@ -1,14 +1,36 @@
 {
   "pages":[
+    "pages/index/index",
+    "pages/test/test",
     "pages/login/login",
-    "pages/home/home",
-    "pages/index/index"
+    "pages/home/home"
   ],
   "window":{
     "backgroundTextStyle":"light",
     "navigationBarBackgroundColor": "#009E9D",
     "navigationBarTitleText": "MARCH_HALF",
     "navigationBarTextStyle":"white"
+  },
+  "tabBar": {
+    "color": "#6e6d6b",
+    "selectedColor": "#e64340",
+    "borderStyle": "white",
+    "backgroundColor": "#fff",
+    "box-shadow": "0 0 6px 0",
+
+    "list": [
+    {
+      "pagePath": "pages/test/test",
+      "text": "test",
+      "iconPath": "utils/imgs/my.png",
+      "selectedIconPath": "utils/imgs/mySelect.png"
+    },
+    {
+     "pagePath": "pages/index/index",
+      "text": "首页",
+      "iconPath": "utils/imgs/home.png",
+      "selectedIconPath": "utils/imgs/homeSelect.png"
+    }]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
