@@ -1,4 +1,4 @@
-// pages/test/test.js
+// pages/forum/forum.js
 Page({
 
   /**

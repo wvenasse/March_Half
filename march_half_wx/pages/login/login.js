@@ -1,4 +1,5 @@
 // pages/login/login.js
+const app = getApp()
 Page({
 
   /**
@@ -36,7 +37,7 @@ Page({
             title:'登陆成功！'
           })
           wx.navigateTo({
-            url: '../index/index',
+            url: '../home/home',
             success: (result) => {
               
             },
@@ -61,7 +62,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    console.log(app.globalData);
   },
 
   /**

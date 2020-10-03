@@ -1,9 +1,11 @@
 {
   "pages":[
-    "pages/index/index",
-    "pages/test/test",
+    "pages/home/home",
+    "pages/forum/forum",
+    "pages/my/my",
     "pages/login/login",
-    "pages/home/home"
+
+    "pages/newlogin/newlogin"
   ],
   "window":{
     "backgroundTextStyle":"light",
@@ -12,24 +14,27 @@
     "navigationBarTextStyle":"white"
   },
   "tabBar": {
-    "color": "#6e6d6b",
-    "selectedColor": "#e64340",
-    "borderStyle": "white",
-    "backgroundColor": "#fff",
-    "box-shadow": "0 0 6px 0",
-
+    "color": "#8a8a8a",
+    "selectedColor": "#009E9D",
+    "backgroundColor": "#ffffff",
     "list": [
     {
-      "pagePath": "pages/test/test",
-      "text": "test",
-      "iconPath": "utils/imgs/my.png",
-      "selectedIconPath": "utils/imgs/mySelect.png"
-    },
-    {
-     "pagePath": "pages/index/index",
+      "pagePath": "pages/home/home",
       "text": "首页",
       "iconPath": "utils/imgs/home.png",
       "selectedIconPath": "utils/imgs/homeSelect.png"
+    },
+    {
+      "pagePath": "pages/forum/forum",
+      "text": "论坛",
+      "iconPath": "utils/imgs/forum.png",
+      "selectedIconPath": "utils/imgs/forumSelect.png"
+    },
+    {
+      "pagePath": "pages/my/my",
+      "text": "我的",
+      "iconPath": "utils/imgs/my.png",
+      "selectedIconPath": "utils/imgs/mySelect.png"
     }]
   },
   "style": "v2",
