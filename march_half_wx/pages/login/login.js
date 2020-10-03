@@ -22,7 +22,7 @@ Page({
   },
   login: function (options) {
     wx.request({
-      url: 'http://localhost:8080/login',
+      url: 'http://localhost:8088/login',
       data: {
         userId: this.data.userId,
         password: this.data.password

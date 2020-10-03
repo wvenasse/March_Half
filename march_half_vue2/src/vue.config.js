@@ -38,6 +38,7 @@ module.exports = {
     // 有效的值：`ture` | `false` | `"error"`
     // 当设置为 `"error"` 时，检查出的错误会触发编译失败。
     lintOnSave: false,
+    
 
     // 使用带有浏览器内编译器的完整构建版本
     // 查阅 https://cn.vuejs.org/v2/guide/installation.html#运行时-编译器-vs-只包含运行时
@@ -102,7 +103,11 @@ module.exports = {
     devServer: {
         open: process.platform === 'darwin',
         host: '0.0.0.0',
-        port: 8080,
+        port: 8077,
+        overlay:{
+            warnings:false,
+            errors:false
+        },
         https: false,
         hotOnly: false,
         // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/cli-service.md#配置代理
