@@ -30,11 +30,11 @@
                             <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
                         </el-form-item>
                         <el-form-item label="验证码" prop="code">
-                            <el-col :span="16">
+                            <el-col :span="11">
                                 <el-input v-model.number="ruleForm.code" minlength="6" maxlength="6"></el-input>
                             </el-col>
-                            <el-col :span="8">
-                                <el-button type="">验证码</el-button>
+                            <el-col :span="13">
+                                <el-button style="float:right;" type="" >验证码</el-button>
                             </el-col>
                         </el-form-item>
                         <el-form-item style="text-align: center;">
@@ -169,7 +169,7 @@
         position: relative;
         width: 30%;
         margin: 0 auto;
-        top: 0px;
+        top: 50px;
         background: rgba(255, 255, 255, 0.3);
     }
 
