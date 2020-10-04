@@ -91,3 +91,6 @@ page {
   margin-top: 200rpx;
 }
 
+van-radio-group > van-radio {
+  float: left;
+}

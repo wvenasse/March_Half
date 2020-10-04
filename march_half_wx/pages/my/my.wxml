@@ -1,8 +1,9 @@
 <!--pages/my/my.wxml-->
 <view class="container">
+  <view class="pure_top"></view>
   <view class="userinfo">
     <block wx:if="{{canIUse}}">
-      <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 授权登录 </button>
+      <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登录/注册 </button>
       <block wx:else>
         <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
@@ -11,11 +12,13 @@
     <block wx:else>
       <view>请升级微信版本</view>
     </block>
+  </view>
+  <view class="infomation">
+    <view>个人资料</view>
       
-
-
   </view>
-  <view class="usermotto">
-    <!-- <text class="user-motto">{{motto}}</text> -->
-  </view>
+    
+  <!-- <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view> -->
 </view>

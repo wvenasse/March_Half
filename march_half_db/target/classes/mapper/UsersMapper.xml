@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.UsersDao">
+    <insert id="addUsers" parameterType="org.example.pojo.Users">
+        insert into users(openid,userId,userName,userDorm,userRoom,userBed,userType) values (#{openid},#{userId},#{userName},#{userDorm},#{userRoom},#{userBed},#{userType})
+    </insert>
+    <select id="getAllUsers" resultType="org.example.pojo.Users">
+        select * from users
+    </select>
+    <select id="getUserById" resultType="org.example.pojo.Users">
+        select * from users where openid = #{openid}
+     </select>
+</mapper>

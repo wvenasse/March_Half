@@ -1,8 +1,28 @@
+.pure_top {
+  width: 100%;
+  height: 100px;
+  position: relative;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.pure_top::after {
+  content: '';
+  width: 140%;
+  height: 100px;
+  position: absolute;
+  left: -20%;
+  top: 0;
+  z-index: -1;
+  border-radius: 0 0 50% 50%;
+  background: #009E9D;
+}
 
 .userinfo {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: -80px;
 }
 
 .userinfo-avatar {
@@ -16,6 +36,6 @@
   color: #aaa;
 }
 
-.usermotto {
+/* .usermotto {
   margin-top: 200px;
-}
+} */

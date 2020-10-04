@@ -1,9 +1,10 @@
 {
   "pages":[
+   
     "pages/home/home",
     "pages/forum/forum",
     "pages/my/my",
-    "pages/login/login",
+     "pages/login/login",
 
     "pages/newlogin/newlogin"
   ],
@@ -41,6 +42,9 @@
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
-    "van-field": "@vant/weapp/field/index"
+    "van-field": "@vant/weapp/field/index",
+    "van-picker": "@vant/weapp/picker/index",
+    "van-radio": "@vant/weapp/radio/index",
+    "van-radio-group": "@vant/weapp/radio-group/index"
   }
 }
