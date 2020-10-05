@@ -58,15 +58,16 @@
 	align-items: center;
 	border-bottom: 1px solid #eeeeee;
 }
-.picker-header view {
+/* .picker-header  {
 	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-.picker-header view text{
-	font-size: 36rpx;
-}
+.picker-header text{ */
+	/* view */
+	/* font-size: 36rpx;
+} */
 .picker-content {
 	flex-grow: 1;
 }

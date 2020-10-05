@@ -6,10 +6,20 @@
     <insert id="addUsers" parameterType="org.example.pojo.Users">
         insert into users(openid,userId,userName,userDorm,userRoom,userBed,userType) values (#{openid},#{userId},#{userName},#{userDorm},#{userRoom},#{userBed},#{userType})
     </insert>
+
+    <delete id="delUsers" parameterType="java.lang.String">
+        delete from users where openid=#{openid}
+    </delete>
+
+    <select id="updateUsers" parameterType="org.example.pojo.Users" resultType="java.lang.Integer">
+        update users set userId=#{userId},userName=#{userName},userDorm=#{userDorm},userRoom=#{userRoom},userBed=#{userBed},userType=#{userType}
+        where openid=#{openid}
+    </select>
+
     <select id="getAllUsers" resultType="org.example.pojo.Users">
         select * from users
     </select>
     <select id="getUserById" resultType="org.example.pojo.Users">
-        select * from users where openid = #{openid}
+        select * from users where openid=#{openid}
      </select>
 </mapper>

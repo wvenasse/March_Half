@@ -13,8 +13,9 @@ public interface UsersDao {
     //删
     public int delUsers(String openid);
     //改
-    public int updateUsers(Users users);
+    public Integer updateUsers(Users users);
     //查
     public List<Users> getAllUsers();
+    //照openid查
     public Users getUserById(String openid);
 }

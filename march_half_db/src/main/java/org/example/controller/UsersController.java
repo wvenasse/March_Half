@@ -15,21 +15,6 @@ public class UsersController {
     @Autowired
     UsersDao usersDao;
 
-    @RequestMapping("/showAllUsers")
-    public Object showAllUsers(){
-        List<Users> userss = usersDao.getAllUsers();
-        String usersJson = JSON.toJSONString(userss);
-        return usersJson;
-    }
-
-//    @RequestMapping("/showUsers")
-//    public Users showUsers(String openid){
-//        System.out.println("openid："+openid);
-//        Users users = usersDao.getUserById(openid);
-//        String usersJson = JSON.toJSONString(users);
-//        return users;
-//    }
-
     @RequestMapping("/addUsers")
     public String addUsers(Users users) {
         int count = usersDao.addUsers(users);
@@ -39,5 +24,38 @@ public class UsersController {
             return "ok";
         }
         return "no";
+    }
+
+    @RequestMapping("/delUsers")
+    public String delUsers(String openid) {
+        int count = usersDao.delUsers(openid);
+        if (count>0) {
+            return "ok";
+        }
+        return "no";
+    }
+
+    @RequestMapping("/updateUsers")
+    public String updateUsers(Users users) {
+        Integer count = usersDao.updateUsers(users);
+        // int --> Integer
+        if (count == null) {
+            return "ok";
+        }
+        return "no";
+    }
+
+    @RequestMapping("/showAllUsers")
+    public Object showAllUsers(){
+        List<Users> userss = usersDao.getAllUsers();
+        String usersJson = JSON.toJSONString(userss);
+        return usersJson;
+    }
+
+    @RequestMapping("/showUsers")
+    public String showUsers(String openid){
+        Users users = usersDao.getUserById(openid);
+        String usersJson = JSON.toJSONString(users);
+        return usersJson;
     }
 }

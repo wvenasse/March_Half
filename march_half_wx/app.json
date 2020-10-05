@@ -1,42 +1,41 @@
 {
-  "pages":[
-   
+  "pages": [
+
     "pages/home/home",
     "pages/forum/forum",
     "pages/my/my",
-     "pages/login/login",
-
+    "pages/login/login",
     "pages/newlogin/newlogin"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#009E9D",
     "navigationBarTitleText": "MARCH_HALF",
-    "navigationBarTextStyle":"white"
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#8a8a8a",
     "selectedColor": "#009E9D",
     "backgroundColor": "#ffffff",
-    "list": [
-    {
-      "pagePath": "pages/home/home",
-      "text": "首页",
-      "iconPath": "utils/imgs/home.png",
-      "selectedIconPath": "utils/imgs/homeSelect.png"
-    },
-    {
-      "pagePath": "pages/forum/forum",
-      "text": "论坛",
-      "iconPath": "utils/imgs/forum.png",
-      "selectedIconPath": "utils/imgs/forumSelect.png"
-    },
-    {
-      "pagePath": "pages/my/my",
-      "text": "我的",
-      "iconPath": "utils/imgs/my.png",
-      "selectedIconPath": "utils/imgs/mySelect.png"
-    }]
+    "list": [{
+        "pagePath": "pages/home/home",
+        "text": "首页",
+        "iconPath": "utils/imgs/tabbar/home.png",
+        "selectedIconPath": "utils/imgs/tabbar/homeSelect.png"
+      },
+      {
+        "pagePath": "pages/forum/forum",
+        "text": "论坛",
+        "iconPath": "utils/imgs/tabbar/forum.png",
+        "selectedIconPath": "utils/imgs/tabbar/forumSelect.png"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "text": "我的",
+        "iconPath": "utils/imgs/tabbar/my.png",
+        "selectedIconPath": "utils/imgs/tabbar/mySelect.png"
+      }
+    ]
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
@@ -45,6 +44,8 @@
     "van-field": "@vant/weapp/field/index",
     "van-picker": "@vant/weapp/picker/index",
     "van-radio": "@vant/weapp/radio/index",
-    "van-radio-group": "@vant/weapp/radio-group/index"
+    "van-radio-group": "@vant/weapp/radio-group/index",
+    "van-grid": "@vant/weapp/grid/index",
+    "van-grid-item": "@vant/weapp/grid-item/index"
   }
 }

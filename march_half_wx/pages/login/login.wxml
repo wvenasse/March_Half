@@ -7,27 +7,27 @@
       <form bindsubmit="formSubmit" class='form'>
         <view class="myno">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/mine.png"></image>
+            <image class="nameImage" src="../../utils/imgs/login/mine.png"></image>
             <view class="weui-cell__bd">
-              <input class="weui-input" name="userId" bindinput="uidinput" value='{{userId}}' placeholder="请输入学号"
+              <input class="weui-input" name="userId" bindinput="uidinput" value='{{users.userId}}' placeholder="请输入学号"
                 placeholder-class="phcolor" />
             </view>
           </view>
         </view>
         <view class="mypwd">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/pass.png"></image>
+            <image class="nameImage" src="../../utils/imgs/login/pass.png"></image>
             <view class="weui-cell__bd">
-              <input class="weui-input" name="userName" bindinput="unainput" placeholder="请输入姓名" value='{{userName}}'
+              <input class="weui-input" name="userName" bindinput="unainput" placeholder="请输入姓名" value='{{users.userName}}'
                 placeholder-class="phcolor" />
             </view>
           </view>
         </view>
         <view class="mypwd">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/identify.png"></image>
+            <image class="nameImage" src="../../utils/imgs/login/identify.png"></image>
             <view class="weui-cell__bd">
-              <van-radio-group value="{{ userType }}" bind:change="typeChange">
+              <van-radio-group value="{{ users.userType }}" bind:change="typeChange">
                 <van-radio name="1" checked-color="#009E9D">学生</van-radio>
                 <van-radio name="2" checked-color="#009E9D">宿管</van-radio>
                 <van-radio name="3" checked-color="#009E9D">工作人员</van-radio>
@@ -37,14 +37,12 @@
         </view>
         <view class="mypwd">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/stu.png"></image>
+            <image class="nameImage" src="../../utils/imgs/login/stu.png"></image>
             <view class="weui-cell__bd">
-              <view bindtap="showPicker" wx:if="{{!isSelect}}">选择所在寝室</view>
-              <view bindtap="showPicker" wx:else>{{picker_data[0].name}}</view>
-              <!-- <view>选择数据：{{picker_data}}</view> -->
-              <!-- <view>选择索引：{{picker_index}}</view> -->
-              <picker isShowPicker="{{isShow}}" keyWordsOfShow="name" bindsure="sureCallBack"
-                bindcancle="cancleCallBack" scrollType="link" listData="{{listData}}"></picker>
+              <view bindtap="showPicker" wx:if="{{!users.userBed}}">选择所在寝室</view>
+              <view bindtap="showPicker" wx:else>{{users.userDorm}}-{{users.userRoom}}-{{users.userBed}}</view>
+              <picker isShowPicker="{{isPickerShow}}" keyWordsOfShow="name" bindsure="sureCallBack"
+                bindcancle="cancleCallBack" scrollType="link" listData="{{dormitoryList}}"></picker>
             </view>
           </view>
         </view>

@@ -1,22 +1,13 @@
 package org.example.pojo;
 
 public class Users {
-    private Integer id;
     private  String openid;
     private  String userId;
     private  String userName;
     private  String userDorm;
     private  String userRoom;
     private  String userBed;
-    private Integer userType;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    private String userType;
 
     public String getOpenid() {
         return openid;
@@ -66,11 +57,11 @@ public class Users {
         this.userBed = userBed;
     }
 
-    public Integer getUserType() {
+    public String getUserType() {
         return userType;
     }
 
-    public void setUserType(Integer userType) {
+    public void setUserType(String userType) {
         this.userType = userType;
     }
 }

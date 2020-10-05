@@ -2,7 +2,7 @@
     <div id="login">
         <div class="login-wrap">
             <el-tabs v-model="activeName" stretch @tab-click="handleClick">
-                <el-tab-pane label="登录3" name="login">
+                <el-tab-pane label="登录" name="login">
                     <el-form class="login-form" :label-position="labelPosition" label-width="80px" size="medium "
                         :model="formLabelAlign">
                         <el-form-item label="用户名">
@@ -12,11 +12,11 @@
                             <el-input v-model="formLabelAlign.userPass"></el-input>
                         </el-form-item>
                         <el-form-item style="text-align: center;">
-                            <el-button type="primary" @click="loginBtn">登录</el-button>
+                            <el-button type="primary">登录</el-button>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>
-                <el-tab-pane label="注册3" name="regist">
+                <el-tab-pane label="注册" name="regist">
                     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" :label-position="labelPosition"
                         label-width="80px" size="medium " class="demo-ruleForm login-form">
                         <el-form-item label="邮箱" prop="email">
@@ -34,7 +34,7 @@
                                 <el-input v-model.number="ruleForm.code" minlength="6" maxlength="6"></el-input>
                             </el-col>
                             <el-col :span="13">
-                                <el-button style="float:right;" type="">验证码</el-button>
+                                <el-button style="float:right;" type="" >验证码</el-button>
                             </el-col>
                         </el-form-item>
                         <el-form-item style="text-align: center;">
@@ -50,19 +50,11 @@
 
 <script>
     import {
-        reactive,
-        ref
-    } from '@vue/composition-api'
-    import axios from 'axios'
-    import {
-        stripscript,
-        validateEmail,
-        validatePassword
+        stripscript,validateEmail,validatePassword
     } from '@/utils/validate.js'
     export default {
         name: 'login',
-        setup(props, context) {
-
+        data() {
             var checkEmail = (rule, value, callback) => {
                 if (value === '') {
                     callback(new Error('邮箱不能为空'));
@@ -73,7 +65,7 @@
                 }
             };
             var checkCode = (rule, value, callback) => {
-                ruleForm.code = stripscript(value);
+                this.ruleForm.code = stripscript(value);
                 value = stripscript(value);
                 let reg = /^[a-z0-9]{6}$/;
                 if (!value) {
@@ -85,68 +77,70 @@
                 }
             };
             var validatePass = (rule, value, callback) => {
-                ruleForm.pass = stripscript(value);
+                this.ruleForm.pass = stripscript(value);
                 value = stripscript(value);
                 if (value === '') {
                     callback(new Error('请输入密码'));
                 } else if (validatePassword(value)) {
                     callback(new Error('密码为6至20位数字+字母'));
                 } else {
-                    if (ruleForm.checkPass !== '') {
-                        context.refs.ruleForm.validateField('checkPass');
+                    if (this.ruleForm.checkPass !== '') {
+                        this.$refs.ruleForm.validateField('checkPass');
                     }
                     callback();
                 }
             };
             var validatePass2 = (rule, value, callback) => {
-                ruleForm.checkPass = stripscript(value);
+                this.ruleForm.checkPass = stripscript(value);
                 value = stripscript(value);
                 if (value === '') {
                     callback(new Error('请再次输入密码'));
-                } else if (value !== ruleForm.pass) {
+                } else if (value !== this.ruleForm.pass) {
                     callback(new Error('两次输入密码不一致!'));
                 } else {
                     callback();
                 }
             };
-
-            const activeName = ref('login');
-            const labelPosition = ref('top');
-            let formLabelAlign = reactive({
-                userName: '',
-                userPass: '',
-                aginPass: '',
-            });
-            let ruleForm = reactive({
-                email: '',
-                pass: '',
-                checkPass: '',
-                code: ''
-            });
-            let rules = reactive({
-                email: [{
-                    validator: checkEmail,
-                    trigger: 'blur'
-                }],
-                pass: [{
-                    validator: validatePass,
-                    trigger: 'blur'
-                }],
-                checkPass: [{
-                    validator: validatePass2,
-                    trigger: 'blur'
-                }],
-                code: [{
-                    validator: checkCode,
-                    trigger: 'blur'
-                }],
-            });
-
-            const handleClick = ((tab, event) => {
+            return {
+                activeName: 'login',
+                labelPosition: 'top',
+                formLabelAlign: {
+                    userName: '',
+                    userPass: '',
+                    aginPass: '',
+                },
+                ruleForm: {
+                    email: '',
+                    pass: '',
+                    checkPass: '',
+                    code: ''
+                },
+                rules: {
+                    email: [{
+                        validator: checkEmail,
+                        trigger: 'blur'
+                    }],
+                    pass: [{
+                        validator: validatePass,
+                        trigger: 'blur'
+                    }],
+                    checkPass: [{
+                        validator: validatePass2,
+                        trigger: 'blur'
+                    }],
+                    code: [{
+                        validator: checkCode,
+                        trigger: 'blur'
+                    }],
+                }
+            };
+        },
+        methods: {
+            handleClick(tab, event) {
                 console.log(tab, event);
-            });
-            const submitForm = (formName => {
-                context.refs[formName].validate((valid) => {
+            },
+            submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
                     if (valid) {
                         alert('submit!');
                     } else {
@@ -154,39 +148,11 @@
                         return false;
                     }
                 });
-            });
-            const resetForm = (formName => {
-                context.refs[formName].resetFields();
-            });
-            const loginBtn = () => {
-                // 为给定 ID 的 user 创建请求
-                axios.get('/user?ID=12345')
-                    .then(function (response) {
-                        console.log(response);
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                console.log("成功登录！");
-            };
-
-            return {
-                checkEmail,
-                checkCode,
-                validatePass,
-                validatePass2,
-                activeName,
-                labelPosition,
-                formLabelAlign,
-                ruleForm,
-                rules,
-                handleClick,
-                submitForm,
-                resetForm,
-                loginBtn
+            },
+            resetForm(formName) {
+                this.$refs[formName].resetFields();
             }
-
-        },
+        }
     }
 </script>
 

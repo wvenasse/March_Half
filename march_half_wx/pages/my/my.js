@@ -19,7 +19,7 @@ Page({
   },
   bindViewTap: function () {
     wx.navigateTo({
-      url: '../login/login'
+      url: '../login/login?openid='+OPEN_ID
     })
   },
   getUserInfo: function (e) {

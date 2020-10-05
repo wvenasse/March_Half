@@ -5,7 +5,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    movies:[  
+      {url:'../../utils/imgs/swiper/Bg1.jfif'} ,  
+      {url:'../../utils/imgs/swiper/Bg2.jfif'} ,  
+      {url:'../../utils/imgs/swiper/Bg3.jfif'} ,  
+      {url:'../../utils/imgs/swiper/Bg4.jfif'} 
+      ]  
   },
 
   /**

@@ -15,10 +15,5 @@
   </view>
   <view class="infomation">
     <view>个人资料</view>
-      
   </view>
-    
-  <!-- <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view> -->
 </view>
