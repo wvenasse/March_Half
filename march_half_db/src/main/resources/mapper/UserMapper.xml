@@ -3,7 +3,24 @@
                 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.UserDao">
-    <select id="getUserByLoginId" resultType="java.lang.Integer">
-    select count(id) from users where userId = #{userId} and password = #{password}
-  </select>
+    <insert id="addUser" parameterType="org.example.pojo.User">
+        insert into roots(userName,nickname,password) values (#{userName},#{nickname},#{password})
+    </insert>
+    <delete id="delUser" parameterType="java.lang.String">
+        delete from roots where userName=#{userName}
+    </delete>
+    <select id="updateUser" parameterType="org.example.pojo.User" resultType="java.lang.Integer">
+        update roots set nickname=#{nickname},password=#{password}
+        where userName=#{userName}
+    </select>
+    <select id="getAllUser" resultType="org.example.pojo.User">
+        select * from roots
+    </select>
+
+    <select id="getUserByName" resultType="java.lang.Integer">
+    select count(userName) from roots where userName = #{userName} and password = #{password}
+    </select>
+    <select id="getUserByUserName" resultType="org.example.pojo.User">
+        select * from roots where userName=#{userName}
+     </select>
 </mapper>
