@@ -19,7 +19,6 @@ Page({
   },
 
   loadUsers(openid){
-    // console.log("开始查询"+openid);
     var that = this;
     wx.request({
       url:'http://localhost:8088/showUsers',
@@ -95,6 +94,7 @@ Page({
         responseType: 'text',
         success: (result) => {
           if (result.data == 'ok') {
+            app.globalData.userDetail = this.data.users;
             wx.showToast({
               title: '绑定成功！'
             })
@@ -127,6 +127,7 @@ Page({
         },
         success: (result) => {
           if (result.data == 'ok') {
+            app.globalData.userDetail = this.data.users;
             wx.showToast({
               title: '修改成功！'
             })
@@ -153,8 +154,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // console.log(app.globalData);
-    this.loadUsers('oMCYx5UNizsGtuEcnc4tVvTxiVNY');
+    console.log(app.globalData);
+    console.log(options);
+    this.loadUsers(options.openid);
     this.setData({
       dormitoryList: dormitory.dormitoryList,
     })

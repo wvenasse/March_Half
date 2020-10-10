@@ -70,7 +70,7 @@ public class IndexController {
         }
     }
 
-    @RequestMapping("/showAllUser")
+    @RequestMapping(value = "/showAllUser", produces = "text/json;charset=UTF-8")
     public Object showAllUser(){
         List<User> users = userDao.getAllUser();
         Result result = new Result();
@@ -101,8 +101,7 @@ public class IndexController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:8077", maxAge = 3600)
-    @RequestMapping("/showUser")
+    @RequestMapping(value = "/showUser", produces = "text/json;charset=UTF-8")
     public Result showUsers(String userName){
         User user = userDao.getUserByUserName(userName);
         Result result = new Result();

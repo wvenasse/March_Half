@@ -3,6 +3,7 @@ package org.example.controller;
 
 import com.alibaba.fastjson.JSON;
 import org.example.dao.UsersDao;
+import org.example.pojo.Result;
 import org.example.pojo.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,14 +46,14 @@ public class UsersController {
         return "no";
     }
 
-    @RequestMapping("/showAllUsers")
+    @RequestMapping(value = "/showAllUsers", produces = "text/json;charset=UTF-8")
     public Object showAllUsers(){
         List<Users> userss = usersDao.getAllUsers();
         String usersJson = JSON.toJSONString(userss);
         return usersJson;
     }
 
-    @RequestMapping("/showUsers")
+    @RequestMapping(value = "/showUsers", produces = "text/json;charset=UTF-8")
     public String showUsers(String openid){
         Users users = usersDao.getUserById(openid);
         String usersJson = JSON.toJSONString(users);

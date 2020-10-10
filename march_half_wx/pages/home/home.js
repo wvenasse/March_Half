@@ -5,12 +5,34 @@ Page({
    * 页面的初始数据
    */
   data: {
-    movies:[  
+    announcements:[  
       {url:'../../utils/imgs/swiper/Bg1.jfif'} ,  
       {url:'../../utils/imgs/swiper/Bg2.jfif'} ,  
       {url:'../../utils/imgs/swiper/Bg3.jfif'} ,  
       {url:'../../utils/imgs/swiper/Bg4.jfif'} 
-      ]  
+      ],
+    navList:[
+      {
+        title:'消费',
+        value:'../login/login'
+      },
+      {
+        title:'卫生',
+        value:'../login/login'
+      },
+      {
+        title:'保修',
+        value:'../login/login'
+      },
+      {
+        title:'外出',
+        value:'../login/login'
+      },
+      {
+        title:'活动',
+        value:'../login/login'
+      },
+    ]
   },
 
   /**

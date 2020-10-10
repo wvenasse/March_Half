@@ -200,7 +200,7 @@ export default {
 
 <style scoped>
 #login {
-  background: url("../../assets/imgs/backhround1.jpg");
+  background: url("../../assets/imgs/backhround2.jpg");
   width: 100%;
   height: 100%;
   position: fixed;

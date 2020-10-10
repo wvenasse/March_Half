@@ -46,7 +46,7 @@
             </el-form-item> -->
             <el-form-item style="text-align: center;">
               <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-              <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+              <el-button @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -183,9 +183,6 @@
           }
         });
       };
-      const resetForm = formName => {
-        refs[formName].resetFields();
-      };
       const loginBtn = () => {
         if (formLabelAlign.userName == ''){
           root.$message({
@@ -208,6 +205,9 @@
           password: formLabelAlign.userPass
         };
         Login(data);
+      };
+      const resetForm = formName => {
+        refs[formName].resetFields();
       };
       onMounted(() => {
       });
@@ -233,7 +233,7 @@
 
 <style scoped>
   #login {
-    background: url("../../assets/imgs/backhround1.jpg");
+    background: url("../../assets/imgs/backhround3.jpg");
     width: 100%;
     height: 100%;
     position: fixed;

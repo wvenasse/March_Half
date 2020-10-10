@@ -1,17 +1,17 @@
 {
   "pages": [
-
+    "pages/my/my",
     "pages/home/home",
     "pages/forum/forum",
-    "pages/my/my",
+    
     "pages/login/login",
     "pages/newlogin/newlogin"
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#009E9D",
+    "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTitleText": "MARCH_HALF",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "black"
   },
   "tabBar": {
     "color": "#8a8a8a",

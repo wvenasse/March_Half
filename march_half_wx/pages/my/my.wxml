@@ -5,8 +5,9 @@
     <block wx:if="{{canIUse}}">
       <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登录/注册 </button>
       <block wx:else>
-        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        
       </block>
     </block>
     <block wx:else>
@@ -14,6 +15,8 @@
     </block>
   </view>
   <view class="infomation">
-    <view>个人资料</view>
+    <view class="userCard">
+      个人资料
+    </view>
   </view>
 </view>
