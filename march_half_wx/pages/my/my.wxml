@@ -7,7 +7,7 @@
       <block wx:else>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
         <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-        
+
       </block>
     </block>
     <block wx:else>
@@ -16,7 +16,75 @@
   </view>
   <view class="infomation">
     <view class="userCard">
-      个人资料
+      <view class="cardHead">
+        个人资料
+      </view>
+      <view class="carfBody">
+        <view class="littleCard cDorm">
+          <view class="littleHead">
+            所在楼宇
+          </view>
+          <view class="littleBody">
+            慕贤1
+          </view>
+        </view>
+        <view class="littleCard cRoom">
+           <view class="littleHead">
+            所在寝室
+          </view>
+          <view class="littleBody">
+            117
+          </view>
+        </view>
+        <view class="littleCard cBed">
+           <view class="littleHead">
+            所在床号
+          </view>
+          <view class="littleBody">
+            1
+          </view>
+        </view>
+      </view>
+    </view>
+    
+     <view class="userCard">
+      <view class="cardHead">
+        我的论坛
+      </view>
+      <view class="carfBody">
+        <view class="littleCard cFav">
+          <view class="littleHead">
+            我的收藏
+          </view>
+          <view class="littleBody">
+            100
+          </view>
+        </view>
+        <view class="littleCard cLike">
+           <view class="littleHead">
+            我的点赞
+          </view>
+          <view class="littleBody">
+            11
+          </view>
+        </view>
+        <view class="littleCard cRem">
+           <view class="littleHead">
+            我的评论
+          </view>
+          <view class="littleBody">
+            10
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="echartCard">
+      <view class="ecardHead">
+        寝室卫生
+      </view>
+          <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
     </view>
   </view>
+  
 </view>

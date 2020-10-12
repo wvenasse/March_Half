@@ -25,7 +25,7 @@
     </div>
 </template>
 <script lang="ts">
-    // 在vue2中 data 在vue3中使用 reactive代替
+    // 在vue2中 data 在vue3中使用 reactive、ref代替
     import {
         reactive,
         computed

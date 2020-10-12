@@ -52,8 +52,86 @@ page{
 
 .userCard{
   width: 90%;
-  height: 200rpx;
+  height: 300rpx;
   background-color: #ffffff;
   margin: 80rpx 40rpx;
-  border-radius: 10%;
+  border-radius: 10rpx;
+  box-shadow: 0rpx 5rpx 5rpx 5rpx rgba(155, 154, 154, 0.1);
+}
+
+.cardHead,.carfBody{
+  margin: 42rpx 20rpx;
+}
+
+.cardHead {
+  padding-top: 10rpx;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.carfBody{
+  display: flex;
+  height: 70%;
+}
+
+.littleCard {
+  margin: 0% 2%;
+  width: 30%;
+  height: 75%;
+  border-radius: 10rpx;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.cDorm{
+  background-color: #E54D42;
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(229,77,66, 0.8);
+}
+.cRoom{
+  background-color: #6938B6;
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(102,58,181, 0.8);
+}
+.cBed{
+  background-color: #19BEB0;
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(28,188,180, 0.8);
+}
+.cFav{
+  background-color: #0082FF;
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(0,130,255, 0.8);
+}
+
+.cLike{
+  background-color: #961FAD;
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(150,31,173, 0.8);
+
+}
+.cRem{
+  background-color: #DFDB23;
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(223, 210, 35, 0.8);
+}
+
+.littleHead,.littleBody{
+  height: 50%;
+}
+
+.littleHead{
+  padding: 20rpx 0;
+}
+
+.echartCard{
+  width: 90%;
+  height: 500rpx;
+  background-color: #ffffff;
+  margin: 80rpx 40rpx;
+  margin-bottom: 0;
+  border-radius: 10rpx;
+  box-shadow: 0rpx 5rpx 5rpx 5rpx rgba(155, 154, 154, 0.1);
+}
+.ecardHead{
+  margin: 42rpx 20rpx;
+  margin-bottom: 0;
+}
+
+ec-canvas {
+  width: 100%;
+  height: 100%;
 }

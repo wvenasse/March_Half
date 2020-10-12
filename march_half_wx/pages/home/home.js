@@ -6,10 +6,10 @@ Page({
    */
   data: {
     announcements:[  
-      {url:'../../utils/imgs/swiper/Bg1.jfif'} ,  
-      {url:'../../utils/imgs/swiper/Bg2.jfif'} ,  
-      {url:'../../utils/imgs/swiper/Bg3.jfif'} ,  
-      {url:'../../utils/imgs/swiper/Bg4.jfif'} 
+      {url:'../../utils/imgs/swiper/zucc1.jpg'} ,  
+      {url:'../../utils/imgs/swiper/zucc2.jpg'} ,  
+      {url:'../../utils/imgs/swiper/zucc3.jpg'} ,  
+      {url:'../../utils/imgs/swiper/zucc4.jpg'} 
       ],
     navList:[
       {

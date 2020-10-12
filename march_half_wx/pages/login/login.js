@@ -1,5 +1,5 @@
 // pages/login/login.js
-import dormitory from '../../utils/dormitory'
+import dormitory from '../../utils/dorm/dormitory'
 const app = getApp()
 Page({
   data: {

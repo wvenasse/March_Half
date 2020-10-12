@@ -1,5 +1,9 @@
 /* pages/home/home.wxss */
 
+.header{
+ margin: 10rpx 20rpx;
+}
+
 .swiper {
     height: 400rpx;
     width: 100%;
@@ -8,4 +12,59 @@
 .swiper image {
     height: 100%;
     width: 100%;
+    border-radius: 10rpx;
+}
+
+.affair {
+    width: 95%;
+    height: 300rpx;
+    margin: 0 auto;
+    display: flex;
+}
+
+.affairCard{
+    width: 30%;
+    height: 90%;
+    margin: 2%;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 10rpx;
+}
+
+.cardHead{
+    height: 60%;
+    padding-top: 20%;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: large;
+}
+
+.cardIcon{
+    height: 40%;
+}
+
+.cardImg{
+    width: 100rpx;
+    height: 100rpx;
+}
+
+.cPay{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #19D895 , #8efdd6dc);
+    /* 97C789 */
+}
+.cHygiene{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #2CABFC , #D2E1CA);
+}
+.cRepair{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #FC8485 , #F4C581);
+}
+.cOut{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #A1A7FB , #BAAAD7);
+}
+.cAct{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #e7c502 , #f5e8a0);
 }

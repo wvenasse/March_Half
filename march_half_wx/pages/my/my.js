@@ -1,25 +1,129 @@
 // pages/my/my.js
+import * as echarts from '../../utils/ec-canvas/echarts';
 const APP_ID = 'wx45c9758e3667e482'; //输入小程序appid  
 const APP_SECRET = '4d0e2002773bb9c8a9db389f73297247'; //输入小程序app_secret  
 var OPEN_ID = '' //储存获取到openid  
 var SESSION_KEY = '' //储存获取到session_key
 var CODE = ''
 const app = getApp()
-Page({
+let chart = null;
+var colors = ['#5793f3', '#d14a61', '#675bba'];
+function initChart(canvas, width, height, dpr) {
+  chart = echarts.init(canvas, null, {
+    width: width,
+    height: height,
+    devicePixelRatio: dpr // new
+  });
+  canvas.setChart(chart);
 
+  var option = {
+    color: colors,
+    tooltip: {
+        trigger: 'none',
+        axisPointer: {
+            type: 'cross'
+        }
+    },
+    legend: {
+        data:['寝室分数', '个人分数']
+    },
+    grid: {
+        top: 70,
+        bottom: 50
+    },
+    xAxis: [
+        {
+            type: 'category',
+            axisTick: {
+                alignWithLabel: true
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle: {
+                    color: colors[1]
+                }
+            },
+            axisPointer: {
+                label: {
+                    formatter: function (params) {
+                        return '分数  ' + params.value
+                            + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
+                    }
+                }
+            },
+            data: ['第1周','第2周','第3周','第4周','第5周','第6周','第7周','第8周']
+        },
+        {
+            type: 'category',
+            axisTick: {
+                alignWithLabel: true
+            },
+            axisLine: {
+                onZero: false,
+                lineStyle: {
+                    color: colors[0]
+                }
+            },
+            axisPointer: {
+                label: {
+                    formatter: function (params) {
+                        return '分数  ' + params.value
+                            + (params.seriesData.length ? '：' + params.seriesData[0].data : '');
+                    }
+                }
+            },
+            data: ['第1周','第2周','第3周','第4周','第5周','第6周','第7周','第8周']
+        }
+    ],
+    yAxis: [
+        {
+            type: 'value'
+        }
+    ],
+    series: [
+        {
+            name: '寝室分数',
+            type: 'line',
+            xAxisIndex: 1,
+            smooth: true,
+            data: [80,85,85,80,85,85,80,80]
+        },
+        {
+            name: '个人分数',
+            type: 'line',
+            smooth: true,
+            data: [82,83,88,81,85,85,84,82]
+        }
+    ]
+  }
+  chart.setOption(option);
+  return chart;
+}
+Page({
   /**
    * 页面的初始数据
    */
+  onShareAppMessage: function (res) {
+    return {
+      title: 'ECharts 可以在微信小程序中使用啦！',
+      path: '/pages/index/index',
+      success: function () {},
+      fail: function () {}
+    }
+  },
   data: {
     motto: 'Hello World',
     userInfo: {},
     isAuth: true,
     hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    canIUse: wx.canIUse('button.open-type.getUserInfo'),
+    ec: {
+      onInit: initChart
+    }
   },
   bindViewTap: function () {
     wx.navigateTo({
-      url: '../login/login?openid='+OPEN_ID
+      url: '../login/login?openid=' + OPEN_ID
     })
   },
   getUserInfo: function (e) {
@@ -67,7 +171,7 @@ Page({
     wx.login({
       success: function (res) {
         console.log(res.code)
-        CODE = res.code; 
+        CODE = res.code;
         app.globalData.code = res.code;
       }
     })
@@ -115,9 +219,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
-
-  },
+  onReady: function () {},
 
   /**
    * 生命周期函数--监听页面显示

@@ -1,6 +1,6 @@
 <view class="container">
   <view class="header">
-    信 息
+    Info
   </view>
   <view class="content">
     <view class="login-from">

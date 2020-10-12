@@ -1,6 +1,6 @@
 <!--pages/home/home.wxml-->
 <view class="container">
-    <view header>
+    <view class="header">
         <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000"
             indicator-color="rgba(255,255,255,0.7)" indicator-active-color="#009E9D" circular="true">
             <block wx:for="{{announcements}}" wx:for-index="index" wx:key="this">
@@ -12,9 +12,51 @@
     </view>
 
     <view class="content">
-        <!-- <van-grid gutter="{{ 10 }}">
-            <van-grid-item icon="photo-o" text="文字" wx:for="{{ 8 }}" />
-        </van-grid> -->
+        <view class="affair">
+            <view class="affairCard cPay">
+                <view class="cardHead">
+                    杂物缴费
+                </view>
+                <view class="cardIcon">
+                    <image class="cardImg" src="../../utils/imgs/affair/pay.png"></image>
+                </view>
+            </view>
+            <view class="affairCard cHygiene">
+                <view class="cardHead">
+                    寝室卫生
+                </view>
+                <view class="cardIcon">
+                    <image class="cardImg" src="../../utils/imgs/affair/hygiene.png"></image>
+                </view>
+            </view>
+            <view class="affairCard cRepair">
+                <view class="cardHead">
+                    寝室保修
+                </view>
+                <view class="cardIcon">
+                    <image class="cardImg" src="../../utils/imgs/affair/repair.png"></image>
+                </view>
+            </view>
+        </view>
+        <view class="affair">
+            <view class="affairCard cOut">
+                <view class="cardHead">
+                    外出报备
+                </view>
+                <view class="cardIcon">
+                    <image class="cardImg" src="../../utils/imgs/affair/out.png"></image>
+                </view>
+            </view>
+            <view class="affairCard cAct">
+                <view class="cardHead">
+                    参与活动
+                </view>
+                <view class="cardIcon">
+                    <image class="cardImg" src="../../utils/imgs/affair/act.png"></image>
+                </view>
+            </view>
+        </view>
+
     </view>
 
 
