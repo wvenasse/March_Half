@@ -5,7 +5,6 @@ import org.example.dao.UserDao;
 import org.example.pojo.Result;
 import org.example.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -78,7 +77,7 @@ public class IndexController {
         result.setData(userJson);
         result.setMsg("加载所有用户成功");
         result.setCode(200);
-        return result;
+        return userJson;
     }
 
     @RequestMapping("/login")
@@ -102,13 +101,14 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/showUser", produces = "text/json;charset=UTF-8")
-    public Result showUsers(String userName){
+    public String showUsers(String userName){
         User user = userDao.getUserByUserName(userName);
         Result result = new Result();
         String userJson = JSON.toJSONString(user);
+        System.out.println("用户："+userJson);
         result.setData(userJson);
-        result.setMsg("用户名密码正确");
+        result.setMsg("用户存在");
         result.setCode(200);
-        return result;
+        return userJson;
     }
 }

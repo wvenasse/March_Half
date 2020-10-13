@@ -19,7 +19,6 @@
         <el-tab-pane label="注册" name="regist">
           <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" :label-position="registPosition"
             label-width="80px" size="medium " class="demo-ruleForm regist-form">
-           
             <el-form-item label="用户账号" prop="userName">
               <el-input type="text" v-model="ruleForm.userName" autocomplete="off"></el-input>
             </el-form-item>
@@ -56,22 +55,11 @@
 </template>
 
 <script>
-  import {
-    onMounted,
-    reactive,
-    ref
-  } from "@vue/composition-api";
-  import {
-    Login,
-    AddUser
-  } from "@/api/login";
+  import {onMounted, reactive,ref} from "@vue/composition-api";
+  import { Login, AddUser} from "@/api/login";
   import request from "@/utils/request";
-  import {
-    stripscript,
-    validateUserName,
-    validatePassword
-  } from "@/utils/validate.js";
-
+  import {stripscript,validateUserName,validatePassword} from "@/utils/validate.js";
+  import { Message } from 'element-ui';
   export default {
     name: "login",
     setup(props, { refs,root }) {
@@ -204,7 +192,26 @@
           userName: formLabelAlign.userName,
           password: formLabelAlign.userPass
         };
-        Login(data);
+
+        request.request({
+          method: "get",
+          url: "/login",
+          params: data
+        })
+        .then(function(response) {
+          console.log(response);
+          Message.success(response.data.msg);
+          root.$router.push({
+            name:'home',
+            query:{
+              userName: formLabelAlign.userName
+            }
+          })
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
       };
       const resetForm = formName => {
         refs[formName].resetFields();
