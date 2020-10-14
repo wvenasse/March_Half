@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 public class UsersController {
+    //微信小程序的用户
     @Autowired
     UsersDao usersDao;
 

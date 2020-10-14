@@ -32,7 +32,7 @@
             <el-form-item label="确认密码" prop="checkPass">
               <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
             </el-form-item>
-             <!-- <el-form-item label="邮箱" prop="email">
+            <!-- <el-form-item label="邮箱" prop="email">
               <el-input type="text" v-model="ruleForm.email" autocomplete="off"></el-input>
             </el-form-item> -->
             <!-- <el-form-item label="验证码" prop="code">
@@ -55,14 +55,30 @@
 </template>
 
 <script>
-  import {onMounted, reactive,ref} from "@vue/composition-api";
-  import { Login, AddUser} from "@/api/login";
+  import {
+    onMounted,
+    reactive,
+    ref
+  } from "@vue/composition-api";
+  import {
+    Login,
+    AddUser
+  } from "@/api/login";
   import request from "@/utils/request";
-  import {stripscript,validateUserName,validatePassword} from "@/utils/validate.js";
-  import { Message } from 'element-ui';
+  import {
+    stripscript,
+    validateUserName,
+    validatePassword
+  } from "@/utils/validate.js";
+  import {
+    Message
+  } from 'element-ui';
   export default {
     name: "login",
-    setup(props, { refs,root }) {
+    setup(props, {
+      refs,
+      root
+    }) {
       var checkUserName = (rule, value, callback) => {
         if (value === "") {
           callback(new Error("账号不能为空"));
@@ -77,27 +93,6 @@
           callback();
         }
       };
-      // var checkEmail = (rule, value, callback) => {
-      //   if (value === "") {
-      //     callback(new Error("邮箱不能为空"));
-      //   } else if (validateEmail(value)) {
-      //     callback(new Error("邮箱格式不正确，请重新输入！"));
-      //   } else {
-      //     callback();
-      //   }
-      // };
-      // var checkCode = (rule, value, callback) => {
-      //   ruleForm.code = stripscript(value);
-      //   value = stripscript(value);
-      //   let reg = /^[a-z0-9]{6}$/;
-      //   if (!value) {
-      //     return callback(new Error("验证码不能为空"));
-      //   } else if (!reg.test(value)) {
-      //     callback(new Error("验证码格式错误"));
-      //   } else {
-      //     callback();
-      //   }
-      // };
       var validatePass = (rule, value, callback) => {
         ruleForm.pass = stripscript(value);
         value = stripscript(value);
@@ -132,8 +127,8 @@
         aginPass: ""
       });
       let ruleForm = reactive({
-        userName:"",
-        nickname:"",
+        userName: "",
+        nickname: "",
         pass: "",
         checkPass: ""
       });
@@ -172,7 +167,7 @@
         });
       };
       const loginBtn = () => {
-        if (formLabelAlign.userName == ''){
+        if (formLabelAlign.userName == '') {
           root.$message({
             showClose: true,
             message: '用户账号不得为空',
@@ -180,7 +175,7 @@
           });
           return false;
         }
-        if (formLabelAlign.userPass == ''){
+        if (formLabelAlign.userPass == '') {
           root.$message({
             showClose: true,
             message: '密码不得为空',
@@ -194,30 +189,28 @@
         };
 
         request.request({
-          method: "get",
-          url: "/login",
-          params: data
-        })
-        .then(function(response) {
-          console.log(response);
-          Message.success(response.data.msg);
-          root.$router.push({
-            name:'home',
-            query:{
-              userName: formLabelAlign.userName
-            }
+            method: "get",
+            url: "/login",
+            params: data
           })
-        })
-        .catch(function (error) {
+          .then(function (response) {
+            console.log(response);
+            Message.success(response.data.msg);
+            sessionStorage.setItem('root', JSON.stringify(response.data.data));
+            // localStorage.setItem('root', JSON.stringify(response.data));
+            root.$router.push({
+              name: 'home'
+            })
+          })
+          .catch(function (error) {
             console.log(error);
-        });
+          });
 
       };
       const resetForm = formName => {
         refs[formName].resetFields();
       };
-      onMounted(() => {
-      });
+      onMounted(() => {});
 
       return {
         checkUserName,

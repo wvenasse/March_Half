@@ -1,6 +1,6 @@
 <template>
-    <div id="user">
-        user
+    <div id="pay">
+        pay
     </div>
 </template>
 
@@ -12,7 +12,7 @@
     } from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
-        name: 'user',
+        name: 'pay',
         setup(props, {
             refs,
             root
@@ -26,7 +26,7 @@
 </script>
 
 <style scoped>
-    #user{
+    #pay{
         background-color: #fff;
         height: 100%;
     }

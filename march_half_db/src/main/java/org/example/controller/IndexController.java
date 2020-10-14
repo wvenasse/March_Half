@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 public class IndexController {
+    //后台的用户
     @Autowired
     UserDao userDao;
     @RequestMapping("/addUser")
@@ -82,33 +83,42 @@ public class IndexController {
 
     @RequestMapping("/login")
     public Object login(String userName, String password) {
-        System.out.println("学号："+userName);
-        System.out.println("密码："+password);
-        int count = userDao.getUserByName(userName,password);
+        User user = userDao.getUserByName(userName,password);
+        String userJson = JSON.toJSONString(user);
         Result result = new Result();
-        if (count > 0) {
-            result.setData("ok");
-            result.setMsg("用户名密码正确");
-            result.setCode(200);
-            return result;
-        }
-        else {
+        if (userJson == null) {
             result.setData("no");
             result.setMsg("用户名密码错误");
             result.setCode(0);
             return result;
         }
+        else {
+            result.setData(userJson);
+            result.setMsg("用户名密码正确");
+            result.setCode(200);
+        }
+        return result;
+//        int count = userDao.getUserByName(userName,password);
+//        Result result = new Result();
+//        if (count > 0) {
+//            result.setData("ok");
+//            result.setMsg("用户名密码正确");
+//            result.setCode(200);
+//            return result;
+//        }
+//        else {
+//            result.setData("no");
+//            result.setMsg("用户名密码错误");
+//            result.setCode(0);
+//            return result;
+//        }
     }
 
     @RequestMapping(value = "/showUser", produces = "text/json;charset=UTF-8")
     public String showUsers(String userName){
         User user = userDao.getUserByUserName(userName);
-        Result result = new Result();
         String userJson = JSON.toJSONString(user);
         System.out.println("用户："+userJson);
-        result.setData(userJson);
-        result.setMsg("用户存在");
-        result.setCode(200);
         return userJson;
     }
 }

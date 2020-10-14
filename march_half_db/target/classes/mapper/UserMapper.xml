@@ -13,12 +13,13 @@
         update roots set nickname=#{nickname},password=#{password}
         where userName=#{userName}
     </select>
+
     <select id="getAllUser" resultType="org.example.pojo.User">
         select * from roots
     </select>
 
-    <select id="getUserByName" resultType="java.lang.Integer">
-    select count(userName) from roots where userName = #{userName} and password = #{password}
+    <select id="getUserByName" resultType="org.example.pojo.User">
+    select * from roots where userName = #{userName} and password = #{password}
     </select>
     <select id="getUserByUserName" resultType="org.example.pojo.User">
         select * from roots where userName=#{userName}

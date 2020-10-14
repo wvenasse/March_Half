@@ -26,14 +26,17 @@ service.interceptors.response.use(
   function(response) {
     // 对响应数据做点什么
     let data = response.data;
-    if (data.code == 0) {
-      Message.error(data.msg);
-      return Promise.reject(data);
+    if (data.code) {
+      if (data.code == 0) {
+        Message.error(data.msg);
+        return Promise.reject(data);
+      }
+      else {
+        return response;
+        // Promise.resolve
+      }
     }
-    else {
-      return response;
-      // Promise.resolve
-    }
+    
   },
   function(error) {
     // 对响应错误做点什么
