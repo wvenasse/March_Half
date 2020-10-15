@@ -196,7 +196,23 @@
           .then(function (response) {
             console.log(response);
             Message.success(response.data.msg);
-            sessionStorage.setItem('root', JSON.stringify(response.data.data));
+
+            let data1 = {
+              userName: formLabelAlign.userName,
+            }
+            request.request({
+                method: "get",
+                url: "/showUser",
+                params: data1
+              })
+              .then(function (response) {
+                console.log(response);
+                sessionStorage.setItem('root', JSON.stringify(response.data))
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+            // sessionStorage.setItem('root', JSON.stringify(response.data.data));
             // localStorage.setItem('root', JSON.stringify(response.data));
             root.$router.push({
               name: 'home'

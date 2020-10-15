@@ -20,8 +20,8 @@ public interface UserDao {
     //查
     public List<User> getAllUser();
 
-//    public int getUserByName(@Param("userName") String userName, @Param("password") String password);
-    public User getUserByName(@Param("userName") String userName, @Param("password") String password);
+    public int getUserByName(@Param("userName") String userName, @Param("password") String password);
+//    public User getUserByName(@Param("userName") String userName, @Param("password") String password);
 
     public User getUserByUserName(String userName);
 }

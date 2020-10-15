@@ -74,31 +74,12 @@
             refs,
             root
         }) {
-
             let currentPerson = ref({});
-
             const userData = (() => {
                 var rootStr = sessionStorage.getItem('root');
-                currentPerson.value = JSON.parse(rootStr);
-                console.log(currentPerson.value);
-                // let userName = root.$route.query.userName;
-                // let data = {
-                //     userName: userName
-                // }
-                // request.request({
-                //         method: "get",
-                //         url: "/showUser",
-                //         params: data
-                //     })
-                //     .then(function (response) {
-                //         console.log(response);
-                //         currentPerson.value = response.data;
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //     });
+                var rootJson = JSON.parse(rootStr);
+                currentPerson.value = rootJson;
             });
-
             onMounted(() => {
                 userData();
             })
@@ -133,5 +114,11 @@
         color: #333;
     }
 
-    .el-main {}
+    .el-menu {
+        height: 100%;
+    }
+
+    .el-main {
+        padding: 0;
+    }
 </style>

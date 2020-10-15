@@ -73,8 +73,9 @@ public class IndexController {
     @RequestMapping(value = "/showAllUser", produces = "text/json;charset=UTF-8")
     public Object showAllUser(){
         List<User> users = userDao.getAllUser();
-        Result result = new Result();
         String userJson = JSON.toJSONString(users);
+
+        Result result = new Result();
         result.setData(userJson);
         result.setMsg("加载所有用户成功");
         result.setCode(200);
@@ -83,42 +84,26 @@ public class IndexController {
 
     @RequestMapping("/login")
     public Object login(String userName, String password) {
-        User user = userDao.getUserByName(userName,password);
-        String userJson = JSON.toJSONString(user);
+        int count = userDao.getUserByName(userName,password);
         Result result = new Result();
-        if (userJson == null) {
-            result.setData("no");
-            result.setMsg("用户名密码错误");
-            result.setCode(0);
-            return result;
-        }
-        else {
-            result.setData(userJson);
+        if (count > 0) {
+            result.setData("ok");
             result.setMsg("用户名密码正确");
             result.setCode(200);
         }
+        else {
+            result.setData("no");
+            result.setMsg("用户名密码错误");
+            result.setCode(0);
+        }
         return result;
-//        int count = userDao.getUserByName(userName,password);
-//        Result result = new Result();
-//        if (count > 0) {
-//            result.setData("ok");
-//            result.setMsg("用户名密码正确");
-//            result.setCode(200);
-//            return result;
-//        }
-//        else {
-//            result.setData("no");
-//            result.setMsg("用户名密码错误");
-//            result.setCode(0);
-//            return result;
-//        }
+
     }
 
     @RequestMapping(value = "/showUser", produces = "text/json;charset=UTF-8")
     public String showUsers(String userName){
         User user = userDao.getUserByUserName(userName);
         String userJson = JSON.toJSONString(user);
-        System.out.println("用户："+userJson);
         return userJson;
     }
 }
