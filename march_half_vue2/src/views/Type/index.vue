@@ -16,7 +16,7 @@
                         </el-form>
                     </el-col>
                     <el-col :span="4" style="    text-align: right;">
-                        <el-button type="primary" size="small" @click="openDiaog">新增</el-button>
+                        <el-button type="primary" size="small" @click="openDiaog(0)">新增</el-button>
                         <el-button title="刷新表格" icon="el-icon-refresh" size="small" circle @click="loadData">
                         </el-button>
                     </el-col>
@@ -27,7 +27,6 @@
                     style="margin: 0px 0px" key="1" height="100%">
                     <el-table-column prop="typeId" label="类型序号"></el-table-column>
                     <el-table-column prop="typeName" label="类型名称"></el-table-column>
-
                     <el-table-column label="操作" align="center" width="180px">
                         <template slot-scope="scope">
                             <el-button size="small" type="text"  @click="openDiaog(scope.row)">修改</el-button>
@@ -45,7 +44,8 @@
                 </el-pagination>
             </el-footer>
         </el-container>
-        <el-dialog :title="typeDialog.title" :visible.sync="typeDialog.visible">
+        <el-dialog :title="typeDialog.title" :visible.sync="typeDialog.visible"
+		    :append-to-body="true">
             <el-form :model="typeDialog.form">
                 <el-form-item label="类别名称" :label-width="typeDialog.formLabelWidth">
                     <el-input v-model="typeDialog.form.name" autocomplete="off"></el-input>
@@ -115,7 +115,8 @@
                     });
             }
             const openDiaog = (type) => {
-                if (type) {
+                console.log(type);
+                if (type !== 0) {
                     typeDialog.title = '修改类别';
                     typeDialog.flag = true;
                     typeDialog.form = type;
