@@ -38,15 +38,6 @@
                         </el-submenu>
                         <el-submenu index="3">
                             <template slot="title"><i class="el-icon-s-tools"></i>基础设置</template>
-                            <!-- <el-submenu index="3-1">
-                                <template slot="title">类别</template>
-                                <el-menu-item index="3-1-1">楼宇</el-menu-item>
-                                <el-menu-item index="3-1-2">寝室</el-menu-item>
-                                <el-menu-item index="3-1-3">人员</el-menu-item>
-                                <el-menu-item index="3-1-4">缴费</el-menu-item>
-                                <el-menu-item index="3-1-5">报修</el-menu-item>
-                                <el-menu-item index="3-1-6">活动</el-menu-item>
-                            </el-submenu> -->
                             <el-menu-item index="/type">类别</el-menu-item>
                             <el-menu-item index="/power">权限</el-menu-item>
                             <el-menu-item index="/admin">管理员</el-menu-item>

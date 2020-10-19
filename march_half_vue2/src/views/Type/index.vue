@@ -23,13 +23,13 @@
                 </el-row>
             </el-header>
             <el-main style="height: 100%;">
-                <el-table v-loading="table.loading" size="small" :data="table.tableData" border highlight-current-row
+                <el-table v-loading="table.loading" size="small" :data="table.tableData" stripe highlight-current-row
                     style="margin: 0px 0px" key="1" height="100%">
                     <el-table-column prop="typeId" label="类型序号"></el-table-column>
                     <el-table-column prop="typeName" label="类型名称"></el-table-column>
                     <el-table-column label="操作" align="center" width="180px">
                         <template slot-scope="scope">
-                            <el-button size="small" type="text"  @click="openDiaog(scope.row)">修改</el-button>
+                            <el-button size="small" type="text" @click="openDiaog(scope.row)">修改</el-button>
                             <el-button @click="deleteData(scope.row)" size="small" type="text" class="danger"
                                 style="color:red">删除</el-button>
                         </template>
@@ -44,11 +44,10 @@
                 </el-pagination>
             </el-footer>
         </el-container>
-        <el-dialog :title="typeDialog.title" :visible.sync="typeDialog.visible"
-		    :append-to-body="true">
+        <el-dialog :title="typeDialog.title" :visible.sync="typeDialog.visible" :append-to-body="true">
             <el-form :model="typeDialog.form">
                 <el-form-item label="类别名称" :label-width="typeDialog.formLabelWidth">
-                    <el-input v-model="typeDialog.form.name" autocomplete="off"></el-input>
+                    <el-input v-model="typeDialog.form.typeName" autocomplete="off"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -86,9 +85,9 @@
                 pagesize: 20,
             })
             let typeDialog = reactive({
-                visible:false,
-                title:'',
-                flag:false,
+                visible: false,
+                title: '',
+                flag: false,
                 form: {
                     typeName: '',
                 },
@@ -103,7 +102,7 @@
                     })
                     .then(function (response) {
                         table.loading = false;
-                        console.log(response);
+                        // console.log(response);
                         table.tableData = response.data;
                         table.tableData = table.tableData.filter(function (item) {
                             if (form.typeName != '') return item.typeName == form.typeName;
@@ -120,22 +119,86 @@
                     typeDialog.title = '修改类别';
                     typeDialog.flag = true;
                     typeDialog.form = type;
-                }
-                else {
+                } else {
                     typeDialog.title = '新增类别';
                     typeDialog.flag = false;
                     typeDialog.form = {};
                 }
                 typeDialog.visible = true;
             }
-            const submitType = ()=>{
+            const submitType = () => {
                 if (typeDialog.flag) {
-                    console.log('修改成功')
-                }
-                else {
-                    console.log('新增成功')
+                    let data = {
+                        typeId: typeDialog.form.typeId,
+                        typeName: typeDialog.form.typeName
+                    }
+                    request.request({
+                            method: "get",
+                            url: "/updateType",
+                            params: data
+                        })
+                        .then(function (response) {
+                            console.log(response);
+                            loadData();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                } else {
+                    let data = {
+                        typeName: typeDialog.form.typeName
+                    }
+                    request.request({
+                            method: "get",
+                            url: "/addType",
+                            params: data
+                        })
+                        .then(function (response) {
+                            console.log(response);
+                            loadData();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 }
                 typeDialog.visible = false;
+            }
+            const deleteData = (type) => {
+                let data = {
+                    typeId: type.typeId
+                }
+                root.$confirm('此操作将永久删除该类别, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    request.request({
+                            method: "get",
+                            url: "/delType",
+                            params: data
+                        })
+                        .then(function (response) {
+                            console.log(response);
+                            loadData();
+                            root.$message({
+                                type: 'success',
+                                message: response.data.msg
+                                //'删除成功!'
+                            });
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                }).catch(() => {
+                    root.$message({
+                        type: 'info',
+                        message: '已取消删除'
+                    });
+                });
+
+
+
             }
             const handleCurrentChange = val => {
                 pagination.pageIndex = val;
@@ -159,6 +222,8 @@
                 loadData,
                 openDiaog,
                 submitType,
+                deleteData,
+
                 handleCurrentChange,
                 handlePageSizeChange
             }

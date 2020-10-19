@@ -35,8 +35,8 @@ public class IndexController {
     }
 
     @RequestMapping("/delUser")
-    public Result delUser(String userName) {
-        int count = userDao.delUser(userName);
+    public Result delUser(Integer rootId) {
+        int count = userDao.delUser(rootId);
         Result result = new Result();
         if (count > 0) {
             result.setData("ok");

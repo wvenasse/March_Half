@@ -6,8 +6,8 @@
     <insert id="addUser" parameterType="org.example.pojo.User">
         insert into roots(userName,nickname,password) values (#{userName},#{nickname},#{password})
     </insert>
-    <delete id="delUser" parameterType="java.lang.String">
-        delete from roots where userName=#{userName}
+    <delete id="delUser" parameterType="java.lang.Integer">
+        delete from roots where rootId=#{rootId}
     </delete>
     <select id="updateUser" parameterType="org.example.pojo.User" resultType="java.lang.Integer">
         update roots set nickname=#{nickname},password=#{password}

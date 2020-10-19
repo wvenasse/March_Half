@@ -14,7 +14,7 @@ public interface UserDao {
     //增
     public int addUser(User user);
     //删
-    public int delUser(String userName);
+    public int delUser(Integer rootId);
     //改
     public Integer updateUser(User user);
     //查
