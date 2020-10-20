@@ -15,7 +15,7 @@
             <el-container>
                 <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
                     <el-menu router default-active="/borad" :default-openeds="['1','2','3']">
-                        <el-menu-item index="/borad"><i class="el-icon-s-marketing"></i>看板</el-menu-item>
+                        <el-menu-item index="/notice"><i class="el-icon-s-marketing"></i>看板</el-menu-item>
                         <el-submenu index="2">
                             <template slot="title"><i class="el-icon-menu"></i>基础数据</template>
                             <el-menu-item-group>
@@ -65,7 +65,11 @@
             refs,
             root
         }) {
-            let currentPerson = ref({});
+            let currentPerson = ref({
+                userName:'',
+                nickname:'',
+                password:''
+            });
             const userData = (() => {
                 var rootStr = sessionStorage.getItem('root');
                 var rootJson = JSON.parse(rootStr);

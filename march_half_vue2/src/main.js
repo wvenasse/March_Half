@@ -11,6 +11,9 @@ Vue.use(ElementUI);
 import VueCompositionApi from "@vue/composition-api";
 Vue.use(VueCompositionApi);
 
+import request from '../src/utils/request'
+Vue.prototype.$http = request;
+
 Vue.config.productionTip = false;
 
 new Vue({

@@ -60,10 +60,6 @@
     reactive,
     ref
   } from "@vue/composition-api";
-  import {
-    Login,
-    AddUser
-  } from "@/api/login";
   import request from "@/utils/request";
   import {
     stripscript,
