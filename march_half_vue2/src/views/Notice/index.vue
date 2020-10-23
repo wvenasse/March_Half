@@ -37,6 +37,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
+
             </el-main>
             <el-footer style="height: 34px;">
                 <el-pagination small background @size-change="handlePageSizeChange"
@@ -52,41 +53,21 @@
                     <el-input v-model="noticeDialog.form.noticeName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="公告图片" :label-width="noticeDialog.formLabelWidth">
-                    <el-upload
-                    class="avatar-uploader"
-                    :action="$http.defaults.baseURL + '/addFile'"
-                    :show-file-list="false"
-                    :on-success="handleAvatarSuccess" 
-                    :before-upload="beforeAvatarUpload">
-                    <img v-if="noticeDialog.form.noticeImg" :src="noticeDialog.form.noticeImg" class="avatar">
-                    <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    <el-upload action="http://localhost:8088/upload" class="upload-demo" drag list-type="picture"
+                        :limit="1" :headers="headers" name="picture" :before-upload="beforeUpload"
+                        :on-success="handleSuccess" :on-exceed="onExceed" :on-remove="handleRemove"
+                        :file-list="fileList" multiple>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                     </el-upload>
 
-                    <!-- <el-upload action="#" list-type="picture-card" :auto-upload="false">
-                        <i slot="default" class="el-icon-plus"></i>
-                        <div slot="file" slot-scope="{file}">
-                            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="">
-                            <span class="el-upload-list__item-actions">
-                                <span class="el-upload-list__item-preview" @click="handlePictureCardPreview(file)">
-                                    <i class="el-icon-zoom-in"></i>
-                                </span>
-                                <span v-if="!imgDialog.disabled" class="el-upload-list__item-delete"
-                                    @click="handleDownload(file)">
-                                    <i class="el-icon-download"></i>
-                                </span>
-                                <span v-if="!imgDialog.disabled" class="el-upload-list__item-delete" @click="handleRemove(file)">
-                                    <i class="el-icon-delete"></i>
-                                </span>
-                            </span>
-                        </div>
-                    </el-upload>
-                    <el-dialog :visible.sync="imgDialog.visible">
-                        <img width="100%" :src="noticeDialog.form.noticeImg" alt="">
-                    </el-dialog> -->
-                    
                 </el-form-item>
                 <el-form-item label="公告内容" :label-width="noticeDialog.formLabelWidth">
-                    <el-input v-model="noticeDialog.form.noticeDetail" autocomplete="off"></el-input>
+                    <tinymce-editor ref="editor" v-model="noticeDialog.form.noticeDetail" :disabled="disabled"
+                        @onClick="onClick">
+                    </tinymce-editor>
+                    <el-button type="danger" icon="el-icon-delete" circle @click="clear"></el-button>
+                    <!-- <button @click="disabled = true">禁用</button> -->
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -94,12 +75,13 @@
                 <el-button type="primary" @click="submitType">确 定</el-button>
             </div>
         </el-dialog>
-        
+
 
     </div>
 </template>
 
 <script>
+    import TinymceEditor from '../../components/tinymce-editor'
     import {
         onMounted,
         reactive,
@@ -108,6 +90,9 @@
     import request from "@/utils/request";
     export default {
         name: 'type',
+        components: {
+            TinymceEditor
+        },
         setup(props, {
             refs,
             root
@@ -124,6 +109,7 @@
                 totalRecordCount: 0,
                 pagesize: 20,
             })
+            //表单
             let noticeDialog = reactive({
                 visible: false,
                 title: '',
@@ -135,12 +121,56 @@
                 },
                 formLabelWidth: '120px'
             })
-
             let imgDialog = reactive({
                 visible: false,
-                disabled:false
+                disabled: false
             })
-            
+            //图片
+            let userNameImgUrl = ref(''); //图片路径
+            let userNameImgDisk = ref(''); //磁盘路径
+            let userNameImg = ref(''); //原名称
+            let dialogVisible = ref(false);
+            let headers = reactive({
+                tolen: 'wsh' //window.localStorage['tolen']
+            })
+            let fileList = ref([])
+            let name = ref('哈哈')
+            let httpUrl = ref('http://localhost:8088/')
+
+            const handleSuccess = (res, fileList) => { //文件上传前
+                userNameImgUrl = URL.createObjectURL(file.raw);
+            }
+            const handleRemove = (file, fileList) => { //删除文件前
+                console.log(file, fileList);
+            }
+            const onExceed = (files, fileList) => { //个数限制
+                root.$message.warning(
+                    `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            }
+            const beforeUpload = (file) => { //文件上传前，
+                const isJPG = file.type === 'image/jpeg';
+                const isLt2M = file.size / 1024 / 1024 < 2;
+
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG 格式!');
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 2MB!');
+                }
+                return isJPG && isLt2M;
+            }
+
+            //富文本
+            let disabled = ref(false);
+            const onClick = ((e, editor) => {
+                console.log('Element clicked')
+                console.log(e)
+                console.log(editor)
+            })
+            const clear = () => {
+                noticeDialog.form.noticeDetail = '';
+                // root.$refs.editor.clear()
+            }
 
             const loadData = () => {
                 table.loading = true;
@@ -250,37 +280,7 @@
                     });
                 });
             }
-            
-            const handleRemove = (file) => {
-                console.log(file);
-            }
-            const handlePictureCardPreview = (file) => {
-                imgDialog.dialogImageUrl = file.url;
-                imgDialog.visible = true;
-            }
-            const handleDownload = (file) => {
-                console.log(file);
-            }
 
-            const handleAvatarSuccess = (res, file) => {
-                console.log(res)
-                console.log(file)
-                noticeDialog.form.noticeImg = URL.createObjectURL(file.raw);
-                console.log(noticeDialog.form.noticeImg)
-            }
-            const beforeAvatarUpload = (file) => {
-                console.log(file)
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
-
-                if (!isJPG) {
-                root.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                root.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
-            }
             const handleCurrentChange = val => {
                 pagination.pageIndex = val;
                 loadData();
@@ -301,17 +301,27 @@
                 noticeDialog,
                 imgDialog,
 
+                userNameImgUrl,
+                userNameImgDisk,
+                userNameImg,
+                dialogVisible,
+                headers,
+                fileList,
+                name,
+                httpUrl,
+                handleSuccess,
+                handleRemove,
+                onExceed,
+                beforeUpload,
+
+                disabled,
+                onClick,
+                clear,
+
                 loadData,
                 openDiaog,
                 submitType,
                 deleteData,
-
-                handleRemove,
-                handlePictureCardPreview,
-                handleDownload,
-
-                handleAvatarSuccess,
-                beforeAvatarUpload,
 
                 handleCurrentChange,
                 handlePageSizeChange
@@ -340,26 +350,29 @@
     }
 
     .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 178px;
-    height: 178px;
-    line-height: 178px;
-    text-align: center;
-  }
-  .avatar {
-    width: 80px;
-    height: 80px;
-    display: block;
-  }
+        border: 1px dashed #d9d9d9;
+        border-radius: 6px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 178px;
+        height: 178px;
+        line-height: 178px;
+        text-align: center;
+    }
+
+    .avatar {
+        width: 80px;
+        height: 80px;
+        display: block;
+    }
 </style>
