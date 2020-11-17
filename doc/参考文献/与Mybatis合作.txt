@@ -1,5 +1,0 @@
-Reddy K S P . Working with MyBatis[M]// Beginning Spring Boot 2. 2017.
-
-
-与Mybatis合作
-https://xueshu.baidu.com/usercenter/paper/show?paperid=7696258347f2831a5712499c224cad9e&site=xueshu_se
