@@ -54,7 +54,16 @@ module.exports = {
 
   // 调整内部的 webpack 配置。
   // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/webpack.md
-  chainWebpack: () => {},
+  chainWebpack: (config) => {
+    const svgRule = config.module.rule("svg");
+    svgRule
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({
+        symbolId:"icon-[name]",
+        include:["./src/components/icons"]
+      })
+  },
   configureWebpack: config => {
     config.resolve = {
       //配置解析别名

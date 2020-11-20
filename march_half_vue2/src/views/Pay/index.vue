@@ -12,7 +12,7 @@
     } from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
-        name: 'pay',
+        name: 'hygiene',
         setup(props, {
             refs,
             root

@@ -5,6 +5,7 @@ import org.example.dao.UserDao;
 import org.example.pojo.Result;
 import org.example.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -83,7 +84,7 @@ public class IndexController {
     }
 
     @RequestMapping("/login")
-    public Object login(String userName, String password) {
+    public Object login( String userName, String password) {
         int count = userDao.getUserByName(userName,password);
         Result result = new Result();
         if (count > 0) {

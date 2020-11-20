@@ -15,7 +15,7 @@
                             </el-form-item>
                         </el-form>
                     </el-col>
-                    <el-col :span="4" style="    text-align: right;">
+                    <el-col :span="4" style="text-align: right;">
                         <el-button type="primary" size="small" @click="openDiaog(0)">新增</el-button>
                         <el-button title="刷新表格" icon="el-icon-refresh" size="small" circle @click="loadData">
                         </el-button>
@@ -28,7 +28,11 @@
                     <el-table-column prop="noticeId" label="公告序号"></el-table-column>
                     <el-table-column prop="noticeName" label="公告名称"></el-table-column>
                     <el-table-column prop="noticeImg" label="公告图片"></el-table-column>
-                    <el-table-column prop="noticeDetail" label="公告内容"></el-table-column>
+                    <el-table-column prop="noticeDetail" label="公告内容">
+                        <template slot-scope="scope">
+                            <div v-html="scope.row.noticeDetail"></div>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="操作" align="center" width="180px">
                         <template slot-scope="scope">
                             <el-button size="small" type="text" @click="openDiaog(scope.row)">修改</el-button>
@@ -53,21 +57,14 @@
                     <el-input v-model="noticeDialog.form.noticeName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="公告图片" :label-width="noticeDialog.formLabelWidth">
-                    <el-upload action="http://localhost:8088/upload" class="upload-demo" drag list-type="picture"
-                        :limit="1" :headers="headers" name="picture" :before-upload="beforeUpload"
-                        :on-success="handleSuccess" :on-exceed="onExceed" :on-remove="handleRemove"
-                        :file-list="fileList" multiple>
-                        <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-                    </el-upload>
+                    
 
                 </el-form-item>
                 <el-form-item label="公告内容" :label-width="noticeDialog.formLabelWidth">
-                    <tinymce-editor ref="editor" v-model="noticeDialog.form.noticeDetail" :disabled="disabled"
+                    <tinymce-editor ref="editor" v-model="noticeDialog.form.noticeDetail"
                         @onClick="onClick">
                     </tinymce-editor>
                     <el-button type="danger" icon="el-icon-delete" circle @click="clear"></el-button>
-                    <!-- <button @click="disabled = true">禁用</button> -->
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -82,12 +79,9 @@
 
 <script>
     import TinymceEditor from '../../components/tinymce-editor'
-    import {
-        onMounted,
-        reactive,
-        ref,
-    } from "@vue/composition-api";
+    import { onMounted,reactive,ref } from "@vue/composition-api";
     import request from "@/utils/request";
+    import {showAllNotice,addNotice,updateNotice,delNotice} from "@/api/Notice"
     export default {
         name: 'type',
         components: {
@@ -121,47 +115,9 @@
                 },
                 formLabelWidth: '120px'
             })
-            let imgDialog = reactive({
-                visible: false,
-                disabled: false
-            })
-            //图片
-            let userNameImgUrl = ref(''); //图片路径
-            let userNameImgDisk = ref(''); //磁盘路径
-            let userNameImg = ref(''); //原名称
-            let dialogVisible = ref(false);
-            let headers = reactive({
-                tolen: 'wsh' //window.localStorage['tolen']
-            })
-            let fileList = ref([])
-            let name = ref('哈哈')
-            let httpUrl = ref('http://localhost:8088/')
-
-            const handleSuccess = (res, fileList) => { //文件上传前
-                userNameImgUrl = URL.createObjectURL(file.raw);
-            }
-            const handleRemove = (file, fileList) => { //删除文件前
-                console.log(file, fileList);
-            }
-            const onExceed = (files, fileList) => { //个数限制
-                root.$message.warning(
-                    `当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
-            }
-            const beforeUpload = (file) => { //文件上传前，
-                const isJPG = file.type === 'image/jpeg';
-                const isLt2M = file.size / 1024 / 1024 < 2;
-
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!');
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 2MB!');
-                }
-                return isJPG && isLt2M;
-            }
+            
 
             //富文本
-            let disabled = ref(false);
             const onClick = ((e, editor) => {
                 console.log('Element clicked')
                 console.log(e)
@@ -174,11 +130,7 @@
 
             const loadData = () => {
                 table.loading = true;
-                request.request({
-                        method: "get",
-                        url: "/showAllNotice",
-                    })
-                    .then(function (response) {
+               showAllNotice().then(function (response) {
                         table.loading = false;
                         // console.log(response);
                         table.tableData = response.data;
@@ -213,18 +165,14 @@
                         noticeDetail: noticeDialog.form.noticeDetail
                     }
                     console.log(data);
-                    // request.request({
-                    //         method: "get",
-                    //         url: "/updateNotice",
-                    //         params: data
-                    //     })
-                    //     .then(function (response) {
-                    //         console.log(response);
-                    //         loadData();
-                    //     })
-                    //     .catch(function (error) {
-                    //         console.log(error);
-                    //     });
+                    updateNotice(data)
+                        .then(function (response) {
+                            console.log(response);
+                            loadData();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 } else {
                     let data = {
                         noticeName: noticeDialog.form.noticeName,
@@ -232,18 +180,14 @@
                         noticeDetail: noticeDialog.form.noticeDetail
                     }
                     console.log(data);
-                    // request.request({
-                    //         method: "get",
-                    //         url: "/addNotice",
-                    //         params: data
-                    //     })
-                    //     .then(function (response) {
-                    //         console.log(response);
-                    //         loadData();
-                    //     })
-                    //     .catch(function (error) {
-                    //         console.log(error);
-                    //     });
+                    addNotice(data)
+                        .then(function (response) {
+                            console.log(response);
+                            loadData();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 }
                 noticeDialog.visible = false;
             }
@@ -256,23 +200,19 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    // request.request({
-                    //         method: "get",
-                    //         url: "/delNotice",
-                    //         params: data
-                    //     })
-                    //     .then(function (response) {
-                    //         console.log(response);
-                    //         loadData();
-                    //         root.$message({
-                    //             type: 'success',
-                    //             message: response.data.msg
-                    //             //'删除成功!'
-                    //         });
-                    //     })
-                    //     .catch(function (error) {
-                    //         console.log(error);
-                    //     });
+                   delNotice(data)
+                        .then(function (response) {
+                            console.log(response);
+                            loadData();
+                            root.$message({
+                                type: 'success',
+                                message: response.data.msg
+                                //'删除成功!'
+                            });
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 }).catch(() => {
                     root.$message({
                         type: 'info',
@@ -298,23 +238,9 @@
                 form,
                 table,
                 pagination,
+                
                 noticeDialog,
-                imgDialog,
-
-                userNameImgUrl,
-                userNameImgDisk,
-                userNameImg,
-                dialogVisible,
-                headers,
-                fileList,
-                name,
-                httpUrl,
-                handleSuccess,
-                handleRemove,
-                onExceed,
-                beforeUpload,
-
-                disabled,
+               
                 onClick,
                 clear,
 

@@ -9,10 +9,11 @@
               <el-input v-model="formLabelAlign.userName"></el-input>
             </el-form-item>
             <el-form-item label="密码">
-              <el-input v-model="formLabelAlign.userPass" type="password"></el-input>
+              <el-input v-model="formLabelAlign.userPass" type="password" show-password></el-input>
             </el-form-item>
             <el-form-item style="text-align: center;">
-              <el-button type="primary" @click="loginBtn">登录</el-button>
+              <el-button type="primary" @click="login">登录</el-button>
+              <!-- loginBtn -->
             </el-form-item>
           </el-form>
         </el-tab-pane>
@@ -55,20 +56,11 @@
 </template>
 
 <script>
-  import {
-    onMounted,
-    reactive,
-    ref
-  } from "@vue/composition-api";
+  import { onMounted,reactive,ref,isRef,toRefs} from "@vue/composition-api";
   import request from "@/utils/request";
-  import {
-    stripscript,
-    validateUserName,
-    validatePassword
-  } from "@/utils/validate.js";
-  import {
-    Message
-  } from 'element-ui';
+  import {Login,ShowUser} from "@/api/Login"
+  import {stripscript,validateUserName,validatePassword} from "@/utils/validate.js";
+  import {Message} from 'element-ui';
   export default {
     name: "login",
     setup(props, {
@@ -222,7 +214,36 @@
       const resetForm = formName => {
         refs[formName].resetFields();
       };
-      onMounted(() => {});
+      const login  = (()=>{
+        let data = {
+          userName: formLabelAlign.userName,
+          password: formLabelAlign.userPass
+        };
+        let data1 = {
+          userName: formLabelAlign.userName,
+        }
+        Login(data).then(response => {
+          console.log(response);
+          Message.success(response.data.msg);
+          if (response.data.code != 0) {
+            sessionStorage.setItem("userName", data.userName);
+            sessionStorage.setItem("userPassword", data.password);
+            ShowUser(data1).then(response => {
+              console.log(response);
+              sessionStorage.setItem("nickname", response.data.nickname);
+              
+            })
+            root.$router.push({
+              name: 'home',
+            })
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+      })
+      onMounted(() => {
+        
+      });
 
       return {
         checkUserName,
@@ -237,7 +258,8 @@
         handleClick,
         submitForm,
         resetForm,
-        loginBtn
+        // loginBtn,
+        login
       };
     }
   };
