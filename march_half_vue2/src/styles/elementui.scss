@@ -1,10 +1,17 @@
 .el-menu-item {
     font-size: 14px;
-    &.is-active {
-        background-color: $mainCcolor !important;
-    }
+    // &.is-active {
+    //     background-color: $mainCcolor !important;
+    // }
 }
 
+.el-menu {
+    border: 0px;
+}
+
+.el-menu--collapse {
+    width: 100%;
+}
 // .el-dropdown-link {
 //     cursor: pointer;
 //     color: #000;

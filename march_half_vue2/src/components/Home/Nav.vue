@@ -1,11 +1,17 @@
 <template>
     <div id="homeNav">
-        <el-menu router default-active="/borad" :default-openeds="['1','2','3']" 
-        @open="handleOpen" @close="handleClose" :collapse="isCollapse"
-        background-color="transparent" text-color="#fff" active-text-color="#fff">
-            <el-menu-item index="/borad"><i class="el-icon-s-marketing"></i>看板</el-menu-item>
+        <el-menu router default-active="/borad" :default-openeds="['1','2','3']" :collapse="isCollapse"
+            background-color="#000" text-color="#fff" >
+            <!-- transparent active-text-color="#fff"-->
+            <el-menu-item index="/borad">
+                <i class="el-icon-s-marketing"></i>
+                <span slot="title">看板</span>
+            </el-menu-item>
             <el-submenu index="1">
-                <template slot="title"><i class="el-icon-menu"></i>基础数据</template>
+                <template slot="title">
+                    <i class="el-icon-menu"></i>
+                    <span slot="title">基础数据</span>
+                </template>
                 <el-menu-item-group>
                     <template slot="title">基本</template>
                     <el-menu-item index="/dorm">寝室管理</el-menu-item>
@@ -25,7 +31,10 @@
                 </el-submenu>
             </el-submenu>
             <el-submenu index="3">
-                <template slot="title"><i class="el-icon-s-tools"></i>基础设置</template>
+                <template slot="title">
+                    <i class="el-icon-s-tools"></i>
+                    <span slot="title">基础设置</span>
+                </template>
                 <el-menu-item index="/type">类别</el-menu-item>
                 <el-menu-item index="/power">权限</el-menu-item>
                 <el-menu-item index="/admin">管理员</el-menu-item>
@@ -35,28 +44,25 @@
 </template>
 
 <script>
-    import { onMounted,reactive,ref,isRef,toRefs} from "@vue/composition-api";
+    import {
+        onMounted,
+        reactive,
+        ref,
+        isRef,
+        toRefs,
+        computed
+    } from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
         name: 'act',
-        setup(props, { refs,root}) {
-            let isCollapse = ref(false);
-            let routers = reactive(root.$router.options.routes)
-            console.log(routers)
-
-            const handleOpen = (key, keyPath) => {
-                console.log(key, keyPath);
-            }
-            const handleClose = (key, keyPath) => {
-                console.log(key, keyPath);
-            }
+        setup(props, {
+            refs,
+            root
+        }) {
+            let isCollapse = computed(() => root.$store.state.app.isCollapse)
 
             return {
-                isCollapse,
-                routers,
-
-                handleOpen,
-                handleClose
+                isCollapse
             }
         }
     }
@@ -69,12 +75,21 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: $navMenu;
         height: 100vh;
+        overflow: auto;
         background: #000;
+        transition: all 0.3s ease 0s;
     }
 
-    // .el-submenu .el-menu-item.is-active {
-    //     background-color: #01a5af !important;
-    // }
+    .open {
+        #homeNav {
+            width: $navMenu;
+        }
+    }
+
+    .close {
+        #homeNav {
+            width: $navMenuMin;
+        }
+    }
 </style>

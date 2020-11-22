@@ -1,11 +1,12 @@
 <template>
     <div id="homeHeader">
         <div class="header-icon pull-left">
-            <i class="el-icon-s-fold"></i>
+            <i class="el-icon-s-fold" @click="navMenuState"></i>
             <div class="header-title pull-right">March_Half</div>
         </div>
         <div class="pull-right">
             <div class="user-info pull-left">
+                <!-- <img src="../../assets/imgs/admin.jpg" alt=""> -->
                 root
             </div>
             <div class=" pull-left">
@@ -23,25 +24,21 @@
 </template>
 
 <script>
-    import {
-        onMounted,
-        reactive,
-        ref,
-        isRef,
-        toRefs
-    } from "@vue/composition-api";
+    import {onMounted,reactive,ref,isRef,toRefs} from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
         name: 'act',
-        setup(props, {
-            refs,
-            root
-        }) {
+        setup(props, {refs, root}) {
             const handleCommand = (command) => {
                 console.log('click on item ' + command)
             }
+            const navMenuState = () => {
+                // root.$store.dispatch('setMenuStatus',{"name": "aaaa"});
+                root.$store.commit('SET_COLLAPSE')
+            }
             return {
-                handleCommand
+                handleCommand,
+                navMenuState
             }
         }
     }
@@ -52,11 +49,23 @@
         position: fixed;
         top: 0;
         right: 0;
-        left: $navMenu;
         height: 75px;
         background: #fff;
         -webkit-box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.1);
         line-height: 75px;
+        transition: all 0.3s ease 0s;
+    }
+
+    .open {
+        #homeHeader {
+            left: $navMenu;
+        }
+    }
+
+    .close {
+        #homeHeader {
+            left: $navMenuMin;
+        }
     }
 
     .header-icon {
@@ -74,4 +83,6 @@
         padding: 0 30px;
         border-right: 1px solid #ededed;
     }
+
+    
 </style>

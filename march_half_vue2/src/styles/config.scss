@@ -1,7 +1,12 @@
 //后台框架
 //菜单宽度
 $navMenu:250px;
+$navMenuMin:65px;
 $homeHeader:75px;
 
 //主颜色
 $mainCcolor: #409EFF;
+
+// @mixin webkit($type, $value){
+//     #($type): $value;
+// }
