@@ -3,3 +3,10 @@ spring:
     active: dev
   jackson:
     default-property-inclusion: non_null
+
+#debug: true
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true

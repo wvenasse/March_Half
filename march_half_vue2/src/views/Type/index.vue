@@ -39,7 +39,7 @@
             <el-footer style="height: 34px;">
                 <el-pagination small background @size-change="handlePageSizeChange"
                     @current-change="handleCurrentChange" :current-page="pagination.pageIndex"
-                    :page-sizes="[20,100,200,500,1000]" :page-size="pagination.pagesize"
+                    :page-sizes="[5, 10, 20, 30, 40]" :page-size="pagination.pageSize"
                     layout="total, sizes, prev, pager, next, jumper" :total="pagination.totalRecordCount">
                 </el-pagination>
             </el-footer>
@@ -60,12 +60,9 @@
 </template>
 
 <script>
-    import {
-        onMounted,
-        reactive,
-        ref,
-    } from "@vue/composition-api";
+    import {onMounted,reactive,ref,} from "@vue/composition-api";
     import request from "@/utils/request";
+    import {ShowAllType,UpdateType,AddType,DelType,FindAllType} from "@/api/Type"
     export default {
         name: 'type',
         setup(props, {
@@ -82,7 +79,7 @@
             let pagination = reactive({
                 pageIndex: 1,
                 totalRecordCount: 0,
-                pagesize: 20,
+                pageSize: 5,
             })
             let typeDialog = reactive({
                 visible: false,
@@ -96,18 +93,17 @@
 
             const loadData = () => {
                 table.loading = true;
-                request.request({
-                        method: "get",
-                        url: "/showAllType",
-                    })
-                    .then(function (response) {
+                let data = {
+                    pageIndex:pagination.pageIndex,
+                    pageSize:pagination.pageSize,
+                    keyWord:form.typeName
+                }
+                
+                FindAllType(data).then(function (response) {
                         table.loading = false;
-                        // console.log(response);
-                        table.tableData = response.data;
-                        table.tableData = table.tableData.filter(function (item) {
-                            if (form.typeName != '') return item.typeName == form.typeName;
-                            return item;
-                        })
+                        console.log(response);
+                        table.tableData = response.data.list;
+                        pagination.totalRecordCount = response.data.total;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -132,12 +128,7 @@
                         typeId: typeDialog.form.typeId,
                         typeName: typeDialog.form.typeName
                     }
-                    request.request({
-                            method: "get",
-                            url: "/updateType",
-                            params: data
-                        })
-                        .then(function (response) {
+                    UpdateType(data).then(function (response) {
                             console.log(response);
                             loadData();
                         })
@@ -148,12 +139,7 @@
                     let data = {
                         typeName: typeDialog.form.typeName
                     }
-                    request.request({
-                            method: "get",
-                            url: "/addType",
-                            params: data
-                        })
-                        .then(function (response) {
+                   AddType(data).then(function (response) {
                             console.log(response);
                             loadData();
                         })
@@ -172,12 +158,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    request.request({
-                            method: "get",
-                            url: "/delType",
-                            params: data
-                        })
-                        .then(function (response) {
+                    DelType(data).then(function (response) {
                             console.log(response);
                             loadData();
                             root.$message({
@@ -205,7 +186,8 @@
                 loadData();
             }
             const handlePageSizeChange = val => {
-                pagination.pagesize = val;
+                pagination.pageSize = val;
+                console.log(val)
                 loadData();
             }
 
@@ -229,35 +211,7 @@
             }
         }
     }
-    //table.loading = true;
-    // setTimeout(function () {
-    //     table.loading = false;
-    //     var temp = [{
-    //             projectName: '测斜',
-    //             dotNumNow: 'p17(17.5m)',
-    //             variationNow: '1.45(mm)',
-    //             dotNumTotal: 'P11(11.5m)',
-    //             variationTotal: '63.42(mm)',
-    //             data: '2020-10-01'
-    //         },
-    //         {
-    //             projectName: '地表沉降',
-    //             dotNumNow: 'D08-2',
-    //             variationNow: '-0.78(mm)',
-    //             dotNumTotal: 'D02-2',
-    //             variationTotal: '-11.86(mm)',
-    //             data: '2020-10-02'
-    //         }
-    //     ]
-    //     table.tableData = temp.filter(function (item) {
-    //         if (form.projectVal != '') return item.projectName == form.projectVal;
-    //         return item;
-    //     }).filter(function (item) {
-    //         if (form.dataVal != '') return item.data == form.dataVal;
-    //         return item;
-    //     });
-    //     pagination.totalRecordCount = table.tableData.length;
-    // }, 1000);
+
 </script>
 
 <style scoped>

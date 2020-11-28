@@ -7,7 +7,7 @@
         <div class="pull-right">
             <div class="user-info pull-left">
                 <!-- <img src="../../assets/imgs/admin.jpg" alt=""> -->
-                root
+                {{nickname}}
             </div>
             <div class=" pull-left">
                 <el-dropdown class="header-icon" @command="handleCommand">
@@ -24,19 +24,28 @@
 </template>
 
 <script>
-    import {onMounted,reactive,ref,isRef,toRefs} from "@vue/composition-api";
+    import {onMounted,reactive,ref,isRef,toRefs,computed} from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
         name: 'act',
         setup(props, {refs, root}) {
+            let nickname = computed(() => root.$store.state.app.nickname)
             const handleCommand = (command) => {
-                console.log('click on item ' + command)
+                console.log('click on item ' + command);
+                if (command=='exit') {
+                    root.$store.dispatch('exit').then(()=>{
+                        root.$router.push({
+                            name:'login'
+                        })
+                    });
+                }
             }
             const navMenuState = () => {
                 // root.$store.dispatch('setMenuStatus',{"name": "aaaa"});
-                root.$store.commit('SET_COLLAPSE')
+                root.$store.commit('SET_COLLAPSE');
             }
             return {
+                nickname,
                 handleCommand,
                 navMenuState
             }

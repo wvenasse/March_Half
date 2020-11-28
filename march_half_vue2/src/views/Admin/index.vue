@@ -40,7 +40,7 @@
             <el-footer style="height: 34px;">
                 <el-pagination small background @size-change="handlePageSizeChange"
                     @current-change="handleCurrentChange" :current-page="pagination.pageIndex"
-                    :page-sizes="[20,100,200,500,1000]" :page-size="pagination.pagesize"
+                    :page-sizes="[5, 10, 20, 30, 40]" :page-size="pagination.pageSize"
                     layout="total, sizes, prev, pager, next, jumper" :total="pagination.totalRecordCount">
                 </el-pagination>
             </el-footer>
@@ -73,6 +73,7 @@
         ref,
     } from "@vue/composition-api";
     import request from "@/utils/request";
+    import {UpdateAdmin,AddAdmin,DelAdmin,FindAllAdmin} from "@/api/Admin"
     export default {
         name: 'type',
         setup(props, {
@@ -101,23 +102,22 @@
             let pagination = reactive({
                 pageIndex: 1,
                 totalRecordCount: 0,
-                pagesize: 20,
+                pageSize: 5,
             })
             
 
             const loadData = () => {
                 table.loading = true;
-                request.request({
-                        method: "get",
-                        url: "/showAllUser",
-                    })
-                    .then(function (response) {
+               let data = {
+                    pageIndex:pagination.pageIndex,
+                    pageSize:pagination.pageSize,
+                    keyWord:form.typeName
+                }
+                
+                FindAllAdmin(data).then(function (response) {
                         table.loading = false;
-                        table.tableData = response.data;
-                        table.tableData = table.tableData.filter(function (item) {
-                            if (form.userName != '') return item.userName == form.userName;
-                            return item;
-                        })
+                        table.tableData = response.data.list;
+                        pagination.totalRecordCount = response.data.total;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -142,12 +142,7 @@
                         nickname: adminDialog.form.nickname,
                         password: adminDialog.form.password,
                     }
-                    request.request({
-                            method: "get",
-                            url: "/updateUser",
-                            params: data
-                        })
-                        .then(function (response) {
+                   UpdateAdmin(data).then(function (response) {
                             console.log(response);
                             root.$message({
                                 type: 'success',
@@ -164,12 +159,7 @@
                         nickname: adminDialog.form.nickname,
                         password: adminDialog.form.password,
                     }
-                    request.request({
-                            method: "get",
-                            url: "/addUser",
-                            params: data
-                        })
-                        .then(function (response) {
+                    AddAdmin(data).then(function (response) {
                             console.log(response);
                             root.$message({
                                 type: 'success',
@@ -192,12 +182,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    request.request({
-                            method: "get",
-                            url: "/delUser",
-                            params: data
-                        })
-                        .then(function (response) {
+                    DelAdmin(data).then(function (response) {
                             console.log(response);
                             loadData();
                             root.$message({
@@ -221,7 +206,7 @@
                 loadData();
             }
             const handlePageSizeChange = val => {
-                pagination.pagesize = val;
+                pagination.pageSize = val;
                 loadData();
             }
 

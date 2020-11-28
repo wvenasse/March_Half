@@ -1,27 +1,21 @@
 package org.example.dao;
 
-import org.apache.ibatis.annotations.Param;
 import org.example.pojo.User;
-import org.example.pojo.Users;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 @Repository
 @MapperScan
 public interface UserDao {
     //增
-    public int addUser(User user);
+    public int addUsers(User users);
     //删
-    public int delUser(Integer rootId);
+    public int delUsers(String openid);
     //改
-    public Integer updateUser(User user);
+    public Integer updateUsers(User users);
     //查
-    public List<User> getAllUser();
-
-    public int getUserByName(@Param("userName") String userName, @Param("password") String password);
-//    public User getUserByName(@Param("userName") String userName, @Param("password") String password);
-
-    public User getUserByUserName(String userName);
+    public List<User> getAllUsers();
+    //照openid查
+    public User getUserById(String openid);
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.AdminDao">
+    <insert id="addAdmin" parameterType="org.example.pojo.Admin">
+        insert into roots(userName,nickname,password) values (#{userName},#{nickname},#{password})
+    </insert>
+    <delete id="delAdmin" parameterType="java.lang.Integer">
+        delete from roots where rootId=#{rootId}
+    </delete>
+    <select id="updateAdmin" parameterType="org.example.pojo.Admin" resultType="java.lang.Integer">
+        update roots set nickname=#{nickname},password=#{password}
+        where userName=#{userName}
+    </select>
+
+    <select id="getAllAdmin" resultType="org.example.pojo.Admin">
+        select * from roots where userName like "%"#{keyWord}"%" OR nickname like "%"#{keyWord}"%"
+    </select>
+
+    <select id="getAdmin" resultType="java.lang.Integer">
+    select count(rootId) from roots where userName = #{userName} and password = #{password}
+    </select>
+    <select id="getAdminByName" resultType="org.example.pojo.Admin">
+        select * from roots where userName=#{userName}
+     </select>
+</mapper>

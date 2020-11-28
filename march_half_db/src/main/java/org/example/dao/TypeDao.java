@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.annotations.Param;
 import org.example.pojo.Type;
 import org.mybatis.spring.annotation.MapperScan;
@@ -17,7 +18,7 @@ public interface TypeDao {
     //改
     public Integer updateType(Type type);
     //查
-    public List<Type> getAllType();
+    public List<Type> getAllType(String keyWord);
 
     public Type getUserByTypeId(Integer typeId);
 }

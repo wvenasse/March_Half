@@ -61,6 +61,7 @@
   import {Login,ShowUser} from "@/api/Login"
   import {stripscript,validateUserName,validatePassword} from "@/utils/validate.js";
   import {Message} from 'element-ui';
+  import {setToken,setUserName,setNickName} from "@/utils/app"
   export default {
     name: "login",
     setup(props, {
@@ -226,12 +227,13 @@
           console.log(response);
           Message.success(response.data.msg);
           if (response.data.code != 0) {
-            sessionStorage.setItem("userName", data.userName);
-            sessionStorage.setItem("userPassword", data.password);
+            root.$store.commit('SET_TOKEN','admin_token');
+            setToken('admin_token');
+            
             ShowUser(data1).then(response => {
               console.log(response);
-              sessionStorage.setItem("nickname", response.data.nickname);
-              
+              root.$store.commit('SET_NICKNAME',response.data.nickname);
+              setNickName(response.data.nickname);
             })
             root.$router.push({
               name: 'home',

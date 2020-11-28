@@ -1,25 +1,41 @@
+import cookie from "cookie_js";
+import {getNickName,removeToken,removeNickName} from "@/utils/app"
 const app = {
     state: {
-        isCollapse: JSON.parse(sessionStorage.getItem('isCollapse')) || false
+        isCollapse: false, //JSON.parse(sessionStorage.getItem('isCollapse')) || ,
+        toKen:'',
+        nickname: getNickName()||''
     },
     getters: { //computed
-        isCollapse: state => state.isCollapse
+        isCollapse: state => state.isCollapse,
+        nickname: state => state.nickname,
     },
     mutations: {
         SET_COLLAPSE(state) {
             state.isCollapse = !state.isCollapse;
-            sessionStorage.setItem('isCollapse', JSON.stringify(state.isCollapse));
+            // sessionStorage.setItem('isCollapse', JSON.stringify(state.isCollapse));
+        },
+        SET_TOKEN(state,value) {
+            state.toKen = value;
+        },
+        SET_NICKNAME(state,value) {
+            state.nickname = value;
         },
     },
     actions: {
         setMenuStatus(content, data) {
             content.commit('SET_COLLAPSE');
-            console.log(data);
+        },
+        exit(content){
+            return new Promise((resolve, reject) => {
+                removeToken();
+                removeNickName();
+                content.commit('SET_TOKEN',"");
+                content.commit('SET_NICKNAME',"");
+                resolve();
+            })
         }
     },
-    // console.log(root.$store.state.count);
-    // console.log(root.$store.getters.count);
-    // root.$store.commit('SET_COUNT',100)
 }
 
 export default app;

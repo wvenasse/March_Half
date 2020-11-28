@@ -1,18 +1,20 @@
 package org.example.controller;
-
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.example.dao.TypeDao;
-import org.example.pojo.Result;
 import org.example.pojo.Type;
+import org.example.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 public class TypeController {
-    //后台的用户
     @Autowired
     TypeDao typeDao;
     @RequestMapping("/addType")
@@ -70,10 +72,20 @@ public class TypeController {
     }
 
     @RequestMapping(value = "/showAllType", produces = "text/json;charset=UTF-8")
-    public Object showAllType(){
-        List<Type> types = typeDao.getAllType();
-        String typeJson = JSON.toJSONString(types);
+    public Object showAllType(String keyWord){
+        List<Type> type = typeDao.getAllType(keyWord);
+        String typeJson = JSON.toJSONString(type);
         return typeJson;
+    }
+
+    @ResponseBody
+    @RequestMapping("/findAllType")
+    public PageInfo<Type> findAllType(@RequestParam("pageIndex") int pageIndex,
+                                      @RequestParam("pageSize") int pageSize,
+                                      @RequestParam("keyWord") String keyWord){
+        PageHelper.startPage(pageIndex,pageSize);
+        PageInfo<Type> pageInfo = new PageInfo(typeDao.getAllType(keyWord));
+        return pageInfo;
     }
 
     @RequestMapping(value = "/showType", produces = "text/json;charset=UTF-8")
@@ -82,4 +94,5 @@ public class TypeController {
         String typeJson = JSON.toJSONString(type);
         return typeJson;
     }
+
 }

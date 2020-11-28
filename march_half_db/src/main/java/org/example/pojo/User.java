@@ -1,25 +1,28 @@
 package org.example.pojo;
 
 public class User {
-    private Integer rootId;
+    private  String openid;
+    private  String userId;
     private  String userName;
-    private  String nickname;
-    private  String password;
+    private  String userDorm;
+    private  String userRoom;
+    private  String userBed;
+    private String userType;
 
-    public Integer getRootId() {
-        return rootId;
+    public String getOpenid() {
+        return openid;
     }
 
-    public void setRootId(Integer rootId) {
-        this.rootId = rootId;
+    public void setOpenid(String openid) {
+        this.openid = openid;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -30,11 +33,35 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserDorm() {
+        return userDorm;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserDorm(String userDorm) {
+        this.userDorm = userDorm;
+    }
+
+    public String getUserRoom() {
+        return userRoom;
+    }
+
+    public void setUserRoom(String userRoom) {
+        this.userRoom = userRoom;
+    }
+
+    public String getUserBed() {
+        return userBed;
+    }
+
+    public void setUserBed(String userBed) {
+        this.userBed = userBed;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

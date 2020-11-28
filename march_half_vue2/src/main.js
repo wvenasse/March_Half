@@ -13,6 +13,12 @@ Vue.use(VueCompositionApi);
 import request from '../src/utils/request'
 Vue.prototype.$http = request;
 
+import Router from 'vue-router'
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.config.productionTip = false;
 
 import "./plugins/axios";
