@@ -46,23 +46,30 @@
             <el-footer style="height: 34px;">
                 <el-pagination small background @size-change="handlePageSizeChange"
                     @current-change="handleCurrentChange" :current-page="pagination.pageIndex"
-                    :page-sizes="[20,100,200,500,1000]" :page-size="pagination.pagesize"
+                    :page-sizes="[5, 10, 20, 30, 40]" :page-size="pagination.pageSize"
                     layout="total, sizes, prev, pager, next, jumper" :total="pagination.totalRecordCount">
                 </el-pagination>
             </el-footer>
         </el-container>
+
         <el-dialog :title="noticeDialog.title" :visible.sync="noticeDialog.visible" :append-to-body="true">
             <el-form :model="noticeDialog.form">
                 <el-form-item label="公告名称" :label-width="noticeDialog.formLabelWidth">
                     <el-input v-model="noticeDialog.form.noticeName" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="公告图片" :label-width="noticeDialog.formLabelWidth">
-                    
-
+                    <el-upload
+                    class="upload-demo"
+                    drag
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    multiple>
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+                    </el-upload>
                 </el-form-item>
                 <el-form-item label="公告内容" :label-width="noticeDialog.formLabelWidth">
                     <tinymce-editor ref="editor" v-model="noticeDialog.form.noticeDetail"
-                        @onClick="onClick">
+                        @onClick="onClick" v-if="noticeDialog.visible">
                     </tinymce-editor>
                     <el-button type="danger" icon="el-icon-delete" circle @click="clear"></el-button>
                 </el-form-item>
@@ -78,10 +85,10 @@
 </template>
 
 <script>
-    import TinymceEditor from '../../components/tinymce-editor'
+    import TinymceEditor from '../../components/System/tinymce'
     import { onMounted,reactive,ref } from "@vue/composition-api";
     import request from "@/utils/request";
-    import {showAllNotice,addNotice,updateNotice,delNotice} from "@/api/Notice"
+    import {showAllNotice,addNotice,updateNotice,delNotice,FindAllNotice} from "@/api/Notice"
     export default {
         name: 'type',
         components: {
@@ -101,7 +108,7 @@
             let pagination = reactive({
                 pageIndex: 1,
                 totalRecordCount: 0,
-                pagesize: 20,
+                pageSize: 5,
             })
             //表单
             let noticeDialog = reactive({
@@ -116,12 +123,11 @@
                 formLabelWidth: '120px'
             })
             
-
             //富文本
             const onClick = ((e, editor) => {
-                console.log('Element clicked')
-                console.log(e)
-                console.log(editor)
+                // console.log('Element clicked')
+                // console.log(e)
+                // console.log(editor)
             })
             const clear = () => {
                 noticeDialog.form.noticeDetail = '';
@@ -130,14 +136,16 @@
 
             const loadData = () => {
                 table.loading = true;
-               showAllNotice().then(function (response) {
+                 let data = {
+                    pageIndex:pagination.pageIndex,
+                    pageSize:pagination.pageSize,
+                    keyWord:form.typeName
+                }
+                FindAllNotice(data).then(function (response) {
                         table.loading = false;
-                        // console.log(response);
-                        table.tableData = response.data;
-                        table.tableData = table.tableData.filter(function (item) {
-                            if (form.typeName != '') return item.typeName == form.typeName;
-                            return item;
-                        })
+                        console.log(response);
+                        table.tableData = response.data.list;
+                        pagination.totalRecordCount = response.data.total;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -157,14 +165,14 @@
                 noticeDialog.visible = true;
             }
             const submitType = () => {
+                let data;
                 if (noticeDialog.flag) {
-                    let data = {
-                        noticeId: noticeDialog.form.typeId,
-                        noticeName: noticeDialog.form.typeName,
+                    data = {
+                        noticeId: noticeDialog.form.noticeId,
+                        noticeName: noticeDialog.form.noticeName,
                         noticeImg: noticeDialog.form.noticeImg,
                         noticeDetail: noticeDialog.form.noticeDetail
                     }
-                    console.log(data);
                     updateNotice(data)
                         .then(function (response) {
                             console.log(response);
@@ -174,7 +182,7 @@
                             console.log(error);
                         });
                 } else {
-                    let data = {
+                    data = {
                         noticeName: noticeDialog.form.noticeName,
                         noticeImg: noticeDialog.form.noticeImg,
                         noticeDetail: noticeDialog.form.noticeDetail
@@ -226,7 +234,7 @@
                 loadData();
             }
             const handlePageSizeChange = val => {
-                pagination.pagesize = val;
+                pagination.pageSize = val;
                 loadData();
             }
 

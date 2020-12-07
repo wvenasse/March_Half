@@ -7,6 +7,15 @@ export function showAllNotice(data){
     })
 }
 
+export function FindAllNotice(data){
+    var qs = require('querystring');
+    return request.request({
+        method: "post",
+        url: "/findAllNotice",
+        data: qs.stringify(data)
+    })
+}
+
 export function addNotice(data){
     var qs = require('querystring');
     return  request.request({

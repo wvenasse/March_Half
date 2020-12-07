@@ -16,3 +16,11 @@ export function ShowUser(data){
         params: data
     })
 }
+
+export function AddAdmin(data){
+    return request.request({
+        method: "get",
+        url: "/addUser",
+        params: data
+    })
+}

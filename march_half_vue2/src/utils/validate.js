@@ -14,7 +14,7 @@ export function stripscript(str) {
 
 
 export function validateUserName(value) {
-  var reg = /^[a-zA-Z0-9_-]{4,16}$/;
+  var reg = /^[a-zA-Z0-9_-]{3,16}$/;
   return !reg.test(value) ? true : false;
 }
 

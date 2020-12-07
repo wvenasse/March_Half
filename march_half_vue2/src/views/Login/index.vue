@@ -58,7 +58,7 @@
 <script>
   import { onMounted,reactive,ref,isRef,toRefs} from "@vue/composition-api";
   import request from "@/utils/request";
-  import {Login,ShowUser} from "@/api/Login"
+  import {Login,ShowUser,AddAdmin} from "@/api/Login"
   import {stripscript,validateUserName,validatePassword} from "@/utils/validate.js";
   import {Message} from 'element-ui';
   import {setToken,setUserName,setNickName} from "@/utils/app"
@@ -75,7 +75,7 @@
           callback(new Error("账号格式不正确，请重新输入"));
           root.$message({
             showClose: true,
-            message: '用户账号格式应为4到16位（字母，数字，下划线，减号）',
+            message: '用户账号格式应为3到16位（字母，数字，下划线，减号）',
             type: 'warning'
           });
         } else {
@@ -148,69 +148,18 @@
               password: ruleForm.pass
             };
             console.log(data);
-            AddUser(data)
+            AddAdmin(data).then(response => {
+              console.log(response);
+              activeName.value = 'login';
+              Message.success(response.data.msg);
+            }).catch(function (error) {
+              console.log(error);
+            });
           } else {
             console.log("error submit!!");
             return false;
           }
         });
-      };
-      const loginBtn = () => {
-        if (formLabelAlign.userName == '') {
-          root.$message({
-            showClose: true,
-            message: '用户账号不得为空',
-            type: 'error'
-          });
-          return false;
-        }
-        if (formLabelAlign.userPass == '') {
-          root.$message({
-            showClose: true,
-            message: '密码不得为空',
-            type: 'error'
-          });
-          return false;
-        }
-        let data = {
-          userName: formLabelAlign.userName,
-          password: formLabelAlign.userPass
-        };
-
-        request.request({
-            method: "get",
-            url: "/login",
-            params: data
-          })
-          .then(function (response) {
-            console.log(response);
-            Message.success(response.data.msg);
-
-            let data1 = {
-              userName: formLabelAlign.userName,
-            }
-            request.request({
-                method: "get",
-                url: "/showUser",
-                params: data1
-              })
-              .then(function (response) {
-                console.log(response);
-                sessionStorage.setItem('root', JSON.stringify(response.data))
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-            // sessionStorage.setItem('root', JSON.stringify(response.data.data));
-            // localStorage.setItem('root', JSON.stringify(response.data));
-            root.$router.push({
-              name: 'home'
-            })
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-
       };
       const resetForm = formName => {
         refs[formName].resetFields();
@@ -260,7 +209,6 @@
         handleClick,
         submitForm,
         resetForm,
-        // loginBtn,
         login
       };
     }

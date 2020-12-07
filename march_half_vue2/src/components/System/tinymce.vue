@@ -37,9 +37,6 @@ import "tinymce/plugins/fullpage";
 import "tinymce/plugins/toc";
 //必须引用
 import 'tinymce/icons/default'
-// import "tinymce/icons/default/icons.min.js";
-// import "@/assets/langs/zh_CN.js";
-// import "tinymce/skins/ui/oxide/skin.css";
 export default {
   components: {
     Editor,
@@ -49,8 +46,6 @@ export default {
       type: String,
       default: "",
     },
-    // 基本路径，默认为空根目录，如果你的项目发布后的地址为目录形式，
-    // 即abc.com/tinymce，baseUrl需要配置成tinymce，不然发布后资源会找不到
     baseUrl: {
       type: String,
       default: "",
@@ -67,32 +62,31 @@ export default {
       url: "/upload/image",//上传api
       init: {
         selector: "Editor", //选择HTML元素
-        // language_url: "@/assets/langs/zh_CN.js", //导入语言文件
-        // language: "zh_CN", //语言设置
-        //disabled:true, //禁用
-        // skin_url: "/tinymce/skins/ui/oxide", //主题样式
-
-
         language_url: `${this.baseUrl}/tinymce/langs/zh_CN.js`,
         language: 'zh_CN',
         skin_url: `${this.baseUrl}/tinymce/skins/ui/oxide`,
         content_css: `${this.baseUrl}/tinymce/skins/content/default/content.css`,
-
         height: 300, //高度
         menubar: false, // 隐藏最上方menu菜单
-        // toolbar: true,//false禁用工具栏（隐藏工具栏）
+        toolbar: false,//false禁用工具栏（隐藏工具栏）
         browser_spellcheck: true, // 拼写检查
         branding: false, // 去水印
         statusbar: false, // 隐藏编辑器底部的状态栏
         elementpath: false, //禁用下角的当前标签路径
         paste_data_images: true, // 允许粘贴图像
         plugins:
-          "lists image media table wordcount code fullscreen help  toc fullpage autosave nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak link charmap paste print preview hr anchor",
+          "lists image media table wordcount code",
 
         toolbar: [
-          "newdocument undo redo | formatselect visualaid|cut copy paste selectall| bold italic underline strikethrough |codeformat blockformats| superscript subscript  | forecolor backcolor | alignleft aligncenter alignright alignjustify | outdent indent |  removeformat ",
-          "code  bullist numlist | lists image media table link |fullscreen help toc fullpage restoredraft nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak anchor charmap  pastetext print preview hr",
+          "formatselect bold italic underline alignleft aligncenter alignright lists image media table link code",
         ],
+        // plugins:
+        //   "lists image media table wordcount code fullscreen help  toc fullpage autosave nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak link charmap paste print preview hr anchor",
+
+        // toolbar: [
+        //   "newdocument undo redo | formatselect visualaid|cut copy paste selectall| bold italic underline strikethrough |codeformat blockformats| superscript subscript  | forecolor backcolor | alignleft aligncenter alignright alignjustify | outdent indent |  removeformat ",
+        //   "code  bullist numlist | lists image media table link |fullscreen help toc fullpage restoredraft nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak anchor charmap  pastetext print preview hr",
+        // ],
         // 此处为图片上传处理函数，这个直接用了base64的图片形式上传图片，
         // 如需ajax上传可参考https://www.tiny.cloud/docs/configure/file-image-upload/#images_upload_handler
         images_upload_handler: (blobInfo, success, failure) => {

@@ -19,7 +19,7 @@ export function UpdateAdmin(data){
 }
 
 export function AddAdmin(data){
-    request.request({
+    return request.request({
         method: "get",
         url: "/addUser",
         params: data
