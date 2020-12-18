@@ -217,7 +217,7 @@
 
 <style scoped>
   #login {
-    background: url("../../assets/imgs/backhround3.jpg");
+    background: url("../../assets/imgs/Login/backhround3.jpg");
     width: 100%;
     height: 100%;
     position: fixed;

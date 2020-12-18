@@ -12,7 +12,36 @@ public class FileResult implements Serializable {
 
     private String start;
 
-    public FileResult(boolean success, String message,String fileAddress) {
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getFileAddress() {
+        return fileAddress;
+    }
+
+    public void setFileAddress(String fileAddress) {
+        this.fileAddress = fileAddress;
+    }
+
+    public String getStart() {
+        return start;
+    }
+
+    public void setStart(String start) {
+        this.start = start;
+    }
+
+
+    public FileResult(boolean success, String message, String fileAddress) {
         this.success = success;
         this.message = message;
         this.fileAddress = fileAddress;
@@ -21,4 +50,6 @@ public class FileResult implements Serializable {
     public boolean isSuccess() {
         return success;
     }
+
+
 }

@@ -78,7 +78,7 @@ export default {
           "lists image media table wordcount code",
 
         toolbar: [
-          "formatselect bold italic underline alignleft aligncenter alignright lists image media table link code",
+          "formatselect bold italic underline alignleft aligncenter alignright lists table link code",
         ],
         // plugins:
         //   "lists image media table wordcount code fullscreen help  toc fullpage autosave nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak link charmap paste print preview hr anchor",

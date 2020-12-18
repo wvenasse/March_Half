@@ -3,6 +3,10 @@ spring:
     active: dev
   jackson:
     default-property-inclusion: non_null
+  mvc:
+    static-path-pattern: /**
+  resources:
+    static-locations: classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, classpath:/public/,file:D:/WSH/2021/March_Half/march_half_vue2/src/assets/imgs/Upload/
 
 #debug: true
 
@@ -10,3 +14,4 @@ pagehelper:
   helper-dialect: mysql
   reasonable: true
   support-methods-arguments: true
+
