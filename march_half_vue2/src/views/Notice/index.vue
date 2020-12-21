@@ -154,8 +154,8 @@
                 FindAllNotice(data).then(function (response) {
                         table.loading = false;
                         console.log(response);
-                        table.tableData = response.data.list;
-                        pagination.totalRecordCount = response.data.total;
+                        table.tableData = response.data.pageInfo.list;
+                        pagination.totalRecordCount = response.data.pageInfo.total;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -176,21 +176,13 @@
                 noticeDialog.visible = true;
             }
             const submitType = () => {
-                addImage(formData).then(response => {
-                    console.log(response.data.fileName);
-                    root.$message({
-                        type: 'info',
-                        message: response.data.msg
-                    });
-                    let data;
-                    if (noticeDialog.flag) {
-                        data = {
+                    let data = {
                             noticeId: noticeDialog.form.noticeId,
                             noticeName: noticeDialog.form.noticeName,
-                            noticeImg: response.data.fileName,
+                            noticeImg: imgName.value,
                             noticeDetail: noticeDialog.form.noticeDetail
-                        }
-                        console.log(data)
+                    }
+                    if (noticeDialog.flag) {
                         updateNotice(data)
                             .then(function (response) {
                                 console.log(response);
@@ -200,12 +192,6 @@
                                 console.log(error);
                             });
                     } else {
-                        data = {
-                            noticeName: noticeDialog.form.noticeName,
-                            noticeImg: response.data.fileName,
-                            noticeDetail: noticeDialog.form.noticeDetail
-                        }
-                        console.log(data);
                         addNotice(data)
                             .then(function (response) {
                                 console.log(response);
@@ -216,7 +202,6 @@
                             });
                     }
                     noticeDialog.visible = false;
-                })
             }
             const deleteData = (notice) => {
                 let data = {
@@ -265,18 +250,16 @@
                 console.log(event)
                 if (event.target.files.length !== 0) {
                     formData.append('image_data', event.target.files[0]);
+                    console.log(formData)
                     imgName.value = event.target.files[0].name;
+                    addImage(formData).then(response => {
+                        console.log(response.data.fileName);
+                        root.$message({
+                            type: 'info',
+                            message: response.data.msg
+                        });
+                    })
                 }
-            }
-
-            const addImages = () => {
-                addImage(formData).then(response => {
-                    console.log(response);
-                    root.$message({
-                        type: 'info',
-                        message: response.data.msg
-                    });
-                })
             }
 
             onMounted(() => {
@@ -303,8 +286,7 @@
                 formData,
                 imgName,
                 imgUrl,
-                tirggerFile,
-                addImages,
+                tirggerFile
             }
         }
     }

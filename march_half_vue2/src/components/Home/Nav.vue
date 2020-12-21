@@ -23,7 +23,7 @@
                 <el-submenu index="2">
                     <template slot="title">首页</template>
                     <el-menu-item index="/notice">公告管理</el-menu-item>
-                    <el-menu-item index="/pay">缴费管理</el-menu-item>
+                    <el-menu-item index="/pay">杂务管理</el-menu-item>
                     <el-menu-item index="/hygiene">卫生管理</el-menu-item>
                     <el-menu-item index="/repair">报修管理</el-menu-item>
                     <el-menu-item index="/out">外出管理</el-menu-item>

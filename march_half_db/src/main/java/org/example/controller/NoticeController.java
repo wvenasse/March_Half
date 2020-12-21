@@ -5,7 +5,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.example.dao.NoticeDao;
 import org.example.pojo.R;
-import org.example.pojo.Result;
 import org.example.pojo.Notice;
 import org.example.pojo.Type;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -27,75 +25,53 @@ public class NoticeController {
     @Autowired
     NoticeDao noticeDao;
     @RequestMapping("/addNotice")
-    public Result addNotice(Notice notice) {
+    public R addNotice(Notice notice) {
         int count = noticeDao.addNotice(notice);
-        Result result = new Result();
         if (count > 0) {
-            result.setData("ok");
-            result.setMsg("添加公告成功");
-            result.setCode(200);
-            return result;
+            return R.ok();
         }
         else {
-            result.setData("no");
-            result.setMsg("添加公告失败");
-            result.setCode(0);
-            return result;
+            return R.error("添加公告失败！");
         }
     }
 
     @RequestMapping("/delNotice")
-    public Result delNotice(Integer noticeId) {
+    public R delNotice(Integer noticeId) {
         int count = noticeDao.delNotice(noticeId);
-        Result result = new Result();
         if (count > 0) {
-            result.setData("ok");
-            result.setMsg("删除公告成功");
-            result.setCode(200);
-            return result;
+            return R.ok();
         }
         else {
-            result.setData("no");
-            result.setMsg("删除公告失败");
-            result.setCode(0);
-            return result;
+            return R.error("删除公告失败！");
         }
     }
 
     @RequestMapping("/updateNotice")
-    public Result updateNotice(Notice notice) {
+    public R updateNotice(Notice notice) {
         Integer count = noticeDao.updateNotice(notice);
-        System.out.println(count);
-        Result result = new Result();
         if (count == null) {
-            result.setData("ok");
-            result.setMsg("修改公告成功");
-            result.setCode(200);
-            return result;
+            return R.ok();
         }
         else {
-            result.setData("no");
-            result.setMsg("修改公告失败");
-            result.setCode(0);
-            return result;
+            return R.error("修改公告失败！");
         }
     }
 
     @RequestMapping(value = "/showAllNotice", produces = "text/json;charset=UTF-8")
-    public Object showAllNotice(String keyWord){
+    public R showAllNotice(String keyWord){
         List<Notice> notices = noticeDao.getAllNotice(keyWord);
         String noticeJson = JSON.toJSONString(notices);
-        return noticeJson;
+        return R.ok().put("noticeJson", noticeJson);
     }
 
     @ResponseBody
     @RequestMapping("/findAllNotice")
-    public PageInfo<Type> findAllType(@RequestParam("pageIndex") int pageIndex,
+    public R findAllType(@RequestParam("pageIndex") int pageIndex,
                                       @RequestParam("pageSize") int pageSize,
                                       @RequestParam("keyWord") String keyWord){
         PageHelper.startPage(pageIndex,pageSize);
         PageInfo<Type> pageInfo = new PageInfo(noticeDao.getAllNotice(keyWord));
-        return pageInfo;
+        return R.ok().put("pageInfo", pageInfo);
     }
 
     @RequestMapping(value = "/showNotice", produces = "text/json;charset=UTF-8")
@@ -132,10 +108,8 @@ public class NoticeController {
                 e.printStackTrace();
                 return R.error("上传失败！");
             }
-//          String fileUrl="http://localhost:8080";
 //          String fileUrl="D:/WSH/2021/March_Half/march_half_vue2/src/assets/imgs/Upload/";
 //          fileUrl = fileUrl + request.getContextPath() + "/img/" + fileName;
-//          fileUrl = fileUrl + request.getContextPath() + fileName;
             return R.ok().put("fileName", fileName);
         }else{
             return R.error("图片格式有误，请上传.jpg、.png、.jpeg格式的文件");

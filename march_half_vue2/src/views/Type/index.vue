@@ -102,8 +102,8 @@
                 FindAllType(data).then(function (response) {
                         table.loading = false;
                         console.log(response);
-                        table.tableData = response.data.list;
-                        pagination.totalRecordCount = response.data.total;
+                        table.tableData = response.data.pageInfo.list;
+                        pagination.totalRecordCount = response.data.pageInfo.total;
                     })
                     .catch(function (error) {
                         console.log(error);

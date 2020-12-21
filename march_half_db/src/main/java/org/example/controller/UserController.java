@@ -1,6 +1,7 @@
 package org.example.controller;
 import com.alibaba.fastjson.JSON;
 import org.example.dao.UserDao;
+import org.example.pojo.R;
 import org.example.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,40 +16,48 @@ public class UserController {
     UserDao usersDao;
 
     @RequestMapping("/addUsers")
-    public String addUsers(User users) {
+    public R addUsers(User users) {
         int count = usersDao.addUsers(users);
         //当添加成功时，count的值为被插入的数据的行数
         System.out.println("总共插入了："+count+"条数据");
         if (count>0) {
-            return "ok";
+            return R.ok();
+//            return "ok";String
         }
-        return "no";
+        else {
+            return R.error("添加用户失败！");
+        }
+
+//        return "no";
     }
 
     @RequestMapping("/delUsers")
-    public String delUsers(String openid) {
+    public R delUsers(String openid) {
         int count = usersDao.delUsers(openid);
         if (count>0) {
-            return "ok";
+            return R.ok();
         }
-        return "no";
+        else {
+            return R.error("删除用户失败！");
+        }
     }
 
     @RequestMapping("/updateUsers")
-    public String updateUsers(User users) {
+    public R updateUsers(User users) {
         Integer count = usersDao.updateUsers(users);
-        // int --> Integer
         if (count == null) {
-            return "ok";
+            return R.ok();
         }
-        return "no";
+        else {
+            return R.error("修改用户失败！");
+        }
     }
 
     @RequestMapping(value = "/showAllUsers", produces = "text/json;charset=UTF-8")
-    public Object showAllUsers(){
+    public R showAllUsers(){
         List<User> userss = usersDao.getAllUsers();
         String usersJson = JSON.toJSONString(userss);
-        return usersJson;
+        return R.ok().put("usersJson", usersJson);
     }
 
     @RequestMapping(value = "/showUsers", produces = "text/json;charset=UTF-8")

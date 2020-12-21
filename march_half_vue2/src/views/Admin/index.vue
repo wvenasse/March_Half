@@ -48,7 +48,8 @@
         <el-dialog :title="adminDialog.title" :visible.sync="adminDialog.visible" :append-to-body="true">
             <el-form :model="adminDialog.form">
                 <el-form-item label="管理员名称" :label-width="adminDialog.formLabelWidth">
-                    <el-input v-model="adminDialog.form.userName" autocomplete="off"></el-input>
+                    <el-input disabled v-model="adminDialog.form.userName" autocomplete="off" v-if="adminDialog.flag"></el-input>
+                    <el-input v-model="adminDialog.form.userName" autocomplete="off" v-else></el-input>
                 </el-form-item>
                 <el-form-item label="管理员昵称" :label-width="adminDialog.formLabelWidth">
                     <el-input v-model="adminDialog.form.nickname" autocomplete="off"></el-input>
@@ -113,11 +114,11 @@
                     pageSize:pagination.pageSize,
                     keyWord:form.typeName
                 }
-                
                 FindAllAdmin(data).then(function (response) {
+                    console.log(response.data)
                         table.loading = false;
-                        table.tableData = response.data.list;
-                        pagination.totalRecordCount = response.data.total;
+                        table.tableData = response.data.pageInfo.list;
+                        pagination.totalRecordCount = response.data.pageInfo.total;
                     })
                     .catch(function (error) {
                         console.log(error);

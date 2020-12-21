@@ -3,8 +3,8 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.example.dao.TypeDao;
+import org.example.pojo.R;
 import org.example.pojo.Type;
-import org.example.pojo.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,74 +18,53 @@ public class TypeController {
     @Autowired
     TypeDao typeDao;
     @RequestMapping("/addType")
-    public Result addType(Type type) {
+    public R addType(Type type) {
         int count = typeDao.addType(type);
-        Result result = new Result();
         if (count > 0) {
-            result.setData("ok");
-            result.setMsg("添加类别成功");
-            result.setCode(200);
-            return result;
+            return R.ok();
         }
         else {
-            result.setData("no");
-            result.setMsg("添加类别失败");
-            result.setCode(0);
-            return result;
+            return R.error("添加类别失败！");
         }
     }
 
     @RequestMapping("/delType")
-    public Result delType(Integer typeId) {
+    public R delType(Integer typeId) {
         int count = typeDao.delType(typeId);
-        Result result = new Result();
         if (count > 0) {
-            result.setData("ok");
-            result.setMsg("删除类别成功");
-            result.setCode(200);
-            return result;
+            return R.ok();
         }
         else {
-            result.setData("no");
-            result.setMsg("删除类别失败");
-            result.setCode(0);
-            return result;
+            return R.error("删除类别失败！");
         }
     }
 
     @RequestMapping("/updateType")
-    public Result updateType(Type type) {
+    public R updateType(Type type) {
         Integer count = typeDao.updateType(type);
-        Result result = new Result();
         if (count == null) {
-            result.setData("ok");
-            result.setMsg("修改类别成功");
-            result.setCode(200);
-            return result;
+            return R.ok();
         }
         else {
-            result.setData("no");
-            result.setMsg("修改类别失败");
-            result.setCode(0);
-            return result;
+            return R.error("修改类别失败！");
         }
     }
 
     @RequestMapping(value = "/showAllType", produces = "text/json;charset=UTF-8")
-    public Object showAllType(String keyWord){
+    public R showAllType(String keyWord){
         List<Type> type = typeDao.getAllType(keyWord);
         String typeJson = JSON.toJSONString(type);
-        return typeJson;
+        return R.ok().put("typeJson", typeJson);
     }
 
     @ResponseBody
     @RequestMapping("/findAllType")
-    public PageInfo<Type> findAllType(@RequestParam("pageIndex") int pageIndex,
+    public R findAllType(@RequestParam("pageIndex") int pageIndex,
                                       @RequestParam("pageSize") int pageSize,
                                       @RequestParam("keyWord") String keyWord){
         PageHelper.startPage(pageIndex,pageSize);
         PageInfo<Type> pageInfo = new PageInfo(typeDao.getAllType(keyWord));
-        return pageInfo;
+        return R.ok().put("pageInfo", pageInfo);
     }
 
     @RequestMapping(value = "/showType", produces = "text/json;charset=UTF-8")
