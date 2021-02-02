@@ -26,7 +26,7 @@
 </script>
 
 <style scoped>
-    #power{
+    #out{
         background-color: #fff;
         height: 100%;
     }

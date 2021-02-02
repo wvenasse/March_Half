@@ -1,6 +1,6 @@
 <template>
-    <div id="dorm">
-        dorm
+    <div id="message">
+        message
     </div>
 </template>
 
@@ -12,7 +12,7 @@
     } from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
-        name: 'dorm',
+        name: 'message',
         setup(props, {
             refs,
             root
@@ -26,7 +26,7 @@
 </script>
 
 <style scoped>
-    #dorm{
+    #repair{
         background-color: #fff;
         height: 100%;
     }

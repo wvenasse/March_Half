@@ -76,7 +76,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="noticeDialog.visible = false">取 消</el-button>
-                <el-button type="primary" @click="submitType">确 定</el-button>
+                <el-button type="primary" @click="submitNotice">确 定</el-button>
             </div>
         </el-dialog>
 
@@ -151,15 +151,18 @@
                     pageSize: pagination.pageSize,
                     keyWord: form.typeName
                 }
-                FindAllNotice(data).then(function (response) {
-                        table.loading = false;
-                        console.log(response);
-                        table.tableData = response.data.pageInfo.list;
-                        pagination.totalRecordCount = response.data.pageInfo.total;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                table.loading = false;
+                table.tableData = [{noticeId:1,noticeName:'公告',noticeImg:'/Users/weidian/Documents/WechatIMG17.jpeg',noticeDetail:'123456'}];
+                pagination.totalRecordCount = 1;
+                // FindAllNotice(data).then(function (response) {
+                //         table.loading = false;
+                //         console.log(response);
+                //         table.tableData = response.data.pageInfo.list;
+                //         pagination.totalRecordCount = response.data.pageInfo.total;
+                //     })
+                //     .catch(function (error) {
+                //         console.log(error);
+                //     });
             }
             const openDiaog = (type) => {
                 if (type !== 0) {
@@ -175,7 +178,7 @@
                 }
                 noticeDialog.visible = true;
             }
-            const submitType = () => {
+            const submitNotice = () => {
                     let data = {
                             noticeId: noticeDialog.form.noticeId,
                             noticeName: noticeDialog.form.noticeName,
@@ -277,7 +280,7 @@
 
                 loadData,
                 openDiaog,
-                submitType,
+                submitNotice,
                 deleteData,
 
                 handleCurrentChange,

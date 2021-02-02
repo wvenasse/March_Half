@@ -27,68 +27,36 @@ const routes = [{
     },
     component: () => import("../views/Home/index.vue"),
     children: [{
-        path: '/act',
-        name: "act",
-        meta: {
-          name: "活动管理"
-        },
-        component: () => import("../views/Act/index.vue")
-      },
-      {
-        path: '/admin',
-        name: "admin",
-        meta: {
-          name: "管理员"
-        },
-        component: () => import("../views/Admin/index.vue")
-      },
-      {
         path: '/borad',
         name: "borad",
         meta: {
-          name: "首页"
+          name: "看板"
         },
         component: () => import("../views/Borad/index.vue")
       },
       {
-        path: '/dorm',
-        name: "dorm",
+        path: '/user',
+        name: "user",
         meta: {
-          name: "寝室管理"
+          name: "用户管理"
         },
-        component: () => import("../views/Dorm/index.vue")
+        component: () => import("../views/User/index.vue")
       },
       {
-        path: '/hygiene',
-        name: "hygiene",
+        path: '/service',
+        name: "service",
         meta: {
-          name: "卫生管理"
+          name: "服务人员管理"
         },
-        component: () => import("../views/Hygiene/index.vue")
+        component: () => import("../views/Service/index.vue")
       },
       {
-        path: '/notice',
-        name: "notice",
+        path: '/institution',
+        name: "institution",
         meta: {
-          name: "公告管理"
+          name: "服务机构管理"
         },
-        component: () => import("../views/Notice/index.vue")
-      },
-      {
-        path: '/out',
-        name: "out",
-        meta: {
-          name: "外出管理"
-        },
-        component: () => import("../views/Out/index.vue")
-      },
-      {
-        path: '/pay',
-        name: "pay",
-        meta: {
-          name: "缴费管理"
-        },
-        component: () => import("../views/Pay/index.vue")
+        component: () => import("../views/Institution/index.vue")
       },
       {
         path: '/post',
@@ -99,36 +67,68 @@ const routes = [{
         component: () => import("../views/Post/index.vue")
       },
       {
-        path: '/power',
-        name: "power",
+        path: '/order',
+        name: "order",
         meta: {
-          name: "权限"
+          name: "订单管理"
         },
-        component: () => import("../views/Power/index.vue")
+        component: () => import("../views/Order/index.vue")
       },
       {
-        path: '/repair',
-        name: "repair",
+        path: '/evaluation',
+        name: "evaluation",
         meta: {
-          name: "报修管理"
+          name: "评价管理"
         },
-        component: () => import("../views/Repair/index.vue")
+        component: () => import("../views/Evaluation/index.vue")
+      },
+      {
+        path: '/notice',
+        name: "notice",
+        meta: {
+          name: "公告管理"
+        },
+        component: () => import("../views/Notice/index.vue")
+      },
+      {
+        path: '/inform',
+        name: "inform",
+        meta: {
+          name: "通知管理"
+        },
+        component: () => import("../views/Inform/index.vue")
+      },
+      {
+        path: '/message',
+        name: "message",
+        meta: {
+          name: "消息管理"
+        },
+        component: () => import("../views/Message/index.vue")
       },
       {
         path: '/type',
         name: "type",
         meta: {
-          name: "类别"
+          name: "类别管理"
         },
         component: () => import("../views/Type/index.vue")
       },
       {
-        path: '/user',
-        name: "user",
+        path: '/power',
+        name: "power",
         meta: {
-          name: "人员管理"
+          name: "权限管理"
         },
-        component: () => import("../views/User/index.vue")
+        component: () => import("../views/Power/index.vue")
+      },
+      {
+        path: '/admin',
+        name: "admin",
+        meta: {
+          name: "管理员管理"
+        },
+        component: () => import("../views/Admin/index.vue")
       },
     ]
   },
