@@ -14,20 +14,22 @@
                 </template>
                 <el-menu-item-group>
                     <template slot="title">基本</template>
-                    <el-menu-item index="/dorm">寝室管理</el-menu-item>
-                    <el-menu-item index="/user">人员管理</el-menu-item>
+                    <el-menu-item index="/user">用户管理</el-menu-item>
+                    <el-menu-item index="/service">服务人员管理</el-menu-item>
+                    <el-menu-item index="/institution">服务机构管理</el-menu-item>
                 </el-menu-item-group>
-                <el-menu-item-group title="论坛">
+                <el-menu-item-group title="讨论">
                     <el-menu-item index="/post">帖子管理</el-menu-item>
                 </el-menu-item-group>
+                 <el-menu-item-group title="服务">
+                    <el-menu-item index="/order">订单管理</el-menu-item>
+                    <el-menu-item index="/evaluation">评价管理</el-menu-item>
+                </el-menu-item-group>
                 <el-submenu index="2">
-                    <template slot="title">首页</template>
+                    <template slot="title">信息</template>
                     <el-menu-item index="/notice">公告管理</el-menu-item>
-                    <el-menu-item index="/pay">杂务管理</el-menu-item>
-                    <el-menu-item index="/hygiene">卫生管理</el-menu-item>
-                    <el-menu-item index="/repair">报修管理</el-menu-item>
-                    <el-menu-item index="/out">外出管理</el-menu-item>
-                    <el-menu-item index="/act">活动管理</el-menu-item>
+                    <el-menu-item index="/inform">通知管理</el-menu-item>
+                    <el-menu-item index="/message">消息管理</el-menu-item>
                 </el-submenu>
             </el-submenu>
             <el-submenu index="3">
@@ -35,9 +37,9 @@
                     <i class="el-icon-s-tools"></i>
                     <span slot="title">基础设置</span>
                 </template>
-                <el-menu-item index="/type">类别</el-menu-item>
-                <el-menu-item index="/power">权限</el-menu-item>
-                <el-menu-item index="/admin">管理员</el-menu-item>
+                <el-menu-item index="/type">类别管理</el-menu-item>
+                <el-menu-item index="/power">权限管理</el-menu-item>
+                <el-menu-item index="/admin">管理员管理</el-menu-item>
             </el-submenu>
         </el-menu>
     </div>

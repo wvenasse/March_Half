@@ -1,6 +1,6 @@
 <template>
-    <div id="out">
-        out
+    <div id="order">
+        order
     </div>
 </template>
 
@@ -12,7 +12,7 @@
     } from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
-        name: 'out',
+        name: 'order',
         setup(props, {
             refs,
             root

@@ -1,6 +1,6 @@
 <template>
-    <div id="repair">
-        repair
+    <div id="inform">
+        inform
     </div>
 </template>
 
@@ -12,7 +12,7 @@
     } from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
-        name: 'repair',
+        name: 'inform',
         setup(props, {
             refs,
             root
@@ -26,7 +26,7 @@
 </script>
 
 <style scoped>
-    #repair{
+    #power{
         background-color: #fff;
         height: 100%;
     }

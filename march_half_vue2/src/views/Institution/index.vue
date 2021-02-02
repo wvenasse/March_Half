@@ -1,5 +1,5 @@
 <template>
-  <div id="user">
+  <div id="institution">
     <el-container style="height: 100%">
       <el-header style="height: auto">
         <el-row class="toolbar" style="height: auto">
@@ -7,8 +7,8 @@
             <el-form :inline="true" size="small">
               <el-form-item>
                 <el-input
-                  placeholder="请输入用户名称"
-                  v-model="form.userName"
+                  placeholder="请输入服务机构名称"
+                  v-model="form.institutionName"
                   clearable
                 >
                 </el-input>
@@ -50,9 +50,9 @@
           key="1"
           height="100%"
         >
-          <el-table-column prop="userId" label="用户序号"></el-table-column>
-          <el-table-column prop="userName" label="用户名称"></el-table-column>
-          <el-table-column prop="nickname" label="用户昵称"></el-table-column>
+          <el-table-column prop="institutionId" label="服务机构序号"></el-table-column>
+          <el-table-column prop="institutionName" label="服务机构名称"></el-table-column>
+          <el-table-column prop="nickname" label="服务机构昵称"></el-table-column>
           <el-table-column label="操作" align="center" width="180px">
             <template slot-scope="scope">
               <el-button size="small" type="text" @click="openDiaog(scope.row)"
@@ -86,50 +86,50 @@
       </el-footer>
     </el-container>
     <el-dialog
-      :title="userDialog.title"
-      :visible.sync="userDialog.visible"
+      :title="institutionDialog.title"
+      :visible.sync="institutionDialog.visible"
       :append-to-body="true"
     >
-      <el-form :model="userDialog.form">
+      <el-form :model="institutionDialog.form">
         <el-form-item
-          label="用户名称"
-          :label-width="userDialog.formLabelWidth"
+          label="服务机构名称"
+          :label-width="institutionDialog.formLabelWidth"
         >
           <el-input
             disabled
-            v-model="userDialog.form.userName"
+            v-model="institutionDialog.form.institutionName"
             autocomplete="off"
-            v-if="userDialog.flag"
+            v-if="institutionDialog.flag"
           ></el-input>
           <el-input
-            v-model="userDialog.form.userName"
+            v-model="institutionDialog.form.institutionName"
             autocomplete="off"
             v-else
           ></el-input>
         </el-form-item>
         <el-form-item
-          label="用户昵称"
-          :label-width="userDialog.formLabelWidth"
+          label="服务机构昵称"
+          :label-width="institutionDialog.formLabelWidth"
         >
           <el-input
-            v-model="userDialog.form.nickname"
+            v-model="institutionDialog.form.nickname"
             autocomplete="off"
           ></el-input>
         </el-form-item>
         <el-form-item
-          label="用户密码"
-          :label-width="userDialog.formLabelWidth"
+          label="服务机构密码"
+          :label-width="institutionDialog.formLabelWidth"
         >
           <el-input
             type="password"
-            v-model="userDialog.form.password"
+            v-model="institutionDialog.form.password"
             autocomplete="off"
           ></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="userDialog.visible = false">取 消</el-button>
-        <el-button type="primary" @click="submitUser">确 定</el-button>
+        <el-button @click="institutionDialog.visible = false">取 消</el-button>
+        <el-button type="primary" @click="submitInstitution">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -138,20 +138,20 @@
 <script>
 import { onMounted, reactive, ref } from "@vue/composition-api";
 import request from "@/utils/request";
-import { UpdateUser, AddUser, DelUser, FindAllUser } from "@/api/User";
+import { UpdateInstitution, AddInstitution, DelInstitution, FindAllInstitution } from "@/api/Institution";
 export default {
-  name: "user",
+  name: "institution",
   setup(props, { refs, root }) {
     let form = reactive({
-      userName: "",
+      institutionName: "",
       nickname: "",
     });
-    let userDialog = reactive({
+    let institutionDialog = reactive({
       visible: false,
       title: "",
       flag: false,
       form: {
-        userName: "",
+        institutionName: "",
         nickname: "",
         password: "",
       },
@@ -176,7 +176,7 @@ export default {
         };
         table.loading = false;
         table.tableData = [
-          {userId:1,userName:'wsh',nickname:'小王'},
+          {institutionId:1,institutionName:'wsh',nickname:'小王'},
         ]
         pagination.totalRecordCount = 1;
     //   FindAllAser(data)
@@ -190,26 +190,26 @@ export default {
     //       console.log(error);
     //     });
     };
-    const openDiaog = (user) => {
-      if (user !== 0) {
-        userDialog.title = "修改用户";
-        userDialog.flag = true;
-        userDialog.form = user;
+    const openDiaog = (institution) => {
+      if (institution !== 0) {
+        institutionDialog.title = "修改服务机构";
+        institutionDialog.flag = true;
+        institutionDialog.form = institution;
       } else {
-        userDialog.title = "新增用户";
-        userDialog.flag = false;
-        userDialog.form = {};
+        institutionDialog.title = "新增服务机构";
+        institutionDialog.flag = false;
+        institutionDialog.form = {};
       }
-      userDialog.visible = true;
+      institutionDialog.visible = true;
     };
-    const submitUser = () => {
-      if (userDialog.flag) {
+    const submitInstitution = () => {
+      if (institutionDialog.flag) {
         let data = {
-          userName: userDialog.form.userName,
-          nickname: userDialog.form.nickname,
-          password: userDialog.form.password,
+          institutionName: institutionDialog.form.institutionName,
+          nickname: institutionDialog.form.nickname,
+          password: institutionDialog.form.password,
         };
-        UpdateUser(data)
+        UpdateInstitution(data)
           .then(function (response) {
             console.log(response);
             root.$message({
@@ -223,11 +223,11 @@ export default {
           });
       } else {
         let data = {
-          userName: userDialog.form.userName,
-          nickname: userDialog.form.nickname,
-          password: userDialog.form.password,
+          institutionName: institutionDialog.form.institutionName,
+          nickname: institutionDialog.form.nickname,
+          password: institutionDialog.form.password,
         };
-        AddUser(data)
+        AddInstitution(data)
           .then(function (response) {
             console.log(response);
             root.$message({
@@ -240,20 +240,20 @@ export default {
             console.log(error);
           });
       }
-      userDialog.visible = false;
+      institutionDialog.visible = false;
     };
-    const deleteData = (user) => {
+    const deleteData = (institution) => {
       let data = {
-        rootId: user.rootId,
+        rootId: institution.rootId,
       };
       root
-        .$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
+        .$confirm("此操作将永久删除该服务机构, 是否继续?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning",
         })
         .then(() => {
-          DelUser(data)
+          DelInstitution(data)
             .then(function (response) {
               console.log(response);
               loadData();
@@ -290,11 +290,11 @@ export default {
       form,
       table,
       pagination,
-      userDialog,
+      institutionDialog,
 
       loadData,
       openDiaog,
-      submitUser,
+      submitInstitution,
       deleteData,
 
       handleCurrentChange,
@@ -305,7 +305,7 @@ export default {
 </script>
 
 <style scoped>
-#user {
+#institution {
   background-color: #fff;
   height: 100%;
 }

@@ -1,6 +1,6 @@
 <template>
-    <div id="pay">
-        pay
+    <div id="evaluation">
+        evaluation
     </div>
 </template>
 
@@ -12,7 +12,7 @@
     } from "@vue/composition-api";
     import request from "@/utils/request";
     export default {
-        name: 'hygiene',
+        name: 'evaluation',
         setup(props, {
             refs,
             root
