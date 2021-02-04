@@ -151,8 +151,6 @@
                     keyWord: form.typeName
                 }
                 table.loading = false;
-                // table.tableData = [{noticeId:1,noticeName:'公告',noticeImg:'/Users/weidian/Documents/WechatIMG17.jpeg',noticeDetail:'123456'}];
-                // pagination.totalRecordCount = 1;
                 FindAllNotice(data).then(function (response) {
                         table.loading = false;
                         console.log(response);
