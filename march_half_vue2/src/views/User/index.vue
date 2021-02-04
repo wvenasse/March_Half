@@ -23,7 +23,6 @@
         </el-row>
       </el-header>
       <el-main style="height: 100%">
-<<<<<<< Updated upstream
         <el-table
           v-loading="table.loading"
           size="small"
@@ -35,27 +34,16 @@
           height="100%"
           width="100%"
         >
-          <el-table-column prop="userId" label="序号" width="50"></el-table-column>
+          <el-table-column prop="userId" label="用户序号" width="80"></el-table-column>
           <el-table-column prop="nickName" label="用户昵称" align="center"></el-table-column>
           <el-table-column prop="userIcon" label="用户头像" width="80" align="center">
-=======
-        <el-table v-loading="table.loading" size="small" :data="table.tableData" stripe highlight-current-row
-          style="margin: 0px 0px" key="1" height="100%">
-          <el-table-column prop="userId" label="序号" width="50"></el-table-column>
-          <el-table-column prop="nickName" label="用户昵称" align="center"></el-table-column>
-          <el-table-column prop="userIcon" label="人员头像" width="80" align="center">
->>>>>>> Stashed changes
             <template slot-scope="scope">
               <img class="userIcon" :src=imgUrl+scope.row.userIcon alt="头像" v-if="scope.row.userIcon">
             </template>
           </el-table-column>
           <el-table-column prop="openid" label="openId" width="250" align="center"></el-table-column>
           <el-table-column prop="userName" label="用户姓名" width="100" align="center"></el-table-column>
-<<<<<<< Updated upstream
           <el-table-column prop="userSfz" label="身份证" width="180" align="center"></el-table-column>
-=======
-          <el-table-column prop="userSfz" label="身份证" width="150" align="center"></el-table-column>
->>>>>>> Stashed changes
           <el-table-column prop="userPhone" label="电话号码" width="100" align="center"></el-table-column>
           <el-table-column prop="userAddress" label="地址" width="80" align="center">
             <template slot-scope="scope">
@@ -82,11 +70,7 @@
               <span class="userClick">{{scope.row.userCom}}</span>
             </template>
           </el-table-column>
-<<<<<<< Updated upstream
           <el-table-column label="操作" fixed="right" align="center" width="180px">
-=======
-          <el-table-column label="操作" align="center" width="180px">
->>>>>>> Stashed changes
             <template slot-scope="scope">
               <el-button size="small" type="text" @click="openDiaog(scope.row)">修改信息</el-button>
               <el-button @click="deleteData(scope.row)" size="small" type="text" class="danger" style="color: red">删除
@@ -102,23 +86,6 @@
         </el-pagination>
       </el-footer>
     </el-container>
-<<<<<<< Updated upstream
-    <el-dialog
-      :title="userDialog.title"
-      :visible.sync="userDialog.visible"
-      :append-to-body="true"
-    >
-      <el-form :model="userDialog.form" label-position="right" class="userForm">
-        <el-form-item>
-          <el-col :span="12">
-            <el-form-item label="用户名称"  >
-              <el-input disabled v-model="userDialog.form.userName" autocomplete="off" v-if="userDialog.flag" style="width: 50%;"></el-input>
-              <el-input v-model="userDialog.form.userName" autocomplete="off" v-else  style="width: 50%;"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="用户头像" prop="userIcon">
-=======
     <el-dialog :title="userDialog.title" :visible.sync="userDialog.visible" :append-to-body="true">
       <el-form :model="userDialog.form" >
         <el-form-item>
@@ -129,7 +96,6 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="用户头像" :label-width="userDialog.formLabelWidth" prop="serviceIcon">
->>>>>>> Stashed changes
               <form action="" name="file" class="file">
                   上传文件
                   <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*" ref="new_image" v-if="userDialog.visible">
@@ -140,15 +106,6 @@
         </el-form-item>
         <el-form-item>
           <el-col :span="12">
-<<<<<<< Updated upstream
-             <el-form-item label="用户openId"  >
-            <el-input v-model="userDialog.form.openid" autocomplete="off" style="width: 50%;"></el-input>
-          </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="用户姓名" prop="userName">
-              <el-input v-model="userDialog.form.userName" autocomplete="off" style="width: 50%;"></el-input>
-=======
             <el-form-item label="openId" :label-width="userDialog.formLabelWidth">
               <el-input v-model="userDialog.form.openid" autocomplete="off"></el-input>
             </el-form-item>
@@ -156,21 +113,11 @@
           <el-col :span="12">
             <el-form-item label="用户姓名" :label-width="userDialog.formLabelWidth">
               <el-input v-model="userDialog.form.userName" autocomplete="off"></el-input>
->>>>>>> Stashed changes
             </el-form-item>
           </el-col>
         </el-form-item>
         <el-form-item>
           <el-col :span="12">
-<<<<<<< Updated upstream
-            <el-form-item label="身份证"  prop="userSfz" >
-              <el-input v-model="userDialog.form.userSfz" autocomplete="off" style="width: 50%;"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="电话号码" prop="userPhone">
-              <el-input v-model="userDialog.form.userPhone" autocomplete="off" style="width: 50%;"></el-input>
-=======
             <el-form-item label="身份证" :label-width="userDialog.formLabelWidth">
               <el-input v-model="userDialog.form.userSfz" autocomplete="off"></el-input>
             </el-form-item>
@@ -178,7 +125,6 @@
           <el-col :span="12">
             <el-form-item label="电话号码" :label-width="userDialog.formLabelWidth">
               <el-input v-model="userDialog.form.userPhone" autocomplete="off"></el-input>
->>>>>>> Stashed changes
             </el-form-item>
           </el-col>
         </el-form-item>
@@ -193,36 +139,6 @@
 </template>
 
 <script>
-<<<<<<< Updated upstream
-import { onMounted, reactive, ref } from "@vue/composition-api";
-import request from "@/utils/request";
-import { UpdateUser, AddUser, DelUser, FindAllUser } from "@/api/User";
-import cities from "@/utils/cities";
-export default {
-  name: "user",
-  setup(props, { refs, root }) {
-    let form = reactive({
-      userName: "",
-      nickname: "",
-    });
-    let userDialog = reactive({
-      visible: false,
-      title: "",
-      flag: false,
-      form: {
-        userName: "",
-        nickname: "",
-        password: "",
-      },
-      formLabelWidth: "120px",
-    });
-    let table = reactive({
-      loading: false,
-      tableData: [],
-    });
-    
-    const loadData = () => {
-=======
   import {
     onMounted,
     reactive,
@@ -262,7 +178,6 @@ export default {
       });
 
       const loadData = () => {
->>>>>>> Stashed changes
         table.loading = true;
         let data = {
           pageIndex: pagination.pageIndex,
@@ -270,41 +185,7 @@ export default {
           keyWord: form.typeName,
         };
         table.loading = false;
-<<<<<<< Updated upstream
-      FindAllUser(data)
-        .then(function (response) {
-          console.log(response.data);
-          table.loading = false;
-          table.tableData = response.data.pageInfo.list;
-          pagination.totalRecordCount = response.data.pageInfo.total;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    };
-    const openDiaog = (user) => {
-      if (user !== 0) {
-        userDialog.title = "修改用户";
-        userDialog.flag = true;
-        userDialog.form = user;
-      } else {
-        userDialog.title = "新增用户";
-        userDialog.flag = false;
-        userDialog.form = {};
-      }
-      userDialog.visible = true;
-    };
-    const submitUser = () => {
-      if (userDialog.flag) {
-        let data = {
-          userName: userDialog.form.userName,
-          nickname: userDialog.form.nickname,
-          password: userDialog.form.password,
-        };
-        UpdateUser(data)
-=======
         FindAllUser(data)
->>>>>>> Stashed changes
           .then(function (response) {
             console.log(response.data);
             table.loading = false;
@@ -397,54 +278,7 @@ export default {
               message: "已取消删除",
             });
           });
-<<<<<<< Updated upstream
-        });
-    };
-
-    //图片
-    let formData = new FormData();
-    let imgName = ref("未选择任何文件");
-    let imgUrl = ref("http://localhost:8088/image/");
-    const tirggerFile = (event) => {
-      console.log(event)
-      if (event.target.files.length !== 0) {
-          formData.append('image_data', event.target.files[0]);
-          console.log(formData)
-          imgName.value = event.target.files[0].name;
-          addImage(formData).then(response => {
-              console.log(response.data.fileName);
-              root.$message({
-                  type: 'info',
-                  message: response.data.msg
-              });
-          })
-      }
-    }
-
-    //城市
-    let cityList = cities;
-    const handleChange = (val) => {
-      console.log(val);
-      
-    }
-
-    //页码
-    let pagination = reactive({
-      pageIndex: 1,
-      totalRecordCount: 0,
-      pageSize: 5,
-    });
-    const handleCurrentChange = (val) => {
-      pagination.pageIndex = val;
-      loadData();
-    };
-    const handlePageSizeChange = (val) => {
-      pagination.pageSize = val;
-      loadData();
-    };
-=======
       };
->>>>>>> Stashed changes
 
       //文件上传
       let formData = new FormData();
@@ -466,12 +300,6 @@ export default {
         }
       }
 
-<<<<<<< Updated upstream
-    return {
-      form,
-      table,
-      userDialog,
-=======
       let pagination = reactive({
         pageIndex: 1,
         totalRecordCount: 0,
@@ -485,28 +313,11 @@ export default {
         pagination.pageSize = val;
         loadData();
       };
->>>>>>> Stashed changes
 
       onMounted(() => {
         loadData();
       });
 
-<<<<<<< Updated upstream
-      formData,
-      imgName,
-      imgUrl,
-      tirggerFile,
-
-      cityList,
-      handleChange,
-
-      pagination,
-      handleCurrentChange,
-      handlePageSizeChange,
-    };
-  },
-};
-=======
       return {
         form,
         table,
@@ -528,7 +339,6 @@ export default {
       };
     },
   };
->>>>>>> Stashed changes
 </script>
 
 <style scoped>
@@ -583,64 +393,8 @@ export default {
     max-width: 100%;
   }
 
-<<<<<<< Updated upstream
-.el-form-item--small.el-form-item {
-  margin-bottom: 0px !important;
-}
-
-.el-form-item__label {
-  width: 100px !important;
-}
-
-.userForm .el-form-item__label{
-  width: 100px !important;
-}
-
-.file {
-  width: 80px;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  position: relative;
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  white-space: nowrap;
-  cursor: pointer;
-  background-color: #409eff;
-  border-radius: 3px;
-  float: left;
-  margin-left: 20px;
-}
-
-.fileName {
-  font-weight: bold;
-}
-
-.file input {
-  width: 80px;
-  height: 40px;
-  opacity: 0;
-  filter: alpha(opacity=0);
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.userIcon {
-  height: 40px;
-  max-height: 100%;
-  max-width: 100%;
-}
-
-.userClick {
-  cursor: pointer;
-  color: #409EFF;
-}
-=======
   .userClick {
     cursor: pointer;
     color: #409EFF;
   }
->>>>>>> Stashed changes
 </style>
