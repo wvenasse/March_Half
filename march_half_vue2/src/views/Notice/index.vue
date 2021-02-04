@@ -95,13 +95,12 @@
     } from "@vue/composition-api";
     import request from "@/utils/request";
     import {
-        showAllNotice,
         addNotice,
         updateNotice,
         delNotice,
-        FindAllNotice,
-        addImage
+        FindAllNotice
     } from "@/api/Notice"
+    import {addImage} from "@/api/System"
     export default {
         name: 'type',
         components: {
@@ -152,17 +151,17 @@
                     keyWord: form.typeName
                 }
                 table.loading = false;
-                table.tableData = [{noticeId:1,noticeName:'公告',noticeImg:'/Users/weidian/Documents/WechatIMG17.jpeg',noticeDetail:'123456'}];
-                pagination.totalRecordCount = 1;
-                // FindAllNotice(data).then(function (response) {
-                //         table.loading = false;
-                //         console.log(response);
-                //         table.tableData = response.data.pageInfo.list;
-                //         pagination.totalRecordCount = response.data.pageInfo.total;
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //     });
+                // table.tableData = [{noticeId:1,noticeName:'公告',noticeImg:'/Users/weidian/Documents/WechatIMG17.jpeg',noticeDetail:'123456'}];
+                // pagination.totalRecordCount = 1;
+                FindAllNotice(data).then(function (response) {
+                        table.loading = false;
+                        console.log(response);
+                        table.tableData = response.data.pageInfo.list;
+                        pagination.totalRecordCount = response.data.pageInfo.total;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
             const openDiaog = (type) => {
                 if (type !== 0) {

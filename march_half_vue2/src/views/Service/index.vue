@@ -2,10 +2,20 @@
   <div id="service">
     <el-container style="height: 100%">
       <el-header style="height: auto">
-        <el-row class="toolbar" style="height: auto">
+        <el-row class="toolbar" style="height: auto;">
           <el-col :span="20">
             <el-form :inline="true" size="small">
-              <el-form-item>
+              <el-form-item style="width:120px;">
+                <el-select size="small" v-model="form.serviceType" placeholder="服务类别">
+                  <el-option
+                    v-for="type in typeList"
+                    :key="type.typeId"
+                    :label="type.typeName"
+                    :value="type.typeName">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item style="margin-left: 10px; width:150px;">
                 <el-input
                   placeholder="请输入服务人员名称"
                   v-model="form.serviceName"
@@ -110,7 +120,7 @@
       :append-to-body="true"
     >
       <el-form :model="serviceDialog.form">
-        serviceType: "",
+        <!-- serviceType: "",
         serviceAddress:"",
 
         serviceSfz:"",
@@ -122,28 +132,28 @@
         serviceLove:0,
 
         serviceEva:0,
-        serviceStar:0
+        serviceStar:0 -->
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="服务人员名称"  >
-              <el-input disabled v-model="serviceDialog.form.serviceName" autocomplete="off" v-if="serviceDialog.flag"></el-input>
-              <el-input v-model="serviceDialog.form.serviceName" autocomplete="off" v-else ></el-input>
+              <el-input disabled v-model="serviceDialog.form.serviceName" autocomplete="off" v-if="serviceDialog.flag" style="width: 217px;"></el-input>
+              <el-input v-model="serviceDialog.form.serviceName" autocomplete="off" v-else  style="width: 217px;"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="公告图片"  prop="serviceIcon">
+            <el-form-item label="服务人员图片" prop="serviceIcon">
               <form action="" name="file" class="file">
                   上传文件
                   <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*" ref="new_image" v-if="serviceDialog.visible">
               </form>
-              <div>{{imgName}}</div>
+              <div class="fileName">{{imgName}}</div>
             </el-form-item>
           </el-col>
         </el-form-item>
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="服务人员类别" >
-              <el-select v-model="serviceDialog.form.serviceType" clearable multiple collapse-tags style="margin-left: 20px;" placeholder="请选择">
+              <el-select v-model="serviceDialog.form.serviceType" clearable multiple collapse-tags placeholder="请选择">
                 <el-option
                   v-for="type in typeList"
                   :key="type.typeId"
@@ -155,7 +165,14 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="服务人员地址" prop="serviceIcon">
-             
+             <el-select v-model="serviceDialog.form.serviceType" clearable multiple collapse-tags style="margin-left: 20px;" placeholder="请选择">
+                <el-option
+                  v-for="type in typeList"
+                  :key="type.typeId"
+                  :label="type.typeName"
+                  :value="type.typeName">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
         </el-form-item>
@@ -174,6 +191,9 @@
 import { onMounted, reactive, ref } from "@vue/composition-api";
 import request from "@/utils/request";
 import { UpdateService, AddService, DelService, FindAllService } from "@/api/Service";
+import {ShowAllType} from "@/api/Type";
+import {addImage} from "@/api/System"
+
 export default {
   name: "service",
   setup(props, { refs, root }) {
@@ -201,34 +221,9 @@ export default {
       },
       formLabelWidth: "120px",
     });
-    let typeList = [{typeId:1,typeName:'月嫂服务'},
-                    {typeId:2,typeName:'保姆服务'},
-                    {typeId:3,typeName:'母乳服务'},
-                    {typeId:4,typeName:'育婴服务'},
-                    {typeId:5,typeName:'综合维修'},
-                    {typeId:6,typeName:'钟点工'},
-                    {typeId:7,typeName:'衣物清洗'},
-                    {typeId:8,typeName:'保洁服务'},
-                    {typeId:9,typeName:'空气检测'},
-                    {typeId:10,typeName:'助老服务'},
-                    {typeId:11,typeName:'心理服务'},
-                    {typeId:12,typeName:'装修装饰'},
-                    {typeId:13,typeName:'花卉养殖'},
-                    {typeId:14,typeName:'涉外服务'},
-                    {typeId:15,typeName:'按摩保健'},
-                    {typeId:16,typeName:'陪护服务'},
-                    {typeId:17,typeName:'家电清洗'},
-                    {typeId:18,typeName:'养老机构'},
-                    {typeId:19,typeName:'高端服务'},
-                    {typeId:20,typeName:'其他'}];
     let table = reactive({
       loading: false,
       tableData: [],
-    });
-    let pagination = reactive({
-      pageIndex: 1,
-      totalRecordCount: 0,
-      pageSize: 5,
     });
 
     const loadData = () => {
@@ -338,6 +333,24 @@ export default {
         });
     };
 
+    let typeList = [];
+    const loadType = () => {
+      console.log('showAllType')
+      ShowAllType().then(function (response) {
+          console.log(response);
+          typeList = response.data;
+          console.log(typeList);
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    }
+    //页数
+    let pagination = reactive({
+      pageIndex: 1,
+      totalRecordCount: 0,
+      pageSize: 5,
+    });
     const handleCurrentChange = (val) => {
       pagination.pageIndex = val;
       loadData();
@@ -346,7 +359,7 @@ export default {
       pagination.pageSize = val;
       loadData();
     };
-
+    //图片
     let formData = new FormData();
     let imgName = ref("未选择任何文件");
     let imgUrl = ref("http://localhost:8088/image/");
@@ -365,10 +378,8 @@ export default {
           })
       }
     }
-
-    
-
     onMounted(() => {
+      loadType();
       loadData();
     });
 
@@ -382,6 +393,9 @@ export default {
       openDiaog,
       submitService,
       deleteData,
+
+      typeList,
+      loadType,
 
       handleCurrentChange,
       handlePageSizeChange,
@@ -428,7 +442,12 @@ export default {
         background-color: #409eff;
         border-radius: 3px;
         float: left;
+        margin-left: 20px;
     }
+
+.fileName {
+  font-weight: bold;
+}
 
   .file input {
         width: 80px;

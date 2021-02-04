@@ -175,29 +175,27 @@
         root.$router.push({
           name: 'home',
         });
-        root.$store.commit('SET_NICKNAME','系统管理员');
-        setNickName('系统管理员');
-
-        
-        // Login(data).then(response => {
-        //   console.log(response);
-        //   Message.success(response.data.msg);
-        //   if (response.data.code != 0) {
-        //     root.$store.commit('SET_TOKEN','admin_token');
-        //     setToken('admin_token');
+        Login(data).then(response => {
+          console.log(response);
+          Message.success(response.data.msg);
+          if (response.data.code != 0) {
+            root.$store.commit('SET_TOKEN','admin_token');
+            setToken('admin_token');
             
-        //     ShowUser(data1).then(response => {
-        //       console.log(response);
-        //       root.$store.commit('SET_NICKNAME',response.data.nickname);
-        //       setNickName(response.data.nickname);
-        //     })
-        //     root.$router.push({
-        //       name: 'home',
-        //     })
-        //   }
-        // }).catch(function (error) {
-        //   console.log(error);
-        // });
+            ShowUser(data1).then(response => {
+              console.log(response);
+              root.$store.commit('SET_NICKNAME',response.data.nickname);
+              setNickName(response.data.nickname);
+              root.$store.commit('SET_USERNAME',response.data.userName);
+              setUserName(response.data.userName);
+            })
+            root.$router.push({
+              name: 'home',
+            })
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
       })
       onMounted(() => {
         

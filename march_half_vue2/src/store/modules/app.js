@@ -1,13 +1,15 @@
 import cookie from "cookie_js";
-import {getNickName,removeToken,removeNickName} from "@/utils/app"
+import {getNickName,getUserName,removeToken,removeNickName} from "@/utils/app"
 const app = {
     state: {
         isCollapse: false, //JSON.parse(sessionStorage.getItem('isCollapse')) || ,
         toKen:'',
+        username: getUserName()||'',
         nickname: getNickName()||''
     },
     getters: { //computed
         isCollapse: state => state.isCollapse,
+        userName: state => state.userName,
         nickname: state => state.nickname,
     },
     mutations: {
@@ -21,6 +23,12 @@ const app = {
         SET_NICKNAME(state,value) {
             state.nickname = value;
         },
+        UPDATE_NICKNAME(state,value) {
+            state.nickname = value;
+        },
+        SET_USERNAME(state,value) {
+            state.userName = value;
+        },
     },
     actions: {
         setMenuStatus(content, data) {
@@ -30,8 +38,10 @@ const app = {
             return new Promise((resolve, reject) => {
                 removeToken();
                 removeNickName();
+                removeUserName();
                 content.commit('SET_TOKEN',"");
                 content.commit('SET_NICKNAME',"");
+                content.commit('SET_USERNAME',"");
                 resolve();
             })
         }

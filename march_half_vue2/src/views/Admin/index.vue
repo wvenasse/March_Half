@@ -136,7 +136,7 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref } from "@vue/composition-api";
+import { onMounted, reactive, ref, computed} from "@vue/composition-api";
 import request from "@/utils/request";
 import { UpdateAdmin, AddAdmin, DelAdmin, FindAllAdmin } from "@/api/Admin";
 export default {
@@ -175,21 +175,16 @@ export default {
             keyWord: form.typeName,
         };
         table.loading = false;
-        table.tableData = [
-          {rootId:1,userName:'admin',nickname:'系统管理员'},
-          {rootId:2,userName:'wsh',nickname:'小王'}
-        ]
-        pagination.totalRecordCount = 1;
-    //   FindAllAdmin(data)
-    //     .then(function (response) {
-    //       console.log(response.data);
-    //       table.loading = false;
-    //       table.tableData = response.data.pageInfo.list;
-    //       pagination.totalRecordCount = response.data.pageInfo.total;
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
+      FindAllAdmin(data)
+        .then(function (response) {
+          console.log(response.data);
+          table.loading = false;
+          table.tableData = response.data.pageInfo.list;
+          pagination.totalRecordCount = response.data.pageInfo.total;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     };
     const openDiaog = (admin) => {
       if (admin !== 0) {
@@ -217,6 +212,11 @@ export default {
               type: "success",
               message: response.data.msg,
             });
+            let userName = computed(() => root.$store.state.app.userName);
+            if (userName.value == adminDialog.form.userName) {
+              root.$store.commit('UPDATE_NICKNAME',adminDialog.form.nickname);
+              updateNickName(adminDialog.form.nickname);
+            }
             loadData();
           })
           .catch(function (error) {
