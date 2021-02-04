@@ -1,10 +1,15 @@
 package org.example.controller;
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.example.dao.UserDao;
+import org.example.pojo.Admin;
 import org.example.pojo.R;
 import org.example.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,18 +27,15 @@ public class UserController {
         System.out.println("总共插入了："+count+"条数据");
         if (count>0) {
             return R.ok();
-//            return "ok";String
         }
         else {
             return R.error("添加用户失败！");
         }
-
-//        return "no";
     }
 
     @RequestMapping("/delUsers")
-    public R delUsers(String openid) {
-        int count = usersDao.delUsers(openid);
+    public R delUsers(Integer userId) {
+        int count = usersDao.delUsers(userId);
         if (count>0) {
             return R.ok();
         }
@@ -54,10 +56,20 @@ public class UserController {
     }
 
     @RequestMapping(value = "/showAllUsers", produces = "text/json;charset=UTF-8")
-    public R showAllUsers(){
-        List<User> userss = usersDao.getAllUsers();
+    public String showAllUsers(){
+        List<User> userss = usersDao.getAllUsers("");
         String usersJson = JSON.toJSONString(userss);
-        return R.ok().put("usersJson", usersJson);
+        return usersJson;
+    }
+
+    @ResponseBody
+    @RequestMapping("/findAllUser")
+    public R findAllAdmin(@RequestParam("pageIndex") int pageIndex,
+                          @RequestParam("pageSize") int pageSize,
+                          @RequestParam("keyWord") String keyWord){
+        PageHelper.startPage(pageIndex,pageSize);
+        PageInfo<User> pageInfo = new PageInfo(usersDao.getAllUsers(keyWord));
+        return R.ok().put("pageInfo", pageInfo);
     }
 
     @RequestMapping(value = "/showUsers", produces = "text/json;charset=UTF-8")

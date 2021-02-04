@@ -66,7 +66,6 @@ public class AdminController {
         PageHelper.startPage(pageIndex,pageSize);
         PageInfo<Admin> pageInfo = new PageInfo(userDao.getAllAdmin(keyWord));
         return R.ok().put("pageInfo", pageInfo);
-//        return pageInfo;PageInfo<Admin>
     }
 
     @RequestMapping("/login")

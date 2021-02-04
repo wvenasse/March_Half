@@ -11,11 +11,11 @@ public interface UserDao {
     //增
     public int addUsers(User users);
     //删
-    public int delUsers(String openid);
+    public int delUsers(Integer userId);
     //改
     public Integer updateUsers(User users);
     //查
-    public List<User> getAllUsers();
+    public List<User> getAllUsers(String keyWord);
     //照openid查
     public User getUserById(String openid);
 }

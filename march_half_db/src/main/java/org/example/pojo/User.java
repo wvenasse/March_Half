@@ -1,13 +1,26 @@
 package org.example.pojo;
 
 public class User {
+    private  Integer userId;
     private  String openid;
-    private  String userId;
     private  String userName;
-    private  String userDorm;
-    private  String userRoom;
-    private  String userBed;
-    private String userType;
+    private  String nickName;
+    private  String userIcon;
+    private  String userSfz;
+    private  String userPhone;
+    private String userAddress;
+    private  Integer userLike;
+    private  Integer userLove;
+    private  Integer userEva;
+    private  Integer userCom;
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 
     public String getOpenid() {
         return openid;
@@ -15,14 +28,6 @@ public class User {
 
     public void setOpenid(String openid) {
         this.openid = openid;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
     }
 
     public String getUserName() {
@@ -33,35 +38,75 @@ public class User {
         this.userName = userName;
     }
 
-    public String getUserDorm() {
-        return userDorm;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setUserDorm(String userDorm) {
-        this.userDorm = userDorm;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    public String getUserRoom() {
-        return userRoom;
+    public String getUserIcon() {
+        return userIcon;
     }
 
-    public void setUserRoom(String userRoom) {
-        this.userRoom = userRoom;
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
     }
 
-    public String getUserBed() {
-        return userBed;
+    public String getUserSfz() {
+        return userSfz;
     }
 
-    public void setUserBed(String userBed) {
-        this.userBed = userBed;
+    public void setUserSfz(String userSfz) {
+        this.userSfz = userSfz;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getUserPhone() {
+        return userPhone;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setUserPhone(String userPhone) {
+        this.userPhone = userPhone;
+    }
+
+    public String getUserAddress() {
+        return userAddress;
+    }
+
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress;
+    }
+
+    public Integer getUserLike() {
+        return userLike;
+    }
+
+    public void setUserLike(Integer userLike) {
+        this.userLike = userLike;
+    }
+
+    public Integer getUserLove() {
+        return userLove;
+    }
+
+    public void setUserLove(Integer userLove) {
+        this.userLove = userLove;
+    }
+
+    public Integer getUserEva() {
+        return userEva;
+    }
+
+    public void setUserEva(Integer userEva) {
+        this.userEva = userEva;
+    }
+
+    public Integer getUserCom() {
+        return userCom;
+    }
+
+    public void setUserCom(Integer userCom) {
+        this.userCom = userCom;
     }
 }

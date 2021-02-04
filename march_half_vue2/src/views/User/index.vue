@@ -49,11 +49,45 @@
           style="margin: 0px 0px"
           key="1"
           height="100%"
+          width="100%"
         >
-          <el-table-column prop="userId" label="用户序号"></el-table-column>
-          <el-table-column prop="userName" label="用户名称"></el-table-column>
-          <el-table-column prop="nickname" label="用户昵称"></el-table-column>
-          <el-table-column label="操作" align="center" width="180px">
+          <el-table-column prop="userId" label="序号" width="50"></el-table-column>
+          <el-table-column prop="nickName" label="用户昵称" align="center"></el-table-column>
+          <el-table-column prop="userIcon" label="用户头像" width="80" align="center">
+            <template slot-scope="scope">
+              <img class="userIcon" :src=imgUrl+scope.row.userIcon alt="头像" v-if="scope.row.userIcon">
+            </template>
+          </el-table-column>
+          <el-table-column prop="openid" label="openId" width="250" align="center"></el-table-column>
+          <el-table-column prop="userName" label="用户姓名" width="100" align="center"></el-table-column>
+          <el-table-column prop="userSfz" label="身份证" width="180" align="center"></el-table-column>
+          <el-table-column prop="userPhone" label="电话号码" width="100" align="center"></el-table-column>
+          <el-table-column prop="userAddress" label="地址" width="80" align="center">
+            <template slot-scope="scope">
+              <span class="userClick">{{scope.row.userAddress}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="userLike" label="点赞" width="80" align="center">
+            <template slot-scope="scope">
+              <span class="userClick">{{scope.row.userLike}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="userLove" label="收藏" width="80" align="center">
+            <template slot-scope="scope">
+              <span class="userClick">{{scope.row.userLove}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="userEva" label="评价" width="80" align="center">
+            <template slot-scope="scope">
+              <span class="userClick">{{scope.row.userEva}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="userCom" label="讨论" width="80" align="center">
+            <template slot-scope="scope">
+              <span class="userClick">{{scope.row.userCom}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" fixed="right" align="center" width="180px">
             <template slot-scope="scope">
               <el-button size="small" type="text" @click="openDiaog(scope.row)"
                 >修改信息</el-button
@@ -90,41 +124,47 @@
       :visible.sync="userDialog.visible"
       :append-to-body="true"
     >
-      <el-form :model="userDialog.form">
-        <el-form-item
-          label="用户名称"
-          :label-width="userDialog.formLabelWidth"
-        >
-          <el-input
-            disabled
-            v-model="userDialog.form.userName"
-            autocomplete="off"
-            v-if="userDialog.flag"
-          ></el-input>
-          <el-input
-            v-model="userDialog.form.userName"
-            autocomplete="off"
-            v-else
-          ></el-input>
+      <el-form :model="userDialog.form" label-position="right" class="userForm">
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="用户名称"  >
+              <el-input disabled v-model="userDialog.form.userName" autocomplete="off" v-if="userDialog.flag" style="width: 50%;"></el-input>
+              <el-input v-model="userDialog.form.userName" autocomplete="off" v-else  style="width: 50%;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="用户头像" prop="userIcon">
+              <form action="" name="file" class="file">
+                  上传文件
+                  <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*" ref="new_image" v-if="userDialog.visible">
+              </form>
+              <div class="fileName">{{imgName}}</div>
+            </el-form-item>
+          </el-col>
         </el-form-item>
-        <el-form-item
-          label="用户昵称"
-          :label-width="userDialog.formLabelWidth"
-        >
-          <el-input
-            v-model="userDialog.form.nickname"
-            autocomplete="off"
-          ></el-input>
+        <el-form-item>
+          <el-col :span="12">
+             <el-form-item label="用户openId"  >
+            <el-input v-model="userDialog.form.openid" autocomplete="off" style="width: 50%;"></el-input>
+          </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="用户姓名" prop="userName">
+              <el-input v-model="userDialog.form.userName" autocomplete="off" style="width: 50%;"></el-input>
+            </el-form-item>
+          </el-col>
         </el-form-item>
-        <el-form-item
-          label="用户密码"
-          :label-width="userDialog.formLabelWidth"
-        >
-          <el-input
-            type="password"
-            v-model="userDialog.form.password"
-            autocomplete="off"
-          ></el-input>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="身份证"  prop="userSfz" >
+              <el-input v-model="userDialog.form.userSfz" autocomplete="off" style="width: 50%;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="电话号码" prop="userPhone">
+              <el-input v-model="userDialog.form.userPhone" autocomplete="off" style="width: 50%;"></el-input>
+            </el-form-item>
+          </el-col>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -132,6 +172,7 @@
         <el-button type="primary" @click="submitUser">确 定</el-button>
       </div>
     </el-dialog>
+
   </div>
 </template>
 
@@ -139,6 +180,7 @@
 import { onMounted, reactive, ref } from "@vue/composition-api";
 import request from "@/utils/request";
 import { UpdateUser, AddUser, DelUser, FindAllUser } from "@/api/User";
+import cities from "@/utils/cities";
 export default {
   name: "user",
   setup(props, { refs, root }) {
@@ -161,12 +203,7 @@ export default {
       loading: false,
       tableData: [],
     });
-    let pagination = reactive({
-      pageIndex: 1,
-      totalRecordCount: 0,
-      pageSize: 5,
-    });
-
+    
     const loadData = () => {
         table.loading = true;
         let data = {
@@ -175,20 +212,16 @@ export default {
             keyWord: form.typeName,
         };
         table.loading = false;
-        table.tableData = [
-          {userId:1,userName:'wsh',nickname:'小王'},
-        ]
-        pagination.totalRecordCount = 1;
-    //   FindAllAser(data)
-    //     .then(function (response) {
-    //       console.log(response.data);
-    //       table.loading = false;
-    //       table.tableData = response.data.pageInfo.list;
-    //       pagination.totalRecordCount = response.data.pageInfo.total;
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error);
-    //     });
+      FindAllUser(data)
+        .then(function (response) {
+          console.log(response.data);
+          table.loading = false;
+          table.tableData = response.data.pageInfo.list;
+          pagination.totalRecordCount = response.data.pageInfo.total;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     };
     const openDiaog = (user) => {
       if (user !== 0) {
@@ -273,6 +306,40 @@ export default {
           });
         });
     };
+
+    //图片
+    let formData = new FormData();
+    let imgName = ref("未选择任何文件");
+    let imgUrl = ref("http://localhost:8088/image/");
+    const tirggerFile = (event) => {
+      console.log(event)
+      if (event.target.files.length !== 0) {
+          formData.append('image_data', event.target.files[0]);
+          console.log(formData)
+          imgName.value = event.target.files[0].name;
+          addImage(formData).then(response => {
+              console.log(response.data.fileName);
+              root.$message({
+                  type: 'info',
+                  message: response.data.msg
+              });
+          })
+      }
+    }
+
+    //城市
+    let cityList = cities;
+    const handleChange = (val) => {
+      console.log(val);
+      
+    }
+
+    //页码
+    let pagination = reactive({
+      pageIndex: 1,
+      totalRecordCount: 0,
+      pageSize: 5,
+    });
     const handleCurrentChange = (val) => {
       pagination.pageIndex = val;
       loadData();
@@ -289,7 +356,6 @@ export default {
     return {
       form,
       table,
-      pagination,
       userDialog,
 
       loadData,
@@ -297,6 +363,15 @@ export default {
       submitUser,
       deleteData,
 
+      formData,
+      imgName,
+      imgUrl,
+      tirggerFile,
+
+      cityList,
+      handleChange,
+
+      pagination,
       handleCurrentChange,
       handlePageSizeChange,
     };
@@ -321,5 +396,55 @@ export default {
 
 .el-form-item--small.el-form-item {
   margin-bottom: 0px !important;
+}
+
+.el-form-item__label {
+  width: 100px !important;
+}
+
+.userForm .el-form-item__label{
+  width: 100px !important;
+}
+
+.file {
+  width: 80px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  position: relative;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: #409eff;
+  border-radius: 3px;
+  float: left;
+  margin-left: 20px;
+}
+
+.fileName {
+  font-weight: bold;
+}
+
+.file input {
+  width: 80px;
+  height: 40px;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.userIcon {
+  height: 40px;
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.userClick {
+  cursor: pointer;
+  color: #409EFF;
 }
 </style>

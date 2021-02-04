@@ -6,7 +6,6 @@ import com.github.pagehelper.PageInfo;
 import org.example.dao.NoticeDao;
 import org.example.pojo.R;
 import org.example.pojo.Notice;
-import org.example.pojo.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -70,7 +69,7 @@ public class NoticeController {
                                       @RequestParam("pageSize") int pageSize,
                                       @RequestParam("keyWord") String keyWord){
         PageHelper.startPage(pageIndex,pageSize);
-        PageInfo<Type> pageInfo = new PageInfo(noticeDao.getAllNotice(keyWord));
+        PageInfo<Notice> pageInfo = new PageInfo(noticeDao.getAllNotice(keyWord));
         return R.ok().put("pageInfo", pageInfo);
     }
 

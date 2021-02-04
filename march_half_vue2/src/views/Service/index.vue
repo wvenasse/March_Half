@@ -120,19 +120,6 @@
       :append-to-body="true"
     >
       <el-form :model="serviceDialog.form">
-        <!-- serviceType: "",
-        serviceAddress:"",
-
-        serviceSfz:"",
-        servicePhone:"",
-        
-        serviceIntro:"",
-        serviceYear:0,
-        serviceLike:0,
-        serviceLove:0,
-
-        serviceEva:0,
-        serviceStar:0 -->
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="服务人员名称"  >
@@ -176,8 +163,6 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-
-        
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="serviceDialog.visible = false">取 消</el-button>
