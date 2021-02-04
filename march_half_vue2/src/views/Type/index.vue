@@ -99,38 +99,38 @@
                     keyWord:form.typeName
                 }
                 table.loading = false;
-                table.tableData = [
-                    {typeId:1,typeName:'月嫂服务'},
-                    {typeId:2,typeName:'保姆服务'},
-                    {typeId:3,typeName:'母乳服务'},
-                    {typeId:4,typeName:'育婴服务'},
-                    {typeId:5,typeName:'综合维修'},
-                    {typeId:6,typeName:'钟点工'},
-                    {typeId:7,typeName:'衣物清洗'},
-                    {typeId:8,typeName:'保洁服务'},
-                    {typeId:9,typeName:'空气检测'},
-                    {typeId:10,typeName:'助老服务'},
-                    {typeId:11,typeName:'心理服务'},
-                    {typeId:12,typeName:'装修装饰'},
-                    {typeId:13,typeName:'花卉养殖'},
-                    {typeId:14,typeName:'涉外服务'},
-                    {typeId:15,typeName:'按摩保健'},
-                    {typeId:16,typeName:'陪护服务'},
-                    {typeId:17,typeName:'家电清洗'},
-                    {typeId:18,typeName:'养老机构'},
-                    {typeId:19,typeName:'高端服务'},
-                    {typeId:20,typeName:'其他'}
-                ];
-                pagination.totalRecordCount = 1;
-                // FindAllType(data).then(function (response) {
-                //         table.loading = false;
-                //         console.log(response);
-                //         table.tableData = response.data.pageInfo.list;
-                //         pagination.totalRecordCount = response.data.pageInfo.total;
-                //     })
-                //     .catch(function (error) {
-                //         console.log(error);
-                //     });
+                // table.tableData = [
+                //     {typeId:1,typeName:'月嫂服务'},
+                //     {typeId:2,typeName:'保姆服务'},
+                //     {typeId:3,typeName:'母乳服务'},
+                //     {typeId:4,typeName:'育婴服务'},
+                //     {typeId:5,typeName:'综合维修'},
+                //     {typeId:6,typeName:'钟点工'},
+                //     {typeId:7,typeName:'衣物清洗'},
+                //     {typeId:8,typeName:'保洁服务'},
+                //     {typeId:9,typeName:'空气检测'},
+                //     {typeId:10,typeName:'助老服务'},
+                //     {typeId:11,typeName:'心理服务'},
+                //     {typeId:12,typeName:'装修装饰'},
+                //     {typeId:13,typeName:'花卉养殖'},
+                //     {typeId:14,typeName:'涉外服务'},
+                //     {typeId:15,typeName:'按摩保健'},
+                //     {typeId:16,typeName:'陪护服务'},
+                //     {typeId:17,typeName:'家电清洗'},
+                //     {typeId:18,typeName:'养老机构'},
+                //     {typeId:19,typeName:'高端服务'},
+                //     {typeId:20,typeName:'其他'}
+                // ];
+                // pagination.totalRecordCount = 1;
+                FindAllType(data).then(function (response) {
+                        table.loading = false;
+                        console.log(response);
+                        table.tableData = response.data.pageInfo.list;
+                        pagination.totalRecordCount = response.data.pageInfo.total;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
             const openDiaog = (type) => {
                 console.log(type);
