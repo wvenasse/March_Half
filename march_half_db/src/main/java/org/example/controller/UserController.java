@@ -55,6 +55,17 @@ public class UserController {
         }
     }
 
+    @RequestMapping("/updateUserAddressNum")
+    public R updateUserAddressNum(Integer userId) {
+        Integer count = usersDao.updateUserAddressNum(userId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户地址失败！");
+        }
+    }
+
     @RequestMapping(value = "/showAllUsers", produces = "text/json;charset=UTF-8")
     public String showAllUsers(){
         List<User> userss = usersDao.getAllUsers("");

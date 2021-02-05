@@ -1,5 +1,11 @@
 import request from "@/utils/request";
 
+export function ShowAllUser(){
+    return request.request({
+        method: "get",
+        url: "/showAllUsers"
+    })
+}
 
 export function FindAllUser(data){
     var qs = require('querystring');
@@ -13,7 +19,15 @@ export function FindAllUser(data){
 export function UpdateUser(data){
     return request.request({
         method: "get",
-        url: "/updateUser",
+        url: "/updateUsers",
+        params: data
+    })
+}
+
+export function UpdateUserAddressNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateUserAddressNum",
         params: data
     })
 }
@@ -21,7 +35,7 @@ export function UpdateUser(data){
 export function AddUser(data){
     return request.request({
         method: "get",
-        url: "/addUser",
+        url: "/addUsers",
         params: data
     })
 }
@@ -29,7 +43,7 @@ export function AddUser(data){
 export function DelUser(data){
     return request.request({
         method: "get",
-        url: "/delUser",
+        url: "/delUsers",
         params: data
     })
 }

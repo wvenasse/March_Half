@@ -172,7 +172,7 @@ export default {
         let data = {
             pageIndex: pagination.pageIndex,
             pageSize: pagination.pageSize,
-            keyWord: form.typeName,
+            keyWord: form.userName,
         };
         table.loading = false;
       FindAllAdmin(data)

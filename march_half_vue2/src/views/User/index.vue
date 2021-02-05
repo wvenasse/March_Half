@@ -38,7 +38,7 @@
           <el-table-column prop="nickName" label="用户昵称" align="center"></el-table-column>
           <el-table-column prop="userIcon" label="用户头像" width="80" align="center">
             <template slot-scope="scope">
-              <img class="userIcon" :src=imgUrl+scope.row.userIcon alt="头像" v-if="scope.row.userIcon">
+              <img class="userIcon" :src="require('../../assets/imgs/Upload/'+scope.row.userIcon)" :alt="scope.row.userIcon" v-if="scope.row.userIcon">
             </template>
           </el-table-column>
           <el-table-column prop="openid" label="openId" width="250" align="center"></el-table-column>
@@ -47,27 +47,27 @@
           <el-table-column prop="userPhone" label="电话号码" width="100" align="center"></el-table-column>
           <el-table-column prop="userAddress" label="地址" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(0,scope.row.userId)">{{scope.row.userAddress}}</span>
+              <span class="userClick" @click="openUserDialog(0,scope.row.userId)">{{scope.row.userAddress ? scope.row.userAddress:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userLike" label="点赞" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(1,scope.row.userId)">{{scope.row.userLike}}</span>
+              <span class="userClick" @click="openUserDialog(1,scope.row.userId)">{{scope.row.userLike ? scope.row.userLike:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userLove" label="收藏" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(2,scope.row.userId)">{{scope.row.userLove}}</span>
+              <span class="userClick" @click="openUserDialog(2,scope.row.userId)">{{scope.row.userLove ? scope.row.userLove:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userEva" label="评价" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(3,scope.row.userId)">{{scope.row.userEva}}</span>
+              <span class="userClick" @click="openUserDialog(3,scope.row.userId)">{{scope.row.userEva ? scope.row.userEva:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userCom" label="讨论" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userCom}}</span>
+              <span class="userClick" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userCom ? scope.row.userCom:0}}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="180px">
@@ -136,20 +136,70 @@
     </el-dialog>
 
     <el-dialog title="地址管理" :visible.sync="userAddressDialog.visible" :append-to-body="true">
-      <el-table :data="userAddressDialog.table.tableData">
-        <el-table-column property="contactName" label="联系人" width="100"></el-table-column>
-        <el-table-column property="contactPhone" label="联系电话" width="150"></el-table-column>
-        <el-table-column property="addressArea" label="地区" width="200"></el-table-column>
-        <el-table-column property="addressDetail" label="详细地址">
-          <template slot-scope="scope">
-            <el-tooltip class="item" effect="dark" :content="scope.row.addressDetail" placement="bottom-start">
-              <span class="addressDetail">{{scope.row.addressDetail}}</span>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-container>
+        <el-header style="height:auto;text-align: right;">
+          <el-button type="primary" size="small" @click="openAddressDiaog(0)">新增</el-button>
+        </el-header>
+        <el-main>
+          <el-table :data="userAddressDialog.table.tableData">
+            <el-table-column property="contactName" label="联系人" width="150"></el-table-column>
+            <el-table-column property="contactPhone" label="联系电话" width="150"></el-table-column>
+            <el-table-column property="addressArea" label="地区" width="150"></el-table-column>
+            <el-table-column property="addressDetail" label="详细地址">
+              <template slot-scope="scope">
+                <el-tooltip class="item" effect="dark" :content="scope.row.addressDetail" placement="bottom-start">
+                  <span class="addressDetail">{{scope.row.addressDetail}}</span>
+                </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" fixed="right" align="center" width="150px">
+            <template slot-scope="scope">
+              <el-button size="small" type="text" @click="openAddressDiaog(scope.row)">修改地址</el-button>
+              <el-button @click="deleteAddress(scope.row)" size="small" type="text" class="danger" style="color: red">删除</el-button>
+            </template>
+          </el-table-column>
+          </el-table>
+        </el-main>
+      </el-container>
       <div slot="footer" class="dialog-footer">
         <el-button @click="userAddressDialog.visible = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog :title="addressDialog.title" :visible.sync="addressDialog.visible" :append-to-body="true">
+      <el-form :model="addressDialog.form" >
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="联系人" :label-width="addressDialog.formLabelWidth">
+              <el-input v-model="addressDialog.form.contactName" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系电话" :label-width="addressDialog.formLabelWidth">
+              <el-input v-model="addressDialog.form.contactPhone" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="地区" :label-width="addressDialog.formLabelWidth">
+              <el-cascader
+                v-model="addressDialog.form.addressArea" clearable
+                :options="cityList"
+                @change="handleCityChange">
+              </el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="详细地址" :label-width="addressDialog.formLabelWidth">
+              <el-input v-model="addressDialog.form.addressDetail" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addressDialog.visible = false">取 消</el-button>
+        <el-button type="primary" @click="submitAddress">确 定</el-button>
       </div>
     </el-dialog>
 
@@ -163,15 +213,20 @@
     ref
   } from "@vue/composition-api";
   import request from "@/utils/request";
+  import city from "@/utils/city"
   import {addImage} from "@/api/System"
   import {
     UpdateUser,
     AddUser,
     DelUser,
-    FindAllUser
+    FindAllUser,
+    UpdateUserAddressNum
   } from "@/api/User";
     import {
     ShowAllAddress,
+    AddAddress,
+    DelAddress,
+    UpdateAddress
   } from "@/api/Address";
   export default {
     name: "user",
@@ -188,6 +243,7 @@
         title: "",
         flag: false,
         form: {
+          userId:"",
           nickName: "",
           userIcon:"",
           openid:"",
@@ -207,7 +263,7 @@
         let data = {
           pageIndex: pagination.pageIndex,
           pageSize: pagination.pageSize,
-          keyWord: form.typeName,
+          keyWord: form.userName,
         };
         table.loading = false;
         FindAllUser(data)
@@ -236,7 +292,10 @@
         userDialog.visible = true;
       };
       const submitUser = () => {
-        let data = {
+        let data;
+        if (userDialog.flag) {
+          data = {
+            userId: userDialog.form.userId,
             nickName: userDialog.form.nickName,
             userIcon: imgName.value,
             openid: userDialog.form.openid,
@@ -244,8 +303,6 @@
             userSfz: userDialog.form.userSfz,
             userPhone: userDialog.form.userPhone,
           };
-          console.log(data)
-        if (userDialog.flag) {
           UpdateUser(data)
             .then(function (response) {
               console.log(response);
@@ -259,6 +316,14 @@
               console.log(error);
             });
         } else {
+          data = {
+            nickName: userDialog.form.nickName,
+            userIcon: imgName.value,
+            openid: userDialog.form.openid,
+            userName: userDialog.form.userName,
+            userSfz: userDialog.form.userSfz,
+            userPhone: userDialog.form.userPhone,
+          };
           AddUser(data)
             .then(function (response) {
               console.log(response);
@@ -305,6 +370,22 @@
             });
           });
       };
+      const updateUserAddress = (userId) => {
+        let data = {
+          userId:userId
+        };
+        table.loading = true;
+        UpdateUserAddressNum(data)
+          .then(function (response) {
+            console.log(response.data);
+            table.loading = false;
+            loadUserAddress(userId);
+            loadData();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
 
       //文件上传
       let formData = new FormData();
@@ -326,12 +407,7 @@
         }
       }
 
-      const openUserDialog = (type,userId) => {
-        if (type === 0) {
-          userAddressDialog.visible = true;
-          loadUserAddress(userId);
-        }
-      }
+      //地址等
       let userAddressDialog = reactive({
         visible: false,
         table: {
@@ -339,6 +415,15 @@
           tableData: []
         }
       });
+      const openUserDialog = (type,userId) => {
+        if (type === 0) {
+          userAddressDialog.visible = true;
+          loadUserAddress(userId);
+          addressDialog.userId = userId;
+        }
+      }
+
+      //地址
       const loadUserAddress = (userId) => {
         userAddressDialog.table.loading = true;
         let data = {
@@ -355,7 +440,118 @@
             console.log(error);
           });
       } 
+      let addressDialog = reactive({
+        visible: false,
+        title: "",
+        flag: false,
+        userId: "",
+        form: {
+          addressId:"",
+          contactName:"",
+          contactPhone:"",
+          addressArea: "",
+          addressDetail:""
+        },
+        formLabelWidth: "120px",
+      });
+      const openAddressDiaog = (address) => {
+        if (address !== 0) {
+          addressDialog.title = "修改地址";
+          addressDialog.flag = true;
+          addressDialog.form = address;
+          addressDialog.form.addressArea = addressDialog.form.addressArea.split('/');
+        } else {
+          addressDialog.title = "新增地址";
+          addressDialog.flag = false;
+          addressDialog.form = {};
+        }
+        addressDialog.visible = true;
+      };
+      const submitAddress  = () => {
+        addressDialog.form.addressArea = addressDialog.form.addressArea[0] +'/'+ addressDialog.form.addressArea[1] +'/'+ addressDialog.form.addressArea[2];
+        if (addressDialog.flag) {
+          let data = {
+            addressId: addressDialog.form.addressId,
+            contactName: addressDialog.form.contactName,
+            contactPhone: addressDialog.form.contactPhone,
+            addressArea: addressDialog.form.addressArea,
+            addressDetail: addressDialog.form.addressDetail,
+          };
+          UpdateAddress(data)
+            .then(function (response) {
+              console.log(response);
+              root.$message({
+                type: "success",
+                message: response.data.msg,
+              });
+              loadUserAddress(addressDialog.userId);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        } else {
+          let data = {
+            userId: addressDialog.userId,
+            contactName: addressDialog.form.contactName,
+            contactPhone: addressDialog.form.contactPhone,
+            addressArea: addressDialog.form.addressArea,
+            addressDetail: addressDialog.form.addressDetail,
+          };
+          console.log(data)
+          AddAddress(data)
+            .then(function (response) {
+              console.log(response);
+              root.$message({
+                type: "success",
+                message: response.data.msg,
+              })
+              updateUserAddress(addressDialog.userId);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        addressDialog.visible = false;
+      };
+      const deleteAddress = (address) => {
+        let data = {
+          addressId: address.addressId,
+        };
+        root
+          .$confirm("此操作将永久删除该地址, 是否继续?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          })
+          .then(() => {
+            DelAddress(data)
+              .then(function (response) {
+                console.log(response);
+                updateUserAddress(addressDialog.userId);
+                root.$message({
+                  type: "success",
+                  message: response.data.msg,
+                });
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          })
+          .catch(() => {
+            root.$message({
+              type: "info",
+              message: "已取消删除",
+            });
+          });
+      };
 
+
+      //地区选择
+      const cityList = city;
+      const handleCityChange = (val) => {
+        console.log(val);
+      }
+      //页码
       let pagination = reactive({
         pageIndex: 1,
         totalRecordCount: 0,
@@ -384,6 +580,8 @@
         submitUser,
         deleteData,
 
+        updateUserAddress,
+
         formData,
         imgName,
         imgUrl,
@@ -392,6 +590,14 @@
         openUserDialog,
         userAddressDialog,
         loadUserAddress,
+
+        addressDialog,
+        openAddressDiaog,
+        submitAddress,
+        deleteAddress,
+
+        cityList,
+        handleCityChange,
 
         pagination,
         handleCurrentChange,
@@ -449,8 +655,10 @@
 
   .userIcon {
     height: 40px;
+    width: 40px;
     max-height: 100%;
     max-width: 100%;
+    border-radius: 50%;
   }
 
   .userClick {
@@ -462,5 +670,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .el-dialog /deep/ .el-dialog__header {
+    border-bottom: 1px solid #ebebeb;
   }
 </style>

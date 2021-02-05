@@ -30,8 +30,8 @@ public class AddressController {
     }
 
     @RequestMapping("/delAddress")
-    public R delAddress(Integer typeId) {
-        int count = addressDao.delAddress(typeId);
+    public R delAddress(Integer addressId) {
+        int count = addressDao.delAddress(addressId);
         if (count > 0) {
             return R.ok();
         }

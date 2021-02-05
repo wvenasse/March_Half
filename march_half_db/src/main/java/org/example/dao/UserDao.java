@@ -14,6 +14,7 @@ public interface UserDao {
     public int delUsers(Integer userId);
     //改
     public Integer updateUsers(User users);
+    public Integer updateUserAddressNum(Integer userId);
     //查
     public List<User> getAllUsers(String keyWord);
     //照openid查

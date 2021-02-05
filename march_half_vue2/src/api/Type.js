@@ -16,7 +16,6 @@ export function FindAllType(data){
     })
 }
 
-
 export function UpdateType(data){
     return request.request({
         method: "get",

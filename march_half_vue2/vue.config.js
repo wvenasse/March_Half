@@ -70,7 +70,7 @@ module.exports = {
       extensions: [".js", ".json", ".vue"], //自动添加文件名后缀
       alias: {
         "@": path.resolve(__dirname, "./src"),
-        public: path.resolve(__dirname, "./public"),
+        "public": path.resolve(__dirname, "./public"),
         components: path.resolve(__dirname, "./src/components"),
         common: path.resolve(__dirname, "./src/common"),
         api: path.resolve(__dirname, "./src/api"),

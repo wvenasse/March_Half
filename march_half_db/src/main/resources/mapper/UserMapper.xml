@@ -17,6 +17,9 @@
         update users set nickName=#{nickName},userIcon=#{userIcon},openid=#{openid},userName=#{userName},userSfz=#{userSfz},userPhone=#{userPhone}
         where userId=#{userId}
     </select>
+    <select id="updateUserAddressNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update users set users.userAddress = (select count(addressId) from address where address.userId= #{userId}) where users.userId = #{userId}
+    </select>
 <!-- ,userAddress=#{userAddress},userLike=#{userLike},userLove=#{userLove},userEva=#{userEva},userCom=#{userCom}-->
 
     <select id="getAllUsers" resultType="org.example.pojo.User">
