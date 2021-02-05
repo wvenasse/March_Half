@@ -4,18 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.UserDao">
     <insert id="addUsers" parameterType="org.example.pojo.User">
-        insert into users(userId,openid,userName,nickName,userIcon,userSfz,userPhone,userAddress,userLike,userLove,userEva,userCom,)
-        values (#{userId},#{openid},#{userName},#{nickName},#{userIcon},#{userSfz},#{userPhone},#{userAddress},#{userLike},#{userLove},#{userEva},#{userCom})
+        insert into users(nickName,userIcon,openid,userName,userSfz,userPhone)
+        values (#{nickName},#{userIcon},#{openid},#{userName},#{userSfz},#{userPhone})
     </insert>
+<!--,userAddress,userLike,userLove,userEva,userCom,   ,#{userAddress},#{userLike},#{userLove},#{userEva},#{userCom}-->
 
     <delete id="delUsers" parameterType="java.lang.Integer">
         delete from users where userId=#{userId}
     </delete>
 
     <select id="updateUsers" parameterType="org.example.pojo.User" resultType="java.lang.Integer">
-        update users set userName=#{userName},nickName=#{nickName},userIcon=#{userIcon},userSfz=#{userSfz},userPhone=#{userPhone},userAddress=#{userAddress},userLike=#{userLike},userLove=#{userLove},userEva=#{userEva},userCom=#{userCom}
+        update users set nickName=#{nickName},userIcon=#{userIcon},openid=#{openid},userName=#{userName},userSfz=#{userSfz},userPhone=#{userPhone}
         where userId=#{userId}
     </select>
+<!-- ,userAddress=#{userAddress},userLike=#{userLike},userLove=#{userLove},userEva=#{userEva},userCom=#{userCom}-->
 
     <select id="getAllUsers" resultType="org.example.pojo.User">
         select * from users where userName like "%"#{keyWord}"%" OR nickName like "%"#{keyWord}"%"

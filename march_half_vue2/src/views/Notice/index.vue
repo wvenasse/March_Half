@@ -64,7 +64,7 @@
                 <el-form-item label="公告图片" :label-width="noticeDialog.formLabelWidth" prop="pictureAddress">
                     <form action="" name="file" class="file">
                         上传文件
-                        <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*"
+                        <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/jpeg,image/jpg,image/png"
                             ref="new_image" v-if="noticeDialog.visible">
                     </form>
                     <div>{{imgName}}</div>
@@ -120,7 +120,7 @@
             let pagination = reactive({
                 pageIndex: 1,
                 totalRecordCount: 0,
-                pageSize: 5,
+                pageSize: 10,
             })
             //表单
             let noticeDialog = reactive({

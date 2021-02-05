@@ -47,27 +47,27 @@
           <el-table-column prop="userPhone" label="电话号码" width="100" align="center"></el-table-column>
           <el-table-column prop="userAddress" label="地址" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick">{{scope.row.userAddress}}</span>
+              <span class="userClick" @click="openUserDialog(0,scope.row.userId)">{{scope.row.userAddress}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userLike" label="点赞" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick">{{scope.row.userLike}}</span>
+              <span class="userClick" @click="openUserDialog(1,scope.row.userId)">{{scope.row.userLike}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userLove" label="收藏" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick">{{scope.row.userLove}}</span>
+              <span class="userClick" @click="openUserDialog(2,scope.row.userId)">{{scope.row.userLove}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userEva" label="评价" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick">{{scope.row.userEva}}</span>
+              <span class="userClick" @click="openUserDialog(3,scope.row.userId)">{{scope.row.userEva}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userCom" label="讨论" width="80" align="center">
             <template slot-scope="scope">
-              <span class="userClick">{{scope.row.userCom}}</span>
+              <span class="userClick" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userCom}}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="180px">
@@ -135,6 +135,24 @@
       </div>
     </el-dialog>
 
+    <el-dialog title="地址管理" :visible.sync="userAddressDialog.visible" :append-to-body="true">
+      <el-table :data="userAddressDialog.table.tableData">
+        <el-table-column property="contactName" label="联系人" width="100"></el-table-column>
+        <el-table-column property="contactPhone" label="联系电话" width="150"></el-table-column>
+        <el-table-column property="addressArea" label="地区" width="200"></el-table-column>
+        <el-table-column property="addressDetail" label="详细地址">
+          <template slot-scope="scope">
+            <el-tooltip class="item" effect="dark" :content="scope.row.addressDetail" placement="bottom-start">
+              <span class="addressDetail">{{scope.row.addressDetail}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="userAddressDialog.visible = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -145,12 +163,16 @@
     ref
   } from "@vue/composition-api";
   import request from "@/utils/request";
+  import {addImage} from "@/api/System"
   import {
     UpdateUser,
     AddUser,
     DelUser,
     FindAllUser
   } from "@/api/User";
+    import {
+    ShowAllAddress,
+  } from "@/api/Address";
   export default {
     name: "user",
     setup(props, {
@@ -166,9 +188,12 @@
         title: "",
         flag: false,
         form: {
+          nickName: "",
+          userIcon:"",
+          openid:"",
           userName: "",
-          nickname: "",
-          password: "",
+          userSfz:"",
+          userPhone:""
         },
         formLabelWidth: "120px",
       });
@@ -201,20 +226,26 @@
           userDialog.title = "修改用户";
           userDialog.flag = true;
           userDialog.form = user;
+          imgName.value = user.userIcon;
         } else {
           userDialog.title = "新增用户";
           userDialog.flag = false;
           userDialog.form = {};
+          imgName.value = "未选择任何文件";
         }
         userDialog.visible = true;
       };
       const submitUser = () => {
-        if (userDialog.flag) {
-          let data = {
+        let data = {
+            nickName: userDialog.form.nickName,
+            userIcon: imgName.value,
+            openid: userDialog.form.openid,
             userName: userDialog.form.userName,
-            nickname: userDialog.form.nickname,
-            password: userDialog.form.password,
+            userSfz: userDialog.form.userSfz,
+            userPhone: userDialog.form.userPhone,
           };
+          console.log(data)
+        if (userDialog.flag) {
           UpdateUser(data)
             .then(function (response) {
               console.log(response);
@@ -228,11 +259,6 @@
               console.log(error);
             });
         } else {
-          let data = {
-            userName: userDialog.form.userName,
-            nickname: userDialog.form.nickname,
-            password: userDialog.form.password,
-          };
           AddUser(data)
             .then(function (response) {
               console.log(response);
@@ -250,7 +276,7 @@
       };
       const deleteData = (user) => {
         let data = {
-          rootId: user.rootId,
+          userId: user.userId,
         };
         root
           .$confirm("此操作将永久删除该用户, 是否继续?", "提示", {
@@ -300,6 +326,36 @@
         }
       }
 
+      const openUserDialog = (type,userId) => {
+        if (type === 0) {
+          userAddressDialog.visible = true;
+          loadUserAddress(userId);
+        }
+      }
+      let userAddressDialog = reactive({
+        visible: false,
+        table: {
+          loading: false,
+          tableData: []
+        }
+      });
+      const loadUserAddress = (userId) => {
+        userAddressDialog.table.loading = true;
+        let data = {
+          userId:userId
+        };
+        userAddressDialog.table.loading = false;
+        ShowAllAddress(data)
+          .then(function (response) {
+            console.log(response.data);
+            userAddressDialog.table.loading = false;
+            userAddressDialog.table.tableData = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } 
+
       let pagination = reactive({
         pageIndex: 1,
         totalRecordCount: 0,
@@ -332,6 +388,10 @@
         imgName,
         imgUrl,
         tirggerFile,
+
+        openUserDialog,
+        userAddressDialog,
+        loadUserAddress,
 
         pagination,
         handleCurrentChange,
@@ -396,5 +456,11 @@
   .userClick {
     cursor: pointer;
     color: #409EFF;
+  }
+
+  .addressDetail {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 </style>

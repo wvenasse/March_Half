@@ -25,9 +25,6 @@ import "./plugins/axios";
 import "./components/icons/index.js"
 import "./router/premit"
 
-
-
-
 new Vue({
   router,
   store,
