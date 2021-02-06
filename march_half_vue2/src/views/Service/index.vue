@@ -6,12 +6,12 @@
           <el-col :span="20">
             <el-form :inline="true" size="small">
               <el-form-item style="width:120px;">
-                <el-select size="small" v-model="form.serviceType" placeholder="服务类别">
+                <el-select size="small" v-model="form.serviceType" placeholder="服务类别" clearable>
                   <el-option
-                    v-for="type in typeList"
+                    v-for="type in optionList.typeData"
                     :key="type.typeId"
                     :label="type.typeName"
-                    :value="type.typeName">
+                    :value="type.typeId">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -65,12 +65,12 @@
           <el-table-column prop="serviceName" label="人员姓名" width="100" align="center"></el-table-column>
           <el-table-column prop="serviceIcon" label="人员图片" width="80" align="center">
             <template slot-scope="scope">
-              <img class="userIcon" :src="require('../../assets/imgs/Upload/'+scope.row.serviceIcon)" :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon">
+              <img class="serviceIcon" :src="require('../../assets/imgs/Upload/'+scope.row.serviceIcon)" :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon">
             </template>
           </el-table-column>
           <el-table-column prop="serviceType" label="服务类别" width="80" align="center"></el-table-column>
           <el-table-column prop="serviceInstitution" label="所属机构" width="80" align="center"></el-table-column>
-          <el-table-column prop="serviceSfz" label="身份证" width="120" align="center"></el-table-column>
+          <el-table-column prop="serviceSfz" label="身份证" width="150" align="center"></el-table-column>
           <el-table-column prop="servicePhone" label="电话号码" width="100" align="center"></el-table-column>
           <el-table-column prop="serviceAddress" label="户籍" width="150" align="center"></el-table-column>
           <el-table-column prop="serviceIntro" label="介绍" min-width="150" align="center">
@@ -78,13 +78,37 @@
               <span class="serviceIntro">{{scope.row.serviceIntro}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="serviceYear" label="经验" width="50" align="center"></el-table-column>
-          <el-table-column prop="serviceStar" label="星级" width="50" align="center"></el-table-column>
-          <el-table-column prop="serviceOrder" label="订单" width="50" align="center"></el-table-column>
-          <el-table-column prop="serviceEva" label="评价" width="50" align="center"></el-table-column>
-          <el-table-column prop="serviceLike" label="点赞" width="50" align="center"></el-table-column>
-          <el-table-column prop="serviceLove" label="收藏" width="50" align="center"></el-table-column>
-          <el-table-column label="操作" fixed="right" align="center" width="180px">
+          <el-table-column prop="serviceYear" label="经验" width="50" align="center">
+            <template slot-scope="scope">
+              <span>{{scope.row.serviceYear ? scope.row.serviceYear:0}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="serviceStar" label="星级" width="50" align="center">
+            <template slot-scope="scope">
+              <span>{{scope.row.serviceStar ? scope.row.serviceStar:0}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="serviceOrder" label="订单" width="50" align="center">
+            <template slot-scope="scope">
+              <span>{{scope.row.serviceOrder ? scope.row.serviceOrder:0}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="serviceEva" label="评价" width="50" align="center">
+            <template slot-scope="scope">
+              <span>{{scope.row.serviceEva ? scope.row.serviceEva:0}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="serviceLike" label="点赞" width="50" align="center">
+            <template slot-scope="scope">
+              <span>{{scope.row.serviceLike ? scope.row.serviceLike:0}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="serviceLove" label="收藏" width="50" align="center">
+            <template slot-scope="scope">
+              <span>{{scope.row.serviceLove ? scope.row.serviceLove:0}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" fixed="right" align="center" width="150px">
             <template slot-scope="scope">
               <el-button size="small" type="text" @click="openDiaog(scope.row)"
                 >修改信息</el-button
@@ -120,17 +144,17 @@
       :title="serviceDialog.title"
       :visible.sync="serviceDialog.visible"
       :append-to-body="true"
+      @close="closeDialog"
     >
       <el-form :model="serviceDialog.form">
         <el-form-item>
           <el-col :span="12">
-            <el-form-item label="服务人员名称"  >
-              <el-input disabled v-model="serviceDialog.form.serviceName" autocomplete="off" v-if="serviceDialog.flag" style="width: 217px;"></el-input>
-              <el-input v-model="serviceDialog.form.serviceName" autocomplete="off" v-else  style="width: 217px;"></el-input>
+            <el-form-item label="服务人员姓名" prop="serviceName" :label-width="serviceDialog.formLabelWidth">
+              <el-input v-model="serviceDialog.form.serviceName" clearable autocomplete="off" style="width:217px;"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="服务人员图片" prop="serviceIcon">
+            <el-form-item label="服务人员图片" prop="serviceIcon" :label-width="serviceDialog.formLabelWidth">
               <form action="" name="file" class="file">
                   上传文件
                   <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*" ref="new_image" v-if="serviceDialog.visible">
@@ -141,30 +165,70 @@
         </el-form-item>
         <el-form-item>
           <el-col :span="12">
-            <el-form-item label="服务人员类别" >
-              <el-select v-model="serviceDialog.form.serviceType" clearable multiple collapse-tags placeholder="请选择">
+            <el-form-item label="服务类别" prop="typeId" :label-width="serviceDialog.formLabelWidth">
+              <el-select v-model="serviceDialog.form.typeId" clearable collapse-tags placeholder="请选择">
                 <el-option
-                  v-for="type in typeList"
+                  v-for="type in optionList.typeData"
                   :key="type.typeId"
                   :label="type.typeName"
-                  :value="type.typeName">
+                  :value="type.typeId">
+                  <!--:value="`${type.typeId}|${type.typeName}`" { value: type.typeId, label: type.typeName }-->
                 </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="服务人员地址" prop="serviceIcon">
-             <el-select v-model="serviceDialog.form.serviceType" clearable multiple collapse-tags style="margin-left: 20px;" placeholder="请选择">
+            <el-form-item label="所属机构" prop="institutionId" :label-width="serviceDialog.formLabelWidth">
+             <el-select v-model="serviceDialog.form.institutionId" clearable placeholder="请选择">
                 <el-option
-                  v-for="type in typeList"
+                  v-for="type in optionList.typeData"
                   :key="type.typeId"
                   :label="type.typeName"
-                  :value="type.typeName">
+                  :value="type.typeId">
                 </el-option>
               </el-select>
             </el-form-item>
           </el-col>
         </el-form-item>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="身份证" prop="serviceSfz" :label-width="serviceDialog.formLabelWidth">
+              <el-input v-model="serviceDialog.form.serviceSfz" clearable autocomplete="off" style="width:217px;"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="电话号码" prop="servicePhone" :label-width="serviceDialog.formLabelWidth">
+             <el-input v-model="serviceDialog.form.servicePhone" clearable autocomplete="off" style="width:217px;"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="户籍" prop="serviceAddress" :label-width="serviceDialog.formLabelWidth">
+              <el-cascader
+                v-model="serviceDialog.form.serviceAddress" clearable
+                :options="cityList"
+                @change="handleCityChange">
+              </el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="经验" prop="serviceYear" :label-width="serviceDialog.formLabelWidth">
+             <el-input-number v-model="serviceDialog.form.serviceYear" :min="0" :max="50"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+        <el-form-item prop="serviceIntro" label="介绍"  :label-width="serviceDialog.formLabelWidth">
+          <el-input
+            type="textarea"
+            placeholder="请输入介绍"
+            v-model="serviceDialog.form.serviceIntro"
+            maxlength="50"
+            show-word-limit
+          >
+          </el-input>
+        </el-form-item>
+        
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="serviceDialog.visible = false">取 消</el-button>
@@ -177,6 +241,7 @@
 <script>
 import { onMounted, reactive, ref } from "@vue/composition-api";
 import request from "@/utils/request";
+import city from "@/utils/city"
 import { UpdateService, AddService, DelService, FindAllService } from "@/api/Service";
 import {ShowAllType} from "@/api/Type";
 import {addImage} from "@/api/System"
@@ -195,18 +260,15 @@ export default {
       form: {
         serviceName: "",
         serviceIcon:"",
-        serviceType: "",
+        typeId: [],
+        serviceName:[],
+        institutionId:"",
         serviceInstitution:"",
         serviceSfz:"",
         servicePhone:"",
         serviceAddress:"",
         serviceIntro:"",
         serviceYear:0,
-        serviceStar:0,
-        serviceOrder:0,
-        serviceEva:0,
-        serviceLike:0,
-        serviceLove:0,
       },
       formLabelWidth: "120px",
     });
@@ -214,36 +276,78 @@ export default {
       loading: false,
       tableData: [],
     });
-
     const loadData = () => {
         table.loading = true;
         let data = {
-            pageIndex: pagination.pageIndex,
-            pageSize: pagination.pageSize,
-            keyWord: form.typeName,
+          pageIndex: pagination.pageIndex,
+          pageSize: pagination.pageSize,
+          keyWord: form.serviceName,
         };
         table.loading = false;
-        table.tableData = []
-        pagination.totalRecordCount = 0;
+        FindAllService(data)
+          .then(function (response) {
+            console.log(response.data);
+            table.loading = false;
+            table.tableData = response.data.pageInfo.list;
+            if (form.serviceType) {
+              table.tableData = table.tableData.filter(service => service.typeId === form.serviceType);
+            }
+            pagination.totalRecordCount = response.data.pageInfo.total;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     };
     const openDiaog = (service) => {
       if (service !== 0) {
         serviceDialog.title = "修改服务人员";
         serviceDialog.flag = true;
         serviceDialog.form = service;
+        imgName.value = service.serviceIcon;
+        if(serviceDialog.form.serviceAddress.indexOf("/")!=-1){
+          serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.split('/');
+        }
       } else {
         serviceDialog.title = "新增服务人员";
         serviceDialog.flag = false;
         serviceDialog.form = {};
+        imgName.value = "未选择任何文件";
       }
       serviceDialog.visible = true;
     };
+    const closeDialog = () => {
+      console.log('close');
+      if(serviceDialog.form.serviceAddress.indexOf("/")==-1){
+          serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.join('/');
+        }
+    }
     const submitService = () => {
+      serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress[0] +'/'+ serviceDialog.form.serviceAddress[1] +'/'+ serviceDialog.form.serviceAddress[2];
+      for (let i=0;i<optionList.typeData.length;i++) {
+        if (optionList.typeData[i].typeId === serviceDialog.form.typeId) {
+          serviceDialog.form.serviceType = optionList.typeData[i].typeName;
+          console.log(serviceDialog.form.serviceType)
+        }
+        if (optionList.typeData[i].typeId === serviceDialog.form.institutionId) {
+          serviceDialog.form.serviceInstitution = optionList.typeData[i].typeName;
+          console.log(serviceDialog.form.serviceInstitution)
+        }
+      }
+      let data = {
+        serviceName: serviceDialog.form.serviceName,
+        serviceIcon: imgName.value,
+        typeId: serviceDialog.form.typeId,
+        serviceType: serviceDialog.form.serviceType,
+        institutionId: serviceDialog.form.institutionId,
+        serviceInstitution: serviceDialog.form.serviceInstitution,
+        serviceSfz: serviceDialog.form.serviceSfz,
+        servicePhone: serviceDialog.form.servicePhone,
+        serviceAddress: serviceDialog.form.serviceAddress,
+        serviceIntro: serviceDialog.form.serviceIntro,
+        serviceYear: serviceDialog.form.serviceYear,
+      };
       if (serviceDialog.flag) {
-        let data = {
-          serviceName: serviceDialog.form.serviceName,
-          serviceType: serviceDialog.form.serviceType,
-        };
+        data['serviceId'] = serviceDialog.form.serviceId;
         UpdateService(data)
           .then(function (response) {
             console.log(response);
@@ -257,10 +361,6 @@ export default {
             console.log(error);
           });
       } else {
-        let data = {
-          serviceName: serviceDialog.form.serviceName,
-          serviceType: serviceDialog.form.serviceType,
-        };
         AddService(data)
           .then(function (response) {
             console.log(response);
@@ -278,7 +378,7 @@ export default {
     };
     const deleteData = (service) => {
       let data = {
-        rootId: service.rootId,
+        serviceId: service.serviceId,
       };
       root
         .$confirm("此操作将永久删除该服务人员, 是否继续?", "提示", {
@@ -308,17 +408,23 @@ export default {
         });
     };
 
-    let typeList = [];
+    //类别
+    let optionList = reactive({
+      typeData: [],
+    });
     const loadType = () => {
-      // console.log('showAllType')
-      // ShowAllType().then(function (response) {
-      //     console.log(response);
-      //     typeList = response.data;
-      //     console.log(typeList);
-      // })
-      // .catch(function (error) {
-      //     console.log(error);
-      // });
+      ShowAllType().then(function (response) {
+          console.log(response);
+          optionList.typeData = response.data;
+      })
+      .catch(function (error) {
+          console.log(error);
+      });
+    }
+    //地区选择
+    const cityList = city;
+    const handleCityChange = (val) => {
+      console.log(val);
     }
     //页数
     let pagination = reactive({
@@ -353,6 +459,7 @@ export default {
           })
       }
     }
+
     onMounted(() => {
       loadType();
       loadData();
@@ -366,11 +473,15 @@ export default {
 
       loadData,
       openDiaog,
+      closeDialog,
       submitService,
       deleteData,
 
-      typeList,
+      optionList,
       loadType,
+
+      cityList,
+      handleCityChange,
 
       handleCurrentChange,
       handlePageSizeChange,
@@ -417,7 +528,6 @@ export default {
         background-color: #409eff;
         border-radius: 3px;
         float: left;
-        margin-left: 20px;
     }
 
 .fileName {

@@ -95,7 +95,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("/findAllUser")
-    public R findAllAdmin(@RequestParam("pageIndex") int pageIndex,
+    public R findAllUser(@RequestParam("pageIndex") int pageIndex,
                           @RequestParam("pageSize") int pageSize,
                           @RequestParam("keyWord") String keyWord){
         PageHelper.startPage(pageIndex,pageSize);

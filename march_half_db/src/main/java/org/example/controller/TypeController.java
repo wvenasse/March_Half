@@ -51,10 +51,10 @@ public class TypeController {
     }
 
     @RequestMapping(value = "/showAllType", produces = "text/json;charset=UTF-8")
-    public R showAllType(String keyWord){
-        List<Type> type = typeDao.getAllType(keyWord);
+    public String showAllType(){
+        List<Type> type = typeDao.getAllType("");
         String typeJson = JSON.toJSONString(type);
-        return R.ok().put("typeJson", typeJson);
+        return typeJson;
     }
 
     @ResponseBody

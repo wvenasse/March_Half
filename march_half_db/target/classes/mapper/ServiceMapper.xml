@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.ServiceDao">
+    <insert id="addService" parameterType="org.example.pojo.Service">
+        insert into services(serviceName,serviceIcon,typeId,serviceType,institutionId,serviceInstitution,serviceSfz,servicePhone,serviceAddress,serviceIntro,serviceYear)
+        values (#{serviceName},#{serviceIcon},#{typeId},#{serviceType},#{institutionId},#{serviceInstitution},#{serviceSfz},#{servicePhone},#{serviceAddress},#{serviceIntro},#{serviceYear})
+    </insert>
+<!-- ,serviceStar,serviceOrder,serviceEva,serviceLike,serviceLove,,serviceStar,serviceOrder,serviceEva,serviceLike,serviceLove,-->
+<!--    ,#{serviceStar},#{serviceOrder},#{serviceEva},#{serviceLike},#{serviceLove}-->
+    <delete id="delService" parameterType="java.lang.Integer">
+        delete from services where serviceId=#{serviceId}
+    </delete>
+    <select id="updateService" parameterType="org.example.pojo.Service" resultType="java.lang.Integer">
+        update services set serviceName=#{serviceName},serviceIcon=#{serviceIcon},typeId=#{typeId},serviceType=#{serviceType},institutionId=#{institutionId},serviceInstitution=#{serviceInstitution},
+        serviceSfz=#{serviceSfz},servicePhone=#{servicePhone},serviceAddress=#{serviceAddress},serviceIntro=#{serviceIntro},serviceYear=#{serviceYear}
+        where serviceId=#{serviceId}
+    </select>
+
+    <select id="getAllService" resultType="org.example.pojo.Service">
+        select * from services where serviceName like "%"#{keyWord}"%"
+    </select>
+
+    <select id="getServiceById" resultType="org.example.pojo.Service">
+        select * from services where serviceId=#{serviceId}
+     </select>
+</mapper>
