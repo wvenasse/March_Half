@@ -42,32 +42,37 @@
             </template>
           </el-table-column>
           <el-table-column prop="openid" label="openId" width="250" align="center"></el-table-column>
-          <el-table-column prop="userName" label="用户姓名" width="100" align="center"></el-table-column>
-          <el-table-column prop="userSfz" label="身份证" width="180" align="center"></el-table-column>
+          <el-table-column prop="userName" label="用户姓名" width="80" align="center"></el-table-column>
+          <el-table-column prop="userSfz" label="身份证" width="150" align="center"></el-table-column>
           <el-table-column prop="userPhone" label="电话号码" width="100" align="center"></el-table-column>
-          <el-table-column prop="userAddress" label="地址" width="80" align="center">
+          <el-table-column prop="userAddress" label="地址" width="50" align="center">
             <template slot-scope="scope">
               <span class="userClick" @click="openUserDialog(0,scope.row.userId)">{{scope.row.userAddress ? scope.row.userAddress:0}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="userLike" label="点赞" width="80" align="center">
+          <el-table-column prop="userLike" label="点赞" width="50" align="center">
             <template slot-scope="scope">
               <span class="userClick" @click="openUserDialog(1,scope.row.userId)">{{scope.row.userLike ? scope.row.userLike:0}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="userLove" label="收藏" width="80" align="center">
+          <el-table-column prop="userLove" label="收藏" width="50" align="center">
             <template slot-scope="scope">
               <span class="userClick" @click="openUserDialog(2,scope.row.userId)">{{scope.row.userLove ? scope.row.userLove:0}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="userEva" label="评价" width="80" align="center">
+          <el-table-column prop="userEva" label="评价" width="50" align="center">
             <template slot-scope="scope">
               <span class="userClick" @click="openUserDialog(3,scope.row.userId)">{{scope.row.userEva ? scope.row.userEva:0}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="userCom" label="讨论" width="80" align="center">
+          <el-table-column prop="userPost" label="讨论" width="50" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userCom ? scope.row.userCom:0}}</span>
+              <span class="userClick" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userPost ? scope.row.userPost:0}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="userCom" label="评论" width="50" align="center">
+            <template slot-scope="scope">
+              <span class="userClick" @click="openUserDialog(5,scope.row.userId)">{{scope.row.userCom ? scope.row.userCom:0}}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="180px">
@@ -86,6 +91,7 @@
         </el-pagination>
       </el-footer>
     </el-container>
+    <!-- 用户 -->
     <el-dialog :title="userDialog.title" :visible.sync="userDialog.visible" :append-to-body="true">
       <el-form :model="userDialog.form" >
         <el-form-item>
@@ -135,6 +141,7 @@
       </div>
     </el-dialog>
 
+    <!-- 地址 -->
     <el-dialog title="地址管理" :visible.sync="userAddressDialog.visible" :append-to-body="true">
       <el-container>
         <el-header style="height:auto;text-align: right;">
@@ -203,6 +210,77 @@
       </div>
     </el-dialog>
 
+    <!-- 点赞、收藏 -->
+    <el-dialog :title="userFavorDialog.title" :visible.sync="userFavorDialog.visible" :append-to-body="true">
+      <el-container>
+        <el-header style="height:auto;text-align: right;">
+          <el-button type="primary" size="small" @click="openFavorDiaog">新增</el-button>
+        </el-header>
+        <el-main>
+          <el-table :data="userFavorDialog.table.tableData">
+            <el-table-column property="favorType" :label="userFavorDialog.favorType === 1 ? '点赞类型':'收藏类型'">
+              <template slot-scope="scope">
+                <span v-if="scope.row.serviceId">服务人员</span>
+                <span v-else-if="scope.row.institutionId">服务机构</span>
+                <span v-else-if="scope.row.postId">帖子</span>
+              </template>
+            </el-table-column>
+            <el-table-column property="serviceId" :label="userFavorDialog.favorType === 1 ? '点赞对象':'收藏对象'">
+              <template slot-scope="scope">
+                <span v-if="scope.row.serviceId">{{scope.row.serviceName}}</span>
+                <span v-else-if="scope.row.institutionId">{{scope.row.institutionName}}</span>
+                <span v-else-if="scope.row.postId">{{scope.row.postName}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column property="favorTime" :label="userFavorDialog.favorType === 1 ? '点赞时间':'收藏时间'"></el-table-column>
+            <el-table-column label="操作" fixed="right" align="center" width="150px">
+            <template slot-scope="scope">
+              <el-button @click="deleteFavor(scope.row)" size="small" type="text" class="danger" style="color: red">{{scope.row.favorType===1 ? '取消点赞':'取消收藏'}}</el-button>
+            </template>
+          </el-table-column>
+          </el-table>
+        </el-main>
+      </el-container>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="userFavorDialog.visible = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+
+    <el-dialog :title="favorDialog.title" :visible.sync="favorDialog.visible" :append-to-body="true">
+      <el-form :model="favorDialog.form" >
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="" :label-width="favorDialog.formLabelWidth">
+              <el-select v-model="favorDialog.form.favorType" placeholder="请选择类型" clearable>
+                <el-option
+                  v-for="item in FavorTypeOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="" :label-width="favorDialog.formLabelWidth">
+              <el-select v-model="favorDialog.form.FAVOR" placeholder="请选择对象" clearable @change="handleFavorIDChange">
+                <el-option
+                  v-for="item in FavorObjectOptions"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="{ value: item.id, label: item.name }">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="favorDialog.visible = false">取 消</el-button>
+        <el-button type="primary" @click="submitFavor">确 定</el-button>
+      </div>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -220,7 +298,9 @@
     AddUser,
     DelUser,
     FindAllUser,
-    UpdateUserAddressNum
+    UpdateUserAddressNum,
+    UpdateUserLikeNum,
+    UpdateUserLoveNum
   } from "@/api/User";
     import {
     ShowAllAddress,
@@ -228,6 +308,12 @@
     DelAddress,
     UpdateAddress
   } from "@/api/Address";
+  import {
+    ShowAllFavor,
+    AddFavor,
+    DelFavor,
+    UpdateFavor
+  } from "@/api/Favor";
   export default {
     name: "user",
     setup(props, {
@@ -257,7 +343,6 @@
         loading: false,
         tableData: [],
       });
-
       const loadData = () => {
         table.loading = true;
         let data = {
@@ -386,6 +471,37 @@
             console.log(error);
           });
       }
+      const updateUserFavor = (favorType,userId) => {
+        let data = {
+          userId:userId
+        };
+        table.loading = true;
+        if (favorType === 1 ) {
+          UpdateUserLikeNum(data)
+            .then(function (response) {
+              console.log(response.data);
+              table.loading = false;
+              loadUserFavor(favorType,userId);
+              loadData();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        else if (favorType === 2 ) {
+          UpdateUserLoveNum(data)
+            .then(function (response) {
+              console.log(response.data);
+              table.loading = false;
+              loadUserFavor(favorType,userId);
+              loadData();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        
+      }
 
       //文件上传
       let formData = new FormData();
@@ -407,7 +523,30 @@
         }
       }
 
-      //地址等
+      //地址、收藏/点赞
+      const openUserDialog = (type,userId) => {
+        if (type === 0) {
+          userAddressDialog.visible = true;
+          loadUserAddress(userId);
+          addressDialog.userId = userId;
+        }
+        else if (type === 1) {
+          userFavorDialog.visible = true;
+          userFavorDialog.title = '点赞管理';
+          userFavorDialog.favorType = 1;
+          loadUserFavor(1,userId);
+          favorDialog.userId = userId;
+        }
+        else if (type === 2) {
+          userFavorDialog.visible = true;
+          userFavorDialog.title = '收藏管理';
+          userFavorDialog.favorType = 2;
+          loadUserFavor(2,userId);
+          favorDialog.userId = userId;
+        }
+      }
+
+      //地址
       let userAddressDialog = reactive({
         visible: false,
         table: {
@@ -415,15 +554,6 @@
           tableData: []
         }
       });
-      const openUserDialog = (type,userId) => {
-        if (type === 0) {
-          userAddressDialog.visible = true;
-          loadUserAddress(userId);
-          addressDialog.userId = userId;
-        }
-      }
-
-      //地址
       const loadUserAddress = (userId) => {
         userAddressDialog.table.loading = true;
         let data = {
@@ -545,6 +675,148 @@
           });
       };
 
+      //收藏/点赞
+      let userFavorDialog = reactive({
+        visible: false,
+        title:"",
+        favorType:0,
+        table: {
+          loading: false,
+          tableData: []
+        }
+      });
+      const loadUserFavor = (favorType,userId) => {
+        userFavorDialog.table.loading = true;
+        let data = {
+          favorType:favorType,
+          userId:userId
+        };
+        userFavorDialog.table.loading = false;
+        ShowAllFavor(data)
+          .then(function (response) {
+            console.log(response.data);
+            userFavorDialog.table.loading = false;
+            userFavorDialog.table.tableData = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } 
+      let favorDialog = reactive({
+        visible: false,
+        title: "",
+        userId: "",
+        form: {
+          favorId:"",
+          favorType:"",
+          FAVOR:"",
+          favorTime:""
+        },
+        formLabelWidth: "120px",
+      });
+      const openFavorDiaog = () => {
+        if (userFavorDialog.favorType === 1) {
+          favorDialog.title = "新增点赞";
+        }
+        else if (userFavorDialog.favorType === 2) {
+          favorDialog.title = "新增收藏";
+        }
+        favorDialog.form = {};
+        favorDialog.visible = true;
+      };
+      const submitFavor  = () => {
+        let yy = new Date().getFullYear();
+		    let mm = new Date().getMonth()+1;
+		    let dd = new Date().getDate();
+		    let hh = new Date().getHours();
+		    let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+		    let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+		    favorDialog.form.favorTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
+        let data = {
+          userId: favorDialog.userId,
+          favorType: userFavorDialog.favorType,
+          favorTime: favorDialog.form.favorTime,
+        };
+        if (favorDialog.form.favorType === 1) {
+          data['serviceId'] = favorDialog.form.FAVOR.value;
+          data['serviceName'] = favorDialog.form.FAVOR.label;
+        }
+        else if (favorDialog.form.favorType === 2) {
+          data['institutionId'] = favorDialog.form.FAVOR.value;
+          data['institutionName'] = favorDialog.form.FAVOR.label;
+        }
+        else if (favorDialog.form.favorType === 3) {
+          data['postId'] = favorDialog.form.FAVOR.value;
+          data['postName'] = favorDialog.form.FAVOR.label;
+        }
+        console.log('addFavor')
+        console.log(data)
+          AddFavor(data)
+            .then(function (response) {
+              console.log(response);
+              root.$message({
+                type: "success",
+                message: response.data.msg,
+              })
+              updateUserFavor(userFavorDialog.favorType,favorDialog.userId);
+              favorDialog.visible = false;
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+      };
+      const deleteFavor = (favor) => {
+        let data = {
+          favorId: favor.favorId,
+        };
+        root
+          .$confirm("此操作将永久删除该收藏, 是否继续?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          })
+          .then(() => {
+            DelFavor(data)
+              .then(function (response) {
+                console.log(response);
+                updateUserFavor(userFavorDialog.favorType,favorDialog.userId);
+                root.$message({
+                  type: "success",
+                  message: response.data.msg,
+                });
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          })
+          .catch(() => {
+            root.$message({
+              type: "info",
+              message: "已取消删除",
+            });
+          });
+      };
+      const FavorTypeOptions = reactive([{
+          value: 1,
+          label: '服务人员'
+        }, {
+          value: 2,
+          label: '服务机构'
+        }, {
+          value: 3,
+          label: '讨论贴'
+        }])
+      const FavorObjectOptions = reactive([
+        {
+          id: 1,
+          name: '人员1'
+        }
+      ])
+      const handleFavorIDChange = (val) => {
+        console.log(val);
+      }
+      
+
 
       //地区选择
       const cityList = city;
@@ -581,6 +853,7 @@
         deleteData,
 
         updateUserAddress,
+        updateUserFavor,
 
         formData,
         imgName,
@@ -595,6 +868,15 @@
         openAddressDiaog,
         submitAddress,
         deleteAddress,
+
+        userFavorDialog,
+        favorDialog,
+        openFavorDiaog,
+        submitFavor,
+        deleteFavor,
+        FavorTypeOptions,
+        FavorObjectOptions,
+        handleFavorIDChange,
 
         cityList,
         handleCityChange,

@@ -65,6 +65,26 @@ public class UserController {
             return R.error("修改用户地址失败！");
         }
     }
+    @RequestMapping("/updateUserLikeNum")
+    public R updateUserLikeNum(Integer userId) {
+        Integer count = usersDao.updateUserLikeNum(userId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户点赞失败！");
+        }
+    }
+    @RequestMapping("/updateUserLoveNum")
+    public R updateUserLoveNum(Integer userId) {
+        Integer count = usersDao.updateUserLoveNum(userId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户收藏失败！");
+        }
+    }
 
     @RequestMapping(value = "/showAllUsers", produces = "text/json;charset=UTF-8")
     public String showAllUsers(){

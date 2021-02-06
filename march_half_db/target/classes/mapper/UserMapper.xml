@@ -20,6 +20,12 @@
     <select id="updateUserAddressNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update users set users.userAddress = (select count(addressId) from address where address.userId= #{userId}) where users.userId = #{userId}
     </select>
+    <select id="updateUserLikeNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update users set users.userLike = (select count(favorId) from favors where favors.userId= #{userId} AND favors.favorType=1) where users.userId = #{userId}
+    </select>
+    <select id="updateUserLoveNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update users set users.userLove = (select count(favorId) from favors where favors.userId= #{userId} AND favors.favorType=2) where users.userId = #{userId}
+    </select>
 <!-- ,userAddress=#{userAddress},userLike=#{userLike},userLove=#{userLove},userEva=#{userEva},userCom=#{userCom}-->
 
     <select id="getAllUsers" resultType="org.example.pojo.User">

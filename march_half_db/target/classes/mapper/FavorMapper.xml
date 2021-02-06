@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.FavorDao">
+    <insert id="addFavor" parameterType="org.example.pojo.Favor">
+        insert into favors(userId,favorType,serviceId,serviceName,institutionId,institutionName,postId,postName,favorTime)
+        values (#{userId},#{favorType},#{serviceId},#{serviceName},#{institutionId},#{institutionName},#{postId},#{postName},#{favorTime})
+    </insert>
+    <delete id="delFavor" parameterType="java.lang.Integer">
+        delete from favors where favorId=#{favorId}
+    </delete>
+    <select id="updateFavor" parameterType="org.example.pojo.Favor" resultType="java.lang.Integer">
+        update favors set serviceId=#{serviceId},serviceName=#{serviceName},institutionId=#{institutionId},institutionName=#{institutionName},postId=#{postName},postName=#{postName},favorTime=#{favorTime}
+        where favorId=#{favorId}
+    </select>
+    <select id="getAllFavor" resultType="org.example.pojo.Favor">
+        select * from favors where userId=#{userId} AND favorType=#{favorType}
+    </select>
+
+    <select id="getFavorById" resultType="org.example.pojo.Favor">
+        select * from favors where favorId=#{favorId}
+     </select>
+</mapper>

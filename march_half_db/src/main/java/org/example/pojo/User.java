@@ -13,6 +13,7 @@ public class User {
     private  Integer userLove;
     private  Integer userEva;
     private  Integer userCom;
+    private  Integer userPost;
 
     public Integer getUserId() {
         return userId;
@@ -108,5 +109,13 @@ public class User {
 
     public void setUserCom(Integer userCom) {
         this.userCom = userCom;
+    }
+
+    public Integer getUserPost() {
+        return userPost;
+    }
+
+    public void setUserPost(Integer userPost) {
+        this.userPost = userPost;
     }
 }

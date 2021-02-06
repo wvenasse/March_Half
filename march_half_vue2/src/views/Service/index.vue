@@ -62,26 +62,28 @@
           width="100%"
         >
           <el-table-column prop="serviceId" label="序号" width="50"></el-table-column>
-          <el-table-column prop="serviceName" label="人员名称" width="100" align="center"></el-table-column>
+          <el-table-column prop="serviceName" label="人员姓名" width="100" align="center"></el-table-column>
           <el-table-column prop="serviceIcon" label="人员图片" width="80" align="center">
             <template slot-scope="scope">
-              <img class="serviceIcon" :src=imgUrl+scope.row.serviceIcon alt="人员图片" v-if="scope.row.serviceIcon">
+              <img class="userIcon" :src="require('../../assets/imgs/Upload/'+scope.row.serviceIcon)" :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon">
             </template>
           </el-table-column>
-          <el-table-column prop="serviceType" label="服务类别" min-width="80" align="center"></el-table-column>
+          <el-table-column prop="serviceType" label="服务类别" width="80" align="center"></el-table-column>
+          <el-table-column prop="serviceInstitution" label="所属机构" width="80" align="center"></el-table-column>
           <el-table-column prop="serviceSfz" label="身份证" width="120" align="center"></el-table-column>
           <el-table-column prop="servicePhone" label="电话号码" width="100" align="center"></el-table-column>
-          <el-table-column prop="serviceAddress" label="地址" width="150" align="center"></el-table-column>
-          <el-table-column prop="serviceIntro" label="介绍" width="150" align="center">
+          <el-table-column prop="serviceAddress" label="户籍" width="150" align="center"></el-table-column>
+          <el-table-column prop="serviceIntro" label="介绍" min-width="150" align="center">
             <template slot-scope="scope">
               <span class="serviceIntro">{{scope.row.serviceIntro}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="serviceYear" label="经验" width="80" align="center"></el-table-column>
-          <el-table-column prop="serviceLike" label="点赞" width="80" align="center"></el-table-column>
-          <el-table-column prop="serviceLove" label="收藏" width="80" align="center"></el-table-column>
-          <el-table-column prop="serviceEva" label="评价" width="80" align="center"></el-table-column>
-          <el-table-column prop="serviceStar" label="星级" width="80" align="center"></el-table-column>
+          <el-table-column prop="serviceYear" label="经验" width="50" align="center"></el-table-column>
+          <el-table-column prop="serviceStar" label="星级" width="50" align="center"></el-table-column>
+          <el-table-column prop="serviceOrder" label="订单" width="50" align="center"></el-table-column>
+          <el-table-column prop="serviceEva" label="评价" width="50" align="center"></el-table-column>
+          <el-table-column prop="serviceLike" label="点赞" width="50" align="center"></el-table-column>
+          <el-table-column prop="serviceLove" label="收藏" width="50" align="center"></el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="180px">
             <template slot-scope="scope">
               <el-button size="small" type="text" @click="openDiaog(scope.row)"
@@ -194,15 +196,17 @@ export default {
         serviceName: "",
         serviceIcon:"",
         serviceType: "",
+        serviceInstitution:"",
         serviceSfz:"",
         servicePhone:"",
         serviceAddress:"",
         serviceIntro:"",
         serviceYear:0,
+        serviceStar:0,
+        serviceOrder:0,
+        serviceEva:0,
         serviceLike:0,
         serviceLove:0,
-        serviceEva:0,
-        serviceStar:0
       },
       formLabelWidth: "120px",
     });
@@ -219,22 +223,8 @@ export default {
             keyWord: form.typeName,
         };
         table.loading = false;
-        table.tableData = [
-          {serviceId:1,
-        serviceName:'wsh',
-        serviceIcon:"",
-        serviceType: "月嫂服务",
-        serviceSfz:"33068119981224",
-        servicePhone:"17342018223",
-        serviceAddress:"浙江省杭州市拱墅区",
-        serviceIntro:"从业多年，经验丰富，素质良好",
-        serviceYear:10,
-        serviceLike:10,
-        serviceLove:5,
-        serviceEva:100,
-        serviceStar:10},
-        ]
-        pagination.totalRecordCount = 1;
+        table.tableData = []
+        pagination.totalRecordCount = 0;
     };
     const openDiaog = (service) => {
       if (service !== 0) {
@@ -320,15 +310,15 @@ export default {
 
     let typeList = [];
     const loadType = () => {
-      console.log('showAllType')
-      ShowAllType().then(function (response) {
-          console.log(response);
-          typeList = response.data;
-          console.log(typeList);
-      })
-      .catch(function (error) {
-          console.log(error);
-      });
+      // console.log('showAllType')
+      // ShowAllType().then(function (response) {
+      //     console.log(response);
+      //     typeList = response.data;
+      //     console.log(typeList);
+      // })
+      // .catch(function (error) {
+      //     console.log(error);
+      // });
     }
     //页数
     let pagination = reactive({
@@ -446,8 +436,10 @@ export default {
 
 .serviceIcon {
   height: 40px;
+  width: 40px;
   max-height: 100%;
   max-width: 100%;
+  border-radius: 50%;
 }
 
 

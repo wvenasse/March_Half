@@ -69,7 +69,7 @@ public class AddressController {
     @RequestMapping("/findAllAddress")
     public R findAllAddress(@RequestParam("pageIndex") int pageIndex,
                                       @RequestParam("pageSize") int pageSize,
-                                      @RequestParam("addressId") Integer userId){
+                                      @RequestParam("userId") Integer userId){
         PageHelper.startPage(pageIndex,pageSize);
         PageInfo<Address> pageInfo = new PageInfo(addressDao.getAllAddress(userId));
         return R.ok().put("pageInfo", pageInfo);

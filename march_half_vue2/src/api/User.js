@@ -32,6 +32,22 @@ export function UpdateUserAddressNum(data){
     })
 }
 
+export function UpdateUserLikeNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateUserLikeNum",
+        params: data
+    })
+}
+
+export function UpdateUserLoveNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateUserLoveNum",
+        params: data
+    })
+}
+
 export function AddUser(data){
     return request.request({
         method: "get",
