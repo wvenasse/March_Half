@@ -68,7 +68,13 @@
               <img class="serviceIcon" :src="require('../../assets/imgs/Upload/'+scope.row.serviceIcon)" :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon">
             </template>
           </el-table-column>
-          <el-table-column prop="serviceType" label="服务类别" width="80" align="center"></el-table-column>
+          <el-table-column prop="serviceType" label="服务类别" width="80" align="center">
+            <template slot-scope="scope">
+                <el-tooltip class="item" effect="dark" :content="scope.row.serviceType" placement="bottom-start">
+                  <span class="serviceType">{{scope.row.serviceType}}</span>
+                </el-tooltip>
+              </template>
+          </el-table-column>
           <el-table-column prop="serviceInstitution" label="所属机构" width="80" align="center"></el-table-column>
           <el-table-column prop="serviceSfz" label="身份证" width="150" align="center"></el-table-column>
           <el-table-column prop="servicePhone" label="电话号码" width="100" align="center"></el-table-column>
@@ -83,14 +89,14 @@
               <span>{{scope.row.serviceYear ? scope.row.serviceYear:0}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="serviceStar" label="星级" width="50" align="center">
-            <template slot-scope="scope">
-              <span>{{scope.row.serviceStar ? scope.row.serviceStar:0}}</span>
-            </template>
-          </el-table-column>
           <el-table-column prop="serviceOrder" label="订单" width="50" align="center">
             <template slot-scope="scope">
               <span>{{scope.row.serviceOrder ? scope.row.serviceOrder:0}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="serviceStar" label="星级" width="50" align="center">
+            <template slot-scope="scope">
+              <span>{{scope.row.serviceStar ? scope.row.serviceStar:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="serviceEva" label="评价" width="50" align="center">
@@ -166,13 +172,12 @@
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="服务类别" prop="typeId" :label-width="serviceDialog.formLabelWidth">
-              <el-select v-model="serviceDialog.form.typeId" clearable collapse-tags placeholder="请选择">
+              <el-select v-model="serviceDialog.form.typeId" clearable multiple collapse-tags placeholder="请选择" @change="yyyy">
                 <el-option
                   v-for="type in optionList.typeData"
                   :key="type.typeId"
                   :label="type.typeName"
                   :value="type.typeId">
-                  <!--:value="`${type.typeId}|${type.typeName}`" { value: type.typeId, label: type.typeName }-->
                 </el-option>
               </el-select>
             </el-form-item>
@@ -261,7 +266,7 @@ export default {
         serviceName: "",
         serviceIcon:"",
         typeId: [],
-        serviceName:[],
+        serviceType:[],
         institutionId:"",
         serviceInstitution:"",
         serviceSfz:"",
@@ -292,6 +297,12 @@ export default {
             if (form.serviceType) {
               table.tableData = table.tableData.filter(service => service.typeId === form.serviceType);
             }
+            for (let i=0;i<table.tableData.length;i++) {
+              table.tableData[i].typeId = table.tableData[i].typeId.split(",");
+              table.tableData[i].typeId.forEach(function(item,index,arr){
+                table.tableData[i].typeId[index] = parseInt(table.tableData[i].typeId[index]);
+              });
+            }
             pagination.totalRecordCount = response.data.pageInfo.total;
           })
           .catch(function (error) {
@@ -299,6 +310,7 @@ export default {
           });
     };
     const openDiaog = (service) => {
+      console.log(service)
       if (service !== 0) {
         serviceDialog.title = "修改服务人员";
         serviceDialog.flag = true;
@@ -322,15 +334,28 @@ export default {
         }
     }
     const submitService = () => {
-      serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress[0] +'/'+ serviceDialog.form.serviceAddress[1] +'/'+ serviceDialog.form.serviceAddress[2];
-      for (let i=0;i<optionList.typeData.length;i++) {
-        if (optionList.typeData[i].typeId === serviceDialog.form.typeId) {
-          serviceDialog.form.serviceType = optionList.typeData[i].typeName;
-          console.log(serviceDialog.form.serviceType)
+      if (serviceDialog.form.serviceAddress) {
+        serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress[0] +'/'+ serviceDialog.form.serviceAddress[1] +'/'+ serviceDialog.form.serviceAddress[2];
+      }
+      if (serviceDialog.form.typeId) {
+        let names = []
+        for (let j=0;j<serviceDialog.form.typeId.length;j++) {
+          for (let i=0;i<optionList.typeData.length;i++) {
+            if (optionList.typeData[i].typeId === serviceDialog.form.typeId[j]) {
+              names.push(optionList.typeData[i].typeName);
+            }
+          }
         }
-        if (optionList.typeData[i].typeId === serviceDialog.form.institutionId) {
-          serviceDialog.form.serviceInstitution = optionList.typeData[i].typeName;
-          console.log(serviceDialog.form.serviceInstitution)
+        serviceDialog.form.serviceType = names;
+      }
+      serviceDialog.form.typeId = serviceDialog.form.typeId.join(',');
+      serviceDialog.form.serviceType = serviceDialog.form.serviceType.join(',');
+      if (serviceDialog.form.institutionId) {
+        for (let i=0;i<optionList.typeData.length;i++) {
+          if (optionList.typeData[i].typeId === serviceDialog.form.institutionId) {
+            serviceDialog.form.serviceInstitution = optionList.typeData[i].typeName;
+            console.log(serviceDialog.form.serviceInstitution)
+          }
         }
       }
       let data = {
@@ -460,12 +485,17 @@ export default {
       }
     }
 
+    const yyyy = (val) => {
+      console.log(val)
+    }
+
     onMounted(() => {
       loadType();
       loadData();
     });
 
     return {
+      yyyy,
       form,
       table,
       pagination,
@@ -553,7 +583,7 @@ export default {
 }
 
 
-.serviceIntro {
+.serviceIntro,.serviceType {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

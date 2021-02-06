@@ -5,7 +5,7 @@ public class Service {
     private  String serviceName;
     private  String serviceIcon;
 
-    private  Integer typeId;
+    private  String typeId;
     private  String serviceType;
     private  Integer institutionId;
     private  String serviceInstitution;
@@ -46,11 +46,11 @@ public class Service {
         this.serviceIcon = serviceIcon;
     }
 
-    public Integer getTypeId() {
+    public String getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(Integer typeId) {
+    public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
 
