@@ -7,73 +7,45 @@
             <el-form :inline="true" size="small">
               <el-form-item style="width:120px;">
                 <el-select size="small" v-model="form.serviceType" placeholder="服务类别" clearable>
-                  <el-option
-                    v-for="type in optionList.typeData"
-                    :key="type.typeId"
-                    :label="type.typeName"
+                  <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
                     :value="type.typeId">
                   </el-option>
                 </el-select>
               </el-form-item>
               <el-form-item style="margin-left: 10px; width:150px;">
-                <el-input
-                  placeholder="请输入服务人员名称"
-                  v-model="form.serviceName"
-                  clearable
-                >
+                <el-input placeholder="请输入服务人员名称" v-model="form.serviceName" clearable>
                 </el-input>
               </el-form-item>
               <el-form-item style="margin-left: 10px">
-                <el-button
-                  icon="el-icon-search"
-                  size="small"
-                  type="primary"
-                  @click="loadData"
-                  >查询
+                <el-button icon="el-icon-search" size="small" type="primary" @click="loadData">查询
                 </el-button>
               </el-form-item>
             </el-form>
           </el-col>
           <el-col :span="4" style="text-align: right">
-            <el-button type="primary" size="small" @click="openDiaog(0)"
-              >新增</el-button
-            >
-            <el-button
-              title="刷新表格"
-              icon="el-icon-refresh"
-              size="small"
-              circle
-              @click="loadData"
-            >
+            <el-button type="primary" size="small" @click="openDiaog(0)">新增</el-button>
+            <el-button title="刷新表格" icon="el-icon-refresh" size="small" circle @click="loadData">
             </el-button>
           </el-col>
         </el-row>
       </el-header>
       <el-main style="height: 100%">
-        <el-table
-          v-loading="table.loading"
-          size="small"
-          :data="table.tableData"
-          stripe
-          highlight-current-row
-          style="margin: 0px 0px"
-          key="1"
-          height="100%"
-          width="100%"
-        >
+        <el-table v-loading="table.loading" size="small" :data="table.tableData" stripe highlight-current-row
+          style="margin: 0px 0px" key="1" height="100%" width="100%">
           <el-table-column prop="serviceId" label="序号" width="50"></el-table-column>
           <el-table-column prop="serviceName" label="人员姓名" width="100" align="center"></el-table-column>
           <el-table-column prop="serviceIcon" label="人员图片" width="80" align="center">
             <template slot-scope="scope">
-              <img class="serviceIcon" :src="require('../../assets/imgs/Upload/'+scope.row.serviceIcon)" :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon">
+              <img class="serviceIcon" :src="require('../../assets/imgs/Upload/'+scope.row.serviceIcon)"
+                :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon">
             </template>
           </el-table-column>
           <el-table-column prop="serviceType" label="服务类别" width="80" align="center">
             <template slot-scope="scope">
-                <el-tooltip class="item" effect="dark" :content="scope.row.serviceType" placement="bottom-start">
-                  <span class="serviceType">{{scope.row.serviceType}}</span>
-                </el-tooltip>
-              </template>
+              <el-tooltip class="item" effect="dark" :content="scope.row.serviceType" placement="bottom-start">
+                <span class="serviceType">{{scope.row.serviceType}}</span>
+              </el-tooltip>
+            </template>
           </el-table-column>
           <el-table-column prop="serviceInstitution" label="所属机构" width="80" align="center"></el-table-column>
           <el-table-column prop="serviceSfz" label="身份证" width="150" align="center"></el-table-column>
@@ -116,54 +88,36 @@
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="150px">
             <template slot-scope="scope">
-              <el-button size="small" type="text" @click="openDiaog(scope.row)"
-                >修改信息</el-button
-              >
-              <el-button
-                @click="deleteData(scope.row)"
-                size="small"
-                type="text"
-                class="danger"
-                style="color: red"
-                >删除</el-button
-              >
+              <el-button size="small" type="text" @click="openDiaog(scope.row)">修改信息</el-button>
+              <el-button @click="deleteData(scope.row)" size="small" type="text" class="danger" style="color: red">删除
+              </el-button>
             </template>
           </el-table-column>
         </el-table>
       </el-main>
       <el-footer style="height: 34px">
-        <el-pagination
-          small
-          background
-          @size-change="handlePageSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="pagination.pageIndex"
-          :page-sizes="[5, 10, 20, 30, 40]"
-          :page-size="pagination.pageSize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="pagination.totalRecordCount"
-        >
+        <el-pagination small background @size-change="handlePageSizeChange" @current-change="handleCurrentChange"
+          :current-page="pagination.pageIndex" :page-sizes="[5, 10, 20, 30, 40]" :page-size="pagination.pageSize"
+          layout="total, sizes, prev, pager, next, jumper" :total="pagination.totalRecordCount">
         </el-pagination>
       </el-footer>
     </el-container>
-    <el-dialog
-      :title="serviceDialog.title"
-      :visible.sync="serviceDialog.visible"
-      :append-to-body="true"
-      @close="closeDialog"
-    >
+    <el-dialog :title="serviceDialog.title" :visible.sync="serviceDialog.visible" :append-to-body="true"
+      @close="closeDialog">
       <el-form :model="serviceDialog.form">
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="服务人员姓名" prop="serviceName" :label-width="serviceDialog.formLabelWidth">
-              <el-input v-model="serviceDialog.form.serviceName" clearable autocomplete="off" style="width:217px;"></el-input>
+              <el-input v-model="serviceDialog.form.serviceName" clearable autocomplete="off" style="width:217px;">
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="服务人员图片" prop="serviceIcon" :label-width="serviceDialog.formLabelWidth">
               <form action="" name="file" class="file">
-                  上传文件
-                  <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*" ref="new_image" v-if="serviceDialog.visible">
+                上传文件
+                <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*"
+                  ref="new_image" v-if="serviceDialog.visible">
               </form>
               <div class="fileName">{{imgName}}</div>
             </el-form-item>
@@ -172,11 +126,9 @@
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="服务类别" prop="typeId" :label-width="serviceDialog.formLabelWidth">
-              <el-select v-model="serviceDialog.form.typeId" clearable multiple collapse-tags placeholder="请选择" @change="yyyy">
-                <el-option
-                  v-for="type in optionList.typeData"
-                  :key="type.typeId"
-                  :label="type.typeName"
+              <el-select v-model="serviceDialog.form.typeId" clearable multiple collapse-tags placeholder="请选择"
+                @change="yyyy">
+                <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
                   :value="type.typeId">
                 </el-option>
               </el-select>
@@ -184,11 +136,8 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="所属机构" prop="institutionId" :label-width="serviceDialog.formLabelWidth">
-             <el-select v-model="serviceDialog.form.institutionId" clearable placeholder="请选择">
-                <el-option
-                  v-for="type in optionList.typeData"
-                  :key="type.typeId"
-                  :label="type.typeName"
+              <el-select v-model="serviceDialog.form.institutionId" clearable placeholder="请选择">
+                <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
                   :value="type.typeId">
                 </el-option>
               </el-select>
@@ -198,42 +147,37 @@
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="身份证" prop="serviceSfz" :label-width="serviceDialog.formLabelWidth">
-              <el-input v-model="serviceDialog.form.serviceSfz" clearable autocomplete="off" style="width:217px;"></el-input>
+              <el-input v-model="serviceDialog.form.serviceSfz" clearable autocomplete="off" style="width:217px;">
+              </el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="电话号码" prop="servicePhone" :label-width="serviceDialog.formLabelWidth">
-             <el-input v-model="serviceDialog.form.servicePhone" clearable autocomplete="off" style="width:217px;"></el-input>
+              <el-input v-model="serviceDialog.form.servicePhone" clearable autocomplete="off" style="width:217px;">
+              </el-input>
             </el-form-item>
           </el-col>
         </el-form-item>
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="户籍" prop="serviceAddress" :label-width="serviceDialog.formLabelWidth">
-              <el-cascader
-                v-model="serviceDialog.form.serviceAddress" clearable
-                :options="cityList"
+              <el-cascader v-model="serviceDialog.form.serviceAddress" clearable :options="cityList"
                 @change="handleCityChange">
               </el-cascader>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="经验" prop="serviceYear" :label-width="serviceDialog.formLabelWidth">
-             <el-input-number v-model="serviceDialog.form.serviceYear" :min="0" :max="50"></el-input-number>
+              <el-input-number v-model="serviceDialog.form.serviceYear" :min="0" :max="50"></el-input-number>
             </el-form-item>
           </el-col>
         </el-form-item>
-        <el-form-item prop="serviceIntro" label="介绍"  :label-width="serviceDialog.formLabelWidth">
-          <el-input
-            type="textarea"
-            placeholder="请输入介绍"
-            v-model="serviceDialog.form.serviceIntro"
-            maxlength="50"
-            show-word-limit
-          >
+        <el-form-item prop="serviceIntro" label="介绍" :label-width="serviceDialog.formLabelWidth">
+          <el-input type="textarea" placeholder="请输入介绍" v-model="serviceDialog.form.serviceIntro" maxlength="50"
+            show-word-limit>
           </el-input>
         </el-form-item>
-        
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="serviceDialog.visible = false">取 消</el-button>
@@ -244,44 +188,60 @@
 </template>
 
 <script>
-import { onMounted, reactive, ref } from "@vue/composition-api";
-import request from "@/utils/request";
-import city from "@/utils/city"
-import { UpdateService, AddService, DelService, FindAllService } from "@/api/Service";
-import {ShowAllType} from "@/api/Type";
-import {addImage} from "@/api/System"
+  import {
+    onMounted,
+    reactive,
+    ref
+  } from "@vue/composition-api";
+  import request from "@/utils/request";
+  import city from "@/utils/city"
+  import {
+    UpdateService,
+    AddService,
+    DelService,
+    FindAllService
+  } from "@/api/Service";
+  import {
+    ShowAllType
+  } from "@/api/Type";
+  import {
+    addImage
+  } from "@/api/System"
 
-export default {
-  name: "service",
-  setup(props, { refs, root }) {
-    let form = reactive({
-      serviceName: "",
-      serviceType: "",
-    });
-    let serviceDialog = reactive({
-      visible: false,
-      title: "",
-      flag: false,
-      form: {
+  export default {
+    name: "service",
+    setup(props, {
+      refs,
+      root
+    }) {
+      let form = reactive({
         serviceName: "",
-        serviceIcon:"",
-        typeId: [],
-        serviceType:[],
-        institutionId:"",
-        serviceInstitution:"",
-        serviceSfz:"",
-        servicePhone:"",
-        serviceAddress:"",
-        serviceIntro:"",
-        serviceYear:0,
-      },
-      formLabelWidth: "120px",
-    });
-    let table = reactive({
-      loading: false,
-      tableData: [],
-    });
-    const loadData = () => {
+        serviceType: "",
+      });
+      let serviceDialog = reactive({
+        visible: false,
+        title: "",
+        flag: false,
+        form: {
+          serviceName: "",
+          serviceIcon: "",
+          typeId: [],
+          serviceType: [],
+          institutionId: "",
+          serviceInstitution: "",
+          serviceSfz: "",
+          servicePhone: "",
+          serviceAddress: "",
+          serviceIntro: "",
+          serviceYear: 0,
+        },
+        formLabelWidth: "120px",
+      });
+      let table = reactive({
+        loading: false,
+        tableData: [],
+      });
+      const loadData = () => {
         table.loading = true;
         let data = {
           pageIndex: pagination.pageIndex,
@@ -297,9 +257,9 @@ export default {
             if (form.serviceType) {
               table.tableData = table.tableData.filter(service => service.typeId === form.serviceType);
             }
-            for (let i=0;i<table.tableData.length;i++) {
+            for (let i = 0; i < table.tableData.length; i++) {
               table.tableData[i].typeId = table.tableData[i].typeId.split(",");
-              table.tableData[i].typeId.forEach(function(item,index,arr){
+              table.tableData[i].typeId.forEach(function (item, index, arr) {
                 table.tableData[i].typeId[index] = parseInt(table.tableData[i].typeId[index]);
               });
             }
@@ -308,284 +268,286 @@ export default {
           .catch(function (error) {
             console.log(error);
           });
-    };
-    const openDiaog = (service) => {
-      console.log(service)
-      if (service !== 0) {
-        serviceDialog.title = "修改服务人员";
-        serviceDialog.flag = true;
-        serviceDialog.form = service;
-        imgName.value = service.serviceIcon;
-        if(serviceDialog.form.serviceAddress.indexOf("/")!=-1){
-          serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.split('/');
+      };
+      const openDiaog = (service) => {
+        console.log(service)
+        if (service !== 0) {
+          serviceDialog.title = "修改服务人员";
+          serviceDialog.flag = true;
+          serviceDialog.form = service;
+          imgName.value = service.serviceIcon;
+          if (serviceDialog.form.serviceAddress.indexOf("/") != -1) {
+            serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.split('/');
+          }
+        } else {
+          serviceDialog.title = "新增服务人员";
+          serviceDialog.flag = false;
+          serviceDialog.form = {};
+          imgName.value = "未选择任何文件";
         }
-      } else {
-        serviceDialog.title = "新增服务人员";
-        serviceDialog.flag = false;
-        serviceDialog.form = {};
-        imgName.value = "未选择任何文件";
-      }
-      serviceDialog.visible = true;
-    };
-    const closeDialog = () => {
-      console.log('close');
-      if(serviceDialog.form.serviceAddress.indexOf("/")==-1){
+        serviceDialog.visible = true;
+      };
+      const closeDialog = () => {
+        console.log('close');
+        if (serviceDialog.form.serviceAddress.indexOf("/") == -1) {
           serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.join('/');
         }
-    }
-    const submitService = () => {
-      if (serviceDialog.form.serviceAddress) {
-        serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress[0] +'/'+ serviceDialog.form.serviceAddress[1] +'/'+ serviceDialog.form.serviceAddress[2];
       }
-      if (serviceDialog.form.typeId) {
-        let names = []
-        for (let j=0;j<serviceDialog.form.typeId.length;j++) {
-          for (let i=0;i<optionList.typeData.length;i++) {
-            if (optionList.typeData[i].typeId === serviceDialog.form.typeId[j]) {
-              names.push(optionList.typeData[i].typeName);
+      const submitService = () => {
+        if (serviceDialog.form.serviceAddress) {
+          serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress[0] + '/' + serviceDialog.form
+            .serviceAddress[1] + '/' + serviceDialog.form.serviceAddress[2];
+        }
+        if (serviceDialog.form.typeId) {
+          let names = []
+          for (let j = 0; j < serviceDialog.form.typeId.length; j++) {
+            for (let i = 0; i < optionList.typeData.length; i++) {
+              if (optionList.typeData[i].typeId === serviceDialog.form.typeId[j]) {
+                names.push(optionList.typeData[i].typeName);
+              }
+            }
+          }
+          serviceDialog.form.serviceType = names;
+        }
+        serviceDialog.form.typeId = serviceDialog.form.typeId.join(',');
+        serviceDialog.form.serviceType = serviceDialog.form.serviceType.join(',');
+        if (serviceDialog.form.institutionId) {
+          for (let i = 0; i < optionList.typeData.length; i++) {
+            if (optionList.typeData[i].typeId === serviceDialog.form.institutionId) {
+              serviceDialog.form.serviceInstitution = optionList.typeData[i].typeName;
+              console.log(serviceDialog.form.serviceInstitution)
             }
           }
         }
-        serviceDialog.form.serviceType = names;
-      }
-      serviceDialog.form.typeId = serviceDialog.form.typeId.join(',');
-      serviceDialog.form.serviceType = serviceDialog.form.serviceType.join(',');
-      if (serviceDialog.form.institutionId) {
-        for (let i=0;i<optionList.typeData.length;i++) {
-          if (optionList.typeData[i].typeId === serviceDialog.form.institutionId) {
-            serviceDialog.form.serviceInstitution = optionList.typeData[i].typeName;
-            console.log(serviceDialog.form.serviceInstitution)
-          }
-        }
-      }
-      let data = {
-        serviceName: serviceDialog.form.serviceName,
-        serviceIcon: imgName.value,
-        typeId: serviceDialog.form.typeId,
-        serviceType: serviceDialog.form.serviceType,
-        institutionId: serviceDialog.form.institutionId,
-        serviceInstitution: serviceDialog.form.serviceInstitution,
-        serviceSfz: serviceDialog.form.serviceSfz,
-        servicePhone: serviceDialog.form.servicePhone,
-        serviceAddress: serviceDialog.form.serviceAddress,
-        serviceIntro: serviceDialog.form.serviceIntro,
-        serviceYear: serviceDialog.form.serviceYear,
-      };
-      if (serviceDialog.flag) {
-        data['serviceId'] = serviceDialog.form.serviceId;
-        UpdateService(data)
-          .then(function (response) {
-            console.log(response);
-            root.$message({
-              type: "success",
-              message: response.data.msg,
-            });
-            loadData();
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      } else {
-        AddService(data)
-          .then(function (response) {
-            console.log(response);
-            root.$message({
-              type: "success",
-              message: response.data.msg,
-            });
-            loadData();
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
-      serviceDialog.visible = false;
-    };
-    const deleteData = (service) => {
-      let data = {
-        serviceId: service.serviceId,
-      };
-      root
-        .$confirm("此操作将永久删除该服务人员, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning",
-        })
-        .then(() => {
-          DelService(data)
+        let data = {
+          serviceName: serviceDialog.form.serviceName,
+          serviceIcon: imgName.value,
+          typeId: serviceDialog.form.typeId,
+          serviceType: serviceDialog.form.serviceType,
+          institutionId: serviceDialog.form.institutionId,
+          serviceInstitution: serviceDialog.form.serviceInstitution,
+          serviceSfz: serviceDialog.form.serviceSfz,
+          servicePhone: serviceDialog.form.servicePhone,
+          serviceAddress: serviceDialog.form.serviceAddress,
+          serviceIntro: serviceDialog.form.serviceIntro,
+          serviceYear: serviceDialog.form.serviceYear,
+        };
+        if (serviceDialog.flag) {
+          data['serviceId'] = serviceDialog.form.serviceId;
+          UpdateService(data)
             .then(function (response) {
               console.log(response);
-              loadData();
               root.$message({
                 type: "success",
                 message: response.data.msg,
               });
+              loadData();
             })
             .catch(function (error) {
               console.log(error);
             });
-        })
-        .catch(() => {
-          root.$message({
-            type: "info",
-            message: "已取消删除",
+        } else {
+          AddService(data)
+            .then(function (response) {
+              console.log(response);
+              root.$message({
+                type: "success",
+                message: response.data.msg,
+              });
+              loadData();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }
+        serviceDialog.visible = false;
+      };
+      const deleteData = (service) => {
+        let data = {
+          serviceId: service.serviceId,
+        };
+        root
+          .$confirm("此操作将永久删除该服务人员, 是否继续?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          })
+          .then(() => {
+            DelService(data)
+              .then(function (response) {
+                console.log(response);
+                loadData();
+                root.$message({
+                  type: "success",
+                  message: response.data.msg,
+                });
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          })
+          .catch(() => {
+            root.$message({
+              type: "info",
+              message: "已取消删除",
+            });
           });
-        });
-    };
+      };
 
-    //类别
-    let optionList = reactive({
-      typeData: [],
-    });
-    const loadType = () => {
-      ShowAllType().then(function (response) {
-          console.log(response);
-          optionList.typeData = response.data;
-      })
-      .catch(function (error) {
-          console.log(error);
+      //类别
+      let optionList = reactive({
+        typeData: [],
       });
-    }
-    //地区选择
-    const cityList = city;
-    const handleCityChange = (val) => {
-      console.log(val);
-    }
-    //页数
-    let pagination = reactive({
-      pageIndex: 1,
-      totalRecordCount: 0,
-      pageSize: 5,
-    });
-    const handleCurrentChange = (val) => {
-      pagination.pageIndex = val;
-      loadData();
-    };
-    const handlePageSizeChange = (val) => {
-      pagination.pageSize = val;
-      loadData();
-    };
-    //图片
-    let formData = new FormData();
-    let imgName = ref("未选择任何文件");
-    let imgUrl = ref("http://localhost:8088/image/");
-    const tirggerFile = (event) => {
-      console.log(event)
-      if (event.target.files.length !== 0) {
+      const loadType = () => {
+        ShowAllType().then(function (response) {
+            console.log(response);
+            optionList.typeData = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+      //地区选择
+      const cityList = city;
+      const handleCityChange = (val) => {
+        console.log(val);
+      }
+      //页数
+      let pagination = reactive({
+        pageIndex: 1,
+        totalRecordCount: 0,
+        pageSize: 5,
+      });
+      const handleCurrentChange = (val) => {
+        pagination.pageIndex = val;
+        loadData();
+      };
+      const handlePageSizeChange = (val) => {
+        pagination.pageSize = val;
+        loadData();
+      };
+      //图片
+      let formData = new FormData();
+      let imgName = ref("未选择任何文件");
+      let imgUrl = ref("http://localhost:8088/image/");
+      const tirggerFile = (event) => {
+        console.log(event)
+        if (event.target.files.length !== 0) {
           formData.append('image_data', event.target.files[0]);
           console.log(formData)
           imgName.value = event.target.files[0].name;
           addImage(formData).then(response => {
-              console.log(response.data.fileName);
-              root.$message({
-                  type: 'info',
-                  message: response.data.msg
-              });
+            console.log(response.data.fileName);
+            root.$message({
+              type: 'info',
+              message: response.data.msg
+            });
           })
+        }
       }
-    }
 
-    const yyyy = (val) => {
-      console.log(val)
-    }
+      const yyyy = (val) => {
+        console.log(val)
+      }
 
-    onMounted(() => {
-      loadType();
-      loadData();
-    });
+      onMounted(() => {
+        loadType();
+        loadData();
+      });
 
-    return {
-      yyyy,
-      form,
-      table,
-      pagination,
-      serviceDialog,
+      return {
+        yyyy,
+        form,
+        table,
+        pagination,
+        serviceDialog,
 
-      loadData,
-      openDiaog,
-      closeDialog,
-      submitService,
-      deleteData,
+        loadData,
+        openDiaog,
+        closeDialog,
+        submitService,
+        deleteData,
 
-      optionList,
-      loadType,
+        optionList,
+        loadType,
 
-      cityList,
-      handleCityChange,
+        cityList,
+        handleCityChange,
 
-      handleCurrentChange,
-      handlePageSizeChange,
+        handleCurrentChange,
+        handlePageSizeChange,
 
-      formData,
-      imgName,
-      imgUrl,
-      tirggerFile
-    };
-  },
-};
+        formData,
+        imgName,
+        imgUrl,
+        tirggerFile
+      };
+    },
+  };
 </script>
 
 <style scoped>
-#service {
-  background-color: #fff;
-  height: 100%;
-}
+  #service {
+    background-color: #fff;
+    height: 100%;
+  }
 
-.toolbar {
-  background-color: #ffffff;
-  padding: 8px;
-}
+  .toolbar {
+    background-color: #ffffff;
+    padding: 8px;
+  }
 
-.el-table thead.is-group th {
-  background: white;
-}
+  .el-table thead.is-group th {
+    background: white;
+  }
 
-.el-form-item--small.el-form-item {
-  margin-bottom: 0px !important;
-}
+  .el-form-item--small.el-form-item {
+    margin-bottom: 0px !important;
+  }
 
-.file {
-        width: 80px;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        position: relative;
-        color: #fff;
-        font-size: 12px;
-        font-weight: 500;
-        white-space: nowrap;
-        cursor: pointer;
-        background-color: #409eff;
-        border-radius: 3px;
-        float: left;
-    }
+  .file {
+    width: 80px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    position: relative;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    background-color: #409eff;
+    border-radius: 3px;
+    float: left;
+  }
 
-.fileName {
-  font-weight: bold;
-}
+  .fileName {
+    font-weight: bold;
+  }
 
   .file input {
-        width: 80px;
-        height: 40px;
-        opacity: 0;
-        filter: alpha(opacity=0);
-        position: absolute;
-        left: 0;
-        top: 0;
-    }
+    width: 80px;
+    height: 40px;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
 
-.serviceIcon {
-  height: 40px;
-  width: 40px;
-  max-height: 100%;
-  max-width: 100%;
-  border-radius: 50%;
-}
+  .serviceIcon {
+    height: 40px;
+    width: 40px;
+    max-height: 100%;
+    max-width: 100%;
+    border-radius: 50%;
+  }
 
 
-.serviceIntro,.serviceType {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
+  .serviceIntro,
+  .serviceType {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 </style>

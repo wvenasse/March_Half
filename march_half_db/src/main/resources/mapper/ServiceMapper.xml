@@ -17,6 +17,12 @@
         serviceSfz=#{serviceSfz},servicePhone=#{servicePhone},serviceAddress=#{serviceAddress},serviceIntro=#{serviceIntro},serviceYear=#{serviceYear}
         where serviceId=#{serviceId}
     </select>
+    <select id="updateServiceLikeNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update services set services.serviceLike = (select count(favorId) from favors where favors.serviceId= #{serviceId} AND favors.favorType=1) where services.serviceId = #{serviceId}
+    </select>
+    <select id="updateServiceLoveNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update services set services.serviceLove = (select count(favorId) from favors where favors.serviceId= #{serviceId} AND favors.favorType=2) where services.serviceId = #{serviceId}
+    </select>
 
     <select id="getAllService" resultType="org.example.pojo.Service">
         select * from services where serviceName like "%"#{keyWord}"%"

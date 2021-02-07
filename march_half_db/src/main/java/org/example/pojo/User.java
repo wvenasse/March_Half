@@ -14,6 +14,7 @@ public class User {
     private  Integer userEva;
     private  Integer userCom;
     private  Integer userPost;
+    private  Integer userOrder;
 
     public Integer getUserId() {
         return userId;
@@ -117,5 +118,13 @@ public class User {
 
     public void setUserPost(Integer userPost) {
         this.userPost = userPost;
+    }
+
+    public Integer getUserOrder() {
+        return userOrder;
+    }
+
+    public void setUserOrder(Integer userOrder) {
+        this.userOrder = userOrder;
     }
 }

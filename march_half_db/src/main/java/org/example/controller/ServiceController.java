@@ -53,9 +53,30 @@ public class ServiceController {
         }
     }
 
+    @RequestMapping("/updateServiceLikeNum")
+    public R updateServiceLikeNum(Integer serviceId) {
+        Integer count = serviceDao.updateServiceLikeNum(serviceId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户点赞失败！");
+        }
+    }
+    @RequestMapping("/updateServiceLoveNum")
+    public R updateServiceLoveNum(Integer serviceId) {
+        Integer count = serviceDao.updateServiceLoveNum(serviceId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户收藏失败！");
+        }
+    }
+
     @RequestMapping(value = "/showAllService", produces = "text/json;charset=UTF-8")
-    public String showAllService(String keyWord){
-        List<Service> service = serviceDao.getAllService(keyWord);
+    public String showAllService(){
+        List<Service> service = serviceDao.getAllService("");
         String serviceJson = JSON.toJSONString(service);
         return serviceJson;
     }

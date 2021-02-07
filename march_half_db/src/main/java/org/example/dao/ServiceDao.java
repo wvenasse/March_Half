@@ -15,6 +15,9 @@ public interface ServiceDao {
     public int delService(Integer serviceId);
     //改
     public Integer updateService(Service service);
+
+    public Integer updateServiceLikeNum(Integer serviceId);
+    public Integer updateServiceLoveNum(Integer serviceId);
     //查
     public List<Service> getAllService(String keyWord);
     //照id查

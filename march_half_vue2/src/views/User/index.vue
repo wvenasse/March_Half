@@ -34,7 +34,7 @@
           height="100%"
           width="100%"
         >
-          <el-table-column prop="userId" label="用户序号" width="80"></el-table-column>
+          <el-table-column prop="userId" label="序号" width="50"></el-table-column>
           <el-table-column prop="nickName" label="用户昵称" align="center"></el-table-column>
           <el-table-column prop="userIcon" label="用户头像" width="80" align="center">
             <template slot-scope="scope">
@@ -60,19 +60,24 @@
               <span class="userClick" @click="openUserDialog(2,scope.row.userId)">{{scope.row.userLove ? scope.row.userLove:0}}</span>
             </template>
           </el-table-column>
+          <el-table-column prop="userOrder" label="订单" width="50" align="center">
+            <template slot-scope="scope">
+              <span class="userClick" @click="openUserDialog(3,scope.row.userId)">{{scope.row.userOrder ? scope.row.userOrder:0}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="userEva" label="评价" width="50" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(3,scope.row.userId)">{{scope.row.userEva ? scope.row.userEva:0}}</span>
+              <span class="userClick" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userEva ? scope.row.userEva:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userPost" label="讨论" width="50" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userPost ? scope.row.userPost:0}}</span>
+              <span class="userClick" @click="openUserDialog(5,scope.row.userId)">{{scope.row.userPost ? scope.row.userPost:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userCom" label="评论" width="50" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(5,scope.row.userId)">{{scope.row.userCom ? scope.row.userCom:0}}</span>
+              <span class="userClick" @click="openUserDialog(6,scope.row.userId)">{{scope.row.userCom ? scope.row.userCom:0}}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="180px">
@@ -251,7 +256,7 @@
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="" :label-width="favorDialog.formLabelWidth">
-              <el-select v-model="favorDialog.form.favorType" placeholder="请选择类型" clearable>
+              <el-select v-model="favorDialog.form.favorType" placeholder="请选择类型" clearable @change="handleFavorTypeChange">
                 <el-option
                   v-for="item in FavorTypeOptions"
                   :key="item.value"
@@ -265,10 +270,10 @@
             <el-form-item label="" :label-width="favorDialog.formLabelWidth">
               <el-select v-model="favorDialog.form.FAVOR" placeholder="请选择对象" clearable @change="handleFavorIDChange">
                 <el-option
-                  v-for="item in FavorObjectOptions"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="{ value: item.id, label: item.name }">
+                  v-for="service in FavorObjectOptions.favorData"
+                  :key="service.serviceId"
+                  :label="service.serviceName"
+                  :value="{ value: service.serviceId, label: service.serviceName }">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -311,9 +316,9 @@
   import {
     ShowAllFavor,
     AddFavor,
-    DelFavor,
-    UpdateFavor
+    DelFavor
   } from "@/api/Favor";
+  import { ShowAllService,UpdateServiceLikeNum,UpdateServiceLoveNum } from "@/api/Service";
   export default {
     name: "user",
     setup(props, {
@@ -471,6 +476,8 @@
             console.log(error);
           });
       }
+
+      //更新点赞、收藏
       const updateUserFavor = (favorType,userId) => {
         let data = {
           userId:userId
@@ -501,6 +508,32 @@
             });
         }
         
+      }
+      const updateServiceFavor = (type,favorType,favor) => {
+        let data;
+        if (type === 1 ) {
+          data = {
+            serviceId: favor.serviceId
+          };
+          if (favorType === 1 ) {
+            UpdateServiceLikeNum(data)
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+          else if (favorType === 2 ) {
+            UpdateServiceLoveNum(data)
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+        }
       }
 
       //文件上传
@@ -749,8 +782,6 @@
           data['postId'] = favorDialog.form.FAVOR.value;
           data['postName'] = favorDialog.form.FAVOR.label;
         }
-        console.log('addFavor')
-        console.log(data)
           AddFavor(data)
             .then(function (response) {
               console.log(response);
@@ -759,6 +790,7 @@
                 message: response.data.msg,
               })
               updateUserFavor(userFavorDialog.favorType,favorDialog.userId);
+              updateServiceFavor(favorDialog.form.favorType,userFavorDialog.favorType,data);
               favorDialog.visible = false;
             })
             .catch(function (error) {
@@ -780,6 +812,7 @@
               .then(function (response) {
                 console.log(response);
                 updateUserFavor(userFavorDialog.favorType,favorDialog.userId);
+                updateServiceFavor(favorDialog.form.favorType,userFavorDialog.favorType,data);
                 root.$message({
                   type: "success",
                   message: response.data.msg,
@@ -796,6 +829,8 @@
             });
           });
       };
+
+      //点赞、收藏对象
       const FavorTypeOptions = reactive([{
           value: 1,
           label: '服务人员'
@@ -806,17 +841,27 @@
           value: 3,
           label: '讨论贴'
         }])
-      const FavorObjectOptions = reactive([
-        {
-          id: 1,
-          name: '人员1'
+      const FavorObjectOptions = reactive({
+        favorData:[]
+      })
+      const handleFavorTypeChange = (type) => {
+        console.log(type);
+        if (type === 1) {
+          loadService();
         }
-      ])
+      }
       const handleFavorIDChange = (val) => {
         console.log(val);
       }
-      
-
+      const loadService = () => {
+        ShowAllService().then(function (response) {
+          console.log(response);
+          FavorObjectOptions.favorData = response.data;
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      }
 
       //地区选择
       const cityList = city;
@@ -854,6 +899,7 @@
 
         updateUserAddress,
         updateUserFavor,
+        updateServiceFavor,
 
         formData,
         imgName,
@@ -874,9 +920,13 @@
         openFavorDiaog,
         submitFavor,
         deleteFavor,
+
         FavorTypeOptions,
         FavorObjectOptions,
+        handleFavorTypeChange,
         handleFavorIDChange,
+
+        loadService,
 
         cityList,
         handleCityChange,
