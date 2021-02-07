@@ -267,13 +267,33 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item label="" :label-width="favorDialog.formLabelWidth">
-              <el-select v-model="favorDialog.form.FAVOR" placeholder="请选择对象" clearable @change="handleFavorIDChange">
+            <el-form-item label="" :label-width="favorDialog.formLabelWidth" v-if="!FavorObjectOptions.favorData[0]">
+              <el-select v-model="favorDialog.form.FAVOR" placeholder="请选择" clearable @change="handleFavorIDChange">
                 <el-option
                   v-for="service in FavorObjectOptions.favorData"
                   :key="service.serviceId"
                   :label="service.serviceName"
                   :value="{ value: service.serviceId, label: service.serviceName }">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="" :label-width="favorDialog.formLabelWidth" v-else-if="FavorObjectOptions.favorData[0] && FavorObjectOptions.favorData[0].serviceId">
+              <el-select v-model="favorDialog.form.FAVOR" placeholder="请选择服务人员" clearable @change="handleFavorIDChange">
+                <el-option
+                  v-for="service in FavorObjectOptions.favorData"
+                  :key="service.serviceId"
+                  :label="service.serviceName"
+                  :value="{ value: service.serviceId, label: service.serviceName }">
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="" :label-width="favorDialog.formLabelWidth" v-else-if="FavorObjectOptions.favorData[0] && FavorObjectOptions.favorData[0].institutionId">
+              <el-select v-model="favorDialog.form.FAVOR" placeholder="请选择服务机构" clearable @change="handleFavorIDChange">
+                <el-option
+                  v-for="institution in FavorObjectOptions.favorData"
+                  :key="institution.institutionId"
+                  :label="institution.institutionName"
+                  :value="{ value: institution.institutionId, label: institution.institutionName }">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -319,6 +339,7 @@
     DelFavor
   } from "@/api/Favor";
   import { ShowAllService,UpdateServiceLikeNum,UpdateServiceLoveNum } from "@/api/Service";
+  import { ShowAllInstitution,UpdateInstitutionLikeNum,UpdateInstitutionLoveNum } from "@/api/Institution";
   export default {
     name: "user",
     setup(props, {
@@ -534,7 +555,31 @@
             });
           }
         }
+        else if (type === 2) {
+          data = {
+            institutionId: favor.institutionId
+          };
+          if (favorType === 1 ) {
+            UpdateInstitutionLikeNum(data)
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+          else if (favorType === 2 ) {
+            UpdateInstitutionLoveNum(data)
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+        }
       }
+      
 
       //文件上传
       let formData = new FormData();
@@ -741,7 +786,7 @@
         userId: "",
         form: {
           favorId:"",
-          favorType:"",
+          favorType:1,
           FAVOR:"",
           favorTime:""
         },
@@ -755,6 +800,7 @@
           favorDialog.title = "新增收藏";
         }
         favorDialog.form = {};
+        FavorObjectOptions.favorData = [];
         favorDialog.visible = true;
       };
       const submitFavor  = () => {
@@ -801,8 +847,7 @@
         let data = {
           favorId: favor.favorId,
         };
-        root
-          .$confirm("此操作将永久删除该收藏, 是否继续?", "提示", {
+        root.$confirm("此操作将永久删除该收藏, 是否继续?", "提示", {
             confirmButtonText: "确定",
             cancelButtonText: "取消",
             type: "warning",
@@ -812,7 +857,7 @@
               .then(function (response) {
                 console.log(response);
                 updateUserFavor(userFavorDialog.favorType,favorDialog.userId);
-                updateServiceFavor(favorDialog.form.favorType,userFavorDialog.favorType,data);
+                updateServiceFavor(favorDialog.form.favorType,userFavorDialog.favorType,favor);
                 root.$message({
                   type: "success",
                   message: response.data.msg,
@@ -845,9 +890,11 @@
         favorData:[]
       })
       const handleFavorTypeChange = (type) => {
-        console.log(type);
         if (type === 1) {
           loadService();
+        }
+        else if (type === 2) {
+          loadInstitution();
         }
       }
       const handleFavorIDChange = (val) => {
@@ -862,6 +909,17 @@
             console.log(error);
         });
       }
+      const loadInstitution = () => {
+        ShowAllInstitution().then(function (response) {
+          console.log(response);
+          FavorObjectOptions.favorData = response.data;
+          console.log(FavorObjectOptions.favorData[0]);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      }
+
 
       //地区选择
       const cityList = city;
@@ -927,6 +985,7 @@
         handleFavorIDChange,
 
         loadService,
+        loadInstitution,
 
         cityList,
         handleCityChange,

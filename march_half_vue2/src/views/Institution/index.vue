@@ -2,11 +2,11 @@
   <div id="institution">
     <el-container style="height: 100%">
       <el-header style="height: auto">
-        <el-row class="toolbar" style="height: auto">
+        <el-row class="toolbar" style="height: auto;">
           <el-col :span="20">
             <el-form :inline="true" size="small">
-              <el-form-item>
-                <el-input placeholder="请输入服务机构名称" v-model="form.institutionName" clearable>
+              <el-form-item style=" width:150px;">
+                <el-input placeholder="请输入服务人员名称" v-model="form.institutionName" clearable>
                 </el-input>
               </el-form-item>
               <el-form-item style="margin-left: 10px">
@@ -47,7 +47,7 @@
               <span class="institutionIntro">{{scope.row.institutionIntro}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="institutionService" label="人员" width="50" align="center">
+          <el-table-column prop="institutioninstitution" label="人员" width="50" align="center">
             <template slot-scope="scope">
               <span>{{scope.row.institutionService ? scope.row.institutionService:0}}</span>
             </template>
@@ -93,19 +93,65 @@
         </el-pagination>
       </el-footer>
     </el-container>
-    <el-dialog :title="institutionDialog.title" :visible.sync="institutionDialog.visible" :append-to-body="true">
+    <el-dialog :title="institutionDialog.title" :visible.sync="institutionDialog.visible" :append-to-body="true"
+      @close="closeDialog">
       <el-form :model="institutionDialog.form">
-        <el-form-item label="服务机构名称" :label-width="institutionDialog.formLabelWidth">
-          <el-input disabled v-model="institutionDialog.form.institutionName" autocomplete="off"
-            v-if="institutionDialog.flag"></el-input>
-          <el-input v-model="institutionDialog.form.institutionName" autocomplete="off" v-else></el-input>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="服务机构名称" prop="institutionName" :label-width="institutionDialog.formLabelWidth">
+              <el-input v-model="institutionDialog.form.institutionName" clearable autocomplete="off" style="width:217px;">
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="服务机构图片" prop="institutionImg" :label-width="institutionDialog.formLabelWidth">
+              <form action="" name="file" class="file">
+                上传文件
+                <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*"
+                  ref="new_image" v-if="institutionDialog.visible">
+              </form>
+              <div class="fileName">{{imgName}}</div>
+            </el-form-item>
+          </el-col>
         </el-form-item>
-        <el-form-item label="服务机构昵称" :label-width="institutionDialog.formLabelWidth">
-          <el-input v-model="institutionDialog.form.nickname" autocomplete="off"></el-input>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="服务类别" prop="typeId" :label-width="institutionDialog.formLabelWidth">
+              <el-select v-model="institutionDialog.form.typeId" clearable multiple collapse-tags placeholder="请选择"
+                @change="yyyy">
+                <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
+                  :value="type.typeId">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="联系电话" prop="institutionPhone" :label-width="institutionDialog.formLabelWidth">
+              <el-input v-model="institutionDialog.form.institutionPhone" clearable autocomplete="off" style="width:217px;">
+              </el-input>
+            </el-form-item>
+          </el-col>
         </el-form-item>
-        <el-form-item label="服务机构密码" :label-width="institutionDialog.formLabelWidth">
-          <el-input type="password" v-model="institutionDialog.form.password" autocomplete="off"></el-input>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="机构地址" prop="institutionArea" :label-width="institutionDialog.formLabelWidth">
+              <el-cascader v-model="institutionDialog.form.institutionArea" clearable :options="cityList"
+                @change="handleCityChange">
+              </el-cascader>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="地址详情" prop="institutionAddress" :label-width="institutionDialog.formLabelWidth">
+              <el-input v-model="institutionDialog.form.institutionAddress" style="width:217px;"></el-input>
+            </el-form-item>
+          </el-col>
         </el-form-item>
+        <el-form-item prop="institutionIntro" label="介绍" :label-width="institutionDialog.formLabelWidth">
+          <el-input type="textarea" placeholder="请输入介绍" v-model="institutionDialog.form.institutionIntro" maxlength="50"
+            show-word-limit>
+          </el-input>
+        </el-form-item>
+
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="institutionDialog.visible = false">取 消</el-button>
@@ -122,12 +168,20 @@
     ref
   } from "@vue/composition-api";
   import request from "@/utils/request";
+  import city from "@/utils/city"
   import {
     UpdateInstitution,
     AddInstitution,
     DelInstitution,
     FindAllInstitution
   } from "@/api/Institution";
+  import {
+    ShowAllType
+  } from "@/api/Type";
+  import {
+    addImage
+  } from "@/api/System"
+
   export default {
     name: "institution",
     setup(props, {
@@ -136,7 +190,6 @@
     }) {
       let form = reactive({
         institutionName: "",
-        nickname: "",
       });
       let institutionDialog = reactive({
         visible: false,
@@ -144,8 +197,13 @@
         flag: false,
         form: {
           institutionName: "",
-          nickname: "",
-          password: "",
+          institutionImg: "",
+          typeId: [],
+          institutionType: [],
+          institutionPhone: "",
+          institutionArea: "",
+          institutionAddress: "",
+          institutionIntro: "",
         },
         formLabelWidth: "120px",
       });
@@ -153,56 +211,88 @@
         loading: false,
         tableData: [],
       });
-      let pagination = reactive({
-        pageIndex: 1,
-        totalRecordCount: 0,
-        pageSize: 5,
-      });
-
       const loadData = () => {
         table.loading = true;
         let data = {
           pageIndex: pagination.pageIndex,
           pageSize: pagination.pageSize,
-          keyWord: form.typeName,
+          keyWord: form.institutionName,
         };
         table.loading = false;
-        table.tableData = [{
-          institutionId: 1,
-          institutionName: 'wsh',
-          nickname: '小王'
-        }, ]
-        pagination.totalRecordCount = 1;
-        //   FindAllAser(data)
-        //     .then(function (response) {
-        //       console.log(response.data);
-        //       table.loading = false;
-        //       table.tableData = response.data.pageInfo.list;
-        //       pagination.totalRecordCount = response.data.pageInfo.total;
-        //     })
-        //     .catch(function (error) {
-        //       console.log(error);
-        //     });
+        FindAllInstitution(data)
+          .then(function (response) {
+            console.log(response.data);
+            table.loading = false;
+            table.tableData = response.data.pageInfo.list;
+            if (form.institutionType) {
+              table.tableData = table.tableData.filter(institution => institution.typeId === form.institutionType);
+            }
+            for (let i = 0; i < table.tableData.length; i++) {
+              table.tableData[i].typeId = table.tableData[i].typeId.split(",");
+              table.tableData[i].typeId.forEach(function (item, index, arr) {
+                table.tableData[i].typeId[index] = parseInt(table.tableData[i].typeId[index]);
+              });
+            }
+            pagination.totalRecordCount = response.data.pageInfo.total;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
       };
       const openDiaog = (institution) => {
+        console.log(institution)
         if (institution !== 0) {
           institutionDialog.title = "修改服务机构";
           institutionDialog.flag = true;
           institutionDialog.form = institution;
+          imgName.value = institution.institutionImg;
+          if (institutionDialog.form.institutionArea.indexOf("/") != -1) {
+            institutionDialog.form.institutionArea = institutionDialog.form.institutionArea.split('/');
+          }
         } else {
           institutionDialog.title = "新增服务机构";
           institutionDialog.flag = false;
           institutionDialog.form = {};
+          imgName.value = "未选择任何文件";
         }
         institutionDialog.visible = true;
       };
+      const closeDialog = () => {
+        console.log('close');
+        if (institutionDialog.form.institutionArea.indexOf("/") == -1) {
+          institutionDialog.form.institutionArea = institutionDialog.form.institutionArea.join('/');
+        }
+      }
       const submitInstitution = () => {
+        if (institutionDialog.form.institutionArea) {
+          institutionDialog.form.institutionArea = institutionDialog.form.institutionArea[0] + '/' + institutionDialog.form
+            .institutionArea[1] + '/' + institutionDialog.form.institutionArea[2];
+        }
+        if (institutionDialog.form.typeId) {
+          let names = []
+          for (let j = 0; j < institutionDialog.form.typeId.length; j++) {
+            for (let i = 0; i < optionList.typeData.length; i++) {
+              if (optionList.typeData[i].typeId === institutionDialog.form.typeId[j]) {
+                names.push(optionList.typeData[i].typeName);
+              }
+            }
+          }
+          institutionDialog.form.institutionType = names;
+        }
+        institutionDialog.form.typeId = institutionDialog.form.typeId.join(',');
+        institutionDialog.form.institutionType = institutionDialog.form.institutionType.join(',');
+        let data = {
+          institutionName: institutionDialog.form.institutionName,
+          institutionImg: imgName.value,
+          typeId: institutionDialog.form.typeId,
+          institutionType: institutionDialog.form.institutionType,
+          institutionPhone: institutionDialog.form.institutionPhone,
+          institutionArea: institutionDialog.form.institutionArea,
+          institutionAddress: institutionDialog.form.institutionAddress,
+          institutionIntro: institutionDialog.form.institutionIntro,
+        };
         if (institutionDialog.flag) {
-          let data = {
-            institutionName: institutionDialog.form.institutionName,
-            nickname: institutionDialog.form.nickname,
-            password: institutionDialog.form.password,
-          };
+          data['institutionId'] = institutionDialog.form.institutionId;
           UpdateInstitution(data)
             .then(function (response) {
               console.log(response);
@@ -216,11 +306,6 @@
               console.log(error);
             });
         } else {
-          let data = {
-            institutionName: institutionDialog.form.institutionName,
-            nickname: institutionDialog.form.nickname,
-            password: institutionDialog.form.password,
-          };
           AddInstitution(data)
             .then(function (response) {
               console.log(response);
@@ -238,7 +323,7 @@
       };
       const deleteData = (institution) => {
         let data = {
-          rootId: institution.rootId,
+          institutionId: institution.institutionId,
         };
         root
           .$confirm("此操作将永久删除该服务机构, 是否继续?", "提示", {
@@ -267,6 +352,31 @@
             });
           });
       };
+
+      //类别
+      let optionList = reactive({
+        typeData: [],
+      });
+      const loadType = () => {
+        ShowAllType().then(function (response) {
+            console.log(response);
+            optionList.typeData = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+      //地区选择
+      const cityList = city;
+      const handleCityChange = (val) => {
+        console.log(val);
+      }
+      //页数
+      let pagination = reactive({
+        pageIndex: 1,
+        totalRecordCount: 0,
+        pageSize: 5,
+      });
       const handleCurrentChange = (val) => {
         pagination.pageIndex = val;
         loadData();
@@ -275,12 +385,37 @@
         pagination.pageSize = val;
         loadData();
       };
+      //图片
+      let formData = new FormData();
+      let imgName = ref("未选择任何文件");
+      let imgUrl = ref("http://localhost:8088/image/");
+      const tirggerFile = (event) => {
+        console.log(event)
+        if (event.target.files.length !== 0) {
+          formData.append('image_data', event.target.files[0]);
+          console.log(formData)
+          imgName.value = event.target.files[0].name;
+          addImage(formData).then(response => {
+            console.log(response.data.fileName);
+            root.$message({
+              type: 'info',
+              message: response.data.msg
+            });
+          })
+        }
+      }
+
+      const yyyy = (val) => {
+        console.log(val)
+      }
 
       onMounted(() => {
+        loadType();
         loadData();
       });
 
       return {
+        yyyy,
         form,
         table,
         pagination,
@@ -288,11 +423,23 @@
 
         loadData,
         openDiaog,
+        closeDialog,
         submitInstitution,
         deleteData,
 
+        optionList,
+        loadType,
+
+        cityList,
+        handleCityChange,
+
         handleCurrentChange,
         handlePageSizeChange,
+
+        formData,
+        imgName,
+        imgUrl,
+        tirggerFile
       };
     },
   };

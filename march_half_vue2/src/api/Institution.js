@@ -1,5 +1,11 @@
 import request from "@/utils/request";
 
+export function ShowAllInstitution(){
+    return request.request({
+        method: "get",
+        url: "/showAllInstitution"
+    })
+}
 
 export function FindAllInstitution(data){
     var qs = require('querystring');
@@ -14,6 +20,22 @@ export function UpdateInstitution(data){
     return request.request({
         method: "get",
         url: "/updateInstitution",
+        params: data
+    })
+}
+
+export function UpdateInstitutionLikeNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateInstitutionLikeNum",
+        params: data
+    })
+}
+
+export function UpdateInstitutionLoveNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateInstitutionLoveNum",
         params: data
     })
 }

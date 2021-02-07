@@ -58,7 +58,7 @@
           </el-table-column>
           <el-table-column prop="serviceYear" label="经验" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.serviceYear ? scope.row.serviceYear:0}}</span>
+              <span>{{scope.row.serviceYear ? scope.row.serviceYear:0}}年</span>
             </template>
           </el-table-column>
           <el-table-column prop="serviceOrder" label="订单" width="50" align="center">

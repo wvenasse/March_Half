@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.InstitutionDao">
+    <insert id="addInstitution" parameterType="org.example.pojo.Institution">
+        insert into institutions(institutionName,institutionImg,typeId,institutionType,institutionPhone,institutionArea,institutionAddress,institutionIntro)
+        values (#{institutionName},#{institutionImg},#{typeId},#{institutionType},#{institutionPhone},#{institutionArea},#{institutionAddress},#{institutionIntro})
+    </insert>
+    <delete id="delInstitution" parameterType="java.lang.Integer">
+        delete from institutions where institutionId=#{institutionId}
+    </delete>
+    <select id="updateInstitution" parameterType="org.example.pojo.Institution" resultType="java.lang.Integer">
+        update institutions set institutionName=#{institutionName},institutionImg=#{institutionImg},typeId=#{typeId},institutionType=#{institutionType},
+        institutionPhone=#{institutionPhone},institutionArea=#{institutionArea},institutionAddress=#{institutionAddress},institutionIntro=#{institutionIntro}
+        where institutionId=#{institutionId}
+    </select>
+    <select id="updateInstitutionLikeNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update institutions set institutions.institutionLike = (select count(favorId) from favors where favors.institutionId= #{institutionId} AND favors.favorType=1) where institutions.institutionId = #{institutionId}
+    </select>
+    <select id="updateInstitutionLoveNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update institutions set institutions.institutionLove = (select count(favorId) from favors where favors.institutionId= #{institutionId} AND favors.favorType=2) where institutions.institutionId = #{institutionId}
+    </select>
+    <select id="getAllInstitution" resultType="org.example.pojo.Institution">
+        select * from institutions where institutionName like "%"#{keyWord}"%"
+    </select>
+    <select id="getInstitutionById" resultType="org.example.pojo.Institution">
+        select * from institutions where institutionId=#{institutionId}
+     </select>
+</mapper>
