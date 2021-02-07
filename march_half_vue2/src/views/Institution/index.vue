@@ -41,10 +41,18 @@
             </template>
           </el-table-column>
           <el-table-column prop="institutionPhone" label="联系电话" width="100" align="center"></el-table-column>
-          <el-table-column prop="institutionAddress" label="地址" width="200" align="center"></el-table-column>
+          <el-table-column prop="institutionAddress" label="地址" width="130" align="center">
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.institutionAddress" placement="bottom-start">
+                <span class="institutionAddress">{{scope.row.institutionArea}}-{{scope.row.institutionAddress}}</span>
+              </el-tooltip>
+            </template>
+          </el-table-column>
           <el-table-column prop="institutionIntro" label="介绍" min-width="150" align="center">
             <template slot-scope="scope">
-              <span class="institutionIntro">{{scope.row.institutionIntro}}</span>
+              <el-tooltip class="item" effect="dark" :content="scope.row.institutionIntro" placement="bottom-start">
+                <span class="institutionIntro">{{scope.row.institutionIntro}}</span>
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column prop="institutioninstitution" label="人员" width="50" align="center">
@@ -504,7 +512,8 @@
 
 
   .institutionIntro,
-  .institutionType {
+  .institutionType,
+  .institutionAddress {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

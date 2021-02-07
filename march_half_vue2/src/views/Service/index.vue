@@ -47,13 +47,24 @@
               </el-tooltip>
             </template>
           </el-table-column>
-          <el-table-column prop="serviceInstitution" label="所属机构" width="80" align="center"></el-table-column>
+          <el-table-column prop="serviceInstitution" label="所属机构" width="80" align="center">
+             <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.serviceInstitution" placement="bottom-start">
+                <span class="serviceInstitution">{{scope.row.serviceInstitution}}</span>
+              </el-tooltip>
+            </template>
+          </el-table-column>
           <el-table-column prop="serviceSfz" label="身份证" width="150" align="center"></el-table-column>
           <el-table-column prop="servicePhone" label="电话号码" width="100" align="center"></el-table-column>
           <el-table-column prop="serviceAddress" label="户籍" width="150" align="center"></el-table-column>
           <el-table-column prop="serviceIntro" label="介绍" min-width="150" align="center">
             <template slot-scope="scope">
               <span class="serviceIntro">{{scope.row.serviceIntro}}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="servicePrice" label="时薪" width="80" align="center">
+            <template slot-scope="scope">
+              <span>{{scope.row.servicePrice ? scope.row.servicePrice:0}}元</span>
             </template>
           </el-table-column>
           <el-table-column prop="serviceYear" label="经验" width="50" align="center">
@@ -126,8 +137,7 @@
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="服务类别" prop="typeId" :label-width="serviceDialog.formLabelWidth">
-              <el-select v-model="serviceDialog.form.typeId" clearable multiple collapse-tags placeholder="请选择"
-                @change="yyyy">
+              <el-select v-model="serviceDialog.form.typeId" clearable multiple collapse-tags placeholder="请选择">
                 <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
                   :value="type.typeId">
                 </el-option>
@@ -137,8 +147,8 @@
           <el-col :span="12">
             <el-form-item label="所属机构" prop="institutionId" :label-width="serviceDialog.formLabelWidth">
               <el-select v-model="serviceDialog.form.institutionId" clearable placeholder="请选择">
-                <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
-                  :value="type.typeId">
+                <el-option v-for="institution in optionList.institutionData" :key="institution.institutionId" :label="institution.institutionName"
+                  :value="institution.institutionId">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -172,11 +182,21 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-        <el-form-item prop="serviceIntro" label="介绍" :label-width="serviceDialog.formLabelWidth">
-          <el-input type="textarea" placeholder="请输入介绍" v-model="serviceDialog.form.serviceIntro" maxlength="50"
-            show-word-limit>
-          </el-input>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="时薪" prop="servicePrice" :label-width="serviceDialog.formLabelWidth">
+              <el-input-number v-model="serviceDialog.form.servicePrice" :min="0"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item prop="serviceIntro" label="介绍" :label-width="serviceDialog.formLabelWidth">
+              <el-input type="textarea" placeholder="请输入介绍" v-model="serviceDialog.form.serviceIntro" maxlength="50"
+                show-word-limit>
+              </el-input>
+            </el-form-item>
+          </el-col>
         </el-form-item>
+        
 
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -204,6 +224,9 @@
   import {
     ShowAllType
   } from "@/api/Type";
+  import {
+    ShowAllInstitution
+  } from "@/api/Institution";
   import {
     addImage
   } from "@/api/System"
@@ -234,6 +257,7 @@
           serviceAddress: "",
           serviceIntro: "",
           serviceYear: 0,
+          servicePrice:0
         },
         formLabelWidth: "120px",
       });
@@ -312,10 +336,9 @@
         serviceDialog.form.typeId = serviceDialog.form.typeId.join(',');
         serviceDialog.form.serviceType = serviceDialog.form.serviceType.join(',');
         if (serviceDialog.form.institutionId) {
-          for (let i = 0; i < optionList.typeData.length; i++) {
-            if (optionList.typeData[i].typeId === serviceDialog.form.institutionId) {
-              serviceDialog.form.serviceInstitution = optionList.typeData[i].typeName;
-              console.log(serviceDialog.form.serviceInstitution)
+          for (let i = 0; i < optionList.institutionData.length; i++) {
+            if (optionList.institutionData[i].institutionId === serviceDialog.form.institutionId) {
+              serviceDialog.form.serviceInstitution = optionList.institutionData[i].institutionName;
             }
           }
         }
@@ -331,6 +354,7 @@
           serviceAddress: serviceDialog.form.serviceAddress,
           serviceIntro: serviceDialog.form.serviceIntro,
           serviceYear: serviceDialog.form.serviceYear,
+          servicePrice:  serviceDialog.form.servicePrice,
         };
         if (serviceDialog.flag) {
           data['serviceId'] = serviceDialog.form.serviceId;
@@ -394,9 +418,10 @@
           });
       };
 
-      //类别
+      //类别、机构
       let optionList = reactive({
         typeData: [],
+        institutionData:[]
       });
       const loadType = () => {
         ShowAllType().then(function (response) {
@@ -407,6 +432,16 @@
             console.log(error);
           });
       }
+      const loadInstitution = () => {
+        ShowAllInstitution().then(function (response) {
+            console.log(response);
+            optionList.institutionData = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }
+
       //地区选择
       const cityList = city;
       const handleCityChange = (val) => {
@@ -446,17 +481,13 @@
         }
       }
 
-      const yyyy = (val) => {
-        console.log(val)
-      }
-
       onMounted(() => {
         loadType();
         loadData();
+        loadInstitution();
       });
 
       return {
-        yyyy,
         form,
         table,
         pagination,
@@ -470,6 +501,7 @@
 
         optionList,
         loadType,
+        loadInstitution,
 
         cityList,
         handleCityChange,
@@ -545,7 +577,8 @@
 
 
   .serviceIntro,
-  .serviceType {
+  .serviceType,
+  .serviceInstitution {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

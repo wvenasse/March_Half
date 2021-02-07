@@ -27,7 +27,7 @@ public class InstitutionController {
             return R.ok();
         }
         else {
-            return R.error("添加用户失败！");
+            return R.error("添加机构失败！");
         }
     }
 
@@ -38,7 +38,7 @@ public class InstitutionController {
             return R.ok();
         }
         else {
-            return R.error("删除用户失败！");
+            return R.error("删除机构失败！");
         }
     }
 
@@ -49,7 +49,7 @@ public class InstitutionController {
             return R.ok();
         }
         else {
-            return R.error("修改用户失败！");
+            return R.error("修改机构失败！");
         }
     }
 
@@ -60,7 +60,7 @@ public class InstitutionController {
             return R.ok();
         }
         else {
-            return R.error("修改用户点赞失败！");
+            return R.error("修改机构点赞失败！");
         }
     }
     @RequestMapping("/updateInstitutionLoveNum")
@@ -70,7 +70,7 @@ public class InstitutionController {
             return R.ok();
         }
         else {
-            return R.error("修改用户收藏失败！");
+            return R.error("修改机构收藏失败！");
         }
     }
 

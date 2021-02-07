@@ -14,7 +14,7 @@ public class Service {
     private  String servicePhone;
     private  String serviceAddress;
     private  String serviceIntro;
-
+    private  Integer servicePrice;
     private  Integer serviceYear;
     private  Integer serviceStar;
     private  Integer serviceOrder;
@@ -156,5 +156,13 @@ public class Service {
 
     public void setServiceLove(Integer serviceLove) {
         this.serviceLove = serviceLove;
+    }
+
+    public Integer getServicePrice() {
+        return servicePrice;
+    }
+
+    public void setServicePrice(Integer servicePrice) {
+        this.servicePrice = servicePrice;
     }
 }
