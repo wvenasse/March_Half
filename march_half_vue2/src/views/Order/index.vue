@@ -6,14 +6,14 @@
                     <el-col :span="20">
                         <el-form :inline="true" size="small">
                             <el-form-item style="width:120px;">
-                                <el-select size="small" v-model="form.serviceType" placeholder="订单类别" clearable>
+                                <el-select size="small" v-model="form.orderType" placeholder="订单类别" clearable>
                                     <el-option v-for="type in optionList.typeData" :key="type.typeId"
                                         :label="type.typeName" :value="type.typeId">
                                     </el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item style="margin-left: 10px; width:150px;">
-                                <el-input placeholder="请输入订单" v-model="form.serviceName" clearable>
+                                <el-input placeholder="请输入用户名称" v-model="form.OrderUser" clearable>
                                 </el-input>
                             </el-form-item>
                             <el-form-item style="margin-left: 10px">
@@ -33,13 +33,33 @@
                 <el-table v-loading="table.loading" size="small" :data="table.tableData" stripe highlight-current-row
                     style="margin: 0px 0px" key="1" height="100%" width="100%">
                     <el-table-column prop="orderId" label="序号" width="50"></el-table-column>
-                    <el-table-column prop="orderUserName" label="用户姓名" width="100" align="center"></el-table-column>
+                    <el-table-column prop="orderUser" label="用户姓名" width="80" align="center"></el-table-column>
+                    <el-table-column prop="orderContactName" label="服务对象" width="80" align="center"></el-table-column>
+                    <el-table-column prop="orderContactPhone" label="联系电话" width="100" align="center"></el-table-column>
+                    <el-table-column prop="orderAddressDtail" label="服务地址"  width="130" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderAddressDetail" placement="bottom-start">
+                                <span class="orderAddressDetail">{{scope.row.orderArea}}-{{scope.row.orderAddressDetail}}</span>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="orderType" label="服务类别" width="80" align="center"></el-table-column>
-                    <el-table-column prop="orderAddress" label="服务地址" width="80" align="center"></el-table-column>
-                    <el-table-column prop="orderTime" label="订单时间" width="80" align="center"></el-table-column>
                     <el-table-column prop="orderService" label="服务人员" width="150" align="center"></el-table-column>
-                    <el-table-column prop="orderInstitution" label="售后企业" width="100" align="center"></el-table-column>
-                    <el-table-column prop="orderDetail" label="订单备注" width="150" align="center"></el-table-column>
+                    <el-table-column prop="orderInstitution" label="服务企业" width="150" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderInstitution" placement="bottom-start">
+                                <span class="orderInstitution">{{scope.row.orderInstitution}}</span>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="orderTime" label="订单时间" width="150" align="center"></el-table-column>
+                    <el-table-column prop="orderDetail" label="订单备注" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderDetail" placement="bottom-start">
+                                <span class="orderDetail">{{scope.row.orderDetail}}</span>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
                     <el-table-column label="操作" fixed="right" align="center" width="150px">
                         <template slot-scope="scope">
                             <el-button size="small" type="text" @click="openDiaog(scope.row)">修改信息</el-button>
@@ -58,44 +78,24 @@
                 </el-pagination>
             </el-footer>
         </el-container>
-        <el-dialog :title="serviceDialog.title" :visible.sync="serviceDialog.visible" :append-to-body="true"
+        <el-dialog :title="orderDialog.title" :visible.sync="orderDialog.visible" :append-to-body="true"
             @close="closeDialog">
-            <el-form :model="serviceDialog.form">
+            <el-form :model="orderDialog.form">
                 <el-form-item>
                     <el-col :span="12">
-                        <el-form-item label="订单人员姓名" prop="serviceName" :label-width="serviceDialog.formLabelWidth">
-                            <el-input v-model="serviceDialog.form.serviceName" clearable autocomplete="off"
-                                style="width:217px;">
-                            </el-input>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="订单人员图片" prop="serviceIcon" :label-width="serviceDialog.formLabelWidth">
-                            <form action="" name="file" class="file">
-                                上传文件
-                                <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)"
-                                    accept="image/*" ref="new_image" v-if="serviceDialog.visible">
-                            </form>
-                            <div class="fileName">{{imgName}}</div>
-                        </el-form-item>
-                    </el-col>
-                </el-form-item>
-                <el-form-item>
-                    <el-col :span="12">
-                        <el-form-item label="订单类别" prop="typeId" :label-width="serviceDialog.formLabelWidth">
-                            <el-select v-model="serviceDialog.form.typeId" clearable multiple collapse-tags
-                                placeholder="请选择" @change="yyyy">
-                                <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
-                                    :value="type.typeId">
+                        <el-form-item label="用户" prop="orderUser" :label-width="orderDialog.formLabelWidth">
+                             <el-select v-model="orderDialog.form.userId" clearable placeholder="请选择用户" @change="handleUserChange">
+                                <el-option v-for="user in optionList.userData" :key="user.userId" :label="user.userName"
+                                :value="user.userId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="所属机构" prop="institutionId" :label-width="serviceDialog.formLabelWidth">
-                            <el-select v-model="serviceDialog.form.institutionId" clearable placeholder="请选择">
-                                <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
-                                    :value="type.typeId">
+                        <el-form-item label="服务地址" prop="addressId" :label-width="orderDialog.formLabelWidth">
+                             <el-select v-model="orderDialog.form.addressId" clearable placeholder="请选择地址" @change="handleAddressChange">
+                                <el-option v-for="address in optionList.addressData" :key="address.addressId" :label="address.addressVal"
+                                :value="address.addressId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -103,45 +103,32 @@
                 </el-form-item>
                 <el-form-item>
                     <el-col :span="12">
-                        <el-form-item label="身份证" prop="serviceSfz" :label-width="serviceDialog.formLabelWidth">
-                            <el-input v-model="serviceDialog.form.serviceSfz" clearable autocomplete="off"
-                                style="width:217px;">
-                            </el-input>
+                        <el-form-item label="服务类别" prop="typeId" :label-width="orderDialog.formLabelWidth">
+                             <el-select v-model="orderDialog.form.typeId" clearable placeholder="请选择类别" @change="handleTypeChange">
+                                <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
+                                :value="type.typeId">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="电话号码" prop="servicePhone" :label-width="serviceDialog.formLabelWidth">
-                            <el-input v-model="serviceDialog.form.servicePhone" clearable autocomplete="off"
-                                style="width:217px;">
-                            </el-input>
+                        <el-form-item label="服务人员" prop="serviceId" :label-width="orderDialog.formLabelWidth">
+                             <el-select v-model="orderDialog.form.serviceId" clearable placeholder="请选择人员" @change="handleServiceChange">
+                                <el-option v-for="service in optionList.serviceData" :key="service.serviceId" :label="service.serviceName"
+                                :value="service.serviceId">
+                                </el-option>
+                            </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form-item>
-                <el-form-item>
-                    <el-col :span="12">
-                        <el-form-item label="户籍" prop="serviceAddress" :label-width="serviceDialog.formLabelWidth">
-                            <el-cascader v-model="serviceDialog.form.serviceAddress" clearable :options="cityList"
-                                @change="handleCityChange">
-                            </el-cascader>
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                        <el-form-item label="经验" prop="serviceYear" :label-width="serviceDialog.formLabelWidth">
-                            <el-input-number v-model="serviceDialog.form.serviceYear" :min="0" :max="50">
-                            </el-input-number>
-                        </el-form-item>
-                    </el-col>
-                </el-form-item>
-                <el-form-item prop="serviceIntro" label="介绍" :label-width="serviceDialog.formLabelWidth">
-                    <el-input type="textarea" placeholder="请输入介绍" v-model="serviceDialog.form.serviceIntro"
-                        maxlength="50" show-word-limit>
+                <el-form-item prop="orderDetail" label="订单备注" :label-width="orderDialog.formLabelWidth">
+                    <el-input type="textarea" placeholder="请输入备注" v-model="orderDialog.form.orderDetail" maxlength="50" show-word-limit>
                     </el-input>
                 </el-form-item>
-
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="serviceDialog.visible = false">取 消</el-button>
-                <el-button type="primary" @click="submitService">确 定</el-button>
+                <el-button @click="orderDialog.visible = false">取 消</el-button>
+                <el-button type="primary" @click="submitOrder">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -153,21 +140,29 @@
         reactive,
         ref
     } from "@vue/composition-api";
-    import request from "@/utils/request";
-    import city from "@/utils/city"
     import {
-        UpdateService,
-        AddService,
-        DelService,
-        FindAllService
-    } from "@/api/Service";
+        UpdateOrder,
+        AddOrder,
+        DelOrder,
+        FindAllOrder
+    } from "@/api/Order";
+    import {
+        ShowAllUser,
+        UpdateUserOrderNum
+    } from "@/api/User";
+    import {
+        ShowAllAddress
+    } from "@/api/Address";
     import {
         ShowAllType
     } from "@/api/Type";
     import {
-        addImage
-    } from "@/api/System"
-
+        ShowAllService,
+        UpdateServiceOrderNum
+    } from "@/api/Service";
+    import {
+        UpdateInstitutionOrderNum
+    } from "@/api/Institution";
     export default {
         name: "order",
         setup(props, {
@@ -175,25 +170,30 @@
             root
         }) {
             let form = reactive({
-                serviceName: "",
-                serviceType: "",
+                orderType: "",
+                orderUser: "",
             });
-            let serviceDialog = reactive({
+            let orderDialog = reactive({
                 visible: false,
                 title: "",
                 flag: false,
                 form: {
-                    serviceName: "",
-                    serviceIcon: "",
-                    typeId: [],
-                    serviceType: [],
-                    institutionId: "",
-                    serviceInstitution: "",
-                    serviceSfz: "",
-                    servicePhone: "",
-                    serviceAddress: "",
-                    serviceIntro: "",
-                    serviceYear: 0,
+                    orderId:"",
+                    orderTime:"",
+                    orderDetail:"",
+                    userId:"",
+                    orderUser:"",
+                    typeId:"",
+                    orderType:"",
+                    serviceId:"",
+                    orderService:"",
+                    institutionId:"",
+                    orderInstitution:"",
+                    addressId:"",
+                    orderContactName:"",
+                    orderContactPhone:"",
+                    orderArea:"",
+                    orderAddressDetail:"",
                 },
                 formLabelWidth: "120px",
             });
@@ -206,24 +206,16 @@
                 let data = {
                     pageIndex: pagination.pageIndex,
                     pageSize: pagination.pageSize,
-                    keyWord: form.serviceName,
+                    keyWord: form.orderUser,
                 };
                 table.loading = false;
-                FindAllService(data)
+                FindAllOrder(data)
                     .then(function (response) {
                         console.log(response.data);
                         table.loading = false;
                         table.tableData = response.data.pageInfo.list;
-                        if (form.serviceType) {
-                            table.tableData = table.tableData.filter(service => service.typeId === form
-                                .serviceType);
-                        }
-                        for (let i = 0; i < table.tableData.length; i++) {
-                            table.tableData[i].typeId = table.tableData[i].typeId.split(",");
-                            table.tableData[i].typeId.forEach(function (item, index, arr) {
-                                table.tableData[i].typeId[index] = parseInt(table.tableData[i].typeId[
-                                    index]);
-                            });
+                        if (form.orderType) {
+                            table.tableData = table.tableData.filter(order => order.typeId === form.orderType);
                         }
                         pagination.totalRecordCount = response.data.pageInfo.total;
                     })
@@ -231,73 +223,62 @@
                         console.log(error);
                     });
             };
-            const openDiaog = (service) => {
-                console.log(service)
-                if (service !== 0) {
-                    serviceDialog.title = "修改订单";
-                    serviceDialog.flag = true;
-                    serviceDialog.form = service;
-                    imgName.value = service.serviceIcon;
-                    if (serviceDialog.form.serviceAddress.indexOf("/") != -1) {
-                        serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.split('/');
+            const openDiaog = (order) => {
+                console.log(order)
+                if (order !== 0) {
+                    orderDialog.title = "修改订单";
+                    orderDialog.flag = true;
+                    orderDialog.form = order;
+                    if (orderDialog.form.userId) {
+                        loadAddress(orderDialog.form.userId);
+                    }
+                    if (orderDialog.form.typeId) {
+                        loadService(orderDialog.form.typeId);
                     }
                 } else {
-                    serviceDialog.title = "新增订单";
-                    serviceDialog.flag = false;
-                    serviceDialog.form = {};
-                    imgName.value = "未选择任何文件";
+                    orderDialog.title = "新增订单";
+                    orderDialog.flag = false;
+                    orderDialog.form = {};
                 }
-                serviceDialog.visible = true;
+                orderDialog.visible = true;
             };
             const closeDialog = () => {
-                console.log('close');
-                if (serviceDialog.form.serviceAddress.indexOf("/") == -1) {
-                    serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.join('/');
-                }
+                // console.log('close');
+                // if (orderDialog.form.orderArea.indexOf("/") == -1) {
+                //     orderDialog.form.orderArea = orderDialog.form.orderArea.join('/');
+                // }
             }
-            const submitService = () => {
-                if (serviceDialog.form.serviceAddress) {
-                    serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress[0] + '/' + serviceDialog
-                        .form
-                        .serviceAddress[1] + '/' + serviceDialog.form.serviceAddress[2];
+            const submitOrder = () => {
+                if (orderDialog.form.serviceArea) {
+                    orderDialog.form.serviceArea = orderDialog.form.serviceArea[0] + '/' + orderDialog.form.serviceArea[1] + '/' + orderDialog.form.serviceArea[2];
                 }
-                if (serviceDialog.form.typeId) {
-                    let names = []
-                    for (let j = 0; j < serviceDialog.form.typeId.length; j++) {
-                        for (let i = 0; i < optionList.typeData.length; i++) {
-                            if (optionList.typeData[i].typeId === serviceDialog.form.typeId[j]) {
-                                names.push(optionList.typeData[i].typeName);
-                            }
-                        }
-                    }
-                    serviceDialog.form.serviceType = names;
-                }
-                serviceDialog.form.typeId = serviceDialog.form.typeId.join(',');
-                serviceDialog.form.serviceType = serviceDialog.form.serviceType.join(',');
-                if (serviceDialog.form.institutionId) {
-                    for (let i = 0; i < optionList.typeData.length; i++) {
-                        if (optionList.typeData[i].typeId === serviceDialog.form.institutionId) {
-                            serviceDialog.form.serviceInstitution = optionList.typeData[i].typeName;
-                            console.log(serviceDialog.form.serviceInstitution)
-                        }
-                    }
-                }
+                let yy = new Date().getFullYear();
+                let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+                let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
+                let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
+                let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+                let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+                orderDialog.form.orderTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
                 let data = {
-                    serviceName: serviceDialog.form.serviceName,
-                    serviceIcon: imgName.value,
-                    typeId: serviceDialog.form.typeId,
-                    serviceType: serviceDialog.form.serviceType,
-                    institutionId: serviceDialog.form.institutionId,
-                    serviceInstitution: serviceDialog.form.serviceInstitution,
-                    serviceSfz: serviceDialog.form.serviceSfz,
-                    servicePhone: serviceDialog.form.servicePhone,
-                    serviceAddress: serviceDialog.form.serviceAddress,
-                    serviceIntro: serviceDialog.form.serviceIntro,
-                    serviceYear: serviceDialog.form.serviceYear,
+                    orderTime: orderDialog.form.orderTime,
+                    orderDetail: orderDialog.form.orderDetail,
+                    userId: orderDialog.form.userId,
+                    orderUser: orderDialog.form.orderUser,
+                    typeId: orderDialog.form.typeId,
+                    orderType: orderDialog.form.orderType,
+                    serviceId: orderDialog.form.serviceId,
+                    orderService: orderDialog.form.orderService,
+                    institutionId: orderDialog.form.institutionId,
+                    orderInstitution: orderDialog.form.orderInstitution,
+                    addressId: orderDialog.form.addressId,
+                    orderContactName: orderDialog.form.orderContactName,
+                    orderContactPhone: orderDialog.form.orderContactPhone,
+                    orderArea: orderDialog.form.orderArea,
+                    orderAddressDetail: orderDialog.form.orderAddressDetail,
                 };
-                if (serviceDialog.flag) {
-                    data['serviceId'] = serviceDialog.form.serviceId;
-                    UpdateService(data)
+                if (orderDialog.flag) {
+                    data['orderId'] = orderDialog.form.orderId;
+                    UpdateOrder(data)
                         .then(function (response) {
                             console.log(response);
                             root.$message({
@@ -305,12 +286,13 @@
                                 message: response.data.msg,
                             });
                             loadData();
+                            updateOrderNum(data);
                         })
                         .catch(function (error) {
                             console.log(error);
                         });
                 } else {
-                    AddService(data)
+                    AddOrder(data)
                         .then(function (response) {
                             console.log(response);
                             root.$message({
@@ -318,16 +300,17 @@
                                 message: response.data.msg,
                             });
                             loadData();
+                            updateOrderNum(data);
                         })
                         .catch(function (error) {
                             console.log(error);
                         });
                 }
-                serviceDialog.visible = false;
+                orderDialog.visible = false;
             };
-            const deleteData = (service) => {
+            const deleteData = (order) => {
                 let data = {
-                    serviceId: service.serviceId,
+                    orderId: order.orderId,
                 };
                 root
                     .$confirm("此操作将永久删除该订单, 是否继续?", "提示", {
@@ -336,10 +319,11 @@
                         type: "warning",
                     })
                     .then(() => {
-                        DelService(data)
+                        DelOrder(data)
                             .then(function (response) {
                                 console.log(response);
                                 loadData();
+                                updateOrderNum(order);
                                 root.$message({
                                     type: "success",
                                     message: response.data.msg,
@@ -356,11 +340,103 @@
                         });
                     });
             };
+            const updateOrderNum = (order) => {
+                let userData = {
+                    userId:order.userId
+                };
+                UpdateUserOrderNum(userData)
+                    .then(function (response) {
+                    console.log(response.data);
+                    })
+                    .catch(function (error) {
+                    console.log(error);
+                    });
+                let serviceData = {
+                    serviceId:order.serviceId
+                };
+                UpdateServiceOrderNum(serviceData)
+                    .then(function (response) {
+                    console.log(response.data);
+                    })
+                    .catch(function (error) {
+                    console.log(error);
+                    });
+                let institutionData = {
+                    institutionId:order.institutionId
+                };
+                UpdateInstitutionOrderNum(institutionData)
+                    .then(function (response) {
+                    console.log(response.data);
+                    })
+                    .catch(function (error) {
+                    console.log(error);
+                    });
+            }
 
-            //类别
+            //用户、地址、类别、人员、机构
             let optionList = reactive({
+                userData: [],
+                addressData: [],
+                serviceData: [],
                 typeData: [],
+                institutionData:[]
             });
+            const loadUser = () => {
+                ShowAllUser().then(function (response) {
+                        console.log(response);
+                        optionList.userData = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+            const handleUserChange = (val) => {
+                loadAddress(val);
+                for (let i = 0; i < optionList.userData.length; i++) {
+                    if (optionList.userData[i].userId === val) {
+                        orderDialog.form.orderUser = optionList.userData[i].userName;
+                    }
+                }
+            }
+            const loadAddress = (userId) => {
+                let data = {
+                    userId:userId
+                };
+                ShowAllAddress(data).then(function (response) {
+                        console.log(response);
+                        optionList.addressData = [];
+                        for(let i=0;i<response.data.length;i++) {
+                            let obj = {}
+                            obj['addressId'] = response.data[i].addressId;
+                            obj['addressVal'] = response.data[i].contactName + '-' + response.data[i].contactPhone+ '-' + response.data[i].addressArea+ '-' + response.data[i].addressDetail ;
+                            optionList.addressData.push(obj);
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+            const handleAddressChange = (val) => {
+                console.log('add')
+                console.log(val)
+                if (val) {
+                for (let i = 0; i < optionList.addressData.length; i++) {
+                    if (optionList.addressData[i].addressId === val) {
+                        let address = optionList.addressData[i].addressVal.split('-')
+                        orderDialog.form.orderContactName = address[0];
+                        orderDialog.form.orderContactPhone = address[1];
+                        orderDialog.form.orderArea = address[2];
+                        orderDialog.form.orderAddressDetail = address[3];
+                    }
+                }
+                }
+                else {
+                    orderDialog.form.orderContactName = '';
+                    orderDialog.form.orderContactPhone = '';
+                    orderDialog.form.orderArea = '';
+                    orderDialog.form.orderAddressDetail = '';
+                }
+            }
             const loadType = () => {
                 ShowAllType().then(function (response) {
                         console.log(response);
@@ -370,11 +446,54 @@
                         console.log(error);
                     });
             }
-            //地区选择
-            const cityList = city;
-            const handleCityChange = (val) => {
-                console.log(val);
+            const handleTypeChange = (val) => {
+                if (val) {
+                for (let i = 0; i < optionList.typeData.length; i++) {
+                    if (optionList.typeData[i].typeId === val) {
+                        orderDialog.form.orderType = optionList.typeData[i].typeName;
+                        loadService(val);
+                    }
+                }
+                }
+                else {
+                    orderDialog.form.orderType = '';
+                }
             }
+            const loadService = (val) => {
+                ShowAllService().then(function (response) {
+                        console.log(response);
+                        optionList.serviceData = response.data;
+                        if (val) {
+                            optionList.serviceData = optionList.serviceData.filter(service => {
+                                let type = service.typeId;
+                                type = type.split(',');
+                                val = val + '';
+                                return type.indexOf(val) !== -1
+                            });
+                        }
+                        console.log(optionList.serviceData);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+            const handleServiceChange = (val) => {
+                if (val) {
+                for (let i = 0; i < optionList.serviceData.length; i++) {
+                    if (optionList.serviceData[i].serviceId === val) {
+                        orderDialog.form.orderService = optionList.serviceData[i].serviceName;
+                        orderDialog.form.institutionId = optionList.serviceData[i].institutionId;
+                        orderDialog.form.orderInstitution = optionList.serviceData[i].serviceInstitution;
+                    }
+                }
+                }
+                else {
+                    orderDialog.form.orderService = '';
+                    orderDialog.form.institutionId = '';
+                    orderDialog.form.orderInstitution = '';
+                }
+            }
+
             //页数
             let pagination = reactive({
                 pageIndex: 1,
@@ -389,61 +508,41 @@
                 pagination.pageSize = val;
                 loadData();
             };
-            //图片
-            let formData = new FormData();
-            let imgName = ref("未选择任何文件");
-            let imgUrl = ref("http://localhost:8088/image/");
-            const tirggerFile = (event) => {
-                console.log(event)
-                if (event.target.files.length !== 0) {
-                    formData.append('image_data', event.target.files[0]);
-                    console.log(formData)
-                    imgName.value = event.target.files[0].name;
-                    addImage(formData).then(response => {
-                        console.log(response.data.fileName);
-                        root.$message({
-                            type: 'info',
-                            message: response.data.msg
-                        });
-                    })
-                }
-            }
-
-            const yyyy = (val) => {
-                console.log(val)
-            }
 
             onMounted(() => {
                 loadType();
                 loadData();
+                loadUser();
+                loadAddress();
+                loadService();
             });
 
             return {
-                yyyy,
                 form,
                 table,
                 pagination,
-                serviceDialog,
+                orderDialog,
 
                 loadData,
                 openDiaog,
                 closeDialog,
-                submitService,
+                submitOrder,
                 deleteData,
+                updateOrderNum,
 
                 optionList,
+                loadUser,
+                handleUserChange,
+                loadAddress,
+                handleAddressChange,
                 loadType,
-
-                cityList,
-                handleCityChange,
+                handleTypeChange,
+                loadService,
+                handleServiceChange,
 
                 handleCurrentChange,
                 handlePageSizeChange,
 
-                formData,
-                imgName,
-                imgUrl,
-                tirggerFile
             };
         },
     };
@@ -507,8 +606,9 @@
     }
 
 
-    .serviceIntro,
-    .serviceType {
+    .orderAddressDetail,
+    .orderInstitution,
+    .orderDetail {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

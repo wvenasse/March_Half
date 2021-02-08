@@ -40,6 +40,14 @@ export function UpdateServiceLoveNum(data){
     })
 }
 
+export function UpdateServiceOrderNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateServiceOrderNum",
+        params: data
+    })
+}
+
 export function AddService(data){
     return request.request({
         method: "get",

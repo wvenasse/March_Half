@@ -16,8 +16,10 @@ public interface InstitutionDao {
     //改
     public Integer updateInstitution(Institution institution);
 
+    public Integer updateInstitutionServiceNum(Integer institutionId);
     public Integer updateInstitutionLikeNum(Integer institutionId);
     public Integer updateInstitutionLoveNum(Integer institutionId);
+    public Integer updateInstitutionOrderNum(Integer institutionId);
     //查
     public List<Institution> getAllInstitution(String keyWord);
     //照id查

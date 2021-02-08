@@ -225,7 +225,8 @@
     ShowAllType
   } from "@/api/Type";
   import {
-    ShowAllInstitution
+    ShowAllInstitution,
+    UpdateInstitutionServiceNum
   } from "@/api/Institution";
   import {
     addImage
@@ -279,7 +280,11 @@
             table.loading = false;
             table.tableData = response.data.pageInfo.list;
             if (form.serviceType) {
-              table.tableData = table.tableData.filter(service => service.typeId === form.serviceType);
+              table.tableData = table.tableData.filter(service => {
+                let type = service.typeId;
+                type = type.split(',');
+                return type.indexOf(form.serviceType.toString()) !== -1
+              });
             }
             for (let i = 0; i < table.tableData.length; i++) {
               table.tableData[i].typeId = table.tableData[i].typeId.split(",");
@@ -366,6 +371,7 @@
                 message: response.data.msg,
               });
               loadData();
+              updateInstitutionService(data);
             })
             .catch(function (error) {
               console.log(error);
@@ -379,6 +385,7 @@
                 message: response.data.msg,
               });
               loadData();
+              updateInstitutionService(data);
             })
             .catch(function (error) {
               console.log(error);
@@ -401,6 +408,7 @@
               .then(function (response) {
                 console.log(response);
                 loadData();
+                updateInstitutionService(service);
                 root.$message({
                   type: "success",
                   message: response.data.msg,
@@ -440,6 +448,18 @@
           .catch(function (error) {
             console.log(error);
           });
+      }
+      const updateInstitutionService = (service) => {
+        let data = {
+          institutionId:service.institutionId
+        };
+        UpdateInstitutionServiceNum(data)
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
       }
 
       //地区选择
@@ -502,6 +522,7 @@
         optionList,
         loadType,
         loadInstitution,
+        updateInstitutionService,
 
         cityList,
         handleCityChange,

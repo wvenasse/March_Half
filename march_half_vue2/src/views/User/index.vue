@@ -42,7 +42,11 @@
             </template>
           </el-table-column>
           <el-table-column prop="openid" label="openId" width="250" align="center"></el-table-column>
-          <el-table-column prop="userName" label="用户姓名" width="80" align="center"></el-table-column>
+          <el-table-column prop="userName" label="用户姓名" width="80" align="center">
+            <template slot-scope="scope">
+              <span class="userName">{{scope.row.userName}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="userSfz" label="身份证" width="150" align="center"></el-table-column>
           <el-table-column prop="userPhone" label="电话号码" width="100" align="center"></el-table-column>
           <el-table-column prop="userAddress" label="地址" width="50" align="center">
@@ -178,7 +182,7 @@
       </div>
     </el-dialog>
 
-    <el-dialog :title="addressDialog.title" :visible.sync="addressDialog.visible" :append-to-body="true">
+    <el-dialog :title="addressDialog.title" :visible.sync="addressDialog.visible" :append-to-body="true" @close="closeAddressDialog">
       <el-form :model="addressDialog.form" >
         <el-form-item>
           <el-col :span="12">
@@ -675,6 +679,11 @@
         }
         addressDialog.visible = true;
       };
+      const closeAddressDialog = () => {
+        if (addressDialog.form.addressArea.indexOf("/") === -1) {
+          addressDialog.form.addressArea = addressDialog.form.addressArea.join('/');
+        }
+      }
       const submitAddress  = () => {
         addressDialog.form.addressArea = addressDialog.form.addressArea[0] +'/'+ addressDialog.form.addressArea[1] +'/'+ addressDialog.form.addressArea[2];
         if (addressDialog.flag) {
@@ -805,11 +814,11 @@
       };
       const submitFavor  = () => {
         let yy = new Date().getFullYear();
-		    let mm = new Date().getMonth()+1;
-		    let dd = new Date().getDate();
-		    let hh = new Date().getHours();
-		    let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
-		    let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+        let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+        let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
+        let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
+        let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+        let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
 		    favorDialog.form.favorTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
         let data = {
           userId: favorDialog.userId,
@@ -970,6 +979,7 @@
 
         addressDialog,
         openAddressDiaog,
+        closeAddressDialog,
         submitAddress,
         deleteAddress,
 
@@ -1042,6 +1052,10 @@
     position: absolute;
     left: 0;
     top: 0;
+  }
+
+  .userName {
+    font-weight: bold;
   }
 
   .userIcon {

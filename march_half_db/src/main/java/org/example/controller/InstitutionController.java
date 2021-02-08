@@ -52,7 +52,16 @@ public class InstitutionController {
             return R.error("修改机构失败！");
         }
     }
-
+    @RequestMapping("/updateInstitutionServiceNum")
+    public R updateInstitutionServiceNum(Integer institutionId) {
+        Integer count = institutionDao.updateInstitutionServiceNum(institutionId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改机构人员失败！");
+        }
+    }
     @RequestMapping("/updateInstitutionLikeNum")
     public R updateInstitutionLikeNum(Integer institutionId) {
         Integer count = institutionDao.updateInstitutionLikeNum(institutionId);
@@ -71,6 +80,16 @@ public class InstitutionController {
         }
         else {
             return R.error("修改机构收藏失败！");
+        }
+    }
+    @RequestMapping("/updateInstitutionOrderNum")
+    public R updateInstitutionOrderNum(Integer institutionId) {
+        Integer count = institutionDao.updateInstitutionOrderNum(institutionId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改机构订单失败！");
         }
     }
 

@@ -73,6 +73,16 @@ public class ServiceController {
             return R.error("修改用户收藏失败！");
         }
     }
+    @RequestMapping("/updateServiceOrderNum")
+    public R updateServiceOrderNum(Integer serviceId) {
+        Integer count = serviceDao.updateServiceOrderNum(serviceId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户订单失败！");
+        }
+    }
 
     @RequestMapping(value = "/showAllService", produces = "text/json;charset=UTF-8")
     public String showAllService(){

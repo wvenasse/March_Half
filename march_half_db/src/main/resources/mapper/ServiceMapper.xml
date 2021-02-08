@@ -23,6 +23,9 @@
     <select id="updateServiceLoveNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update services set services.serviceLove = (select count(favorId) from favors where favors.serviceId= #{serviceId} AND favors.favorType=2) where services.serviceId = #{serviceId}
     </select>
+    <select id="updateServiceOrderNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update services set services.serviceOrder = (select count(orderId) from orders where orders.serviceId= #{serviceId}) where services.serviceId = #{serviceId}
+    </select>
 
     <select id="getAllService" resultType="org.example.pojo.Service">
         select * from services where serviceName like "%"#{keyWord}"%"

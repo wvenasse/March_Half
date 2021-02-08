@@ -24,6 +24,14 @@ export function UpdateInstitution(data){
     })
 }
 
+export function UpdateInstitutionServiceNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateInstitutionServiceNum",
+        params: data
+    })
+}
+
 export function UpdateInstitutionLikeNum(data){
     return request.request({
         method: "get",
@@ -36,6 +44,14 @@ export function UpdateInstitutionLoveNum(data){
     return request.request({
         method: "get",
         url: "/updateInstitutionLoveNum",
+        params: data
+    })
+}
+
+export function UpdateInstitutionOrderNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateInstitutionOrderNum",
         params: data
     })
 }

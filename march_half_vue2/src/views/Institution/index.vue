@@ -125,8 +125,7 @@
         <el-form-item>
           <el-col :span="12">
             <el-form-item label="服务类别" prop="typeId" :label-width="institutionDialog.formLabelWidth">
-              <el-select v-model="institutionDialog.form.typeId" clearable multiple collapse-tags placeholder="请选择"
-                @change="yyyy">
+              <el-select v-model="institutionDialog.form.typeId" clearable multiple collapse-tags placeholder="请选择">
                 <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
                   :value="type.typeId">
                 </el-option>

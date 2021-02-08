@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.OrderDao">
+    <insert id="addOrder" parameterType="org.example.pojo.Order">
+        insert into orders(orderTime,orderDetail,userId,orderUser,typeId,orderType,serviceId,orderService,institutionId,orderInstitution,
+        addressId,orderContactName,orderContactPhone,orderArea,orderAddressDetail)
+        values (#{orderTime},#{orderDetail},#{userId},#{orderUser},#{typeId},#{orderType},#{serviceId},#{orderService},#{institutionId},#{orderInstitution},
+        #{addressId},#{orderContactName},#{orderContactPhone},#{orderArea},#{orderAddressDetail})
+    </insert>
+    <delete id="delOrder" parameterType="java.lang.Integer">
+        delete from orders where orderId=#{orderId}
+    </delete>
+    <select id="updateOrder" parameterType="org.example.pojo.Order" resultType="java.lang.Integer">
+        update orders set orderTime=#{orderTime},orderDetail=#{orderDetail},
+        userId=#{userId},orderUser=#{orderUser},typeId=#{typeId},orderType=#{orderType},serviceId=#{serviceId},orderService=#{orderService},institutionId=#{institutionId},orderInstitution=#{orderInstitution},
+        addressId=#{addressId},orderContactName=#{orderContactName},orderContactPhone=#{orderContactPhone},orderArea=#{orderArea},orderAddressDetail=#{orderAddressDetail}
+        where orderId=#{orderId}
+    </select>
+    <select id="getAllOrder" resultType="org.example.pojo.Order">
+        select * from orders where orderUser like "%"#{keyWord}"%"
+    </select>
+
+    <select id="getOrderById" resultType="org.example.pojo.Order">
+        select * from orders where orderId=#{orderId}
+     </select>
+</mapper>

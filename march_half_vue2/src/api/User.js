@@ -48,6 +48,14 @@ export function UpdateUserLoveNum(data){
     })
 }
 
+export function UpdateUserOrderNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateUserOrderNum",
+        params: data
+    })
+}
+
 export function AddUser(data){
     return request.request({
         method: "get",

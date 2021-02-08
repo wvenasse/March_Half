@@ -85,6 +85,16 @@ public class UserController {
             return R.error("修改用户收藏失败！");
         }
     }
+    @RequestMapping("/updateUserOrderNum")
+    public R updateUserOrderNum(Integer userId) {
+        Integer count = usersDao.updateUserOrderNum(userId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户订单失败！");
+        }
+    }
 
     @RequestMapping(value = "/showAllUsers", produces = "text/json;charset=UTF-8")
     public String showAllUsers(){
