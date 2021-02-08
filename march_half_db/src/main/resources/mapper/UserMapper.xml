@@ -30,7 +30,6 @@
     <select id="updateUserOrderNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update users set users.userOrder = (select count(orderId) from orders where orders.userId= #{userId}) where users.userId = #{userId}
     </select>
-
     <select id="updateServiceOrderNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update services set services.serviceOrder = (select count(orderId) from orders where orders.serviceId= #{serviceId}) where services.serviceId = #{serviceId}
     </select>

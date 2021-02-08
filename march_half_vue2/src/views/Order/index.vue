@@ -33,7 +33,13 @@
                 <el-table v-loading="table.loading" size="small" :data="table.tableData" stripe highlight-current-row
                     style="margin: 0px 0px" key="1" height="100%" width="100%">
                     <el-table-column prop="orderId" label="序号" width="50"></el-table-column>
-                    <el-table-column prop="orderUser" label="用户姓名" width="80" align="center"></el-table-column>
+                    <el-table-column prop="orderUser" label="用户姓名" width="80" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderUser" placement="bottom-start">
+                                <span class="orderUser">{{scope.row.orderUser}}</span>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="orderContactName" label="服务对象" width="80" align="center"></el-table-column>
                     <el-table-column prop="orderContactPhone" label="联系电话" width="100" align="center"></el-table-column>
                     <el-table-column prop="orderAddressDtail" label="服务地址"  width="130" align="center">
@@ -53,6 +59,55 @@
                         </template>
                     </el-table-column>
                     <el-table-column prop="orderTime" label="订单时间" width="150" align="center"></el-table-column>
+                    <el-table-column prop="orderStatus" label="订单状态" width="150" align="center">
+                        <template slot-scope="scope">
+                            <span class="orderStatus" v-if="!scope.row.orderStatus">
+                                <el-popover placement="top" width="160"  trigger="hover" >
+                                    <p style="color:red;"><i class="el-icon-info"></i>确定已接单吗？</p>
+                                    <div style="text-align: right; margin: 0;">
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,1)">确定</el-button>
+                                    </div>
+                                    <el-button type="danger" plain size="mini" slot="reference" >待确定</el-button>
+                                </el-popover>
+                            </span>
+                            <span class="orderStatus" v-else-if="scope.row.orderStatus == 1">
+                                <el-popover placement="top" width="160"  trigger="hover" >
+                                    <p style="color:red;"><i class="el-icon-info"></i>确定已进行吗？</p>
+                                    <div style="text-align: right; margin: 0;">
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,2)">确定</el-button>
+                                    </div>
+                                    <el-button type="info" plain size="mini" slot="reference">已接单</el-button>
+                                </el-popover>
+                            </span>
+                            <span class="orderStatus" v-else-if="scope.row.orderStatus == 2">
+                                <el-popover placement="top" width="160"  trigger="hover" >
+                                    <p style="color:red;"><i class="el-icon-info"></i>确定已完成吗？</p>
+                                    <div style="text-align: right; margin: 0;">
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,3)">确定</el-button>
+                                    </div>
+                                    <el-button type="primary" plain size="mini" slot="reference">进行中</el-button>
+                                </el-popover>
+                            </span>
+                            <span class="orderStatus" v-else-if="scope.row.orderStatus == 3">
+                                <el-popover placement="top" width="160"  trigger="hover" >
+                                    <p style="color:red;"><i class="el-icon-info"></i>确定已评价吗？</p>
+                                    <div style="text-align: right; margin: 0;">
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,4)">确定</el-button>
+                                    </div>
+                                    <el-button type="warning" plain size="mini" slot="reference">已完成</el-button>
+                                </el-popover>
+                            </span>
+                            <span class="orderStatus" v-else-if="scope.row.orderStatus == 4">
+                                <el-popover placement="top" width="160"  trigger="hover" >
+                                    <p style="color:red;"><i class="el-icon-info"></i>确定已结束吗？</p>
+                                    <div style="text-align: right; margin: 0;">
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,5)">确定</el-button>
+                                    </div>
+                                    <el-button type="success" plain size="mini" slot="reference">已评价</el-button>
+                                </el-popover>
+                            </span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="orderDetail" label="订单备注" align="center">
                         <template slot-scope="scope">
                             <el-tooltip class="item" effect="dark" :content="scope.row.orderDetail" placement="bottom-start">
@@ -84,7 +139,12 @@
                 <el-form-item>
                     <el-col :span="12">
                         <el-form-item label="用户" prop="orderUser" :label-width="orderDialog.formLabelWidth">
-                             <el-select v-model="orderDialog.form.userId" clearable placeholder="请选择用户" @change="handleUserChange">
+                             <el-select v-if="orderDialog.flag" disabled  v-model="orderDialog.form.userId" clearable placeholder="请选择用户" @change="handleUserChange">
+                                <el-option v-for="user in optionList.userData" :key="user.userId" :label="user.userName"
+                                :value="user.userId">
+                                </el-option>
+                            </el-select>
+                            <el-select v-else v-model="orderDialog.form.userId" clearable placeholder="请选择用户" @change="handleUserChange">
                                 <el-option v-for="user in optionList.userData" :key="user.userId" :label="user.userName"
                                 :value="user.userId">
                                 </el-option>
@@ -144,7 +204,8 @@
         UpdateOrder,
         AddOrder,
         DelOrder,
-        FindAllOrder
+        FindAllOrder,
+        UpdateOrderStatus
     } from "@/api/Order";
     import {
         ShowAllUser,
@@ -372,6 +433,21 @@
                     console.log(error);
                     });
             }
+            const handleOrderStatus = (orderId,status) => {
+                console.log(orderId,status);
+                let data = {
+                    orderId: orderId,
+                    orderStatus: status
+                };
+                UpdateOrderStatus(data)
+                    .then(function (response) {
+                        console.log(response.data);
+                        loadData();
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
 
             //用户、地址、类别、人员、机构
             let optionList = reactive({
@@ -529,6 +605,7 @@
                 submitOrder,
                 deleteData,
                 updateOrderNum,
+                handleOrderStatus,
 
                 optionList,
                 loadUser,
@@ -605,6 +682,9 @@
         border-radius: 50%;
     }
 
+    .orderUser {
+        font-weight: bold;
+    }
 
     .orderAddressDetail,
     .orderInstitution,

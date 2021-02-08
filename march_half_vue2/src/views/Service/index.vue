@@ -33,7 +33,11 @@
         <el-table v-loading="table.loading" size="small" :data="table.tableData" stripe highlight-current-row
           style="margin: 0px 0px" key="1" height="100%" width="100%">
           <el-table-column prop="serviceId" label="序号" width="50"></el-table-column>
-          <el-table-column prop="serviceName" label="人员姓名" width="100" align="center"></el-table-column>
+          <el-table-column prop="serviceName" label="人员姓名" width="100" align="center">
+            <template slot-scope="scope">
+              <span class="serviceName">{{scope.row.serviceName}}</span>
+            </template>
+          </el-table-column>
           <el-table-column prop="serviceIcon" label="人员图片" width="80" align="center">
             <template slot-scope="scope">
               <img class="serviceIcon" :src="require('../../assets/imgs/Upload/'+scope.row.serviceIcon)"
@@ -586,6 +590,10 @@
     position: absolute;
     left: 0;
     top: 0;
+  }
+
+  .serviceName {
+    font-weight: bold;
   }
 
   .serviceIcon {

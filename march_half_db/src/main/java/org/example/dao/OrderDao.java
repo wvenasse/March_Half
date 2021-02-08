@@ -15,6 +15,8 @@ public interface OrderDao {
     public int delOrder(Integer orderId);
     //改
     public Integer updateOrder(Order order);
+    public Integer updateOrderStatus(Integer orderId,Integer orderStatus);
+
     //查
     public List<Order> getAllOrder(String keyWord);
     //照id查

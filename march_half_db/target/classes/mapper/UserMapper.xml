@@ -30,7 +30,9 @@
     <select id="updateUserOrderNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update users set users.userOrder = (select count(orderId) from orders where orders.userId= #{userId}) where users.userId = #{userId}
     </select>
-<!-- ,userAddress=#{userAddress},userLike=#{userLike},userLove=#{userLove},userEva=#{userEva},userCom=#{userCom}-->
+    <select id="updateServiceOrderNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update services set services.serviceOrder = (select count(orderId) from orders where orders.serviceId= #{serviceId}) where services.serviceId = #{serviceId}
+    </select>
 
     <select id="getAllUsers" resultType="org.example.pojo.User">
         select * from users where userName like "%"#{keyWord}"%" OR nickName like "%"#{keyWord}"%"

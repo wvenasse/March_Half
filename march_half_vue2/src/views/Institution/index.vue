@@ -26,7 +26,13 @@
         <el-table v-loading="table.loading" size="small" :data="table.tableData" stripe highlight-current-row
           style="margin: 0px 0px" key="1" height="100%">
           <el-table-column prop="institutionId" label="序号" width="50"></el-table-column>
-          <el-table-column prop="institutionName" label="机构名称" width="200" align="center"></el-table-column>
+          <el-table-column prop="institutionName" label="机构名称" width="200" align="center">
+            <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.institutionName" placement="bottom-start">
+                <span class="institutionName">{{scope.row.institutionName}}</span>
+              </el-tooltip>
+            </template>
+          </el-table-column>
           <el-table-column prop="institutionImg" label="机构图片" width="100" align="center">
             <template slot-scope="scope">
               <img class="institutionImg" :src="require('../../assets/imgs/Upload/'+scope.row.institutionImg)"
@@ -512,9 +518,13 @@
 
   .institutionIntro,
   .institutionType,
-  .institutionAddress {
+  .institutionAddress,
+  .institutionName {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+  .institutionName {
+    font-weight: bold;
   }
 </style>

@@ -4,6 +4,7 @@ public class Order {
     private  Integer orderId;
     private  String orderTime;
     private  String orderDetail;
+    private  Integer orderStatus;
 
     private  Integer userId;
     private  String orderUser;
@@ -146,5 +147,13 @@ public class Order {
 
     public void setOrderAddressDetail(String orderAddressDetail) {
         this.orderAddressDetail = orderAddressDetail;
+    }
+
+    public Integer getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(Integer orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

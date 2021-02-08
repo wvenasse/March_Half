@@ -24,6 +24,14 @@ export function UpdateOrder(data){
     })
 }
 
+export function UpdateOrderStatus(data){
+    return request.request({
+        method: "get",
+        url: "/updateOrderStatus",
+        params: data
+    })
+}
+
 export function AddOrder(data){
     return request.request({
         method: "get",

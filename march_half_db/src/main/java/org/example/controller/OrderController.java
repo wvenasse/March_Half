@@ -27,7 +27,7 @@ public class OrderController {
             return R.ok();
         }
         else {
-            return R.error("添加用户失败！");
+            return R.error("添加订单失败！");
         }
     }
 
@@ -38,7 +38,7 @@ public class OrderController {
             return R.ok();
         }
         else {
-            return R.error("删除用户失败！");
+            return R.error("删除订单失败！");
         }
     }
 
@@ -49,7 +49,18 @@ public class OrderController {
             return R.ok();
         }
         else {
-            return R.error("修改用户失败！");
+            return R.error("修改订单失败！");
+        }
+    }
+
+    @RequestMapping("/updateOrderStatus")
+    public R updateOrderStatus(Integer orderId,Integer orderStatus) {
+        Integer count = orderDao.updateOrderStatus(orderId,orderStatus);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改订单状态失败！");
         }
     }
 
