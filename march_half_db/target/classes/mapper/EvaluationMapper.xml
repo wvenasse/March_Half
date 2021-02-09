@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.EvaluationDao">
+    <insert id="addEvaluation" parameterType="org.example.pojo.Evaluation">
+        insert into evaluations(evaluationStatus,evaluationStar,evaluationImg,evaluationDetail,evaluationTime,isNoName,
+        userId,evaluationUser,typeId,evaluationType,
+        serviceId,evaluationService,institutionId,evaluationInstitution,orderId)
+        values (#{evaluationStatus},#{evaluationStar},#{evaluationImg},#{evaluationDetail},#{evaluationTime},#{isNoName},
+        #{userId},#{evaluationUser},#{typeId},#{evaluationType},
+        #{serviceId},#{evaluationService},#{institutionId},#{evaluationInstitution},#{orderId})
+    </insert>
+
+    <delete id="delEvaluation" parameterType="java.lang.Integer">
+        delete from evaluations where evaluationId=#{evaluationId}
+    </delete>
+
+    <select id="updateEvaluation" parameterType="org.example.pojo.Evaluation" resultType="java.lang.Integer">
+        update evaluations set evaluationStatus=#{evaluationStatus},evaluationStar=#{evaluationStar},
+        evaluationImg=#{evaluationImg},evaluationDetail=#{evaluationDetail},evaluationTime=#{evaluationTime},isNoName=#{isNoName},
+        userId=#{userId},evaluationUser=#{evaluationUser},typeId=#{typeId},evaluationType=#{evaluationType},
+        serviceId=#{serviceId},evaluationService=#{evaluationService},institutionId=#{institutionId},evaluationInstitution=#{evaluationInstitution},orderId=#{orderId}
+        where evaluationId=#{evaluationId}
+    </select>
+
+    <select id="getAllEvaluation" resultType="org.example.pojo.Evaluation">
+        select * from evaluations
+    </select>
+    <select id="getAllEvaluationByUser" resultType="org.example.pojo.Evaluation">
+        select * from evaluations where userId=#{userId}
+    </select>
+
+    <select id="getEvaluationById" resultType="org.example.pojo.Evaluation">
+        select * from evaluations where evaluationId=#{evaluationId}
+     </select>
+</mapper>

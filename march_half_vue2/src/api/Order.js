@@ -7,11 +7,28 @@ export function ShowAllOrder() {
     })
 }
 
+export function ShowAllOrderByStatus(data) {
+    return request.request({
+        method: "get",
+        url: "/showAllOrderByStatus",
+        params: data
+    })
+}
+
 export function FindAllOrder(data){
     var qs = require('querystring');
     return request.request({
         method: "post",
         url: "/findAllOrder",
+        data: qs.stringify(data)
+    })
+}
+
+export function FindAllOrderByStatus(data){
+    var qs = require('querystring');
+    return request.request({
+        method: "post",
+        url: "/findAllOrderByStatus",
         data: qs.stringify(data)
     })
 }

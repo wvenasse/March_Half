@@ -39,3 +39,11 @@ export function DelType(data){
         params: data
     })
 }
+
+export function GetServiceById(data){
+    return request.request({
+        method: "get",
+        url: "/showService",
+        params: data
+    })
+}

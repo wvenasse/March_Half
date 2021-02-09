@@ -54,7 +54,7 @@ public class OrderController {
     }
 
     @RequestMapping("/updateOrderStatus")
-    public R updateOrderStatus(Integer orderId,Integer orderStatus) {
+    public R updateOrderStatus(Integer orderId,String orderStatus) {
         Integer count = orderDao.updateOrderStatus(orderId,orderStatus);
         if (count == null) {
             return R.ok();
@@ -64,9 +64,16 @@ public class OrderController {
         }
     }
 
+
     @RequestMapping(value = "/showAllOrder", produces = "text/json;charset=UTF-8")
     public String showAllOrder(){
         List<Order> order = orderDao.getAllOrder("");
+        String orderJson = JSON.toJSONString(order);
+        return orderJson;
+    }
+    @RequestMapping(value = "/showAllOrderByStatus", produces = "text/json;charset=UTF-8")
+    public String showAllOrderByStatus(String orderStatus){
+        List<Order> order = orderDao.getAllOrderByStatus("",orderStatus);
         String orderJson = JSON.toJSONString(order);
         return orderJson;
     }
@@ -81,8 +88,19 @@ public class OrderController {
         return R.ok().put("pageInfo", pageInfo);
     }
 
+    @ResponseBody
+    @RequestMapping("/findAllOrderByStatus")
+    public R findAllOrderByStatus(@RequestParam("pageIndex") int pageIndex,
+                          @RequestParam("pageSize") int pageSize,
+                          @RequestParam("keyWord") String keyWord,
+                          @RequestParam("orderStatus") String orderStatus){
+        PageHelper.startPage(pageIndex,pageSize);
+        PageInfo<Order> pageInfo = new PageInfo(orderDao.getAllOrderByStatus(keyWord,orderStatus));
+        return R.ok().put("pageInfo", pageInfo);
+    }
+
     @RequestMapping(value = "/showOrder", produces = "text/json;charset=UTF-8")
-    public String showService(Integer orderId){
+    public String showOrder(Integer orderId){
         Order order = orderDao.getOrderById(orderId);
         String orderJson = JSON.toJSONString(order);
         return orderJson;

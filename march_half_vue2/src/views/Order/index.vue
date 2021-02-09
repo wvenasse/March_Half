@@ -6,6 +6,16 @@
                     <el-col :span="20">
                         <el-form :inline="true" size="small">
                             <el-form-item style="width:120px;">
+                                <el-select size="small" v-model="form.orderStatus" placeholder="订单状态" clearable>
+                                    <el-option key='0' label="待确定" value='0'></el-option>
+                                    <el-option key='1' label="已接单" value='1'></el-option>
+                                    <el-option key='2' label="进行中" value='2'></el-option>
+                                    <el-option key='3' label="已完成" value='3'></el-option>
+                                    <el-option key='4' label="已评价" value='4'></el-option>
+                                    <el-option key='5' label="已完成" value='5'></el-option>
+                                </el-select>
+                            </el-form-item>
+                            <el-form-item style="width:120px;">
                                 <el-select size="small" v-model="form.orderType" placeholder="订单类别" clearable>
                                     <el-option v-for="type in optionList.typeData" :key="type.typeId"
                                         :label="type.typeName" :value="type.typeId">
@@ -61,47 +71,47 @@
                     <el-table-column prop="orderTime" label="订单时间" width="150" align="center"></el-table-column>
                     <el-table-column prop="orderStatus" label="订单状态" width="150" align="center">
                         <template slot-scope="scope">
-                            <span class="orderStatus" v-if="!scope.row.orderStatus">
+                            <span class="orderStatus" v-if="scope.row.orderStatus == '0'">
                                 <el-popover placement="top" width="160"  trigger="hover" >
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已接单吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,1)">确定</el-button>
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'1')">确定</el-button>
                                     </div>
                                     <el-button type="danger" plain size="mini" slot="reference" >待确定</el-button>
                                 </el-popover>
                             </span>
-                            <span class="orderStatus" v-else-if="scope.row.orderStatus == 1">
+                            <span class="orderStatus" v-else-if="scope.row.orderStatus == '1'">
                                 <el-popover placement="top" width="160"  trigger="hover" >
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已进行吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,2)">确定</el-button>
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'2')">确定</el-button>
                                     </div>
                                     <el-button type="info" plain size="mini" slot="reference">已接单</el-button>
                                 </el-popover>
                             </span>
-                            <span class="orderStatus" v-else-if="scope.row.orderStatus == 2">
+                            <span class="orderStatus" v-else-if="scope.row.orderStatus == '2'">
                                 <el-popover placement="top" width="160"  trigger="hover" >
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已完成吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,3)">确定</el-button>
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'3')">确定</el-button>
                                     </div>
                                     <el-button type="primary" plain size="mini" slot="reference">进行中</el-button>
                                 </el-popover>
                             </span>
-                            <span class="orderStatus" v-else-if="scope.row.orderStatus == 3">
+                            <span class="orderStatus" v-else-if="scope.row.orderStatus == '3'">
                                 <el-popover placement="top" width="160"  trigger="hover" >
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已评价吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,4)">确定</el-button>
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'4')">确定</el-button>
                                     </div>
                                     <el-button type="warning" plain size="mini" slot="reference">已完成</el-button>
                                 </el-popover>
                             </span>
-                            <span class="orderStatus" v-else-if="scope.row.orderStatus == 4">
+                            <span class="orderStatus" v-else-if="scope.row.orderStatus == '4'">
                                 <el-popover placement="top" width="160"  trigger="hover" >
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已结束吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,5)">确定</el-button>
+                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'5')">确定</el-button>
                                     </div>
                                     <el-button type="success" plain size="mini" slot="reference">已评价</el-button>
                                 </el-popover>
@@ -144,7 +154,7 @@
                                 :value="user.userId">
                                 </el-option>
                             </el-select>
-                            <el-select v-else v-model="orderDialog.form.userId" clearable placeholder="请选择用户" @change="handleUserChange">
+                            <el-select v-else v-model="orderDialog.form.userId" clearable filterable  placeholder="请选择用户" @change="handleUserChange">
                                 <el-option v-for="user in optionList.userData" :key="user.userId" :label="user.userName"
                                 :value="user.userId">
                                 </el-option>
@@ -205,6 +215,7 @@
         AddOrder,
         DelOrder,
         FindAllOrder,
+        FindAllOrderByStatus,
         UpdateOrderStatus
     } from "@/api/Order";
     import {
@@ -231,6 +242,7 @@
             root
         }) {
             let form = reactive({
+                orderStatus:"",
                 orderType: "",
                 orderUser: "",
             });
@@ -267,10 +279,12 @@
                 let data = {
                     pageIndex: pagination.pageIndex,
                     pageSize: pagination.pageSize,
-                    keyWord: form.orderUser,
+                    keyWord: form.orderUser
                 };
                 table.loading = false;
-                FindAllOrder(data)
+                if (form.orderStatus !== '') {
+                    data['orderStatus'] = form.orderStatus;
+                    FindAllOrderByStatus(data)
                     .then(function (response) {
                         console.log(response.data);
                         table.loading = false;
@@ -283,6 +297,24 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+                }
+                else {
+                    FindAllOrder(data)
+                    .then(function (response) {
+                        console.log(response.data);
+                        table.loading = false;
+                        table.tableData = response.data.pageInfo.list;
+                        if (form.orderType) {
+                            table.tableData = table.tableData.filter(order => order.typeId === form.orderType);
+                        }
+                        pagination.totalRecordCount = response.data.pageInfo.total;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                }
+                
+                
             };
             const openDiaog = (order) => {
                 console.log(order)
@@ -353,6 +385,7 @@
                             console.log(error);
                         });
                 } else {
+                    data['orderStatus'] = '0';
                     AddOrder(data)
                         .then(function (response) {
                             console.log(response);
@@ -437,7 +470,7 @@
                 console.log(orderId,status);
                 let data = {
                     orderId: orderId,
-                    orderStatus: status
+                    orderStatus: '0'
                 };
                 UpdateOrderStatus(data)
                     .then(function (response) {

@@ -4,7 +4,7 @@ public class Order {
     private  Integer orderId;
     private  String orderTime;
     private  String orderDetail;
-    private  Integer orderStatus;
+    private  String orderStatus;
 
     private  Integer userId;
     private  String orderUser;
@@ -149,11 +149,11 @@ public class Order {
         this.orderAddressDetail = orderAddressDetail;
     }
 
-    public Integer getOrderStatus() {
+    public String getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(Integer orderStatus) {
+    public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
 }

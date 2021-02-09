@@ -20,13 +20,16 @@
         addressId=#{addressId},orderContactName=#{orderContactName},orderContactPhone=#{orderContactPhone},orderArea=#{orderArea},orderAddressDetail=#{orderAddressDetail}
         where orderId=#{orderId}
     </select>
-    <select id="updateOrderStatus" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    <select id="updateOrderStatus" resultType="java.lang.Integer">
         update orders set orderStatus=#{orderStatus} where orderId=#{orderId}
     </select>
     
 
     <select id="getAllOrder" resultType="org.example.pojo.Order">
         select * from orders where orderUser like "%"#{keyWord}"%"
+    </select>
+    <select id="getAllOrderByStatus" resultType="org.example.pojo.Order">
+        select * from orders where orderUser like "%"#{keyWord}"%" AND orderStatus=#{orderStatus}
     </select>
 
     <select id="getOrderById" resultType="org.example.pojo.Order">
