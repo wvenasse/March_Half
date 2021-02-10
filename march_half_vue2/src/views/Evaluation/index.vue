@@ -153,7 +153,7 @@
                         <el-form-item  label="服务照片" prop="evaluationImg" :label-width="evaluationDialog.formLabelWidth">
                             <form action="" name="file" class="file">
                                 上传文件
-                                <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*"
+                                <input type="file" id="saveImage" name="myphoto" multiple="multiple" @change="tirggerFile($event)" accept="image/*"
                                 ref="new_image" v-if="evaluationDialog.visible">
                             </form>
                             <div class="fileName">{{imgName}}</div>
