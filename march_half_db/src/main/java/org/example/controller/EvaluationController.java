@@ -66,6 +66,18 @@ public class EvaluationController {
         String evaluationJson = JSON.toJSONString(evaluation);
         return evaluationJson;
     }
+    @RequestMapping(value = "/showAllEvaluationByService", produces = "text/json;charset=UTF-8")
+    public String showAllEvaluationByService(Integer serviceId){
+        List<Evaluation> evaluation = evaluationDao.getAllEvaluationByService(serviceId);
+        String evaluationJson = JSON.toJSONString(evaluation);
+        return evaluationJson;
+    }
+    @RequestMapping(value = "/showAllEvaluationByInstitution", produces = "text/json;charset=UTF-8")
+    public String showAllEvaluationByInstitution(Integer institutionId){
+        List<Evaluation> evaluation = evaluationDao.getAllEvaluationByInstitution(institutionId);
+        String evaluationJson = JSON.toJSONString(evaluation);
+        return evaluationJson;
+    }
 
     @ResponseBody
     @RequestMapping("/findAllEvaluation")

@@ -407,17 +407,20 @@
         userDialog.visible = true;
       };
       const submitUser = () => {
-        let data;
+        let data = {
+          nickName: userDialog.form.nickName,
+          userIcon: imgName.value,
+          openid: userDialog.form.openid,
+          userName: userDialog.form.userName,
+          userSfz: userDialog.form.userSfz,
+          userPhone: userDialog.form.userPhone,
+        };
+
+        if (imgName.value == '未选择任何文件') {
+          imgName.value = '';
+        }
         if (userDialog.flag) {
-          data = {
-            userId: userDialog.form.userId,
-            nickName: userDialog.form.nickName,
-            userIcon: imgName.value,
-            openid: userDialog.form.openid,
-            userName: userDialog.form.userName,
-            userSfz: userDialog.form.userSfz,
-            userPhone: userDialog.form.userPhone,
-          };
+          data['userId'] = userDialog.form.userId;
           UpdateUser(data)
             .then(function (response) {
               console.log(response);
@@ -431,14 +434,7 @@
               console.log(error);
             });
         } else {
-          data = {
-            nickName: userDialog.form.nickName,
-            userIcon: imgName.value,
-            openid: userDialog.form.openid,
-            userName: userDialog.form.userName,
-            userSfz: userDialog.form.userSfz,
-            userPhone: userDialog.form.userPhone,
-          };
+          
           AddUser(data)
             .then(function (response) {
               console.log(response);

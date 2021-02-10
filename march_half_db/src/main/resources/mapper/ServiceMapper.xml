@@ -26,6 +26,12 @@
     <select id="updateServiceOrderNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update services set services.serviceOrder = (select count(orderId) from orders where orders.serviceId= #{serviceId}) where services.serviceId = #{serviceId}
     </select>
+    <select id="updateServiceEvaNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update services set services.serviceEva = (select count(evaluationId) from evaluations where evaluations.serviceId= #{serviceId}) where services.serviceId = #{serviceId}
+    </select>
+    <select id="updateServiceStar" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update services set services.serviceStar = (select avg(evaluationStar) from evaluations where evaluations.serviceId= #{serviceId}) where services.serviceId = #{serviceId}
+    </select>
 
     <select id="getAllService" resultType="org.example.pojo.Service">
         select * from services where serviceName like "%"#{keyWord}"%"

@@ -33,6 +33,14 @@ export function FindAllOrderByStatus(data){
     })
 }
 
+export function ShowOrder(data){
+    return request.request({
+        method: "get",
+        url: "/showOrder",
+        params: data
+    })
+}
+
 export function UpdateOrder(data){
     return request.request({
         method: "get",

@@ -56,6 +56,14 @@ export function UpdateUserOrderNum(data){
     })
 }
 
+export function UpdateUserEvaNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateUserEvaNum",
+        params: data
+    })
+}
+
 export function AddUser(data){
     return request.request({
         method: "get",

@@ -30,6 +30,12 @@
     <select id="updateInstitutionOrderNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update institutions set institutions.institutionOrder = (select count(orderId) from orders where orders.institutionId= #{institutionId}) where institutions.institutionId = #{institutionId}
     </select>
+    <select id="updateInstitutionEvaNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update institutions set institutions.institutionEva = (select count(evaluationId) from evaluations where evaluations.institutionId= #{institutionId}) where institutions.institutionId = #{institutionId}
+    </select>
+    <select id="updateInstitutionStar" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update institutions set institutions.institutionStar = (select avg(evaluationStar) from evaluations where evaluations.institutionId= #{institutionId}) where institutions.institutionId = #{institutionId}
+    </select>
 
     <select id="getAllInstitution" resultType="org.example.pojo.Institution">
         select * from institutions where institutionName like "%"#{keyWord}"%"

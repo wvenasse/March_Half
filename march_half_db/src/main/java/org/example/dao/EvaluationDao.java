@@ -18,6 +18,8 @@ public interface EvaluationDao {
     //查
     public List<Evaluation> getAllEvaluation();
     public List<Evaluation> getAllEvaluationByUser(Integer userId);
+    public List<Evaluation> getAllEvaluationByService(Integer serviceId);
+    public List<Evaluation> getAllEvaluationByInstitution(Integer institutionId);
     //照id查
     public Evaluation getEvaluationById(Integer evaluationId);
 }

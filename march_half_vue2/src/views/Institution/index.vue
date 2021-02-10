@@ -294,6 +294,9 @@
         }
         institutionDialog.form.typeId = institutionDialog.form.typeId.join(',');
         institutionDialog.form.institutionType = institutionDialog.form.institutionType.join(',');
+        if (imgName.value == '未选择任何文件') {
+          imgName.value = '';
+        }
         let data = {
           institutionName: institutionDialog.form.institutionName,
           institutionImg: imgName.value,
@@ -418,17 +421,12 @@
         }
       }
 
-      const yyyy = (val) => {
-        console.log(val)
-      }
-
       onMounted(() => {
         loadType();
         loadData();
       });
 
       return {
-        yyyy,
         form,
         table,
         pagination,

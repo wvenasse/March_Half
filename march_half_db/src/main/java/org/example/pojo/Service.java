@@ -16,7 +16,7 @@ public class Service {
     private  String serviceIntro;
     private  Integer servicePrice;
     private  Integer serviceYear;
-    private  Integer serviceStar;
+    private  Double  serviceStar;
     private  Integer serviceOrder;
     private  Integer serviceEva;
     private  Integer serviceLike;
@@ -118,11 +118,11 @@ public class Service {
         this.serviceYear = serviceYear;
     }
 
-    public Integer getServiceStar() {
+    public Double getServiceStar() {
         return serviceStar;
     }
 
-    public void setServiceStar(Integer serviceStar) {
+    public void setServiceStar(Double serviceStar) {
         this.serviceStar = serviceStar;
     }
 

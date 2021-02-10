@@ -46,13 +46,7 @@
                             </el-tooltip>
                         </template>
                     </el-table-column>
-                    <el-table-column prop="evaluationStatus" label="评价结果" width="80" align="center">
-                        <template slot-scope="scope">
-                            <span v-if="scope.row.evaluationStatus ==='1' " class="evaluationStatus">好评</span>
-                            <span v-else-if="scope.row.evaluationStatus ==='2' " class="evaluationStatus">中评</span>
-                            <span v-else-if="scope.row.evaluationStatus ==='3' " class="evaluationStatus">差评</span>
-                        </template>
-                    </el-table-column>
+                    <el-table-column prop="evaluationStatus" label="评价结果" width="80" align="center"></el-table-column>
                     <el-table-column prop="evaluationStar" label="评价星级" width="150" align="center">
                         <template slot-scope="scope">
                             <el-rate v-model="scope.row.evaluationStar" disabled text-color="#ff9900" void-icon-class="icon-rate-face-off"></el-rate>
@@ -125,20 +119,21 @@
                 <el-form-item >
                     <el-col :span="12">
                         <el-form-item  label="服务结果" prop="evaluationStatus" :label-width="evaluationDialog.formLabelWidth">
-                             <el-select v-model="evaluationDialog.form.orderId" clearable placeholder="请选择订单" @change="handleOrderChange">
-                                <el-option v-for="order in optionList.orderData" :key="order.orderId" :label="order.orderName"
-                                :value="order.orderId">
-                                </el-option>
+                             <el-select v-model="evaluationDialog.form.evaluationStatus" clearable placeholder="请选择订单">
+                                <el-option key="好评" label="好评" value="好评"></el-option>
+                                <el-option key="中评" label="中评" value="中评"></el-option>
+                                <el-option key="差评" label="差评" value="差评"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item  label="服务星级" prop="evaluationStar" :label-width="evaluationDialog.formLabelWidth">
-                             <el-select v-model="evaluationDialog.form.orderId" clearable placeholder="请选择订单" @change="handleOrderChange">
-                                <el-option v-for="order in optionList.orderData" :key="order.orderId" :label="order.orderName"
-                                :value="order.orderId">
-                                </el-option>
-                            </el-select>
+                            <div style="height: 40px;display: flex;align-items: center;">
+                                <el-rate
+                                v-model="evaluationDialog.form.evaluationStar"
+                                show-text>
+                                </el-rate>
+                            </div>
                         </el-form-item>
                     </el-col>
                 </el-form-item>
@@ -155,7 +150,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="evaluationDetail" label="服务评价" :label-width="evaluationDialog.formLabelWidth">
-                            <el-input type="textarea" placeholder="请输入评价" v-model="evaluationDialog.form.orderDetail" maxlength="50" show-word-limit>
+                            <el-input type="textarea" placeholder="请输入评价" v-model="evaluationDialog.form.evaluationDetail" maxlength="50" show-word-limit>
                             </el-input>
                         </el-form-item>
                     </el-col>
@@ -163,7 +158,7 @@
                 <el-form-item >
                     <el-col :span="12">
                         <el-form-item  label="" prop="isNoName" :label-width="evaluationDialog.formLabelWidth">
-                             <el-switch
+                            <el-switch
                             style="display: block"
                             v-model="evaluationDialog.form.isNoName"
                             active-color="#13ce66"
@@ -196,15 +191,25 @@
         AddEvaluation,
         DelEvaluation,
         FindAllEvaluation,
-        FindAllEvaluationByUser,
-        FindAllEvaluationByModel
+        FindAllEvaluationByUser
     } from "@/api/Evaluation";
     import {
         ShowAllUser,
+        UpdateUserEvaNum
     } from "@/api/User";;
     import {
-        ShowAllOrderByStatus
+        ShowAllOrderByStatus,
+        ShowOrder,
+        UpdateOrderStatus
     } from "@/api/Order";
+    import {
+        UpdateServiceEvaNum,
+        UpdateServiceStar
+    } from "@/api/Service";
+    import {
+        UpdateInstitutionEvaNum,
+        UpdateInstitutionStar
+    } from "@/api/Institution";
     import {
         addImage
     } from "@/api/System"
@@ -285,16 +290,19 @@
                     });
                 }
             };
-            const openDiaog = (order) => {
-                console.log(order)
-                if (order !== 0) {
+            const openDiaog = (evaluation) => {
+                console.log(evaluation)
+                if (evaluation !== 0) {
                     evaluationDialog.title = "修改评价";
                     evaluationDialog.flag = true;
-                    evaluationDialog.form = order;
+                    evaluationDialog.form = evaluation;
+                    imgName.value = evaluation.evaluationImg;
+                    loadOrder(evaluation.userId);
                 } else {
                     evaluationDialog.title = "新增评价";
                     evaluationDialog.flag = false;
                     evaluationDialog.form = {};
+                    imgName.value = "未选择任何文件";
                 }
                 evaluationDialog.visible = true;
             };
@@ -309,24 +317,28 @@
                 let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
                 let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
                 evaluationDialog.form.evaluationTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
+                if (imgName.value == '未选择任何文件') {
+                    imgName.value = '';
+                }
+                if (evaluationDialog.form.isNoName !== true) {
+                    evaluationDialog.form.isNoName = false;
+                }
                 let data = {
-                    evaluationStatus: evaluationDialog.form.orderTime,
-                    evaluationStar: evaluationDialog.form.orderDetail,
-                    evaluationImg: evaluationDialog.form.userId,
-                    evaluationDetail: evaluationDialog.form.orderUser,
-                    evaluationTime: evaluationDialog.form.typeId,
-                    isNoName: evaluationDialog.form.orderType,
-
-                    userId: evaluationDialog.form.serviceId,
-                    evaluationUser: evaluationDialog.form.orderService,
-
-                    serviceId: evaluationDialog.form.orderInstitution,
-                    evaluationService: evaluationDialog.form.addressId,
-                    institutionId: evaluationDialog.form.orderContactName,
-                    evaluationInstitution: evaluationDialog.form.orderContactPhone,
-                    typeId: evaluationDialog.form.orderArea,
-                    evaluationType: evaluationDialog.form.orderAddressDetail,
-                    orderId: evaluationDialog.form.orderAddressDetail
+                    evaluationStatus: evaluationDialog.form.evaluationStatus,
+                    evaluationStar: evaluationDialog.form.evaluationStar,
+                    evaluationImg: imgName.value,
+                    evaluationDetail: evaluationDialog.form.evaluationDetail,
+                    evaluationTime: evaluationDialog.form.evaluationTime,
+                    isNoName: evaluationDialog.form.isNoName,
+                    userId: evaluationDialog.form.userId,
+                    evaluationUser: evaluationDialog.form.evaluationUser,
+                    serviceId: evaluationDialog.form.serviceId,
+                    evaluationService: evaluationDialog.form.evaluationService,
+                    institutionId: evaluationDialog.form.institutionId,
+                    evaluationInstitution: evaluationDialog.form.evaluationInstitution,
+                    typeId: evaluationDialog.form.typeId,
+                    evaluationType: evaluationDialog.form.evaluationType,
+                    orderId: evaluationDialog.form.orderId
                 };
                 if (evaluationDialog.flag) {
                     data['evaluationId'] = evaluationDialog.form.evaluationId;
@@ -338,6 +350,7 @@
                                 message: response.data.msg,
                             });
                             loadData();
+                            updateEvaStsr(data);
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -351,6 +364,8 @@
                                 message: response.data.msg,
                             });
                             loadData();
+                            updateOrderStatus(data.orderId,'4');
+                            updateEvaStsr(data);
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -358,9 +373,9 @@
                 }
                 evaluationDialog.visible = false;
             };
-            const deleteData = (order) => {
+            const deleteData = (evaluation) => {
                 let data = {
-                    orderId: order.orderId,
+                    evaluationId: evaluation.evaluationId,
                 };
                 root
                     .$confirm("此操作将永久删除该评价, 是否继续?", "提示", {
@@ -369,10 +384,12 @@
                         type: "warning",
                     })
                     .then(() => {
-                        DelOrder(data)
+                        DelEvaluation(data)
                             .then(function (response) {
                                 console.log(response);
                                 loadData();
+                                updateOrderStatus(evaluation.orderId,'3');
+                                updateEvaStsr(evaluation);
                                 root.$message({
                                     type: "success",
                                     message: response.data.msg,
@@ -390,7 +407,69 @@
                     });
             };
 
-            //用户、类别、人员、机构、订单
+            //更新订单评价状态
+            const updateOrderStatus = (orderId,status) => {
+                console.log(orderId,status);
+                let data = {
+                    orderId: orderId,
+                    orderStatus: status
+                };
+                UpdateOrderStatus(data)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+            const updateEvaStsr = (evaluation) => {
+                let userData = {
+                    userId : evaluation.userId
+                }
+                UpdateUserEvaNum(userData)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                let serviceData = {
+                    serviceId : evaluation.serviceId
+                }
+                UpdateServiceEvaNum(serviceData)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                UpdateServiceStar(serviceData)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                let institutionData = {
+                    institutionId : evaluation.institutionId
+                }
+                UpdateInstitutionEvaNum(institutionData)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                UpdateInstitutionStar(institutionData)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            //用户、订单
             let optionList = reactive({
                 userData: [],
                 orderData: []
@@ -408,7 +487,7 @@
                 loadOrder(val);
                 for (let i = 0; i < optionList.userData.length; i++) {
                     if (optionList.userData[i].userId === val) {
-                        evaluationDialog.form.orderUser = optionList.userData[i].userName;
+                        evaluationDialog.form.evaluationUser = optionList.userData[i].userName;
                     }
                 }
             }
@@ -424,16 +503,28 @@
                                 return order.userId === userId
                             });
                         }
-                        for (let i=0;i<optionList.orderData.length;i++) {
-                            optionList.orderData[i].orderName = optionList.orderData[i].orderContactName + '-' + optionList.orderData[i].orderType + '-' + optionList.orderData[i].orderTime 
-                        }
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             }
             const handleOrderChange = (val) => {
-                console.log('order',val)
+                let data = {
+                    orderId : val
+                }
+                ShowOrder(data).then(function (response) {
+                    console.log(response);
+                    let orderData = response.data;
+                    evaluationDialog.form.typeId = orderData.typeId;
+                    evaluationDialog.form.evaluationType = orderData.orderType;
+                    evaluationDialog.form.serviceId = orderData.serviceId;
+                    evaluationDialog.form.evaluationService = orderData.orderService;
+                    evaluationDialog.form.institutionId = orderData.institutionId;
+                    evaluationDialog.form.evaluationInstitution = orderData.orderInstitution;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
             }
 
             //页数
@@ -486,6 +577,9 @@
                 openDiaog,
                 submitEvaluation,
                 deleteData,
+
+                updateOrderStatus,
+                updateEvaStsr,
 
                 optionList,
                 loadUser,

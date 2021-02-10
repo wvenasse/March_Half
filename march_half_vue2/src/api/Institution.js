@@ -56,6 +56,22 @@ export function UpdateInstitutionOrderNum(data){
     })
 }
 
+export function UpdateInstitutionEvaNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateInstitutionEvaNum",
+        params: data
+    })
+}
+
+export function UpdateInstitutionStar(data){
+    return request.request({
+        method: "get",
+        url: "/updateInstitutionStar",
+        params: data
+    })
+}
+
 export function AddInstitution(data){
     return request.request({
         method: "get",

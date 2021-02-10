@@ -92,6 +92,26 @@ public class InstitutionController {
             return R.error("修改机构订单失败！");
         }
     }
+    @RequestMapping("/updateInstitutionEvaNum")
+    public R updateInstitutionEvaNum(Integer institutionId) {
+        Integer count = institutionDao.updateInstitutionEvaNum(institutionId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改机构评价失败！");
+        }
+    }
+    @RequestMapping("/updateInstitutionStar")
+    public R updateInstitutionStar(Integer institutionId) {
+        Integer count = institutionDao.updateInstitutionStar(institutionId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改机构星级失败！");
+        }
+    }
 
     @RequestMapping(value = "/showAllInstitution", produces = "text/json;charset=UTF-8")
     public String showAllInstitution(){

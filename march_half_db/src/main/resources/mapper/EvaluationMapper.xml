@@ -30,6 +30,12 @@
     <select id="getAllEvaluationByUser" resultType="org.example.pojo.Evaluation">
         select * from evaluations where userId=#{userId}
     </select>
+    <select id="getAllEvaluationByService" resultType="org.example.pojo.Evaluation">
+        select * from evaluations where serviceId=#{serviceId}
+    </select>
+    <select id="getAllEvaluationByInstitution" resultType="org.example.pojo.Evaluation">
+        select * from evaluations where institutionId=#{institutionId}
+    </select>
 
     <select id="getEvaluationById" resultType="org.example.pojo.Evaluation">
         select * from evaluations where evaluationId=#{evaluationId}

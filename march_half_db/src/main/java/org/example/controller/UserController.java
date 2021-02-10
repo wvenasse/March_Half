@@ -95,6 +95,16 @@ public class UserController {
             return R.error("修改用户订单失败！");
         }
     }
+    @RequestMapping("/updateUserEvaNum")
+    public R updateUserEvaNum(Integer userId) {
+        Integer count = usersDao.updateUserEvaNum(userId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户评价失败！");
+        }
+    }
 
     @RequestMapping(value = "/showAllUsers", produces = "text/json;charset=UTF-8")
     public String showAllUsers(){

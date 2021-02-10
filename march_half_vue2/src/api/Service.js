@@ -48,6 +48,22 @@ export function UpdateServiceOrderNum(data){
     })
 }
 
+export function UpdateServiceEvaNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateServiceEvaNum",
+        params: data
+    })
+}
+
+export function UpdateServiceStar(data){
+    return request.request({
+        method: "get",
+        url: "/updateServiceStar",
+        params: data
+    })
+}
+
 export function AddService(data){
     return request.request({
         method: "get",

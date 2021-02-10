@@ -351,6 +351,9 @@
             }
           }
         }
+        if (imgName.value == '未选择任何文件') {
+          imgName.value = '';
+        }
         let data = {
           serviceName: serviceDialog.form.serviceName,
           serviceIcon: imgName.value,

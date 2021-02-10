@@ -352,7 +352,9 @@
                 let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
                 let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
                 orderDialog.form.orderTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
+                orderDialog.form.orderName = orderDialog.form.orderContactName +','+ orderDialog.form.orderType +','+ orderDialog.form.orderService +','+ orderDialog.form.orderInstitution +','+ orderDialog.form.orderTime;
                 let data = {
+                    orderName: orderDialog.form.orderName,
                     orderTime: orderDialog.form.orderTime,
                     orderDetail: orderDialog.form.orderDetail,
                     userId: orderDialog.form.userId,
@@ -470,7 +472,7 @@
                 console.log(orderId,status);
                 let data = {
                     orderId: orderId,
-                    orderStatus: '0'
+                    orderStatus: status
                 };
                 UpdateOrderStatus(data)
                     .then(function (response) {

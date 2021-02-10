@@ -83,6 +83,26 @@ public class ServiceController {
             return R.error("修改用户订单失败！");
         }
     }
+    @RequestMapping("/updateServiceEvaNum")
+    public R updateServiceEvaNum(Integer serviceId) {
+        Integer count = serviceDao.updateServiceEvaNum(serviceId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户评价失败！");
+        }
+    }
+    @RequestMapping("/updateServiceStar")
+    public R updateServiceStar(Integer serviceId) {
+        Integer count = serviceDao.updateServiceStar(serviceId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户星级失败！");
+        }
+    }
 
     @RequestMapping(value = "/showAllService", produces = "text/json;charset=UTF-8")
     public String showAllService(){

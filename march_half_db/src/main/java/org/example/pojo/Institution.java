@@ -15,7 +15,7 @@ public class Institution {
 
     private  Integer institutionService;
     private  Integer institutionOrder;
-    private  Integer institutionStar;
+    private  Double institutionStar;
     private  Integer institutionEva;
     private  Integer institutionLike;
     private  Integer institutionLove;
@@ -108,11 +108,11 @@ public class Institution {
         this.institutionOrder = institutionOrder;
     }
 
-    public Integer getInstitutionStar() {
+    public Double getInstitutionStar() {
         return institutionStar;
     }
 
-    public void setInstitutionStar(Integer institutionStar) {
+    public void setInstitutionStar(Double institutionStar) {
         this.institutionStar = institutionStar;
     }
 
