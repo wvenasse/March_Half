@@ -66,22 +66,22 @@
           </el-table-column>
           <el-table-column prop="userOrder" label="订单" width="50" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(3,scope.row.userId)">{{scope.row.userOrder ? scope.row.userOrder:0}}</span>
+              <span class="userChange" @click="openUserDialog(3,scope.row.userId)">{{scope.row.userOrder ? scope.row.userOrder:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userEva" label="评价" width="50" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userEva ? scope.row.userEva:0}}</span>
+              <span class="userChange" @click="openUserDialog(4,scope.row.userId)">{{scope.row.userEva ? scope.row.userEva:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userPost" label="讨论" width="50" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(5,scope.row.userId)">{{scope.row.userPost ? scope.row.userPost:0}}</span>
+              <span class="userChange" @click="openUserDialog(5,scope.row.userId)">{{scope.row.userPost ? scope.row.userPost:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="userCom" label="评论" width="50" align="center">
             <template slot-scope="scope">
-              <span class="userClick" @click="openUserDialog(6,scope.row.userId)">{{scope.row.userCom ? scope.row.userCom:0}}</span>
+              <span class="userChange" @click="openUserDialog(6,scope.row.userId)">{{scope.row.userCom ? scope.row.userCom:0}}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="180px">
@@ -1065,6 +1065,10 @@
   .userClick {
     cursor: pointer;
     color: #409EFF;
+  }
+
+  .userChange {
+    font-style: oblique;
   }
 
   .addressDetail {

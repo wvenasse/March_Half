@@ -35,8 +35,13 @@
           </el-table-column>
           <el-table-column prop="institutionImg" label="机构图片" width="100" align="center">
             <template slot-scope="scope">
-              <img class="institutionImg" :src="require('../../assets/imgs/Upload/'+scope.row.institutionImg)"
-                :alt="scope.row.institutionImg" v-if="scope.row.institutionImg">
+              <div style="display:flex;justify-content: center;">
+                <div class="institutionImgs" v-for="(img,index) in scope.row.institutionImg" :key="index">
+                  <img class="institutionImg" :src="require('../../assets/imgs/Upload/'+ img)"
+                  :alt="img" v-if="index<2" @click="openImgPreDialog(scope.row.institutionImg)">
+                  <div class="imgNum" v-if="index===1 && scope.row.institutionImg.length>2">+{{scope.row.institutionImg.length}}</div>
+                </div>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="institutionType" label="服务类别" width="100" align="center">
@@ -63,32 +68,38 @@
           </el-table-column>
           <el-table-column prop="institutioninstitution" label="人员" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.institutionService ? scope.row.institutionService:0}}</span>
+              <span class="institutionChange">{{scope.row.institutionService ? scope.row.institutionService:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="institutionOrder" label="订单" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.institutionOrder ? scope.row.institutionOrder:0}}</span>
+              <span class="institutionChange">{{scope.row.institutionOrder ? scope.row.institutionOrder:0}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="institutionStar" label="满意" width="50" align="center">
+          <el-table-column prop="institutionStar" label="满意" width="150" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.institutionStar ? scope.row.institutionStar:0}}</span>
+              <el-tooltip class="item" effect="light" :content="scope.row.institutionStar+''" placement="bottom">
+                <el-rate
+                  v-model="scope.row.institutionStar"
+                  disabled
+                  text-color="#ff9900">
+                </el-rate>
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column prop="institutionEva" label="评价" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.institutionEva ? scope.row.institutionEva:0}}</span>
+              <span class="institutionChange">{{scope.row.institutionEva ? scope.row.institutionEva:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="institutionLike" label="点赞" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.institutionLike ? scope.row.institutionLike:0}}</span>
+              <span class="institutionChange">{{scope.row.institutionLike ? scope.row.institutionLike:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="institutionLove" label="收藏" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.institutionLove ? scope.row.institutionLove:0}}</span>
+              <span class="institutionChange">{{scope.row.institutionLove ? scope.row.institutionLove:0}}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="150px">
@@ -121,7 +132,7 @@
             <el-form-item label="服务机构图片" prop="institutionImg" :label-width="institutionDialog.formLabelWidth">
               <form action="" name="file" class="file">
                 上传文件
-                <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*"
+                <input type="file" id="saveImage" name="myphoto" multiple="multiple" @change="tirggerFile($event)" accept="image/*"
                   ref="new_image" v-if="institutionDialog.visible">
               </form>
               <div class="fileName">{{imgName}}</div>
@@ -170,6 +181,22 @@
         <el-button @click="institutionDialog.visible = false">取 消</el-button>
         <el-button type="primary" @click="submitInstitution">确 定</el-button>
       </div>
+    </el-dialog>
+    <el-dialog
+      title="预览"
+      :visible.sync="imgPreDialog.visible"
+      width="30%"
+      center>
+      <el-carousel >
+        <el-carousel-item v-for="(img,index) in imgPreDialog.imgList" :key="index">
+          <div class="imgsPre">
+            <img class="imgPre" :src="require('../../assets/imgs/Upload/'+ img)" alt="" srcset="">
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="imgPreDialog.visible = false">关 闭</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -242,6 +269,7 @@
             }
             for (let i = 0; i < table.tableData.length; i++) {
               table.tableData[i].typeId = table.tableData[i].typeId.split(",");
+              table.tableData[i].institutionImg = table.tableData[i].institutionImg.split(",");
               table.tableData[i].typeId.forEach(function (item, index, arr) {
                 table.tableData[i].typeId[index] = parseInt(table.tableData[i].typeId[index]);
               });
@@ -258,7 +286,7 @@
           institutionDialog.title = "修改服务机构";
           institutionDialog.flag = true;
           institutionDialog.form = institution;
-          imgName.value = institution.institutionImg;
+          imgName.value = institution.institutionImg.join(',');
           if (institutionDialog.form.institutionArea.indexOf("/") != -1) {
             institutionDialog.form.institutionArea = institutionDialog.form.institutionArea.split('/');
           }
@@ -408,18 +436,35 @@
       const tirggerFile = (event) => {
         console.log(event)
         if (event.target.files.length !== 0) {
-          formData.append('image_data', event.target.files[0]);
-          console.log(formData)
-          imgName.value = event.target.files[0].name;
-          addImage(formData).then(response => {
-            console.log(response.data.fileName);
-            root.$message({
-              type: 'info',
-              message: response.data.msg
-            });
-          })
+          let imgs = [];
+          let formImgData = [];
+          for (let i=0;i<event.target.files.length;i++) {
+            formImgData[i] = new FormData();
+            formImgData[i].append('image_data', event.target.files[i]);
+            imgs[i] = event.target.files[i].name;
+            addImage(formImgData[i]).then(response => {
+              console.log(response.data.fileName);
+              root.$message({
+                type: 'info',
+                message: response.data.msg
+              });
+            })
+          }
+          imgName.value = imgs.join(',');
+          console.log(formImgData);
+          console.log(imgName.value);
         }
       }
+
+      //预览图片
+      let openImgPreDialog = (imgList) => {
+        imgPreDialog.visible = true;
+        imgPreDialog.imgList = imgList;
+      }
+      let imgPreDialog = reactive({
+        visible: false,
+        imgList: [],
+      })
 
       onMounted(() => {
         loadType();
@@ -450,7 +495,10 @@
         formData,
         imgName,
         imgUrl,
-        tirggerFile
+        tirggerFile,
+
+        openImgPreDialog,
+        imgPreDialog
       };
     },
   };
@@ -505,14 +553,46 @@
     top: 0;
   }
 
+  .institutionChange {
+    font-style: oblique;
+  }
+
+  .institutionImgs {
+    height: 40px;
+  }
+
   .institutionImg {
     height: 40px;
     width: 40px;
     max-height: 100%;
     max-width: 100%;
-    border-radius: 50%;
   }
 
+  .imgsPre {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .imgPre {
+    max-height: 100%;
+  }
+
+  .imgNum {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+    top: -47px;
+    color: #C0C4CC;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .institutionIntro,
   .institutionType,

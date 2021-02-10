@@ -60,7 +60,7 @@
           </el-table-column>
           <el-table-column prop="serviceSfz" label="身份证" width="150" align="center"></el-table-column>
           <el-table-column prop="servicePhone" label="电话号码" width="100" align="center"></el-table-column>
-          <el-table-column prop="serviceAddress" label="户籍" width="150" align="center"></el-table-column>
+          <el-table-column prop="serviceAddress" label="户籍" width="120" align="center"></el-table-column>
           <el-table-column prop="serviceIntro" label="介绍" min-width="150" align="center">
             <template slot-scope="scope">
               <span class="serviceIntro">{{scope.row.serviceIntro}}</span>
@@ -78,27 +78,33 @@
           </el-table-column>
           <el-table-column prop="serviceOrder" label="订单" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.serviceOrder ? scope.row.serviceOrder:0}}</span>
+              <span class="serviceChange">{{scope.row.serviceOrder ? scope.row.serviceOrder:0}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="serviceStar" label="星级" width="50" align="center">
+          <el-table-column prop="serviceStar" label="星级" width="150" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.serviceStar ? scope.row.serviceStar:0}}</span>
+              <el-tooltip class="item" effect="light" :content="scope.row.serviceStar.toString()" placement="bottom">
+                <el-rate
+                  v-model="scope.row.serviceStar"
+                  disabled
+                  text-color="#ff9900">
+                </el-rate>
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column prop="serviceEva" label="评价" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.serviceEva ? scope.row.serviceEva:0}}</span>
+              <span class="serviceChange">{{scope.row.serviceEva ? scope.row.serviceEva:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="serviceLike" label="点赞" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.serviceLike ? scope.row.serviceLike:0}}</span>
+              <span class="serviceChange">{{scope.row.serviceLike ? scope.row.serviceLike:0}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="serviceLove" label="收藏" width="50" align="center">
             <template slot-scope="scope">
-              <span>{{scope.row.serviceLove ? scope.row.serviceLove:0}}</span>
+              <span class="serviceChange">{{scope.row.serviceLove ? scope.row.serviceLove:0}}</span>
             </template>
           </el-table-column>
           <el-table-column label="操作" fixed="right" align="center" width="150px">
@@ -593,6 +599,10 @@
     position: absolute;
     left: 0;
     top: 0;
+  }
+
+  .serviceChange {
+    font-style: oblique;
   }
 
   .serviceName {

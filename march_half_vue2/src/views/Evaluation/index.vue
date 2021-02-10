@@ -54,7 +54,13 @@
                     </el-table-column>
                     <el-table-column prop="evaluationImg" label="评价图片" width="150" align="center">
                         <template slot-scope="scope">
-                            <img class="evaluationImg" :src="require('../../assets/imgs/Upload/'+scope.row.evaluationImg)" :alt="scope.row.evaluationImg" v-if="scope.row.evaluationImg">
+                            <div style="display:flex;justify-content: center;">
+                                <div class="evaluationImgs" v-for="(img,index) in scope.row.evaluationImg" :key="index">
+                                <img class="evaluationImg" :src="require('../../assets/imgs/Upload/'+ img)"
+                                :alt="img" v-if="index<2" @click="openImgPreDialog(scope.row.evaluationImg)">
+                                <div class="imgNum" v-if="index===1 && scope.row.evaluationImg.length>2">+{{scope.row.evaluationImg.length}}</div>
+                                </div>
+                            </div>
                         </template>
                     </el-table-column>
                     <el-table-column prop="evaluationDetail" label="评价内容" align="center">
@@ -89,7 +95,7 @@
                 </el-pagination>
             </el-footer>
         </el-container>
-        <el-dialog :title="evaluationDialog.title" :visible.sync="evaluationDialog.visible" :append-to-body="true">
+        <el-dialog :title="evaluationDialog.title" :visible.sync="evaluationDialog.visible" :append-to-body="true" @close="closeEvaluationDialog">
             <el-form :model="evaluationDialog.form">
                 <el-form-item>
                     <el-col :span="12">
@@ -108,7 +114,12 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item  label="服务订单" prop="orderId" :label-width="evaluationDialog.formLabelWidth">
-                             <el-select v-model="evaluationDialog.form.orderId" clearable placeholder="请选择订单" @change="handleOrderChange">
+                             <el-select v-if="evaluationDialog.flag" disabled v-model="evaluationDialog.form.orderId" clearable placeholder="请选择订单" @change="handleOrderChange">
+                                <el-option v-for="order in optionList.orderData" :key="order.orderId" :label="order.orderName"
+                                :value="order.orderId">
+                                </el-option>
+                            </el-select>
+                            <el-select v-else v-model="evaluationDialog.form.orderId" clearable placeholder="请选择订单" @change="handleOrderChange">
                                 <el-option v-for="order in optionList.orderData" :key="order.orderId" :label="order.orderName"
                                 :value="order.orderId">
                                 </el-option>
@@ -176,6 +187,18 @@
                 <el-button @click="evaluationDialog.visible = false">取 消</el-button>
                 <el-button type="primary" @click="submitEvaluation">确 定</el-button>
             </div>
+        </el-dialog>
+        <el-dialog title="预览" :visible.sync="imgPreDialog.visible" width="30%" center>
+            <el-carousel >
+                <el-carousel-item v-for="(img,index) in imgPreDialog.imgList" :key="index">
+                <div class="imgsPre">
+                    <img class="imgPre" :src="require('../../assets/imgs/Upload/'+ img)" alt="" srcset="">
+                </div>
+                </el-carousel-item>
+            </el-carousel>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="imgPreDialog.visible = false">关 闭</el-button>
+            </span>
         </el-dialog>
     </div>
 </template>
@@ -270,6 +293,9 @@
                         console.log(response.data);
                         table.loading = false;
                         table.tableData = response.data.pageInfo.list;
+                        for (let i = 0; i < table.tableData.length; i++) {
+                            table.tableData[i].evaluationImg = table.tableData[i].evaluationImg.split(",");
+                        }
                         pagination.totalRecordCount = response.data.pageInfo.total;
                     })
                     .catch(function (error) {
@@ -296,8 +322,14 @@
                     evaluationDialog.title = "修改评价";
                     evaluationDialog.flag = true;
                     evaluationDialog.form = evaluation;
-                    imgName.value = evaluation.evaluationImg;
-                    loadOrder(evaluation.userId);
+                    imgName.value = evaluation.evaluationImg.join(',');
+                    if (evaluationDialog.form.isNoName === 'true') {
+                        evaluationDialog.form.isNoName = true;
+                    }
+                    else {
+                        evaluationDialog.form.isNoName = false;
+                    }
+                    loadEvaOrder(evaluation.userId);
                 } else {
                     evaluationDialog.title = "新增评价";
                     evaluationDialog.flag = false;
@@ -306,6 +338,14 @@
                 }
                 evaluationDialog.visible = true;
             };
+            const closeEvaluationDialog =  () => {
+                if (evaluationDialog.form.isNoName === true) {
+                    evaluationDialog.form.isNoName = 'true';
+                }
+                else {
+                    evaluationDialog.form.isNoName = 'false';
+                }
+            }
             const submitEvaluation = () => {
                 if (evaluationDialog.form.serviceArea) {
                     evaluationDialog.form.serviceArea = evaluationDialog.form.serviceArea[0] + '/' + evaluationDialog.form.serviceArea[1] + '/' + evaluationDialog.form.serviceArea[2];
@@ -320,8 +360,11 @@
                 if (imgName.value == '未选择任何文件') {
                     imgName.value = '';
                 }
-                if (evaluationDialog.form.isNoName !== true) {
+                if (evaluationDialog.form.isNoName != true) {
                     evaluationDialog.form.isNoName = false;
+                }
+                else if (evaluationDialog.form.isNoName == true) {
+                    evaluationDialog.form.isNoName = true;
                 }
                 let data = {
                     evaluationStatus: evaluationDialog.form.evaluationStatus,
@@ -508,6 +551,23 @@
                         console.log(error);
                     });
             }
+            const loadEvaOrder = (userId) => {
+                let data ={
+                    orderStatus: '4'
+                }
+                ShowAllOrderByStatus(data).then(function (response) {
+                        console.log(response);
+                        optionList.orderData = response.data;
+                        if (userId) {
+                            optionList.orderData = optionList.orderData.filter(order => {
+                                return order.userId === userId
+                            });
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
             const handleOrderChange = (val) => {
                 let data = {
                     orderId : val
@@ -549,18 +609,35 @@
             const tirggerFile = (event) => {
                 console.log(event)
                 if (event.target.files.length !== 0) {
-                formData.append('image_data', event.target.files[0]);
-                console.log(formData)
-                imgName.value = event.target.files[0].name;
-                addImage(formData).then(response => {
+                let imgs = [];
+                let formImgData = [];
+                for (let i=0;i<event.target.files.length;i++) {
+                    formImgData[i] = new FormData();
+                    formImgData[i].append('image_data', event.target.files[i]);
+                    imgs[i] = event.target.files[i].name;
+                    addImage(formImgData[i]).then(response => {
                     console.log(response.data.fileName);
                     root.$message({
-                    type: 'info',
-                    message: response.data.msg
+                        type: 'info',
+                        message: response.data.msg
                     });
-                })
+                    })
+                }
+                imgName.value = imgs.join(',');
+                console.log(formImgData);
+                console.log(imgName.value);
                 }
             }
+
+            //预览图片
+            let openImgPreDialog = (imgList) => {
+                imgPreDialog.visible = true;
+                imgPreDialog.imgList = imgList;
+            }
+            let imgPreDialog = reactive({
+                visible: false,
+                imgList: [],
+            })
 
             onMounted(() => {
                 loadData();
@@ -575,6 +652,7 @@
 
                 loadData,
                 openDiaog,
+                closeEvaluationDialog,
                 submitEvaluation,
                 deleteData,
 
@@ -585,6 +663,7 @@
                 loadUser,
                 handleUserChange,
                 loadOrder,
+                loadEvaOrder,
                 handleOrderChange,
 
                 handleCurrentChange,
@@ -593,7 +672,10 @@
                 formData,
                 imgName,
                 imgUrl,
-                tirggerFile
+                tirggerFile,
+
+                openImgPreDialog,
+                imgPreDialog
             };
         },
     };
@@ -648,11 +730,41 @@
         top: 0;
     }
 
+    .evaluationImgs {
+        height: 40px;
+    }
+
     .evaluationImg {
         height: 40px;
         width: 40px;
         max-height: 100%;
         max-width: 100%;
+    }
+
+    .imgsPre {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .imgPre {
+        max-height: 100%;
+    }
+
+    .imgNum {
+        width: 40px;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.3);
+        position: relative;
+        top: -47px;
+        color: #C0C4CC;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .evaluationUser {

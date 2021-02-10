@@ -1,8 +1,8 @@
 <template>
     <div id="homeNav">
-        <el-menu router default-active="/borad" :default-openeds="['1','2','3']" :collapse="isCollapse"
+        <el-menu router :default-active="$route.path"  :default-openeds="['1','2','3']" :collapse="isCollapse"
             background-color="#000" text-color="#fff" >
-            <!-- transparent active-text-color="#fff"-->
+            <!--default-active="/borad" transparent active-text-color="#fff"-->
             <el-menu-item index="/borad">
                 <i class="el-icon-s-marketing"></i>
                 <span slot="title">看板</span>
