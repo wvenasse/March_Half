@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.PostDao">
+    <insert id="addPost" parameterType="org.example.pojo.Post">
+        insert into posts(postTitle,postImg,postDetail,postTime,postName,
+        userId,userName,postUser,typeId,postType,postTop,postPop,isNoName)
+        values (#{postTitle},#{postImg},#{postDetail},#{postTime},#{userId},#{postName},
+        #{userId},#{userName},#{postUser},#{typeId},#{postType},#{postTop},#{postPop},#{isNoName})
+    </insert>
+
+    <delete id="delPost" parameterType="java.lang.Integer">
+        delete from posts where postId=#{postId}
+    </delete>
+
+    <select id="updatePost" parameterType="org.example.pojo.Post" resultType="java.lang.Integer">
+        update posts set postTitle=#{postTitle},postImg=#{postImg},postDetail=#{postDetail},postTime=#{postTime},postName=#{postName},
+        userId=#{userId},userName=#{userName},postUser=#{postUser},typeId=#{typeId},postType=#{postType},
+        postPop=#{postPop},postPop=#{postPop},isNoName=#{isNoName}
+        where postId=#{postId}
+    </select>
+
+    <select id="getAllPost" resultType="org.example.pojo.Post">
+        select * from posts where postTitle like "%"#{keyWord}"%"
+    </select>
+    <select id="getAllPostByUser" resultType="org.example.pojo.Post">
+        select * from posts where userId=#{userId}
+    </select>
+    <select id="getAllPostByType" resultType="org.example.pojo.Post">
+        select * from posts where typeId=#{typeId}
+    </select>
+
+    <select id="getPostById" resultType="org.example.pojo.Post">
+        select * from posts where postId=#{postId}
+     </select>
+</mapper>

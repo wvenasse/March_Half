@@ -6,7 +6,7 @@
           <el-col :span="20">
             <el-form :inline="true" size="small">
               <el-form-item style="width:120px;">
-                <el-select size="small" v-model="form.serviceType" placeholder="服务类别" clearable>
+                <el-select size="small" v-model="form.serviceType" placeholder="服务类别" clearable @change="loadData">
                   <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
                     :value="type.typeId">
                   </el-option>

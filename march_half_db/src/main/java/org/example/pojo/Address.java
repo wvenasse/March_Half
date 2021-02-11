@@ -7,6 +7,7 @@ public class Address {
     private  String contactPhone;
     private  String addressArea;
     private  String addressDetail;
+    private  String addressName;
 
     public Integer getAddressId() {
         return addressId;
@@ -54,5 +55,13 @@ public class Address {
 
     public void setAddressDetail(String addressDetail) {
         this.addressDetail = addressDetail;
+    }
+
+    public String getAddressName() {
+        return addressName;
+    }
+
+    public void setAddressName(String addressName) {
+        this.addressName = addressName;
     }
 }

@@ -1,5 +1,6 @@
 package org.example.dao;
 
+import org.example.pojo.Evaluation;
 import org.example.pojo.Order;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,8 @@ public interface OrderDao {
 
     //查
     public List<Order> getAllOrder(String keyWord);
-    public List<Order> getAllOrderByStatus(String keyWord,String orderStatus);
+    public List<Order> getAllOrderByUser(Integer userId);
+    public List<Order> getAllOrderByStatus(String orderStatus);
     //照id查
     public Order getOrderById(Integer orderId);
 }

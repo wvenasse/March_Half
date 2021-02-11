@@ -86,7 +86,6 @@ public class NoticeController {
         //目前这里是写死的本地硬盘路径
         String path = "D:/WSH/2021/March_Half/march_half_vue2/src/assets/imgs/Upload";
         //获取文件名称
-        System.out.println(file);
         String fileName = file.getOriginalFilename();
         //获取文件名后缀
         Calendar currTime = Calendar.getInstance();

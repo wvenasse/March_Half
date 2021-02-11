@@ -11,6 +11,7 @@ public class Evaluation {
     private  String isNoName;
 
     private  Integer userId;
+    private  String userIcon;
     private  String evaluationUser;
 
     private  Integer serviceId;
@@ -83,6 +84,14 @@ public class Evaluation {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
     }
 
     public String getEvaluationUser() {

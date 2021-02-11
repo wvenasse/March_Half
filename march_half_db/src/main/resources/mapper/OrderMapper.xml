@@ -28,8 +28,11 @@
     <select id="getAllOrder" resultType="org.example.pojo.Order">
         select * from orders where orderUser like "%"#{keyWord}"%"
     </select>
+    <select id="getAllOrderByUser" resultType="org.example.pojo.Order">
+        select * from orders where userId=#{userId}
+    </select>
     <select id="getAllOrderByStatus" resultType="org.example.pojo.Order">
-        select * from orders where orderUser like "%"#{keyWord}"%" AND orderStatus=#{orderStatus}
+        select * from orders where orderStatus=#{orderStatus}
     </select>
 
     <select id="getOrderById" resultType="org.example.pojo.Order">

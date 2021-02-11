@@ -5,10 +5,10 @@
 <mapper namespace="org.example.dao.EvaluationDao">
     <insert id="addEvaluation" parameterType="org.example.pojo.Evaluation">
         insert into evaluations(evaluationStatus,evaluationStar,evaluationImg,evaluationDetail,evaluationTime,isNoName,
-        userId,evaluationUser,typeId,evaluationType,
+        userId,userIcon,evaluationUser,typeId,evaluationType,
         serviceId,evaluationService,institutionId,evaluationInstitution,orderId)
         values (#{evaluationStatus},#{evaluationStar},#{evaluationImg},#{evaluationDetail},#{evaluationTime},#{isNoName},
-        #{userId},#{evaluationUser},#{typeId},#{evaluationType},
+        #{userId},#{userIcon},#{evaluationUser},#{typeId},#{evaluationType},
         #{serviceId},#{evaluationService},#{institutionId},#{evaluationInstitution},#{orderId})
     </insert>
 
@@ -19,7 +19,7 @@
     <select id="updateEvaluation" parameterType="org.example.pojo.Evaluation" resultType="java.lang.Integer">
         update evaluations set evaluationStatus=#{evaluationStatus},evaluationStar=#{evaluationStar},
         evaluationImg=#{evaluationImg},evaluationDetail=#{evaluationDetail},evaluationTime=#{evaluationTime},isNoName=#{isNoName},
-        userId=#{userId},evaluationUser=#{evaluationUser},typeId=#{typeId},evaluationType=#{evaluationType},
+        userId=#{userId},userIcon=#{userIcon},evaluationUser=#{evaluationUser},typeId=#{typeId},evaluationType=#{evaluationType},
         serviceId=#{serviceId},evaluationService=#{evaluationService},institutionId=#{institutionId},evaluationInstitution=#{evaluationInstitution},orderId=#{orderId}
         where evaluationId=#{evaluationId}
     </select>

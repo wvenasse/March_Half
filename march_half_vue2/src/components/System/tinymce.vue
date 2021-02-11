@@ -4,6 +4,7 @@
   </div>
 </template>
 <script>
+import {addImage} from "@/api/System"
 import tinymce from "tinymce/tinymce";
 import Editor from "@tinymce/tinymce-vue";
 import "tinymce/themes/silver";
@@ -59,7 +60,7 @@ export default {
     return {
       myValue: this.value,
       web:'http://api.euiadmin.com',//网站链接，与返回文件地址拼接形成完整地址
-      url: "/upload/image",//上传api
+      url: "/upload/image",//上传api 
       init: {
         selector: "Editor", //选择HTML元素
         language_url: `${this.baseUrl}/tinymce/langs/zh_CN.js`,
@@ -75,14 +76,11 @@ export default {
         elementpath: false, //禁用下角的当前标签路径
         paste_data_images: true, // 允许粘贴图像
         plugins:
-          "lists image media table wordcount code",
-
+          "lists image media table wordcount code fullscreen help  toc fullpage autosave nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak link charmap paste print preview hr anchor",
         toolbar: [
-          "formatselect bold italic underline alignleft aligncenter alignright lists table link code",
+          "newdocument undo redo | formatselect visualaid|cut copy paste selectall| bold italic underline strikethrough |codeformat blockformats | forecolor backcolor | alignleft aligncenter alignright alignjustify removeformat|  ",
+          " outdent indent bullist numlist | lists table link | anchor charmap  pastetext print preview hr | fullscreen help toc fullpage restoredraft nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak",
         ],
-        // plugins:
-        //   "lists image media table wordcount code fullscreen help  toc fullpage autosave nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak link charmap paste print preview hr anchor",
-
         // toolbar: [
         //   "newdocument undo redo | formatselect visualaid|cut copy paste selectall| bold italic underline strikethrough |codeformat blockformats| superscript subscript  | forecolor backcolor | alignleft aligncenter alignright alignjustify | outdent indent |  removeformat ",
         //   "code  bullist numlist | lists image media table link |fullscreen help toc fullpage restoredraft nonbreaking insertdatetime visualchars visualblocks searchreplace spellchecker pagebreak anchor charmap  pastetext print preview hr",

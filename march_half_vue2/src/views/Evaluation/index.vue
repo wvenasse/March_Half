@@ -262,6 +262,7 @@
                     isNoName:"",
 
                     userId:"",
+                    userIcon:"",
                     evaluationUser:"",
 
                     evaluationModel:"",
@@ -309,6 +310,9 @@
                         console.log(response.data);
                         table.loading = false;
                         table.tableData = response.data.pageInfo.list;
+                        for (let i = 0; i < table.tableData.length; i++) {
+                            table.tableData[i].evaluationImg = table.tableData[i].evaluationImg.split(",");
+                        }
                         pagination.totalRecordCount = response.data.pageInfo.total;
                     })
                     .catch(function (error) {
@@ -374,6 +378,7 @@
                     evaluationTime: evaluationDialog.form.evaluationTime,
                     isNoName: evaluationDialog.form.isNoName,
                     userId: evaluationDialog.form.userId,
+                    userIcon: evaluationDialog.form.userIcon,
                     evaluationUser: evaluationDialog.form.evaluationUser,
                     serviceId: evaluationDialog.form.serviceId,
                     evaluationService: evaluationDialog.form.evaluationService,
@@ -530,6 +535,7 @@
                 loadOrder(val);
                 for (let i = 0; i < optionList.userData.length; i++) {
                     if (optionList.userData[i].userId === val) {
+                        evaluationDialog.form.userIcon = optionList.userData[i].userIcon;
                         evaluationDialog.form.evaluationUser = optionList.userData[i].userName;
                     }
                 }

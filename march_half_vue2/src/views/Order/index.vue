@@ -6,7 +6,7 @@
                     <el-col :span="20">
                         <el-form :inline="true" size="small">
                             <el-form-item style="width:120px;">
-                                <el-select size="small" v-model="form.orderStatus" placeholder="订单状态" clearable>
+                                <el-select size="small" v-model="form.orderStatus" placeholder="订单状态" clearable @change="loadData">
                                     <el-option key='0' label="待确定" value='0'></el-option>
                                     <el-option key='1' label="已接单" value='1'></el-option>
                                     <el-option key='2' label="进行中" value='2'></el-option>
@@ -16,7 +16,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item style="width:120px;">
-                                <el-select size="small" v-model="form.orderType" placeholder="订单类别" clearable>
+                                <el-select size="small" v-model="form.orderType" placeholder="订单类别" clearable @change="loadData">
                                     <el-option v-for="type in optionList.typeData" :key="type.typeId"
                                         :label="type.typeName" :value="type.typeId">
                                     </el-option>
@@ -164,7 +164,7 @@
                     <el-col :span="12">
                         <el-form-item label="服务地址" prop="addressId" :label-width="orderDialog.formLabelWidth">
                              <el-select v-model="orderDialog.form.addressId" clearable placeholder="请选择地址" @change="handleAddressChange">
-                                <el-option v-for="address in optionList.addressData" :key="address.addressId" :label="address.addressVal"
+                                <el-option v-for="address in optionList.addressData" :key="address.addressId" :label="address.addressName"
                                 :value="address.addressId">
                                 </el-option>
                             </el-select>
@@ -515,13 +515,7 @@
                 };
                 ShowAllAddress(data).then(function (response) {
                         console.log(response);
-                        optionList.addressData = [];
-                        for(let i=0;i<response.data.length;i++) {
-                            let obj = {}
-                            obj['addressId'] = response.data[i].addressId;
-                            obj['addressVal'] = response.data[i].contactName + '-' + response.data[i].contactPhone+ '-' + response.data[i].addressArea+ '-' + response.data[i].addressDetail ;
-                            optionList.addressData.push(obj);
-                        }
+                        optionList.addressData = response.data;
                     })
                     .catch(function (error) {
                         console.log(error);
