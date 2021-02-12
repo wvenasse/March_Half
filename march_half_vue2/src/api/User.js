@@ -64,6 +64,14 @@ export function UpdateUserEvaNum(data){
     })
 }
 
+export function UpdateUserPostNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateUserPostNum",
+        params: data
+    })
+}
+
 export function AddUser(data){
     return request.request({
         method: "get",

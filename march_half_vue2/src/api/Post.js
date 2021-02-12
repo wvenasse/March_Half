@@ -32,6 +32,24 @@ export function FindAllPost(data){
     })
 }
 
+export function FindAllPostByUser(data){
+    var qs = require('querystring');
+    return request.request({
+        method: "post",
+        url: "/findAllPostByUser",
+        data: qs.stringify(data)
+    })
+}
+
+export function FindAllPostByType(data){
+    var qs = require('querystring');
+    return request.request({
+        method: "post",
+        url: "/findAllPostByType",
+        data: qs.stringify(data)
+    })
+}
+
 export function ShowPost(data){
     return request.request({
         method: "get",
@@ -44,6 +62,38 @@ export function UpdatePost(data){
     return request.request({
         method: "get",
         url: "/updatePost",
+        params: data
+    })
+}
+
+export function UpdatePostTop(data){
+    return request.request({
+        method: "get",
+        url: "/updatePostTop",
+        params: data
+    })
+}
+
+export function UpdatePostPop(data){
+    return request.request({
+        method: "get",
+        url: "/updatePostPop",
+        params: data
+    })
+}
+
+export function UpdatePostLikeNum(data){
+    return request.request({
+        method: "get",
+        url: "/updatePostLikeNum",
+        params: data
+    })
+}
+
+export function UpdatePostLoveNum(data){
+    return request.request({
+        method: "get",
+        url: "/updatePostLoveNum",
         params: data
     })
 }

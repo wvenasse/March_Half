@@ -9,7 +9,7 @@ public class Post {
     private  String postName;
 
     private  Integer userId;
-    private  String userName;
+    private  String userIcon;
     private  String postUser;
     private  Integer typeId;
     private  String postType;
@@ -77,12 +77,12 @@ public class Post {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUserIcon() {
+        return userIcon;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUserIcon(String userIcon) {
+        this.userIcon = userIcon;
     }
 
     public String getPostUser() {

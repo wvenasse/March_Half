@@ -301,6 +301,16 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="" :label-width="favorDialog.formLabelWidth" v-else-if="FavorObjectOptions.favorData[0] && FavorObjectOptions.favorData[0].postId">
+              <el-select v-model="favorDialog.form.FAVOR" placeholder="请选择讨论帖子" clearable @change="handleFavorIDChange">
+                <el-option
+                  v-for="post in FavorObjectOptions.favorData"
+                  :key="post.postId"
+                  :label="post.postName"
+                  :value="{ value: post.postId, label: post.postName }">
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
         </el-form-item>
       </el-form>
@@ -342,8 +352,21 @@
     AddFavor,
     DelFavor
   } from "@/api/Favor";
-  import { ShowAllService,UpdateServiceLikeNum,UpdateServiceLoveNum } from "@/api/Service";
-  import { ShowAllInstitution,UpdateInstitutionLikeNum,UpdateInstitutionLoveNum } from "@/api/Institution";
+  import { 
+    ShowAllService,
+    UpdateServiceLikeNum,
+    UpdateServiceLoveNum 
+  } from "@/api/Service";
+  import { 
+    ShowAllInstitution,
+    UpdateInstitutionLikeNum,
+    UpdateInstitutionLoveNum 
+  } from "@/api/Institution";
+  import { 
+    ShowAllPost,
+    UpdatePostLikeNum,
+    UpdatePostLoveNum 
+  } from "@/api/Post";
   export default {
     name: "user",
     setup(props, {
@@ -578,9 +601,31 @@
             });
           }
         }
+        else if (type === 3 ) {
+          data = {
+            postId: favor.postId
+          };
+          if (favorType === 1 ) {
+            UpdatePostLikeNum(data)
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+          else if (favorType === 2 ) {
+            UpdatePostLoveNum(data)
+            .then(function (response) {
+              console.log(response.data);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+        }
       }
       
-
       //文件上传
       let formData = new FormData();
       let imgName = ref("未选择任何文件");
@@ -897,6 +942,9 @@
         else if (type === 2) {
           loadInstitution();
         }
+        else if (type === 3) {
+          loadPost();
+        }
       }
       const handleFavorIDChange = (val) => {
         console.log(val);
@@ -914,7 +962,15 @@
         ShowAllInstitution().then(function (response) {
           console.log(response);
           FavorObjectOptions.favorData = response.data;
-          console.log(FavorObjectOptions.favorData[0]);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+      }
+      const loadPost = () => {
+        ShowAllPost().then(function (response) {
+          console.log(response);
+          FavorObjectOptions.favorData = response.data;
         })
         .catch(function (error) {
             console.log(error);
@@ -988,6 +1044,7 @@
 
         loadService,
         loadInstitution,
+        loadPost,
 
         cityList,
         handleCityChange,

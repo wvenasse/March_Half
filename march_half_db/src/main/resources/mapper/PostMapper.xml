@@ -5,9 +5,9 @@
 <mapper namespace="org.example.dao.PostDao">
     <insert id="addPost" parameterType="org.example.pojo.Post">
         insert into posts(postTitle,postImg,postDetail,postTime,postName,
-        userId,userName,postUser,typeId,postType,postTop,postPop,isNoName)
-        values (#{postTitle},#{postImg},#{postDetail},#{postTime},#{userId},#{postName},
-        #{userId},#{userName},#{postUser},#{typeId},#{postType},#{postTop},#{postPop},#{isNoName})
+        userId,userIcon,postUser,typeId,postType,postTop,postPop,isNoName)
+        values (#{postTitle},#{postImg},#{postDetail},#{postTime},#{postName},
+        #{userId},#{userIcon},#{postUser},#{typeId},#{postType},#{postTop},#{postPop},#{isNoName})
     </insert>
 
     <delete id="delPost" parameterType="java.lang.Integer">
@@ -16,19 +16,26 @@
 
     <select id="updatePost" parameterType="org.example.pojo.Post" resultType="java.lang.Integer">
         update posts set postTitle=#{postTitle},postImg=#{postImg},postDetail=#{postDetail},postTime=#{postTime},postName=#{postName},
-        userId=#{userId},userName=#{userName},postUser=#{postUser},typeId=#{typeId},postType=#{postType},
+        userId=#{userId},userIcon=#{userIcon},postUser=#{postUser},typeId=#{typeId},postType=#{postType},
         postPop=#{postPop},postPop=#{postPop},isNoName=#{isNoName}
         where postId=#{postId}
     </select>
+    <select id="updatePostTop" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update posts set postTop=#{postTop} where postId=#{postId}
+    </select>
+    <select id="updatePostPop" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update posts set postPop=#{postPop} where postId=#{postId}
+    </select>
+
 
     <select id="getAllPost" resultType="org.example.pojo.Post">
-        select * from posts where postTitle like "%"#{keyWord}"%"
+        select * from posts where postName like "%"#{keyWord}"%" order by postTop
     </select>
     <select id="getAllPostByUser" resultType="org.example.pojo.Post">
-        select * from posts where userId=#{userId}
+        select * from posts where userId=#{userId} order by postTop
     </select>
     <select id="getAllPostByType" resultType="org.example.pojo.Post">
-        select * from posts where typeId=#{typeId}
+        select * from posts where typeId=#{typeId} order by postTop
     </select>
 
     <select id="getPostById" resultType="org.example.pojo.Post">

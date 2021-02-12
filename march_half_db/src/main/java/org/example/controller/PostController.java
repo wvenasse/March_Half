@@ -28,7 +28,7 @@ public class PostController {
             return R.ok();
         }
         else {
-            return R.error("添加订单失败！");
+            return R.error("添加讨论失败！");
         }
     }
 
@@ -39,7 +39,7 @@ public class PostController {
             return R.ok();
         }
         else {
-            return R.error("删除订单失败！");
+            return R.error("删除讨论失败！");
         }
     }
 
@@ -50,7 +50,29 @@ public class PostController {
             return R.ok();
         }
         else {
-            return R.error("修改订单失败！");
+            return R.error("修改讨论失败！");
+        }
+    }
+
+    @RequestMapping("/updatePostTop")
+    public R updatePostTop(String postTop ,Integer postId) {
+        Integer count = postDao.updatePostTop(postTop,postId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改讨论置顶失败！");
+        }
+    }
+
+    @RequestMapping("/updatePostPop")
+    public R updatePostPop(String postPop ,Integer postId) {
+        Integer count = postDao.updatePostPop(postPop,postId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改讨论热门失败！");
         }
     }
 
@@ -75,11 +97,31 @@ public class PostController {
 
     @ResponseBody
     @RequestMapping("/findAllPost")
-    public R findAllOrder(@RequestParam("pageIndex") int pageIndex,
+    public R findAllPost(@RequestParam("pageIndex") int pageIndex,
                           @RequestParam("pageSize") int pageSize,
                           @RequestParam("keyWord") String keyWord){
         PageHelper.startPage(pageIndex,pageSize);
         PageInfo<Post> pageInfo = new PageInfo(postDao.getAllPost(keyWord));
+        return R.ok().put("pageInfo", pageInfo);
+    }
+
+    @ResponseBody
+    @RequestMapping("/findAllPostByUser")
+    public R findAllPostByUser(@RequestParam("pageIndex") int pageIndex,
+                          @RequestParam("pageSize") int pageSize,
+                          @RequestParam("userId") Integer userId){
+        PageHelper.startPage(pageIndex,pageSize);
+        PageInfo<Post> pageInfo = new PageInfo(postDao.getAllPostByUser(userId));
+        return R.ok().put("pageInfo", pageInfo);
+    }
+
+    @ResponseBody
+    @RequestMapping("/findAllPostByType")
+    public R findAllPostByType(@RequestParam("pageIndex") int pageIndex,
+                          @RequestParam("pageSize") int pageSize,
+                          @RequestParam("typeId") Integer typeId){
+        PageHelper.startPage(pageIndex,pageSize);
+        PageInfo<Post> pageInfo = new PageInfo(postDao.getAllPostByType(typeId));
         return R.ok().put("pageInfo", pageInfo);
     }
 
