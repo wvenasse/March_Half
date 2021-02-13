@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.CommentDao">
+    <insert id="addComment" parameterType="org.example.pojo.Comment">
+        insert into comments(postId,userId,userIcon,commentUser,
+        commentDetail,commentTime,commentType,toUserId,toNickName,toCommentId)
+        values (#{postId},#{userId},#{userIcon},#{commentUser},
+        #{commentDetail},#{commentTime},#{commentType},#{toUserId},#{toNickName},#{toCommentId})
+    </insert>
+
+    <delete id="delComment" parameterType="java.lang.Integer">
+        delete from comments where commentId=#{commentId}
+    </delete>
+
+    <select id="updateComment" parameterType="org.example.pojo.Comment" resultType="java.lang.Integer">
+        update comments set commentDetail=#{commentDetail},commentTime=#{commentTime}
+        where commentId=#{commentId}
+    </select>
+    <select id="updateCommentNum" resultType="java.lang.Integer">
+        UPDATE comments SET commentNum = ( SELECT ub.countComment FROM ( SELECT count( ua.commentId ) countComment FROM comments ua WHERE ua.toCommentId = #{commentId} ) ub ) WHERE comments.commentId = #{commentId}
+    </select>
+
+    <select id="getAllComment" resultType="org.example.pojo.Comment">
+        select * from comments where commentDetail like "%"#{keyWord}"%"
+    </select>
+    <select id="getAllCommentByUser" resultType="org.example.pojo.Comment">
+        select * from comments where userId=#{userId}
+    </select>
+    <select id="getAllCommentByPost" resultType="org.example.pojo.Comment">
+        select * from comments where postId=#{postId}
+    </select>
+    <select id="getAllCommentFirst" resultType="org.example.pojo.Comment">
+        select * from comments where postId=#{postId} AND commentType='first'
+    </select>
+    <select id="getAllCommentSecond" resultType="org.example.pojo.Comment">
+        select * from comments where postId=#{postId} AND toCommentId=#{toCommentId} AND  commentType='second'
+    </select>
+
+    <select id="getCommentById" resultType="org.example.pojo.Comment">
+        select * from comments where commentId=#{commentId}
+     </select>
+</mapper>

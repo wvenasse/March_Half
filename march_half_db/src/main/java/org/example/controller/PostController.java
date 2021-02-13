@@ -75,6 +75,36 @@ public class PostController {
             return R.error("修改讨论热门失败！");
         }
     }
+    @RequestMapping("/updatePostLikeNum")
+    public R updatePostLikeNum(Integer postId) {
+        Integer count = postDao.updatePostLikeNum(postId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改讨论点赞失败！");
+        }
+    }
+    @RequestMapping("/updatePostLoveNum")
+    public R updatePostLoveNum(Integer postId) {
+        Integer count = postDao.updatePostLoveNum(postId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改讨论收藏失败！");
+        }
+    }
+    @RequestMapping("/updatePostComNum")
+    public R updatePostComNum(Integer postId) {
+        Integer count = postDao.updatePostComNum(postId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改讨论评论失败！");
+        }
+    }
 
     @RequestMapping(value = "/showAllPost", produces = "text/json;charset=UTF-8")
     public String showAllPost(){

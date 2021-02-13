@@ -98,6 +98,15 @@ export function UpdatePostLoveNum(data){
     })
 }
 
+export function UpdatePostComNum(data){
+    return request.request({
+        method: "get",
+        url: "/updatePostComNum",
+        params: data
+    })
+}
+
+
 export function AddPost(data){
     return request.request({
         method: "get",

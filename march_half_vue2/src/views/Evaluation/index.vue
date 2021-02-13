@@ -295,7 +295,9 @@
                         table.loading = false;
                         table.tableData = response.data.pageInfo.list;
                         for (let i = 0; i < table.tableData.length; i++) {
-                            table.tableData[i].evaluationImg = table.tableData[i].evaluationImg.split(",");
+                            if (table.tableData[i].evaluationImg) {
+                                table.tableData[i].evaluationImg = table.tableData[i].evaluationImg.split(",");
+                            }
                         }
                         pagination.totalRecordCount = response.data.pageInfo.total;
                     })
@@ -326,7 +328,9 @@
                     evaluationDialog.title = "修改评价";
                     evaluationDialog.flag = true;
                     evaluationDialog.form = evaluation;
-                    imgName.value = evaluation.evaluationImg.join(',');
+                    if (evaluation.evaluationImg) {
+                        imgName.value = evaluation.evaluationImg.join(',');
+                    }
                     if (evaluationDialog.form.isNoName === 'true') {
                         evaluationDialog.form.isNoName = true;
                     }

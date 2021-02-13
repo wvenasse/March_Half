@@ -17,6 +17,9 @@ public interface PostDao {
     public Integer updatePost(Post post);
     public Integer updatePostTop(String postTop,Integer postId);
     public Integer updatePostPop(String postPop,Integer postId);
+    public Integer updatePostLikeNum(Integer postId);
+    public Integer updatePostLoveNum(Integer postId);
+    public Integer updatePostComNum(Integer postId);
     //查
     public List<Post> getAllPost(String keyWord);
     public List<Post> getAllPostByUser(Integer userId);

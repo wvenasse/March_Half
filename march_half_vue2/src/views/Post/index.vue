@@ -39,6 +39,17 @@
                     </el-table-column>
                     <el-table-column prop="postType" label="有关类别"  width="150" align="center"></el-table-column>
                     <el-table-column prop="postTitle" label="讨论题目" width="80" align="center"></el-table-column>
+                    <el-table-column prop="postImg" label="有关图片" width="100" align="center">
+                        <template slot-scope="scope">
+                        <div style="display:flex;justify-content: center;">
+                            <div class="postImgs" v-for="(img,index) in scope.row.postImg" :key="index">
+                                <img class="postImg" :src="require('../../assets/imgs/Upload/'+ img)"
+                                :alt="img" v-if="index<2" @click="openImgPreDialog(scope.row.postImg)">
+                                <div class="imgNum" v-if="index===1 && scope.row.postImg.length>2">+{{scope.row.postImg.length}}</div>
+                            </div>
+                        </div>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="postDetail" label="讨论内容" align="center">
                         <template slot-scope="scope">
                             <el-tooltip class="item" effect="dark" :content="scope.row.postDetail" placement="bottom-start">
@@ -51,6 +62,21 @@
                         <template slot-scope="scope">
                             <span v-if="scope.row.isNoName === 'false'" class="isNoName">否</span>
                             <span v-else-if="scope.row.isNoName === 'true'" class="isNoName">是</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="postLike" label="点赞" width="50" align="center">
+                        <template slot-scope="scope">
+                        <span class="postChange">{{scope.row.postLike ? scope.row.postLike:0}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="postLove" label="收藏" width="50" align="center">
+                        <template slot-scope="scope">
+                            <span class="postChange">{{scope.row.postLove ? scope.row.postLove:0}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="postCom" label="评论" width="50" align="center">
+                        <template slot-scope="scope">
+                            <span class="postCom" @click="openPostCommentDialog(scope.row.postId)">{{scope.row.postCom ? scope.row.postCom:0}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" fixed="right" align="center" width="250px">
@@ -71,12 +97,12 @@
                             placement="top"
                             width="200"
                             trigger="hover">
-                                <p v-if="scope.row.postPop === 'f'">确定将该讨论取消热门吗？</p>
+                                <p v-if="scope.row.postPop === 'true'">确定将该讨论取消热门吗？</p>
                                 <p v-else>确定将该讨论设置为热门吗？</p>
                                 <div style="text-align: right; margin: 0">
                                     <el-button type="primary" size="mini" @click="updatePostPop(scope.row)">确定</el-button>
                                 </div>
-                                <el-button size="mini" v-if="scope.row.postPop === 'f'" type="success" plain slot="reference" style="margin-right: 10px;">已热门</el-button>
+                                <el-button size="mini" v-if="scope.row.postPop === 'true'" type="success" plain slot="reference" style="margin-right: 10px;">已热门</el-button>
                                 <el-button size="mini" v-else type="info" plain slot="reference" style="margin-right: 10px;">热门</el-button>
                             </el-popover>
                             <el-button size="small" type="text" @click="openDiaog(scope.row)">修改信息</el-button>
@@ -95,6 +121,8 @@
                 </el-pagination>
             </el-footer>
         </el-container>
+
+        <!-- 帖子 -->
         <el-dialog :title="postDialog.title" :visible.sync="postDialog.visible" :append-to-body="true" @close="closePostDialog">
             <el-form :model="postDialog.form">
                 <el-form-item>
@@ -189,6 +217,127 @@
                 <el-button type="primary" @click="imgPreDialog.visible = false">关 闭</el-button>
             </span>
         </el-dialog>
+
+        <!-- 评论 -->
+        <el-dialog title="评论管理" :visible.sync="postCommentDialog.visible" :append-to-body="true">
+            <el-container>
+                <el-header style="height:auto;text-align: right;">
+                    <el-button type="primary" size="small"  @click="openCommentDiaog(0)">新增</el-button>
+                </el-header>
+                <el-main>
+                    <el-table :data="postCommentDialog.table.tableData">
+                        <el-table-column property="commentId" label="序号" width="50" align="center"></el-table-column>
+                        <el-table-column property="commentUser" label="用户" width="100" align="center">
+                            <template slot-scope="scope">
+                                <el-tooltip class="item" effect="dark" :content="scope.row.commentUser" placement="bottom-start">
+                                    <span class="commentUser">{{scope.row.commentUser}}</span>
+                                </el-tooltip>
+                            </template>
+                        </el-table-column>
+                            <el-table-column property="commentDetail" label="评论内容" align="center">
+                                <template slot-scope="scope">
+                                    <el-tooltip class="item" effect="dark" :content="scope.row.commentDetail" placement="bottom-start">
+                                        <span class="commentDetail">{{scope.row.commentDetail}}</span>
+                                    </el-tooltip>
+                                </template>
+                            </el-table-column>
+                            <el-table-column property="commentTime" label="评论时间" width="180" align="center"></el-table-column>
+                            <el-table-column property="commentNum" label="子评论" width="80" align="center">
+                                <template slot-scope="scope">
+                                    <span class="commentNum"  @click="openComCommentDialog(scope.row.commentId)">{{scope.row.commentNum ? scope.row.commentNum:0}}</span>
+                                </template>
+                            </el-table-column>
+                            <el-table-column label="操作" fixed="right" align="center" width="150px">
+                                <template slot-scope="scope">
+                                    <el-button size="small" type="text" @click="openCommentDiaog(scope.row)">修改评论</el-button>
+                                    <el-button @click="deleteComment(scope.row)" size="small" type="text" class="danger" style="color: red">删除</el-button>
+                                </template>
+                        </el-table-column>
+                    </el-table>
+                </el-main>
+                <el-footer style="height: 34px">
+                <el-pagination small background @size-change="handleComPageSizeChange"
+                    @current-change="handleComCurrentChange" :current-page="postCommentDialog.pagination.pageIndex"
+                    :page-sizes="[5, 10, 20, 30, 40]" :page-size="postCommentDialog.pagination.pageSize"
+                    layout="total, sizes, prev, pager, next, jumper" :total="postCommentDialog.pagination.totalRecordCount">
+                </el-pagination>
+            </el-footer>
+            </el-container>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="postCommentDialog.visible = false">关 闭</el-button>
+            </div>
+        </el-dialog>
+        <el-dialog :title="commentDialog.title" :visible.sync="commentDialog.visible" :append-to-body="true">
+            <el-form :model="commentDialog.form" >
+                <el-form-item>
+                    <el-col :span="12">
+                        <el-form-item label="用户" :label-width="commentDialog.formLabelWidth">
+                            <el-select v-model="commentDialog.form.userId" clearable filterable  placeholder="请选择用户" @change="handleComUserChange">
+                                <el-option v-for="user in optionList.userData" :key="user.userId" :label="user.userName"
+                                :value="user.userId">
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="评论内容" :label-width="commentDialog.formLabelWidth">
+                            <el-input v-model="commentDialog.form.commentDetail" autocomplete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="commentDialog.visible = false">取 消</el-button>
+                <el-button type="primary" @click="submitComment">确 定</el-button>
+            </div>
+        </el-dialog>
+        <!-- 子评论 -->
+        <el-dialog title="子评论管理" :visible.sync="comCommentDialog.visible" :append-to-body="true">
+            <el-container>
+                <el-header style="height:auto;text-align: right;">
+                    <el-button type="primary" size="small"  @click="openComCommentDiaog(0)">新增</el-button>
+                </el-header>
+                <el-main>
+                    <el-table :data="comCommentDialog.table.tableData">
+                        <el-table-column property="commentId" label="序号" width="50" align="center"></el-table-column>
+                        <el-table-column property="commentUser" label="用户" width="100" align="center">
+                            <template slot-scope="scope">
+                                <el-tooltip class="item" effect="dark" :content="scope.row.commentUser" placement="bottom-start">
+                                    <span class="commentUser">{{scope.row.commentUser}}</span>
+                                </el-tooltip>
+                            </template>
+                        </el-table-column>
+                        <el-table-column property="toNickName" label="@" width="100" align="center"></el-table-column>
+                        <el-table-column property="commentDetail" label="评论内容" align="center">
+                            <template slot-scope="scope">
+                                <el-tooltip class="item" effect="dark" :content="scope.row.commentDetail" placement="bottom-start">
+                                    <span class="commentDetail">{{scope.row.commentDetail}}</span>
+                                </el-tooltip>
+                            </template>
+                        </el-table-column>
+                        <el-table-column property="commentTime" label="评论时间" width="180" align="center"></el-table-column>
+                        <el-table-column label="操作" fixed="right" align="center" width="150px">
+                            <template slot-scope="scope">
+                                <el-button size="small" type="text" @click="openComCommentDiaog(scope.row)">修改评论</el-button>
+                                <el-button @click="deleteComment(scope.row)" size="small" type="text" class="danger" style="color: red">删除</el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-main>
+                <el-footer style="height: 34px">
+                <el-pagination small background @size-change="handleComComPageSizeChange"
+                    @current-change="handleComComCurrentChange" :current-page="comCommentDialog.pagination.pageIndex"
+                    :page-sizes="[5, 10, 20, 30, 40]" :page-size="comCommentDialog.pagination.pageSize"
+                    layout="total, sizes, prev, pager, next, jumper" :total="comCommentDialog.pagination.totalRecordCount">
+                </el-pagination>
+            </el-footer>
+            </el-container>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="comCommentDialog.visible = false">关 闭</el-button>
+            </div>
+        </el-dialog>
+
+
     </div>
 </template>
 
@@ -206,15 +355,26 @@
         FindAllPostByUser,
         FindAllPostByType,
         UpdatePostTop,
-        UpdatePostPop
+        UpdatePostPop,
+        UpdatePostComNum
     } from "@/api/Post";
     import {
         ShowAllUser,
-        UpdateUserPostNum
+        UpdateUserPostNum,
+        UpdateUserComNum
     } from "@/api/User";
     import {
         ShowAllType
     } from "@/api/Type";
+    import {
+        UpdateComment,
+        AddComment,
+        DelComment,
+        FindAllCommentFirst,
+        FindAllCommentSecond,
+        ShowComment,
+        UpdateCommentNum
+    } from "@/api/Comment";
     import {
         addImage
     } from "@/api/System"
@@ -270,6 +430,11 @@
                         console.log(response.data);
                         table.loading = false;
                         table.tableData = response.data.pageInfo.list;
+                        for (let i = 0; i < table.tableData.length; i++) {
+                            if (table.tableData[i].postImg) {
+                                table.tableData[i].postImg = table.tableData[i].postImg.split(",");
+                            }
+                        }
                         pagination.totalRecordCount = response.data.pageInfo.total;
                     })
                     .catch(function (error) {
@@ -283,6 +448,9 @@
                         console.log(response.data);
                         table.loading = false;
                         table.tableData = response.data.pageInfo.list;
+                        for (let i = 0; i < table.tableData.length; i++) {
+                            table.tableData[i].postImg = table.tableData[i].postImg.split(",");
+                        }
                         pagination.totalRecordCount = response.data.pageInfo.total;
                     })
                     .catch(function (error) {
@@ -296,6 +464,9 @@
                         console.log(response.data);
                         table.loading = false;
                         table.tableData = response.data.pageInfo.list;
+                        for (let i = 0; i < table.tableData.length; i++) {
+                            table.tableData[i].postImg = table.tableData[i].postImg.split(",");
+                        }
                         pagination.totalRecordCount = response.data.pageInfo.total;
                     })
                     .catch(function (error) {
@@ -308,8 +479,9 @@
                     postDialog.title = "修改讨论";
                     postDialog.flag = true;
                     postDialog.form = post;
-                    console.log(post.postImg)
-                    imgName.value = post.postImg;
+                    if (post.postImg) {
+                        imgName.value = post.postImg.join(',');
+                    }
                     if (postDialog.form.isNoName === 'true') {
                         postDialog.form.isNoName = true;
                     }
@@ -358,8 +530,7 @@
                     isNoName: postDialog.form.isNoName,
                     postName: postDialog.form.postName,
                     postTop: 't',
-                    postPop: false,
-
+                    postPop: 'false',
                     userId: postDialog.form.userId,
                     userIcon: postDialog.form.userIcon,
                     postUser: postDialog.form.postUser,
@@ -388,8 +559,8 @@
                                 type: "success",
                                 message: response.data.msg,
                             });
-                            loadData();
                             updatePostNum(data);
+                            loadData();
                         })
                         .catch(function (error) {
                             console.log(error);
@@ -411,8 +582,8 @@
                         DelPost(data)
                             .then(function (response) {
                                 console.log(response);
-                                loadData();
                                 updatePostNum(post);
+                                loadData();
                                 root.$message({
                                     type: "success",
                                     message: response.data.msg,
@@ -436,7 +607,7 @@
                 popVisible:false
             })
             const updatePostTop = (post) => {
-                let top ;
+                let top = 'f';
                 if (post.postTop === 't') {
                     top = 'f';
                 }
@@ -450,19 +621,21 @@
                 UpdatePostTop(data)
                     .then(function (response) {
                         console.log(response);
+                        loadData();
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             }
             const updatePostPop = (post) => {
-                let pop ;
-                if (post.postPop === 'true') {
+                let pop = 'false';
+                if (post.postPop == 'true') {
                     pop = 'false';
                 }
-                else if (post.postTop === 'false') {
+                else if (post.postPop == 'false') {
                     pop = 'true';
                 }
+                console.log(pop)
                 let data = {
                     postPop: pop,
                     postId: post.postId
@@ -470,13 +643,14 @@
                 UpdatePostPop(data)
                     .then(function (response) {
                         console.log(response);
+                        loadData();
                     })
                     .catch(function (error) {
                         console.log(error);
                     });
             }
             
-            //更新用户帖子
+            //更新帖子
             const updatePostNum = (post) => {
                 let data = {
                     userId: post.userId
@@ -489,7 +663,6 @@
                         console.log(error);
                     });
             }
-
             
             //用户、订单
             let optionList = reactive({
@@ -530,6 +703,298 @@
                 }
             }
 
+            //评论
+            const openPostCommentDialog = (postId) => {
+                // postCommentDialog.visible = true;
+                postCommentDialog.postId = postId;
+                loadCommentData(postId);
+            }
+            let postCommentDialog = reactive({
+                visible: false,
+                postId:'',
+                table: {
+                    loading: false,
+                    tableData: []
+                },
+                pagination: {
+                    pageIndex: 1,
+                    totalRecordCount: 0,
+                    pageSize: 5,
+                }
+            });
+            const loadCommentData = (postId) => {
+                postCommentDialog.table.loading = true;
+                let data = {
+                    pageIndex: postCommentDialog.pagination.pageIndex,
+                    pageSize: postCommentDialog.pagination.pageSize,
+                    postId: postId
+                };
+                postCommentDialog.table.loading = false;
+                FindAllCommentFirst(data)
+                    .then(function (response) {
+                        console.log(response.data);
+                        postCommentDialog.table.loading = false;
+                        postCommentDialog.table.tableData = response.data.pageInfo.list;
+                        postCommentDialog.pagination.totalRecordCount = response.data.pageInfo.total;
+                        postCommentDialog.visible = true;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            };
+
+            //子评论
+            const openComCommentDialog = (toCommentId) => {
+                // comCommentDialog.visible = true;
+                comCommentDialog.toCommentId = toCommentId;
+                loadComCommentData(toCommentId);
+                loadComComment(toCommentId);
+            }
+            let comCommentDialog = reactive({
+                visible: false,
+                toCommentId:'',
+                toUserId:'',
+                toNickName:'',
+                table: {
+                    loading: false,
+                    tableData: []
+                },
+                pagination: {
+                    pageIndex: 1,
+                    totalRecordCount: 0,
+                    pageSize: 5,
+                }
+            });
+            const loadComCommentData = (toCommentId) => {
+                comCommentDialog.table.loading = true;
+                let data = {
+                    pageIndex: comCommentDialog.pagination.pageIndex,
+                    pageSize: comCommentDialog.pagination.pageSize,
+                    postId: postCommentDialog.postId,
+                    toCommentId: toCommentId
+                };
+                comCommentDialog.table.loading = false;
+                FindAllCommentSecond(data)
+                    .then(function (response) {
+                        console.log(response.data);
+                        comCommentDialog.table.loading = false;
+                        comCommentDialog.table.tableData = response.data.pageInfo.list;
+                        comCommentDialog.pagination.totalRecordCount = response.data.pageInfo.total;
+                        comCommentDialog.visible = true;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            };
+            const loadComComment = (toCommentId) => {
+                let data =  {
+                    commentId: toCommentId
+                }
+                ShowComment(data)
+                    .then(function (response) {
+                        console.log(response.data);
+                        comCommentDialog.toUserId = response.data.userId;
+                        comCommentDialog.toNickName = response.data.commentUser;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+
+            //总评论
+            let commentDialog = reactive({
+                visible: false,
+                title:"",
+                flag:false,
+                type:'first',
+                form: {
+                    commentId:'',
+                    postId:'',
+                    userId:'',
+                    userIcon:'',
+                    commentUser:'',
+
+                    commentDetail:'',
+                    commentTime:'',
+
+                    commentType:'',
+                    toUserId:'',
+                    toNickName:'',
+                    toCommentId:''
+                },
+                formLabelWidth: "120px",
+            });
+            const openCommentDiaog = (comment) => {
+                if (comment !== 0) {
+                    commentDialog.title = "修改评论";
+                    commentDialog.flag = true;
+                    commentDialog.form = comment;
+                } else {
+                    commentDialog.title = "新增评论";
+                    commentDialog.flag = false;
+                    commentDialog.form = {};
+                }
+                commentDialog.type = 'first';
+                commentDialog.visible = true;
+            };
+            const openComCommentDiaog = (comment) => {
+                if (comment !== 0) {
+                    commentDialog.title = "修改评论";
+                    commentDialog.flag = true;
+                    commentDialog.form = comment;
+                } else {
+                    commentDialog.title = "新增评论";
+                    commentDialog.flag = false;
+                    commentDialog.form = {};
+                }
+                commentDialog.type = 'second';
+                commentDialog.visible = true;
+            };
+            const submitComment  = () => {
+                let yy = new Date().getFullYear();
+                let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+                let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
+                let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
+                let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+                let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+		        commentDialog.form.commentTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
+                let data = {
+                    postId: postCommentDialog.postId,
+                    userId: commentDialog.form.userId,
+                    userIcon: commentDialog.form.userIcon,
+                    commentUser: commentDialog.form.commentUser,
+                    commentDetail: commentDialog.form.commentDetail,
+                    commentTime: commentDialog.form.commentTime,
+                    commentType: commentDialog.type,
+                    toUserId: comCommentDialog.toUserId,
+                    toNickName: comCommentDialog.toNickName,
+                    toCommentId: comCommentDialog.toCommentId,
+                };
+                console.log(data);
+                if (commentDialog.flag) {
+                    data['commentId'] = commentDialog.form.commentId,
+                    UpdateComment(data)
+                        .then(function (response) {
+                            console.log(response);
+                            root.$message({
+                                type: "success",
+                                message: response.data.msg,
+                            });
+                            loadCommentData(postCommentDialog.postId);
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                } else {
+                    AddComment(data)
+                        .then(function (response) {
+                            console.log(response);
+                            updateCommentFirst(data);
+                            updateCommentSecond(data);
+                            root.$message({
+                                type: "success",
+                                message: response.data.msg,
+                            })
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                }
+                commentDialog.visible = false;
+            };
+            const deleteComment = (comment) => {
+                let data = {
+                    commentId: comment.commentId,
+                };
+                root
+                .$confirm("此操作将永久删除该评论, 是否继续?", "提示", {
+                    confirmButtonText: "确定",
+                    cancelButtonText: "取消",
+                    type: "warning",
+                })
+                .then(() => {
+                    DelComment(data)
+                    .then(function (response) {
+                        console.log(response);
+                        loadCommentData(postCommentDialog.postId);
+                        updateCommentFirst(comment);
+                        updateCommentSecond(comment);
+                        root.$message({
+                        type: "success",
+                        message: response.data.msg,
+                        });
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                })
+                .catch(() => {
+                    root.$message({
+                    type: "info",
+                    message: "已取消删除",
+                    });
+                });
+            };
+            const handleComUserChange = (val) => {
+                for (let i = 0; i < optionList.userData.length; i++) {
+                    if (optionList.userData[i].userId === val) {
+                        commentDialog.form.commentUser = optionList.userData[i].nickName;
+                        commentDialog.form.userIcon = optionList.userData[i].userIcon;
+                    }
+                }
+            }
+            //更新评论
+            const updateCommentFirst = (comment) => {
+                let postData = {
+                    postId: comment.postId
+                };
+                UpdatePostComNum(postData)
+                    .then(function (response) {
+                        console.log(response.data);
+                        loadCommentData(postCommentDialog.postId);
+                        loadData()
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                let userData = {
+                    userId: comment.userId
+                };
+                UpdateUserComNum(userData)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+            const updateCommentSecond = (comment) => {
+                let commentData = {
+                    commentId: comment.toCommentId
+                };
+                UpdateCommentNum(commentData)
+                    .then(function (response) {
+                        console.log(response.data);
+                        loadComCommentData(comCommentDialog.toCommentId);
+                        loadCommentData(postCommentDialog.postId);
+                        updateCommentFirst(comment);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+                let userData = {
+                    userId: comment.userId
+                };
+                UpdateUserComNum(userData)
+                    .then(function (response) {
+                        console.log(response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+            
+
             //页数
             let pagination = reactive({
                 pageIndex: 1,
@@ -543,6 +1008,22 @@
             const handlePageSizeChange = (val) => {
                 pagination.pageSize = val;
                 loadData();
+            };
+            const handleComCurrentChange = (val) => {
+                commentDialog.pagination.pageIndex = val;
+                loadCommentData(commentDialog.postId);
+            };
+            const handleComPageSizeChange = (val) => {
+                commentDialog.pagination.pageSize = val;
+                loadCommentData(commentDialog.postId);
+            };
+            const handleComComCurrentChange = (val) => {
+                comCommentDialog.pagination.pageIndex = val;
+                loadComCommentData(comCommentDialog.toCommentId);
+            };
+            const handleComComPageSizeChange = (val) => {
+                comCommentDialog.pagination.pageSize = val;
+                loadComCommentData(comCommentDialog.toCommentId);
             };
 
             //图片
@@ -600,26 +1081,57 @@
                 submitPost,
                 deleteData,
 
+                //置顶、热门
                 postPopover,
                 updatePostTop,
                 updatePostPop,
 
+                //更新帖子数量
                 updatePostNum,
 
+                //用户、类别
                 optionList,
                 loadUser,
                 handleUserChange,
                 loadType,
                 handleTypeChange,
 
+                //评论
+                openPostCommentDialog,
+                postCommentDialog,
+                loadCommentData,
+                //子评论
+                openComCommentDialog,
+                comCommentDialog,
+                loadComCommentData,
+                loadComComment,
+                //总评论
+                commentDialog,
+                openCommentDiaog,
+                openComCommentDiaog,
+                submitComment,
+                deleteComment,
+
+                //更新评论
+                handleComUserChange,
+                updateCommentFirst,
+                updateCommentSecond,
+
+                //页码
                 handleCurrentChange,
                 handlePageSizeChange,
+                handleComCurrentChange,
+                handleComPageSizeChange,
+                handleComComCurrentChange,
+                handleComComPageSizeChange,
 
+                //图片
                 formData,
                 imgName,
                 imgUrl,
                 tirggerFile,
 
+                //预览
                 openImgPreDialog,
                 imgPreDialog
             };
@@ -680,6 +1192,17 @@
         top: 0;
     }
 
+    .postImgs {
+        height: 40px;
+    }
+
+    .postImg {
+        height: 40px;
+        width: 40px;
+        max-height: 100%;
+        max-width: 100%;
+    }
+
     .imgsPre {
         height: 100%;
         display: flex;
@@ -691,13 +1214,40 @@
         max-height: 100%;
     }
 
+    .imgNum {
+        width: 40px;
+        height: 40px;
+        background: rgba(0, 0, 0, 0.3);
+        position: relative;
+        top: -47px;
+        color: #C0C4CC;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .postUser {
         font-weight: bold;
     }
 
-    .postDetail {
+    .postDetail,
+    .commentDetail,
+    .commentUser {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    .postChange  {
+        font-style: oblique;
+    }
+
+    .postCom,
+    .commentNum {
+        cursor: pointer;
+        color: #409EFF;
     }
 </style>

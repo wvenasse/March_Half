@@ -722,7 +722,7 @@
         addressDialog.visible = true;
       };
       const closeAddressDialog = () => {
-        if (addressDialog.form.addressArea.indexOf("/") === -1) {
+        if (addressDialog.form.addressArea && addressDialog.form.addressArea.indexOf("/") === -1) {
           addressDialog.form.addressArea = addressDialog.form.addressArea.join('/');
         }
       }

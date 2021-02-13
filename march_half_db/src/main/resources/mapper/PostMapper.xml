@@ -20,11 +20,20 @@
         postPop=#{postPop},postPop=#{postPop},isNoName=#{isNoName}
         where postId=#{postId}
     </select>
-    <select id="updatePostTop" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    <select id="updatePostTop" resultType="java.lang.Integer">
         update posts set postTop=#{postTop} where postId=#{postId}
     </select>
-    <select id="updatePostPop" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    <select id="updatePostPop" resultType="java.lang.Integer">
         update posts set postPop=#{postPop} where postId=#{postId}
+    </select>
+    <select id="updatePostLikeNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update posts set posts.postLike = (select count(favorId) from favors where favors.postId= #{postId} AND favors.favorType=1) where posts.postId = #{postId}
+    </select>
+    <select id="updatePostLoveNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update posts set posts.postLove = (select count(favorId) from favors where favors.postId= #{postId} AND favors.favorType=2) where posts.postId = #{postId}
+    </select>
+    <select id="updatePostComNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update posts set posts.postCom = (select count(commentId) from comments where comments.postId= #{postId}) where posts.postId = #{postId}
     </select>
 
 

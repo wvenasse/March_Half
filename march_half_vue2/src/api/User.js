@@ -72,6 +72,14 @@ export function UpdateUserPostNum(data){
     })
 }
 
+export function UpdateUserComNum(data){
+    return request.request({
+        method: "get",
+        url: "/updateUserComNum",
+        params: data
+    })
+}
+
 export function AddUser(data){
     return request.request({
         method: "get",

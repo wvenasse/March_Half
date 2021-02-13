@@ -269,7 +269,9 @@
             }
             for (let i = 0; i < table.tableData.length; i++) {
               table.tableData[i].typeId = table.tableData[i].typeId.split(",");
-              table.tableData[i].institutionImg = table.tableData[i].institutionImg.split(",");
+              if (table.tableData[i].institutionImg) {
+                table.tableData[i].institutionImg = table.tableData[i].institutionImg.split(",");
+              }
               table.tableData[i].typeId.forEach(function (item, index, arr) {
                 table.tableData[i].typeId[index] = parseInt(table.tableData[i].typeId[index]);
               });
@@ -286,7 +288,9 @@
           institutionDialog.title = "修改服务机构";
           institutionDialog.flag = true;
           institutionDialog.form = institution;
-          imgName.value = institution.institutionImg.join(',');
+          if (institution.institutionImg) {
+            imgName.value = institution.institutionImg.join(',');
+          }
           if (institutionDialog.form.institutionArea.indexOf("/") != -1) {
             institutionDialog.form.institutionArea = institutionDialog.form.institutionArea.split('/');
           }

@@ -105,6 +105,26 @@ public class UserController {
             return R.error("修改用户评价失败！");
         }
     }
+    @RequestMapping("/updateUserPostNum")
+    public R updateUserPostNum(Integer userId) {
+        Integer count = usersDao.updateUserPostNum(userId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户评价失败！");
+        }
+    }
+    @RequestMapping("/updateUserComNum")
+    public R updateUserComNum(Integer userId) {
+        Integer count = usersDao.updateUserComNum(userId);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户评价失败！");
+        }
+    }
 
     @RequestMapping(value = "/showAllUsers", produces = "text/json;charset=UTF-8")
     public String showAllUsers(){

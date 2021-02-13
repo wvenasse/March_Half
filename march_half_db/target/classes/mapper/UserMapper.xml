@@ -33,6 +33,12 @@
     <select id="updateUserEvaNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update users set users.userEva = (select count(evaluationId) from evaluations where evaluations.userId= #{userId}) where users.userId = #{userId}
     </select>
+    <select id="updateUserPostNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update users set users.userPost = (select count(postId) from posts where posts.userId= #{userId}) where users.userId = #{userId}
+    </select>
+    <select id="updateUserComNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        update users set users.userCom = (select count(commentId) from comments where comments.userId= #{userId}) where users.userId = #{userId}
+    </select>
 
     <select id="getAllUsers" resultType="org.example.pojo.User">
         select * from users where userName like "%"#{keyWord}"%" OR nickName like "%"#{keyWord}"%"
