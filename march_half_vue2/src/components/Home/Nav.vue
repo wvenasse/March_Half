@@ -1,7 +1,7 @@
 <template>
     <div id="homeNav">
-        <el-menu router :default-active="$route.path"  :default-openeds="['1','2','3']" :collapse="isCollapse"
-            background-color="#000" text-color="#fff" >
+        <el-menu router :default-active="$route.path" :default-openeds="['1','2','3']" :collapse="isCollapse"
+            background-color="#000" text-color="#fff">
             <!--default-active="/borad" transparent active-text-color="#fff"-->
             <el-menu-item index="/borad">
                 <i class="el-icon-s-marketing"></i>
@@ -21,7 +21,7 @@
                 <el-menu-item-group title="讨论">
                     <el-menu-item index="/post">帖子管理</el-menu-item>
                 </el-menu-item-group>
-                 <el-menu-item-group title="服务">
+                <el-menu-item-group title="服务">
                     <el-menu-item index="/order">订单管理</el-menu-item>
                     <el-menu-item index="/evaluation">评价管理</el-menu-item>
                 </el-menu-item-group>
@@ -81,6 +81,16 @@
         overflow: auto;
         background: #000;
         transition: all 0.3s ease 0s;
+
+    }
+
+    ::-webkit-scrollbar {
+        width: 0 !important;
+    }
+
+    ::-webkit-scrollbar {
+        width: 0 !important;
+        height: 0;
     }
 
     .open {
