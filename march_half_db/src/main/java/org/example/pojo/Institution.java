@@ -20,6 +20,16 @@ public class Institution {
     private  Integer institutionLike;
     private  Integer institutionLove;
 
+    private  String institutionTime;
+
+    public String getInstitutionTime() {
+        return institutionTime;
+    }
+
+    public void setInstitutionTime(String institutionTime) {
+        this.institutionTime = institutionTime;
+    }
+
     public Integer getInstitutionId() {
         return institutionId;
     }

@@ -1,5 +1,11 @@
 import request from "@/utils/request";
 
+export function ShowAllAdmin(){
+    return request.request({
+        method: "get",
+        url: "/showAllAdmin"
+    })
+}
 
 export function FindAllAdmin(data){
     var qs = require('querystring');

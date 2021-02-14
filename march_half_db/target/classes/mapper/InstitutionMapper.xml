@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.InstitutionDao">
     <insert id="addInstitution" parameterType="org.example.pojo.Institution">
-        insert into institutions(institutionName,institutionImg,typeId,institutionType,institutionPhone,institutionArea,institutionAddress,institutionIntro)
-        values (#{institutionName},#{institutionImg},#{typeId},#{institutionType},#{institutionPhone},#{institutionArea},#{institutionAddress},#{institutionIntro})
+        insert into institutions(institutionName,institutionImg,typeId,institutionType,institutionPhone,institutionArea,institutionAddress,institutionIntro,institutionTime)
+        values (#{institutionName},#{institutionImg},#{typeId},#{institutionType},#{institutionPhone},#{institutionArea},#{institutionAddress},#{institutionIntro}),#{institutionTime})
     </insert>
 
     <delete id="delInstitution" parameterType="java.lang.Integer">
@@ -14,7 +14,7 @@
 
     <select id="updateInstitution" parameterType="org.example.pojo.Institution" resultType="java.lang.Integer">
         update institutions set institutionName=#{institutionName},institutionImg=#{institutionImg},typeId=#{typeId},institutionType=#{institutionType},
-        institutionPhone=#{institutionPhone},institutionArea=#{institutionArea},institutionAddress=#{institutionAddress},institutionIntro=#{institutionIntro}
+        institutionPhone=#{institutionPhone},institutionArea=#{institutionArea},institutionAddress=#{institutionAddress},institutionIntro=#{institutionIntro},institutionTime=#{institutionTime}
         where institutionId=#{institutionId}
     </select>
 

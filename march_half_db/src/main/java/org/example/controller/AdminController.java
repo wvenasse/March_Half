@@ -51,11 +51,11 @@ public class AdminController {
         }
     }
 
-    @RequestMapping(value = "/showAllUser", produces = "text/json;charset=UTF-8")
-    public R showAllUser(@RequestParam("keyWord") String keyWord){
-        List<Admin> users = userDao.getAllAdmin(keyWord);
+    @RequestMapping(value = "/showAllAdmin", produces = "text/json;charset=UTF-8")
+    public String showAllAdmin(){
+        List<Admin> users = userDao.getAllAdmin("");
         String userJson = JSON.toJSONString(users);
-        return R.ok().put("userJson", userJson);
+        return userJson;
     }
 
     @ResponseBody

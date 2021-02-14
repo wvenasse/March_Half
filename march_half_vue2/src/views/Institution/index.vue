@@ -329,6 +329,13 @@
         if (imgName.value == '未选择任何文件') {
           imgName.value = '';
         }
+        let yy = new Date().getFullYear();
+        let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+        let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
+        let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
+        let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+        let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+		    institutionDialog.form.institutionTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
         let data = {
           institutionName: institutionDialog.form.institutionName,
           institutionImg: imgName.value,
@@ -338,6 +345,7 @@
           institutionArea: institutionDialog.form.institutionArea,
           institutionAddress: institutionDialog.form.institutionAddress,
           institutionIntro: institutionDialog.form.institutionIntro,
+          institutionTime: institutionDialog.form.institutionTime
         };
         if (institutionDialog.flag) {
           data['institutionId'] = institutionDialog.form.institutionId;

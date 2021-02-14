@@ -3,6 +3,10 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
+import "./plugins/axios";
+import "./components/icons/index.js"
+import "./router/premit"
+
 import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 Vue.use(ElementUI);
@@ -21,9 +25,8 @@ Router.prototype.push = function push(location) {
 
 Vue.config.productionTip = false;
 
-import "./plugins/axios";
-import "./components/icons/index.js"
-import "./router/premit"
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 new Vue({
   router,

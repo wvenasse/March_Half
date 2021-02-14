@@ -83,7 +83,7 @@
           </el-table-column>
           <el-table-column prop="serviceStar" label="星级" width="150" align="center">
             <template slot-scope="scope">
-              <el-tooltip class="item" effect="light" :content="scope.row.serviceStar.toString()" placement="bottom">
+              <el-tooltip class="item" effect="light" :content="scope.row.serviceStar+''" placement="bottom">
                 <el-rate
                   v-model="scope.row.serviceStar"
                   disabled
@@ -360,6 +360,13 @@
         if (imgName.value == '未选择任何文件') {
           imgName.value = '';
         }
+        let yy = new Date().getFullYear();
+        let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+        let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
+        let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
+        let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+        let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+		    serviceDialog.form.serviceTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
         let data = {
           serviceName: serviceDialog.form.serviceName,
           serviceIcon: imgName.value,
@@ -373,6 +380,7 @@
           serviceIntro: serviceDialog.form.serviceIntro,
           serviceYear: serviceDialog.form.serviceYear,
           servicePrice:  serviceDialog.form.servicePrice,
+          serviceTime: serviceDialog.form.serviceTime
         };
         if (serviceDialog.flag) {
           data['serviceId'] = serviceDialog.form.serviceId;

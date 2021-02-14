@@ -22,6 +22,16 @@ public class Service {
     private  Integer serviceLike;
     private  Integer serviceLove;
 
+    private  String serviceTime;
+
+    public String getServiceTime() {
+        return serviceTime;
+    }
+
+    public void setServiceTime(String serviceTime) {
+        this.serviceTime = serviceTime;
+    }
+
     public Integer getServiceId() {
         return serviceId;
     }

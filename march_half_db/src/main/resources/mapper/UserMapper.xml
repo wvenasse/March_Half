@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.UserDao">
     <insert id="addUsers" parameterType="org.example.pojo.User">
-        insert into users(nickName,userIcon,openid,userName,userSfz,userPhone)
-        values (#{nickName},#{userIcon},#{openid},#{userName},#{userSfz},#{userPhone})
+        insert into users(nickName,userIcon,openid,userName,userSfz,userPhone,userTime)
+        values (#{nickName},#{userIcon},#{openid},#{userName},#{userSfz},#{userPhone},#{userTime})
     </insert>
 <!--,userAddress,userLike,userLove,userEva,userCom,   ,#{userAddress},#{userLike},#{userLove},#{userEva},#{userCom}-->
 
@@ -14,7 +14,7 @@
     </delete>
 
     <select id="updateUsers" parameterType="org.example.pojo.User" resultType="java.lang.Integer">
-        update users set nickName=#{nickName},userIcon=#{userIcon},openid=#{openid},userName=#{userName},userSfz=#{userSfz},userPhone=#{userPhone}
+        update users set nickName=#{nickName},userIcon=#{userIcon},openid=#{openid},userName=#{userName},userSfz=#{userSfz},userPhone=#{userPhone},userTime=#{userTime}
         where userId=#{userId}
     </select>
 

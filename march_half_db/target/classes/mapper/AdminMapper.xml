@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.AdminDao">
     <insert id="addAdmin" parameterType="org.example.pojo.Admin">
-        insert into roots(userName,nickname,password) values (#{userName},#{nickname},#{password})
+        insert into roots(userName,nickname,password,rootTime) values (#{userName},#{nickname},#{password},#{rootTime})
     </insert>
     <delete id="delAdmin" parameterType="java.lang.Integer">
         delete from roots where rootId=#{rootId}
     </delete>
     <select id="updateAdmin" parameterType="org.example.pojo.Admin" resultType="java.lang.Integer">
-        update roots set nickname=#{nickname},password=#{password}
+        update roots set nickname=#{nickname},password=#{password},rootTime=#{rootTime}
         where userName=#{userName}
     </select>
 

@@ -5,6 +5,15 @@ public class Admin {
     private  String userName;
     private  String nickname;
     private  String password;
+    private  String rootTime;
+
+    public String getRootTime() {
+        return rootTime;
+    }
+
+    public void setRootTime(String rootTime) {
+        this.rootTime = rootTime;
+    }
 
     public Integer getRootId() {
         return rootId;

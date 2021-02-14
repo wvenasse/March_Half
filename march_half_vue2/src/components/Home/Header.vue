@@ -6,7 +6,6 @@
         </div>
         <div class="pull-right">
             <div class="user-info pull-left">
-                <!-- <img src="../../assets/imgs/admin.jpg" alt=""> -->
                 {{nickname}}
             </div>
             <div class=" pull-left">
@@ -63,6 +62,7 @@
         -webkit-box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.1);
         line-height: 75px;
         transition: all 0.3s ease 0s;
+        z-index: 2;
     }
 
     .open {

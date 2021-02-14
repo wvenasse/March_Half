@@ -15,6 +15,15 @@ public class User {
     private  Integer userCom;
     private  Integer userPost;
     private  Integer userOrder;
+    private  String userTime;
+
+    public String getUserTime() {
+        return userTime;
+    }
+
+    public void setUserTime(String userTime) {
+        this.userTime = userTime;
+    }
 
     public Integer getUserId() {
         return userId;

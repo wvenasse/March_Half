@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.ServiceDao">
     <insert id="addService" parameterType="org.example.pojo.Service">
-        insert into services(serviceName,serviceIcon,typeId,serviceType,institutionId,serviceInstitution,servicePrice,serviceSfz,servicePhone,serviceAddress,serviceIntro,serviceYear)
-        values (#{serviceName},#{serviceIcon},#{typeId},#{serviceType},#{institutionId},#{serviceInstitution},#{servicePrice},#{serviceSfz},#{servicePhone},#{serviceAddress},#{serviceIntro},#{serviceYear})
+        insert into services(serviceName,serviceIcon,typeId,serviceType,institutionId,serviceInstitution,servicePrice,serviceSfz,servicePhone,serviceAddress,serviceIntro,serviceYear,serviceTime)
+        values (#{serviceName},#{serviceIcon},#{typeId},#{serviceType},#{institutionId},#{serviceInstitution},#{servicePrice},#{serviceSfz},#{servicePhone},#{serviceAddress},#{serviceIntro},#{serviceYear},#{serviceTime})
     </insert>
 <!-- ,serviceStar,serviceOrder,serviceEva,serviceLike,serviceLove,,serviceStar,serviceOrder,serviceEva,serviceLike,serviceLove,-->
 <!--    ,#{serviceStar},#{serviceOrder},#{serviceEva},#{serviceLike},#{serviceLove}-->
@@ -14,7 +14,7 @@
     </delete>
     <select id="updateService" parameterType="org.example.pojo.Service" resultType="java.lang.Integer">
         update services set serviceName=#{serviceName},serviceIcon=#{serviceIcon},typeId=#{typeId},serviceType=#{serviceType},institutionId=#{institutionId},serviceInstitution=#{serviceInstitution},
-        servicePrice=#{servicePrice},serviceSfz=#{serviceSfz},servicePhone=#{servicePhone},serviceAddress=#{serviceAddress},serviceIntro=#{serviceIntro},serviceYear=#{serviceYear}
+        servicePrice=#{servicePrice},serviceSfz=#{serviceSfz},servicePhone=#{servicePhone},serviceAddress=#{serviceAddress},serviceIntro=#{serviceIntro},serviceYear=#{serviceYear},serviceTime=#{serviceTime}
         where serviceId=#{serviceId}
     </select>
     <select id="updateServiceLikeNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
