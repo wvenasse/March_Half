@@ -2,26 +2,15 @@
     <div id="borad">
         <div>
             <el-row :gutter="20">
-                <el-col v-for="(car,index) in web_card.web_card_data" :key="index" :span=6>
+                <el-col v-for="(d,index) in web_card.data" :key="index" style="width:20%">
                     <el-card shadow="hover">
                         <div slot="header" class="clearfix">
-                            <span>
-                                <i :class="car.card_title_icon" />
-                                {{car.card_title}}
-                            </span>
-                            <div id="cycle" :style="{backgroundColor:car.card_cycle_back_color}">{{car.card_cycle}}
-                            </div>
+                            <el-tag :type="d.tag_type" effect="dark">{{d.title}}</el-tag>
                         </div>
                         <div>
-                            <h1 style="font-size:150%;color:#909399">{{car.vist_num}}</h1>
-                            <br />
-                            <p style="float:left;color:#909399">{{car.bottom_title}}</p>
-                            <p style="float:right;color:#909399">
-                                {{car.vist_all_num}}
-                                <i :class="car.vist_all_icon" />
-                            </p>
+                            <h2 align="center" style="color: #606266;">{{d.total_num}}</h2>
+                            <p align="right" style="color: #909399;"><span>今日</span>：<small>{{d.total_today_num}}</small></p>
                         </div>
-                        <br />
                     </el-card>
                 </el-col>
             </el-row>
@@ -95,47 +84,39 @@
             root
         }) {
             let web_card = reactive({
-                web_card_data: [{
-                        card_title_icon: "el-icon-coordinate",
-                        card_title: "用户",
-                        card_cycle: "日",
-                        card_cycle_back_color: "#E6A23C",
-                        bottom_title: "总用户",
-                        vist_num: 0,
-                        vist_all_num: 0,
-                        vist_all_icon: "el-icon-data-line",
+                data:[
+                    {
+                        title:'普通用户',
+                        toltal_num:0,
+                        total_today_num:0,
+                        tag_type:'success'
                     },
                     {
-                        card_title_icon: "el-icon-user",
-                        card_title: "人员",
-                        card_cycle: "月",
-                        card_cycle_back_color: "#409EFF",
-                        bottom_title: "人员总数",
-                        vist_num: 0,
-                        vist_all_num: 0,
-                        vist_all_icon: "el-icon-trophy",
+                        title:'服务人员',
+                        toltal_num:0,
+                        total_today_num:0,
+                        tag_type:'danger'
                     },
                     {
-                        card_title_icon: "el-icon-download",
-                        card_title: "机构",
-                        card_cycle: "年",
-                        card_cycle_back_color: "#67C23A",
-                        bottom_title: "机构总量",
-                        vist_num: 0,
-                        vist_all_num: 0,
-                        vist_all_icon: "el-icon-download",
+                        title:'服务机构',
+                        toltal_num:0,
+                        total_today_num:0,
+                        tag_type:''
                     },
                     {
-                        card_title_icon: "el-icon-wallet",
-                        card_title: "订单",
-                        card_cycle: "日",
-                        card_cycle_back_color: "#F56C6C",
-                        bottom_title: "总订单",
-                        vist_num: 0,
-                        vist_all_num: 0,
-                        vist_all_icon: "el-icon-coin",
+                        title:'管理人员',
+                        toltal_num:0,
+                        total_today_num:0,
+                        tag_type:'warning'
+                    },
+                    {
+                        title:'订单数量',
+                        toltal_num:0,
+                        total_today_num:0,
+                        tag_type:'info'
                     },
                 ]
+        
             })
             let myChart = reactive({});
             let drawLineData = reactive({
@@ -307,139 +288,139 @@
             let chinaData = reactive({
                 data : [{
                     "name": "北京",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "247"
                 }, {
                     "name": "天津",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "248"
                 }, {
                     "name": "河北",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "249"
                 }, {
                     "name": "山西",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "250"
                 }, {
                     "name": "内蒙古",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "251"
                 }, {
                     "name": "辽宁",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "252"
                 }, {
                     "name": "吉林",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "253"
                 }, {
                     "name": "黑龙江",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "254"
                 }, {
                     "name": "上海",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "255"
                 }, {
                     "name": "江苏",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "256"
                 }, {
                     "name": "浙江",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "257"
                 }, {
                     "name": "安徽",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "258"
                 }, {
                     "name": "福建",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "259"
                 }, {
                     "name": "江西",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "260"
                 }, {
                     "name": "山东",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "261"
                 }, {
                     "name": "河南",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "262"
                 }, {
                     "name": "湖北",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "263"
                 }, {
                     "name": "湖南",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "264"
                 }, {
                     "name": "广东",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "265"
                 }, {
                     "name": "广西",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "266"
                 }, {
                     "name": "海南",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "267"
                 }, {
                     "name": "重庆",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "268"
                 }, {
                     "name": "四川",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "269"
                 }, {
                     "name": "贵州",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "270"
                 }, {
                     "name": "云南",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "271"
                 }, {
                     "name": "西藏",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "272"
                 }, {
                     "name": "陕西",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "273"
                 }, {
                     "name": "甘肃",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "274"
                 }, {
                     "name": "青海",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "275"
                 }, {
                     "name": "宁夏",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "276"
                 }, {
                     "name": "新疆",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "277"
                 }, {
                     "name": "台湾",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "278"
                 }, {
                     "name": "香港",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "279"
                 }, {
                     "name": "澳门",
-                    "dataCount": [0, 0, 0],
+                    "dataCount": [0, 0, 0,0],
                     "id": "280"
                 }]
             })
@@ -754,16 +735,19 @@
                             // 根据业务自己拓展要显示的内容
                             var res = ''
                             var name = params.name
-                            var value1 = params.value[params.seriesIndex + 3] || 0
-                            var value2 = params.value[params.seriesIndex + 4] || 0
-                            var value3 = params.value[params.seriesIndex + 5] || 0
+                            var value1 = params.value[params.seriesIndex + 2] || 0
+                            var value2 = params.value[params.seriesIndex + 3] || 0
+                            var value3 = params.value[params.seriesIndex + 4] || 0
+                            var value4 = params.value[params.seriesIndex + 5] || 0
                             res = "<span style='color:#fff'>" + name + '</span>' +
                                 '<br/>' +
-                                '<i class="icon icon-xuesheng"></i> 服务人员：' + value1 +
+                                '<i class="icon icon-user"></i> 普通用户：' + value1 +
                                 '<br/>' +
-                                '<i class="icon icon-laoshi_huaban"></i> 服务机构：' + value2 +
+                                '<i class="icon icon-service"></i> 服务人员：' + value2 +
                                 '<br/>' +
-                                '<i class="icon icon-baoanxiehui"></i> 订单：' + value3
+                                '<i class="icon icon-institution"></i> 服务机构：' + value3 +
+                                '<br/>' +
+                                '<i class="icon icon-order"></i> 订单：' + value4
                             return res
                         }
                     },
@@ -861,7 +845,9 @@
                                 todayNum++;
                             }
                         }
+                        web_card.data[3].total_today_num = todayNum;
                         dataNum.adminToday = todayNum;
+                        web_card.data[3].total_num = response.data.length;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -874,13 +860,18 @@
 
                         let todayNum = 0;
                         for (let i = 0; i < response.data.length; i++) {
+                            for (let j=0;j<chinaData.data.length;j++) {
+                                if (chinaData.data[j].name == response.data[i].userArea.split('/')[0]) {
+                                    chinaData.data[j].dataCount[0]++;
+                                }
+                            }
                             if (response.data[i].userTime.split(' ')[0] == today) {
                                 todayNum++;
                             }
                         }
-                        web_card.web_card_data[0].vist_num = todayNum;
+                        web_card.data[0].total_today_num = todayNum;
                         dataNum.userToday = todayNum;
-                        web_card.web_card_data[0].vist_all_num = response.data.length;
+                        web_card.data[0].total_num = response.data.length;
 
                     })
                     .catch(function (error) {
@@ -896,16 +887,16 @@
                         for (let i = 0; i < response.data.length; i++) {
                             for (let j=0;j<chinaData.data.length;j++) {
                                 if (chinaData.data[j].name == response.data[i].serviceAddress.split('/')[0]) {
-                                    chinaData.data[j].dataCount[0]++;
+                                    chinaData.data[j].dataCount[1]++;
                                 }
                             }
                             if (response.data[i].serviceTime.split(' ')[0] == today) {
                                 todayNum++;
                             }
                         }
-                        web_card.web_card_data[1].vist_num = todayNum;
+                        web_card.data[1].total_today_num = todayNum;
                         dataNum.serviceToday = todayNum;
-                        web_card.web_card_data[1].vist_all_num = response.data.length;
+                        web_card.data[1].total_num = response.data.length;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -920,16 +911,16 @@
                         for (let i = 0; i < response.data.length; i++) {
                             for (let j=0;j<chinaData.data.length;j++) {
                                 if (chinaData.data[j].name == response.data[i].institutionArea.split('/')[0]) {
-                                    chinaData.data[j].dataCount[1]++;
+                                    chinaData.data[j].dataCount[2]++;
                                 }
                             }
                             if (response.data[i].institutionTime.split(' ')[0] == today) {
                                 todayNum++;
                             }
                         }
-                        web_card.web_card_data[2].vist_num = todayNum;
+                        web_card.data[2].total_today_num = todayNum;
                         dataNum.institutionToday = todayNum;
-                        web_card.web_card_data[2].vist_all_num = response.data.length;
+                        web_card.data[2].total_num = response.data.length;
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -945,18 +936,20 @@
                         for (let i = 0; i < response.data.length; i++) {
                             for (let j=0;j<chinaData.data.length;j++) {
                                 if (chinaData.data[j].name == response.data[i].orderArea.split('/')[0]) {
-                                    chinaData.data[j].dataCount[2]++;
+                                    chinaData.data[j].dataCount[3]++;
                                 }
                             }
                             if (response.data[i].orderTime.split(' ')[0] == today) {
                                 todayNum++;
+                                orderToday[parseInt(response.data[i].orderTime.split('-')[2].split(' ')[1].split(':')[0])]++;
                             }
-                            orderToday[parseInt(response.data[i].orderTime.split('-')[2].split(' ')[1].split(':')[0])]++;
+                            
                         }
                         drawLineData.data = orderToday;
-                        web_card.web_card_data[3].vist_num = todayNum;
+
+                        web_card.data[4].total_today_num = todayNum;
                         dataNum.orderToday = todayNum;
-                        web_card.web_card_data[3].vist_all_num = response.data.length;
+                        web_card.data[4].total_num = response.data.length;
 
                         drawLine();
                         label_vist();

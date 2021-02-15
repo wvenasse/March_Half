@@ -1,10 +1,12 @@
 {
   "pages": [
+    "pages/my/my",
+    "pages/info/info",
     
     "pages/home/home",
-    "pages/forum/forum",
-    "pages/my/my",
-    "pages/login/login",
+    "pages/order/order",
+    
+
     "pages/newlogin/newlogin"
   ],
   "window": {
@@ -24,10 +26,10 @@
         "selectedIconPath": "utils/imgs/tabbar/homeSelect.png"
       },
       {
-        "pagePath": "pages/forum/forum",
-        "text": "论坛",
-        "iconPath": "utils/imgs/tabbar/forum.png",
-        "selectedIconPath": "utils/imgs/tabbar/forumSelect.png"
+        "pagePath": "pages/order/order",
+        "text": "订单",
+        "iconPath": "utils/imgs/tabbar/order.png",
+        "selectedIconPath": "utils/imgs/tabbar/orderSelect.png"
       },
       {
         "pagePath": "pages/my/my",

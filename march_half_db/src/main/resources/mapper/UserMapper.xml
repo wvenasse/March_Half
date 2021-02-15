@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.UserDao">
     <insert id="addUsers" parameterType="org.example.pojo.User">
-        insert into users(nickName,userIcon,openid,userName,userSfz,userPhone,userTime)
-        values (#{nickName},#{userIcon},#{openid},#{userName},#{userSfz},#{userPhone},#{userTime})
+        insert into users(nickName,userIcon,openid,userName,userSfz,userPhone,userTime,userArea)
+        values (#{nickName},#{userIcon},#{openid},#{userName},#{userSfz},#{userPhone},#{userTime},#{userArea})
     </insert>
 <!--,userAddress,userLike,userLove,userEva,userCom,   ,#{userAddress},#{userLike},#{userLove},#{userEva},#{userCom}-->
 
@@ -14,7 +14,7 @@
     </delete>
 
     <select id="updateUsers" parameterType="org.example.pojo.User" resultType="java.lang.Integer">
-        update users set nickName=#{nickName},userIcon=#{userIcon},openid=#{openid},userName=#{userName},userSfz=#{userSfz},userPhone=#{userPhone},userTime=#{userTime}
+        update users set nickName=#{nickName},userIcon=#{userIcon},openid=#{openid},userName=#{userName},userSfz=#{userSfz},userPhone=#{userPhone},userTime=#{userTime},userArea=#{userArea}
         where userId=#{userId}
     </select>
 
@@ -43,6 +43,7 @@
     <select id="getAllUsers" resultType="org.example.pojo.User">
         select * from users where userName like "%"#{keyWord}"%" OR nickName like "%"#{keyWord}"%"
     </select>
+    
     <select id="getUserById" resultType="org.example.pojo.User">
         select * from users where openid=#{openid}
      </select>

@@ -143,6 +143,15 @@
             </el-form-item>
           </el-col>
         </el-form-item>
+        <el-form-item>
+          <el-col :span="12">
+            <el-form-item label="现居地" prop="userArea" :label-width="userDialog.formLabelWidth">
+              <el-cascader v-model="userDialog.form.userArea" clearable :options="cityList"
+                @change="handleCityChange">
+              </el-cascader>
+            </el-form-item>
+          </el-col>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="userDialog.visible = false">取 消</el-button>
@@ -388,7 +397,8 @@
           openid:"",
           userName: "",
           userSfz:"",
-          userPhone:""
+          userPhone:"",
+          userArea:""
         },
         formLabelWidth: "120px",
       });
@@ -421,6 +431,9 @@
           userDialog.flag = true;
           userDialog.form = user;
           imgName.value = user.userIcon;
+          if (userDialog.form.userArea && userDialog.form.userArea.indexOf("/") != -1) {
+            userDialog.form.userArea = userDialog.form.userArea.split('/');
+          }
         } else {
           userDialog.title = "新增用户";
           userDialog.flag = false;
@@ -430,6 +443,10 @@
         userDialog.visible = true;
       };
       const submitUser = () => {
+        if (userDialog.form.userArea) {
+          userDialog.form.userArea = userDialog.form.userArea[0] + '/' + userDialog.form
+            .userArea[1] + '/' + userDialog.form.userArea[2];
+        }
         let yy = new Date().getFullYear();
         let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
         let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
@@ -444,7 +461,8 @@
           userName: userDialog.form.userName,
           userSfz: userDialog.form.userSfz,
           userPhone: userDialog.form.userPhone,
-          userTime:  userDialog.form.userTime
+          userTime:  userDialog.form.userTime,
+          userArea: userDialog.form.userArea,
         };
 
         if (imgName.value == '未选择任何文件') {

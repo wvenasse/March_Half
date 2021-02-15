@@ -7,7 +7,6 @@
       <block wx:else>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
         <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-
       </block>
     </block>
     <block wx:else>
@@ -79,12 +78,22 @@
       </view>
     </view>
 
-    <view class="echartCard">
+    <view class="section">
+                <picker mode="region" bindchange="bindRegionChange" value="['广东省', '广州市', '海珠区']" custom-item="{{customItem}}">
+                  <view class="picker">
+                    现居地{{region[0]}}，{{region[1]}}，{{region[2]}}
+                  </view>
+                </picker>
+              </view>
+
+    <!-- <view class="echartCard">
       <view class="ecardHead">
         寝室卫生
       </view>
           <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
-    </view>
+    </view> -->
+
+
   </view>
   
 </view>

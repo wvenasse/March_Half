@@ -16,6 +16,15 @@ public class User {
     private  Integer userPost;
     private  Integer userOrder;
     private  String userTime;
+    private  String userArea;
+
+    public String getUserArea() {
+        return userArea;
+    }
+
+    public void setUserArea(String userArea) {
+        this.userArea = userArea;
+    }
 
     public String getUserTime() {
         return userTime;

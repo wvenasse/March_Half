@@ -119,14 +119,26 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     ec: {
       onInit: initChart
-    }
+    },
+    region: ['广东省', '广州市', '海珠区'],
+    customItem: '全部'
   },
+
+  bindRegionChange: function (e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
+    this.setData({
+      region: e.detail.value
+    })
+  },
+
   bindViewTap: function () {
+    //跳转个人信息
     wx.navigateTo({
-      url: '../login/login?openid=' + OPEN_ID
+      url: '../info/info?openid=' + OPEN_ID
     })
   },
   getUserInfo: function (e) {
+    //微信授权
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
       userInfo: e.detail.userInfo,
@@ -207,7 +219,6 @@ Page({
             userInfo: res.userInfo,
             hasUserInfo: true
           })
-          console.log(res);
           this.getOpenIdTap();
           this.getCodeTap();
         }
