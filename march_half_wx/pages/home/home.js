@@ -11,28 +11,14 @@ Page({
       {url:'../../utils/imgs/swiper/zucc3.jpg'} ,  
       {url:'../../utils/imgs/swiper/zucc4.jpg'} 
       ],
-    navList:[
-      {
-        title:'消费',
-        value:'../login/login'
-      },
-      {
-        title:'卫生',
-        value:'../login/login'
-      },
-      {
-        title:'保修',
-        value:'../login/login'
-      },
-      {
-        title:'外出',
-        value:'../login/login'
-      },
-      {
-        title:'活动',
-        value:'../login/login'
-      },
-    ]
+      active: 1,
+  },
+
+  onChange(event) {
+    wx.showToast({
+      title: `切换到标签 ${event.detail.name}`,
+      icon: 'none',
+    });
   },
 
   /**

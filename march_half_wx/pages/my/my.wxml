@@ -1,4 +1,3 @@
-<!--pages/my/my.wxml-->
 <view class="container">
   <view class="pure_top"></view>
   <view class="userinfo">
@@ -16,84 +15,68 @@
   <view class="infomation">
     <view class="userCard">
       <view class="cardHead">
-        个人资料
+        个人操作
       </view>
       <view class="carfBody">
         <view class="littleCard cDorm">
           <view class="littleHead">
-            所在楼宇
+            我的地址
           </view>
           <view class="littleBody">
-            慕贤1
+            {{userDetail.userAddress}}
           </view>
         </view>
         <view class="littleCard cRoom">
-           <view class="littleHead">
-            所在寝室
+          <view class="littleHead">
+            我的订单
           </view>
           <view class="littleBody">
-            117
+            {{userDetail.userOrder}}
           </view>
         </view>
         <view class="littleCard cBed">
-           <view class="littleHead">
-            所在床号
+          <view class="littleHead">
+            我的讨论
           </view>
           <view class="littleBody">
-            1
+            {{userDetail.userPost}}
           </view>
         </view>
       </view>
     </view>
-    
-     <view class="userCard">
+
+    <view class="userCard">
       <view class="cardHead">
-        我的论坛
+        个人信息
       </view>
       <view class="carfBody">
         <view class="littleCard cFav">
           <view class="littleHead">
-            我的收藏
-          </view>
-          <view class="littleBody">
-            100
-          </view>
-        </view>
-        <view class="littleCard cLike">
-           <view class="littleHead">
             我的点赞
           </view>
           <view class="littleBody">
-            11
+            {{userDetail.userLike}}
+          </view>
+        </view>
+        <view class="littleCard cLike">
+          <view class="littleHead">
+            我的收藏
+          </view>
+          <view class="littleBody">
+            {{userDetail.userLove}}
           </view>
         </view>
         <view class="littleCard cRem">
-           <view class="littleHead">
+          <view class="littleHead">
             我的评论
           </view>
           <view class="littleBody">
-            10
+            {{userDetail.userEva}}
           </view>
         </view>
       </view>
     </view>
 
-    <view class="section">
-                <picker mode="region" bindchange="bindRegionChange" value="['广东省', '广州市', '海珠区']" custom-item="{{customItem}}">
-                  <view class="picker">
-                    现居地{{region[0]}}，{{region[1]}}，{{region[2]}}
-                  </view>
-                </picker>
-              </view>
-
-    <!-- <view class="echartCard">
-      <view class="ecardHead">
-        寝室卫生
-      </view>
-          <ec-canvas id="mychart-dom-bar" canvas-id="mychart-bar" ec="{{ ec }}"></ec-canvas>
-    </view> -->
-
-
   </view>
-  
+
 </view>

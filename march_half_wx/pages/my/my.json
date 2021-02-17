@@ -1,5 +1,5 @@
 {
   "usingComponents": {
-    "ec-canvas": "../../utils/ec-canvas/ec-canvas"
+    "picker": "../../utils/picker/picker"
   }
 }

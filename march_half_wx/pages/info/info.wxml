@@ -2,6 +2,7 @@
   <view class="header">
     User-Info
   </view>
+  
   <view class="content">
     <view class="login-from">
       <form bindsubmit="formSubmit" class='form'>
@@ -18,25 +19,7 @@
           <view class="weui-cell weui-cell_input">
             <image class="nameImage" src="../../utils/imgs/login/pass.png"></image>
             <view class="weui-cell__bd">
-              <input class="weui-input" name="nickName" bindinput="nickNameinput" placeholder="请输入昵称" value='{{users.nickName}}'
-                placeholder-class="phcolor" />
-            </view>
-          </view>
-        </view>
-        <view class="mypwd">
-          <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/login/pass.png"></image>
-            <view class="weui-cell__bd">
               <input class="weui-input" name="userPhone" bindinput="userPhoneinput" placeholder="请输入电话" value='{{users.userPhone}}'
-                placeholder-class="phcolor" />
-            </view>
-          </view>
-        </view>
-        <view class="mypwd">
-          <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/login/pass.png"></image>
-            <view class="weui-cell__bd">
-              <input class="weui-input" name="userSfz" bindinput="userSfzinput" placeholder="请输入身份证" value='{{users.userSfz}}'
                 placeholder-class="phcolor" />
             </view>
           </view>
@@ -45,10 +28,19 @@
           <view class="weui-cell weui-cell_input">
             <image class="nameImage" src="../../utils/imgs/login/stu.png"></image>
             <view class="weui-cell__bd">
+              <input class="weui-input" name="userSfz" bindinput="userSfzinput" placeholder="请输入身份证" value='{{users.userSfz}}'
+                placeholder-class="phcolor" />
+            </view>
+          </view>
+        </view>
+        <view class="mypwd">
+          <view class="weui-cell weui-cell_input">
+            <image class="nameImage" src="../../utils/imgs/login/location.png"></image>
+            <view class="weui-cell__bd">
               <view class="section">
                 <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
                   <view class="picker">
-                    {{region[0]}}，{{region[1]}}，{{region[2]}}
+                    {{region[0]}}{{region[1]}}{{region[2]}}
                   </view>
                 </picker>
               </view>

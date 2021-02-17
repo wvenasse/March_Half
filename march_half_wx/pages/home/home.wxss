@@ -15,15 +15,21 @@
     border-radius: 10rpx;
 }
 
+.affairs {
+    margin: 20rpx 0;
+}
+
 .affair {
     width: 95%;
-    height: 300rpx;
+    height: 150rpx;
     margin: 0 auto;
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .affairCard{
-    width: 30%;
+    width: 20%;
     height: 90%;
     margin: 2%;
     color: #ffffff;
@@ -32,39 +38,60 @@
 }
 
 .cardHead{
-    height: 60%;
-    padding-top: 20%;
+    height: 50%;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: large;
+    font-size: 28rpx;
+    text-shadow: 6px 1px 10px #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .cardIcon{
-    height: 40%;
+    height: 50%;
 }
 
 .cardImg{
-    width: 100rpx;
-    height: 100rpx;
+    width: 80rpx;
+    height: 80rpx;
 }
 
-.cPay{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #19D895 , #8efdd6dc);
-    /* 97C789 */
-}
-.cHygiene{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #2CABFC , #D2E1CA);
-}
-.cRepair{
+.cfirst{
     background-color: #19D895;
     background-image: linear-gradient(to bottom, #FC8485 , #F4C581);
+    
+    /* 97C789 */
 }
-.cOut{
+.csecond{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #ffa500 , #eeca66);
+}
+.cthree{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #f3d216 , #dbcb6e);
+}
+.cfour{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #19D895 , #8efdd6dc);
+}
+.cfive{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #00ffff , #cae1f7);
+}
+.csix{
+    background-color: #19D895;
+    background-image: linear-gradient(to bottom, #2CABFC , #4e86ec);
+}
+.cseven{
     background-color: #19D895;
     background-image: linear-gradient(to bottom, #A1A7FB , #BAAAD7);
 }
-.cAct{
+.ceight{
     background-color: #19D895;
-    background-image: linear-gradient(to bottom, #e7c502 , #f5e8a0);
+    background-image: linear-gradient(to bottom, #d402e7 , #de6ef5);
+}
+
+.tabs {
+    width: 90%;
+    margin: 0 auto;
 }

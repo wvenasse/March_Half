@@ -1,6 +1,5 @@
-// pages/login/login.js
-import city from '../../utils/city/city'
-const app = getApp()
+var util = require('../../utils/util.js');
+const app = getApp();
 Page({
   data: {
     users:{
@@ -14,44 +13,31 @@ Page({
       userArea:'',
     },
     flag:false,
-    region: ['广东省', '广州市', '海珠区'],
+    region: ['请选择现居地', '', ''],
     customItem: '全部'
   },
 
   loadUsers(openid){
     var that = this;
-    wx.request({
-      url:'http://localhost:8088/showUsers',
-      data:{
-        openid:openid
-      },
-      success: (result) => {
-        console.log(result);
-        if (result.data) {
-          that.setData({
-            users:result.data
-          })
-        }
-        else {
-          //新增
-          that.setData({
-            flag:true
-          })
-        }
-      },
-    })
+    let data = {
+      openid:openid
+    }
+    util.baseGet('http://localhost:8088/showUsers',data,
+      function (result) {
+        result.data.userArea = result.data.userArea.split('/');
+        that.setData({
+          users:result.data,
+          region:result.data.userArea
+        })
+      },function (err) {
+        console.log(err);
+      })
   },
 
   userNameinput(e) {
     var userName = 'users.userName'
     this.setData({
       [userName]: e.detail.value
-    })
-  },
-  nickNameinput(e) {
-    var nickName = 'users.nickName'
-    this.setData({
-      [nickName]: e.detail.value
     })
   },
   userPhoneinput(e) {
@@ -66,98 +52,40 @@ Page({
       [userSfz]: e.detail.value
     })
   },
-  userAreainput(e) {
+  bindRegionChange: function (e) {
     var userArea = 'users.userArea'
     this.setData({
+      region: e.detail.value,
       [userArea]: e.detail.value
     })
   },
-  bindRegionChange: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({
-      region: e.detail.value
-    })
-  },
 
-  submit: function (options) {
+  submit: function () {
+    var Time = util.formatTime(new Date());
     var data = {
+      userId: this.data.users.userId,
       openid: app.globalData.openid,
       nickName: this.data.users.nickName,
       userName: this.data.users.userName,
-      userIcon: app.globalData.openid,
+      userIcon: app.globalData.userInfo.avatarUrl,
       userSfz: this.data.users.userSfz,
       userPhone: this.data.users.userPhone,
-      userTime: this.data.users.userTime,
-      userArea: this.data.users.userArea,
+      userTime: Time,
+      userArea: this.data.users.userArea.join('/'),
     }
-    console.log(data);
-    // if (this.data.flag) {
-    //   wx.request({
-    //     url: 'http://localhost:8088/addUsers',
-    //     data: {
-    //       openid: app.globalData.openid,
-    //       nickName: this.data.users.nickName,
-    //       userName: this.data.users.userName,
-    //       userIcon: app.globalData.openid,
-    //       userSfz: this.data.users.userSfz,
-    //       userPhone: this.data.users.userPhone,
-    //       userTime: this.data.users.userTime,
-    //       userArea: this.data.users.userArea,
-    //     },
-    //     header: {
-    //       'content-type': 'application/json'
-    //     },
-    //     method: 'GET',
-    //     dataType: 'json',
-    //     responseType: 'text',
-    //     success: (result) => {
-    //       if (result.data == 'ok') {
-    //         app.globalData.userDetail = this.data.users;
-    //         wx.showToast({
-    //           title: '绑定成功！'
-    //         })
-    //         wx.reLaunch({
-    //           url: '../my/my',
-    //           success: (result) => {
-                
-    //           },
-    //           fail: () => {},
-    //           complete: () => {}
-    //         });
-              
-    //       }
-    //     },
-    //     fail: () => {},
-    //     complete: () => {}
-    //   });
-    // }
-    // else {
-    //   wx.request({
-    //     url: 'http://localhost:8088/updateUsers',
-    //     data: {
-    //       userId: this.data.users.nickName,
-    //       openid: app.globalData.openid,
-    //       nickName: this.data.users.nickName,
-    //       userName: this.data.users.userName,
-    //       userIcon: app.globalData.openid,
-    //       userSfz: this.data.users.userSfz,
-    //       userPhone: this.data.users.userPhone,
-    //       userTime: this.data.users.userTime,
-    //       userArea: this.data.users.userArea,
-    //     },
-    //     success: (result) => {
-    //       if (result.data == 'ok') {
-    //         app.globalData.userDetail = this.data.users;
-    //         wx.showToast({
-    //           title: '修改成功！'
-    //         })
-    //         wx.reLaunch({
-    //           url: '../my/my',
-    //         });
-    //       }
-    //     },
-    //   })
-    // }
+    var that = this;
+    util.baseGet('http://localhost:8088/updateUsers',data,
+      function (result) {
+        app.globalData.userDetail = that.data.users;
+            wx.showToast({
+              title: '修改成功！'
+            })
+            wx.reLaunch({
+              url: '../my/my',
+            });
+      },function (err) {
+        console.log(err);
+      })
   },
   /**
    * 生命周期函数--监听页面加载
@@ -196,7 +124,7 @@ Page({
 
   },
 
-  /**
+  /**4
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
@@ -217,40 +145,3 @@ Page({
 
   }
 })
-
-  // login: function (options) {
-  //   wx.request({
-  //     url: 'http://localhost:8088/login',
-  //     data: {
-  //       userId: this.data.userId,
-  //       password: this.data.password
-  //     },
-  //     header: {'content-type':'application/json'},
-  //     method: 'GET',
-  //     dataType: 'json',
-  //     responseType: 'text',
-  //     success: (result) => {
-  //       if (result.data == 'ok') {
-  //         wx.showToast({
-  //           title:'登陆成功！'
-  //         })
-  //         wx.reLaunch({
-  //           url: '../home/home',
-  //           success: (result) => {
-
-  //           },
-  //           fail: () => {},
-  //           complete: () => {}
-  //         });
-
-  //       }
-  //       else {
-  //         wx.showToast({
-  //           title:'登陆失败！'
-  //         })
-  //       }
-  //     },
-  //     fail: () => {},
-  //     complete: () => {}
-  //   });
-  // },
