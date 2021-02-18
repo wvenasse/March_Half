@@ -57,10 +57,10 @@ public class NoticeController {
     }
 
     @RequestMapping(value = "/showAllNotice", produces = "text/json;charset=UTF-8")
-    public R showAllNotice(String keyWord){
-        List<Notice> notices = noticeDao.getAllNotice(keyWord);
+    public String showAllNotice(){
+        List<Notice> notices = noticeDao.getAllNotice("");
         String noticeJson = JSON.toJSONString(notices);
-        return R.ok().put("noticeJson", noticeJson);
+        return noticeJson;
     }
 
     @ResponseBody
@@ -85,9 +85,10 @@ public class NoticeController {
     public R uploadPic(@RequestParam(value = "image_data", required = false) MultipartFile file, HttpServletRequest request) throws IOException  {
         //目前这里是写死的本地硬盘路径
         String path = "D:/WSH/2021/March_Half/march_half_vue2/src/assets/imgs/Upload";
+        String wxpath = "D:/WSH/2021/March_Half/march_half_wx/utils/imgs/upload";
         //获取文件名称
         String fileName = file.getOriginalFilename();
-        //获取文件名后缀
+        //获取当前时间
         Calendar currTime = Calendar.getInstance();
         String time = String.valueOf(currTime.get(Calendar.YEAR))+String.valueOf((currTime.get(Calendar.MONTH)+1));
         //获取文件名后缀
@@ -95,8 +96,12 @@ public class NoticeController {
         suffix = suffix.toLowerCase();
         if(suffix.equals(".jpg") || suffix.equals(".jpeg") || suffix.equals(".png")){
             File targetFile = new File(path, fileName);
+            File wxtargetFile = new File(wxpath, fileName);
             if(!targetFile.getParentFile().exists()){    //注意，判断父级路径是否存在
                 targetFile.getParentFile().mkdirs();
+            }
+            if(!wxtargetFile.getParentFile().exists()){    //注意，判断父级路径是否存在
+                wxtargetFile.getParentFile().mkdirs();
             }
             long size = 0;
             //保存
@@ -105,7 +110,13 @@ public class NoticeController {
                 size = file.getSize();
             } catch (Exception e) {
                 e.printStackTrace();
-                return R.error("上传失败！");
+                return R.error("上传vue失败！");
+            }
+            try {
+                file.transferTo(wxtargetFile);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return R.error("上传wx失败！");
             }
 //          String fileUrl="D:/WSH/2021/March_Half/march_half_vue2/src/assets/imgs/Upload/";
 //          fileUrl = fileUrl + request.getContextPath() + "/img/" + fileName;

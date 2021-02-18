@@ -3,15 +3,13 @@
     <view class="header">
         <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000"
             indicator-color="rgba(255,255,255,0.7)" indicator-active-color="#009E9D" circular="true">
-            <block wx:for="{{announcements}}" wx:for-index="index" wx:key="this">
+            <block wx:for="{{notice}}" wx:for-index="index" wx:key="noticeId">
                 <swiper-item>
-                    <image src="{{item.url}}" class="slide-image" mode="aspectFill" />
+                    <image src="{{item.noticeImg}}" class="slide-image" mode="aspectFit" />
                 </swiper-item>
             </block>
         </swiper>
-    </view>
 
-    <view class="content">
         <view class="affairs">
             <view class="affair">
                 <view class="affairCard cfirst">
@@ -82,13 +80,53 @@
                 </view>
             </view>
         </view>
+    </view>
 
+    <view class="content">
+        
+
+        <view class="posts">
+            <view class="postTitle">
+                讨论贴
+            </view>
+            <van-cell-group>
+                <van-cell title="置顶" is-link link-type="navigateTo" url="../info/info" border="{{ false }}" icon="back-top"/>
+                <van-cell title="热门" is-link link-type="navigateTo" url="../info/info" border="{{ false }}" icon="fire-o"/>
+                <van-cell title="最新" is-link link-type="navigateTo" url="../info/info" border="{{ false }}" icon="label-o"/>
+            </van-cell-group>
+        </view>
 
 
         <view class="tabs">
             <van-tabs swipeable animated sticky active="{{ active }}" bind:change="onChange">
-                <van-tab title="服务机构">内容 1</van-tab>
-                <van-tab title="服务人员">内容 2</van-tab>
+                <van-tab title="服务机构" name="institution">
+                    <view class="institutionCards">
+                        <view class="institutionCard" wx:for="{{institution}}" wx:for-index="index" wx:key="institutionId">
+                            <view class="institutionHead">
+                                <image class="institutionImg" src="{{item.institutionImg}}" mode="aspectFit" />
+                            </view>
+                            <view class="institutionContent">
+                                <view class="institutionName">
+                                    {{item.institutionName}}
+                                </view>
+                                <view class="institutionStar">
+                                    <van-rate readonly allow-half value="{{ item.institutionStar }}" 
+                                    icon="like" void-icon="like-o" style="background:#ea0606;"
+                                    color="#ffffff" void-color="#eee"/>
+                                    {{item.institutionEva ? item.institutionEva:0}}条
+                                </view>
+                                <view class="institutionOrder">
+                                    已售订单：{{item.institutionOrder}}
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </van-tab>
+                <van-tab title="服务人员" name="service">
+                    内容 2
+                    
+                      
+                </van-tab>
             </van-tabs>
         </view>
 

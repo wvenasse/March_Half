@@ -68,9 +68,9 @@ const basePost = function (url, data, successCallback, errorCallback, header) {
  * @param boolean isMsg 是否自动提示错误 默认提示
  */
 const baseGet = function (url, data, successCallback, errorCallback, isMsg, header) {
-  wx.showLoading({
-    title: "正在加载中...",
-  })
+  // wx.showLoading({
+  //   title: "正在加载中...",
+  // })
   wx.request({
     url: url,
     data: data,
@@ -78,7 +78,7 @@ const baseGet = function (url, data, successCallback, errorCallback, isMsg, head
     method: 'GET',
     header: header,
     success: function (res) {
-      wx.hideLoading();
+      // wx.hideLoading();
       try {
         if (res.statusCode == 200) {
           successCallback && successCallback(res);

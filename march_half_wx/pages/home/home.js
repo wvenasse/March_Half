@@ -1,17 +1,15 @@
 // pages/home/home.js
+var util = require('../../utils/util.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    announcements:[  
-      {url:'../../utils/imgs/swiper/zucc1.jpg'} ,  
-      {url:'../../utils/imgs/swiper/zucc2.jpg'} ,  
-      {url:'../../utils/imgs/swiper/zucc3.jpg'} ,  
-      {url:'../../utils/imgs/swiper/zucc4.jpg'} 
-      ],
-      active: 1,
+    notice:[],
+    active: 'institution',
+    institution:[],
+    service:[]
   },
 
   onChange(event) {
@@ -20,12 +18,59 @@ Page({
       icon: 'none',
     });
   },
+  loadNotice(){
+    var that = this;
+    let data;
+    util.baseGet('http://localhost:8088/showAllNotice',data,
+      function (result) {
+        console.log(result);
+        for (let i=0;i<result.data.length;i++) {
+          result.data[i].noticeImg = '../image/'+result.data[i].noticeImg;
+        }
+        that.setData({
+          notice: result.data
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+  loadInstitution(){
+    var that = this;
+    let data;
+    util.baseGet('http://localhost:8088/showAllInstitution',data,
+      function (result) {
+        console.log(result);
+        for (let i=0;i<result.data.length;i++) {
+          result.data[i].institutionImg = '../image/'+result.data[i].institutionImg.split(',')[0];
+        }
+        that.setData({
+          institution: result.data
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+  loadService(){
+    var that = this;
+    let data;
+    util.baseGet('http://localhost:8088/showAllInstitution',data,
+      function (result) {
+        console.log(result);
+        that.setData({
+          service: result.data
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.loadNotice();
+    this.loadInstitution();
+    this.loadService();
   },
 
   /**
