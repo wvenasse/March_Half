@@ -38,10 +38,21 @@
               <span class="serviceName">{{scope.row.serviceName}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="serviceIcon" label="人员图片" width="80" align="center">
+          <el-table-column prop="serviceIcon" label="人员图片" width="100" align="center">
             <template slot-scope="scope">
-              <img class="serviceIcon" :src="require('../../assets/imgs/Upload/'+scope.row.serviceIcon)"
+              <!-- ../../assets/imgs/Upload/ -->
+              <img class="serviceIcon" :src="require('../../../../march_half_wx/pages/image/'+scope.row.serviceIcon)"
                 :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon">
+            </template>
+
+            <template slot-scope="scope">
+              <div style="display:flex;justify-content: center;">
+                <div class="serviceIcons" v-for="(img,index) in scope.row.serviceIcon" :key="index">
+                  <img class="serviceIcon" :src="require('../../../../march_half_wx/pages/image/'+ img)"
+                  :alt="img" v-if="index<2" @click="openImgPreDialog(scope.row.serviceIcon)">
+                  <div class="imgNum" v-if="index===1 && scope.row.serviceIcon.length>2">+{{scope.row.serviceIcon.length}}</div>
+                </div>
+              </div>
             </template>
           </el-table-column>
           <el-table-column prop="serviceType" label="服务类别" width="80" align="center">
@@ -62,8 +73,10 @@
           <el-table-column prop="servicePhone" label="电话号码" width="100" align="center"></el-table-column>
           <el-table-column prop="serviceAddress" label="户籍" width="120" align="center"></el-table-column>
           <el-table-column prop="serviceIntro" label="介绍" min-width="150" align="center">
-            <template slot-scope="scope">
-              <span class="serviceIntro">{{scope.row.serviceIntro}}</span>
+             <template slot-scope="scope">
+              <el-tooltip class="item" effect="dark" :content="scope.row.serviceIntro" placement="bottom-start">
+                <span class="serviceIntro">{{scope.row.serviceIntro}}</span>
+              </el-tooltip>
             </template>
           </el-table-column>
           <el-table-column prop="servicePrice" label="时薪" width="80" align="center">
@@ -137,7 +150,7 @@
             <el-form-item label="服务人员图片" prop="serviceIcon" :label-width="serviceDialog.formLabelWidth">
               <form action="" name="file" class="file">
                 上传文件
-                <input type="file" id="saveImage" name="myphoto" @change="tirggerFile($event)" accept="image/*"
+                <input type="file" id="saveImage" name="myphoto" multiple="multiple" @change="tirggerFile($event)" accept="image/*"
                   ref="new_image" v-if="serviceDialog.visible">
               </form>
               <div class="fileName">{{imgName}}</div>
@@ -180,7 +193,7 @@
         </el-form-item>
         <el-form-item>
           <el-col :span="12">
-            <el-form-item label="户籍" prop="serviceAddress" :label-width="serviceDialog.formLabelWidth">
+            <el-form-item label="服务区域" prop="serviceAddress" :label-width="serviceDialog.formLabelWidth">
               <el-cascader v-model="serviceDialog.form.serviceAddress" clearable :options="cityList"
                 @change="handleCityChange">
               </el-cascader>
@@ -213,6 +226,23 @@
         <el-button @click="serviceDialog.visible = false">取 消</el-button>
         <el-button type="primary" @click="submitService">确 定</el-button>
       </div>
+    </el-dialog>
+
+    <el-dialog
+      title="预览"
+      :visible.sync="imgPreDialog.visible"
+      width="30%"
+      center>
+      <el-carousel >
+        <el-carousel-item v-for="(img,index) in imgPreDialog.imgList" :key="index">
+          <div class="imgsPre">
+            <img class="imgPre" :src="require('../../../../march_half_wx/pages/image/'+ img)" alt="" srcset="">
+          </div>
+        </el-carousel-item>
+      </el-carousel>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="imgPreDialog.visible = false">关 闭</el-button>
+      </span>
     </el-dialog>
   </div>
 </template>
@@ -298,6 +328,9 @@
             }
             for (let i = 0; i < table.tableData.length; i++) {
               table.tableData[i].typeId = table.tableData[i].typeId.split(",");
+              if (table.tableData[i].serviceIcon) {
+                table.tableData[i].serviceIcon = table.tableData[i].serviceIcon.split(",");
+              }
               table.tableData[i].typeId.forEach(function (item, index, arr) {
                 table.tableData[i].typeId[index] = parseInt(table.tableData[i].typeId[index]);
               });
@@ -315,6 +348,9 @@
           serviceDialog.flag = true;
           serviceDialog.form = service;
           imgName.value = service.serviceIcon;
+          if (service.serviceIcon) {
+            imgName.value = service.serviceIcon.join(',');
+          }
           if (serviceDialog.form.serviceAddress.indexOf("/") != -1) {
             serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.split('/');
           }
@@ -327,7 +363,6 @@
         serviceDialog.visible = true;
       };
       const closeDialog = () => {
-        console.log('close');
         if (serviceDialog.form.serviceAddress.indexOf("/") == -1) {
           serviceDialog.form.serviceAddress = serviceDialog.form.serviceAddress.join('/');
         }
@@ -361,7 +396,8 @@
           imgName.value = '';
         }
         let yy = new Date().getFullYear();
-        let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+        let m = new Date().getMonth() + 1;
+        let mm = m < 10 ? '0' + m : m;
         let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
         let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
         let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
@@ -509,18 +545,33 @@
       const tirggerFile = (event) => {
         console.log(event)
         if (event.target.files.length !== 0) {
-          formData.append('image_data', event.target.files[0]);
-          console.log(formData)
-          imgName.value = event.target.files[0].name;
-          addImage(formData).then(response => {
-            console.log(response.data.fileName);
-            root.$message({
-              type: 'info',
-              message: response.data.msg
-            });
-          })
+          let imgs = [];
+          let formImgData = [];
+          for (let i=0;i<event.target.files.length;i++) {
+            formImgData[i] = new FormData();
+            formImgData[i].append('image_data', event.target.files[i]);
+            imgs[i] = event.target.files[i].name;
+            addImage(formImgData[i]).then(response => {
+              console.log(response.data.fileName);
+              root.$message({
+                type: 'info',
+                message: response.data.msg
+              });
+            })
+          }
+          imgName.value = imgs.join(',');
         }
       }
+
+      //预览图片
+      let openImgPreDialog = (imgList) => {
+        imgPreDialog.visible = true;
+        imgPreDialog.imgList = imgList;
+      }
+      let imgPreDialog = reactive({
+        visible: false,
+        imgList: [],
+      })
 
       onMounted(() => {
         loadType();
@@ -554,7 +605,10 @@
         formData,
         imgName,
         imgUrl,
-        tirggerFile
+        tirggerFile,
+
+        openImgPreDialog,
+        imgPreDialog
       };
     },
   };
@@ -617,6 +671,10 @@
     font-weight: bold;
   }
 
+  .serviceIcons {
+    height: 40px;
+  }
+
   .serviceIcon {
     height: 40px;
     width: 40px;
@@ -625,6 +683,32 @@
     border-radius: 50%;
   }
 
+  .imgsPre {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .imgPre {
+    max-height: 100%;
+  }
+
+  .imgNum {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    position: relative;
+    top: -47px;
+    color: #C0C4CC;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
   .serviceIntro,
   .serviceType,

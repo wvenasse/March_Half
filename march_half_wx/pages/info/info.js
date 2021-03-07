@@ -22,7 +22,7 @@ Page({
     let data = {
       openid:openid
     }
-    util.baseGet('http://localhost:8088/showUsers',data,
+    util.baseGet('showUsers',data,
       function (result) {
         result.data.userArea = result.data.userArea.split('/');
         that.setData({
@@ -74,7 +74,7 @@ Page({
       userArea: this.data.users.userArea.join('/'),
     }
     var that = this;
-    util.baseGet('http://localhost:8088/updateUsers',data,
+    util.baseGet('updateUsers',data,
       function (result) {
         app.globalData.userDetail = that.data.users;
             wx.showToast({

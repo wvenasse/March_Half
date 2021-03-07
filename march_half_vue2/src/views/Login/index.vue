@@ -142,10 +142,19 @@
       const submitForm = formName => {
         refs[formName].validate(valid => {
           if (valid) {
+            let yy = new Date().getFullYear();
+            let m = new Date().getMonth() + 1;
+            let mm = m < 10 ? '0' + m : m;
+            let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
+            let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
+            let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
+            let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
+            let time = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
             let data = {
               userName: ruleForm.userName,
               nickname: ruleForm.nickname,
-              password: ruleForm.pass
+              password: ruleForm.pass,
+              rootTime: time
             };
             console.log(data);
             AddAdmin(data).then(response => {

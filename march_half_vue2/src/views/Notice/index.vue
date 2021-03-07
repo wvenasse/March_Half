@@ -29,7 +29,7 @@
                     <el-table-column prop="noticeName" label="公告名称"></el-table-column>
                     <el-table-column prop="noticeImg" label="公告图片">
                         <template slot-scope="scope">
-                            <img class="noticeImg" :src="require('../../assets/imgs/Upload/'+scope.row.noticeImg)" :alt="scope.row.noticeImg" v-if="scope.row.noticeImg">
+                            <img class="noticeImg" :src="require('../../../../march_half_wx/pages/image/'+scope.row.noticeImg)" :alt="scope.row.noticeImg" v-if="scope.row.noticeImg">
                             <!-- <img class="noticeImg" :src="imgUrl+scope.row.noticeImg" :alt="scope.row.noticeImg" v-if="scope.row.noticeImg"> -->
                         </template>
                     </el-table-column>

@@ -111,6 +111,35 @@ public class ServiceController {
         return serviceJson;
     }
 
+    @RequestMapping(value = "/showAllGoodService", produces = "text/json;charset=UTF-8")
+    public String showAllGoodService(){
+        List<Service> service = serviceDao.getAllGoodService();
+        String serviceJson = JSON.toJSONString(service);
+        return serviceJson;
+    }
+
+    @RequestMapping(value = "/showAllServiceByType", produces = "text/json;charset=UTF-8")
+    public String showAllServiceByType(Integer typeId, Integer isPrice, Integer isOrder){
+        boolean b1 = isPrice==1;
+        boolean b2 = isOrder==1;
+        if (b1 && !b2) {
+            List<Service> service = serviceDao.getAllServiceByTypePrice(typeId);
+            String serviceJson = JSON.toJSONString(service);
+            return serviceJson;
+        }
+        if (b2 && !b1) {
+            List<Service> service = serviceDao.getAllServiceByTypeOrder(typeId);
+            String serviceJson = JSON.toJSONString(service);
+            return serviceJson;
+        }
+        if (!b2 && !b1) {
+            List<Service> service = serviceDao.getAllServiceByType(typeId);
+            String serviceJson = JSON.toJSONString(service);
+            return serviceJson;
+        }
+        return "error";
+    }
+
     @ResponseBody
     @RequestMapping("/findAllService")
     public R findAllService(@RequestParam("pageIndex") int pageIndex,

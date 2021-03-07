@@ -84,8 +84,8 @@ public class NoticeController {
     @ResponseBody
     public R uploadPic(@RequestParam(value = "image_data", required = false) MultipartFile file, HttpServletRequest request) throws IOException  {
         //目前这里是写死的本地硬盘路径
-        String path = "D:/WSH/2021/March_Half/march_half_vue2/src/assets/imgs/Upload";
-        String wxpath = "D:/WSH/2021/March_Half/march_half_wx/utils/imgs/upload";
+//        String path = "D:/WSH/2021/March_Half/march_half_vue2/src/assets/imgs/Upload";
+        String path = "D:/WSH/2021/March_Half/march_half_wx/pages/image";
         //获取文件名称
         String fileName = file.getOriginalFilename();
         //获取当前时间
@@ -96,12 +96,8 @@ public class NoticeController {
         suffix = suffix.toLowerCase();
         if(suffix.equals(".jpg") || suffix.equals(".jpeg") || suffix.equals(".png")){
             File targetFile = new File(path, fileName);
-            File wxtargetFile = new File(wxpath, fileName);
             if(!targetFile.getParentFile().exists()){    //注意，判断父级路径是否存在
                 targetFile.getParentFile().mkdirs();
-            }
-            if(!wxtargetFile.getParentFile().exists()){    //注意，判断父级路径是否存在
-                wxtargetFile.getParentFile().mkdirs();
             }
             long size = 0;
             //保存
@@ -111,12 +107,6 @@ public class NoticeController {
             } catch (Exception e) {
                 e.printStackTrace();
                 return R.error("上传vue失败！");
-            }
-            try {
-                file.transferTo(wxtargetFile);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return R.error("上传wx失败！");
             }
 //          String fileUrl="D:/WSH/2021/March_Half/march_half_vue2/src/assets/imgs/Upload/";
 //          fileUrl = fileUrl + request.getContextPath() + "/img/" + fileName;

@@ -70,9 +70,9 @@ const basePost = function (url, data, successCallback, errorCallback, header) {
 const baseGet = function (url, data, successCallback, errorCallback, isMsg, header) {
   // wx.showLoading({
   //   title: "正在加载中...",
-  // })
+  // })192.168.43.6/localhost
   wx.request({
-    url: url,
+    url: "http://localhost:8088/"+url,
     data: data,
     dataType: 'json',
     method: 'GET',

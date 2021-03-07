@@ -1,5 +1,5 @@
 import cookie from "cookie_js";
-import {getNickName,getUserName,removeToken,removeNickName} from "@/utils/app"
+import {getNickName,getUserName,removeToken,removeNickName,removeUserName} from "@/utils/app"
 const app = {
     state: {
         isCollapse: false, //JSON.parse(sessionStorage.getItem('isCollapse')) || ,

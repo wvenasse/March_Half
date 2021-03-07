@@ -11,97 +11,50 @@
         </swiper>
 
         <view class="affairs">
-            <view class="affair">
-                <view class="affairCard cfirst">
+            <view class="affairCard " wx:for="{{type}}" wx:for-index="index" wx:key="typeId">
+                <view class="cardIcons" bindtap="gotoType" data-type="{{item}}">
                     <view class="cardIcon">
-                        <image class="cardImg" src="../../utils/imgs/affair/skin.png"></image>
-                    </view>
-                    <view class="cardHead">
-                        保姆服务
+                        <view class="t-icon {{icons[index]}}"></view>
                     </view>
                 </view>
-                <view class="affairCard csecond">
-                    <view class="cardIcon">
-                        <image class="cardImg" src="../../utils/imgs/affair/hourglass.png"></image>
-                    </view>
-                    <view class="cardHead">
-                        钟点工
-                    </view>
-                </view>
-                <view class="affairCard cthree">
-                    <view class="cardIcon">
-                        <image class="cardImg" src="../../utils/imgs/affair/wrench.png"></image>
-                    </view>
-                    <view class="cardHead">
-                        综合维修
-                    </view>
-                </view>
-                <view class="affairCard cfour">
-                    <view class="cardIcon">
-                        <image class="cardImg" src="../../utils/imgs/affair/repair.png"></image>
-                    </view>
-                    <view class="cardHead">
-                        月嫂服务
-                    </view>
+                <view class="cardHead" bindtap="gotoType" data-type="{{item}}">
+                    {{item.typeName}}
                 </view>
             </view>
-            <view class="affair">
-                <view class="affairCard cfive">
+            <view class="affairCard ceight" bindtap="gotoAllType">
+                <view class="cardIcons">
                     <view class="cardIcon">
-                        <image class="cardImg" src="../../utils/imgs/affair/act.png"></image>
-                    </view>
-                    <view class="cardHead">
-                        助老服务
+                        <view class="t-icon t-icon-gengduo"></view>
                     </view>
                 </view>
-                <view class="affairCard csix">
-                    <view class="cardIcon">
-                        <image class="cardImg" src="../../utils/imgs/affair/api.png"></image>
-                    </view>
-                    <view class="cardHead">
-                        装修装饰
-                    </view>
-                </view>
-                <view class="affairCard cseven">
-                    <view class="cardIcon">
-                        <image class="cardImg" src="../../utils/imgs/affair/anmo.png"></image>
-                    </view>
-                    <view class="cardHead">
-                        按摩保健
-                    </view>
-                </view>
-                <view class="affairCard ceight">
-                    <view class="cardIcon">
-                        <image class="cardImg" src="../../utils/imgs/affair/more.png"></image>
-                    </view>
-                    <view class="cardHead">
-                        更多
-                    </view>
+                <view class="cardHead">
+                    更多
                 </view>
             </view>
         </view>
     </view>
-
     <view class="content">
-        
-
         <view class="posts">
             <view class="postTitle">
                 讨论贴
             </view>
             <van-cell-group>
-                <van-cell title="置顶" is-link link-type="navigateTo" url="../info/info" border="{{ false }}" icon="back-top"/>
-                <van-cell title="热门" is-link link-type="navigateTo" url="../info/info" border="{{ false }}" icon="fire-o"/>
-                <van-cell title="最新" is-link link-type="navigateTo" url="../info/info" border="{{ false }}" icon="label-o"/>
+                <van-cell title="置顶" is-link link-type="navigateTo" url="../info/info" border="{{ false }}"
+                    icon="back-top" />
+                <van-cell title="热门" is-link link-type="navigateTo" url="../info/info" border="{{ false }}"
+                    icon="fire-o" />
+                <van-cell title="最新" is-link link-type="navigateTo" url="../info/info" border="{{ false }}"
+                    icon="label-o" />
             </van-cell-group>
         </view>
-
-
+    </view>
+    <view class="content">
         <view class="tabs">
             <van-tabs swipeable animated sticky active="{{ active }}" bind:change="onChange">
                 <van-tab title="服务机构" name="institution">
                     <view class="institutionCards">
-                        <view class="institutionCard" wx:for="{{institution}}" wx:for-index="index" wx:key="institutionId">
+                        <view class="institutionCard" wx:for="{{institution}}" wx:for-index="index"
+                            wx:key="institutionId">
                             <view class="institutionHead">
                                 <image class="institutionImg" src="{{item.institutionImg}}" mode="aspectFit" />
                             </view>
@@ -110,27 +63,64 @@
                                     {{item.institutionName}}
                                 </view>
                                 <view class="institutionStar">
-                                    <van-rate readonly allow-half value="{{ item.institutionStar }}" 
-                                    icon="like" void-icon="like-o" style="background:#ea0606;"
-                                    color="#ffffff" void-color="#eee"/>
-                                    {{item.institutionEva ? item.institutionEva:0}}条
+                                    <van-rate readonly allow-half value="{{ item.institutionStar }}" icon="star"
+                                        void-icon="star-o" style="background:#ffffff;" color="#ea0606"
+                                        void-color="#eee" />
+                                    <text
+                                        class="institutionStarText">{{item.institutionEva ? item.institutionEva:0}}条</text>
                                 </view>
                                 <view class="institutionOrder">
-                                    已售订单：{{item.institutionOrder}}
+                                    <view class="institutionOrderNum">
+                                        已售订单：{{item.institutionOrder}}
+                                    </view>
+                                    <view class="institutionStars">
+                                        满意度： {{item.institutionStar*20}}%
+                                    </view>
+
                                 </view>
                             </view>
                         </view>
                     </view>
                 </van-tab>
                 <van-tab title="服务人员" name="service">
-                    内容 2
-                    
-                      
+                    <view class="serviceCards">
+                        <view class="serviceCard" wx:for="{{service}}" wx:for-index="index" wx:key="serviceId">
+                            <view class="serviceHead">
+                                <image class="circleImg serviceImg" src="{{item.serviceIcon}}" mode="aspectFit" />
+                            </view>
+                            <view class="serviceContent">
+                                <view class="serviceName">
+                                    {{item.serviceName}}
+                                    <van-tag wx:if="{{item.serviceStar>=4}}" mark type="warning">优秀</van-tag>
+                                </view>
+                                <view class="serviceStar">
+                                    <van-rate readonly allow-half value="{{ item.serviceStar }}" icon="star"
+                                        void-icon="star-o" style="background:#ffffff;" color="#ea0606"
+                                        void-color="#eee" />
+                                    <text class="serviceStarText">{{item.serviceEva ? item.serviceEva:0}}条</text>
+                                </view>
+                                <view class="serviceOrder">
+                                    <view class="serviceOrderNum">
+                                        已售订单：{{item.serviceOrder ? item.serviceOrder : 0}}
+                                    </view>
+                                    <view class="serviceStars">
+                                        满意度： {{item.serviceStar ? item.serviceStar*20 : 0}}%
+                                    </view>
+                                </view>
+                                <view class="servicePrice">
+                                    <view class="servicePriceNum">
+                                        ￥{{item.servicePrice}}
+                                    </view>
+                                    <view class="servicePriceTip">
+                                        （需根据实际情况商定）
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
                 </van-tab>
             </van-tabs>
         </view>
-
-
     </view>
 
 

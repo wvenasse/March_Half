@@ -43,7 +43,7 @@
                         <template slot-scope="scope">
                         <div style="display:flex;justify-content: center;">
                             <div class="postImgs" v-for="(img,index) in scope.row.postImg" :key="index">
-                                <img class="postImg" :src="require('../../assets/imgs/Upload/'+ img)"
+                                <img class="postImg" :src="require('../../../../march_half_wx/pages/image/'+ img)"
                                 :alt="img" v-if="index<2" @click="openImgPreDialog(scope.row.postImg)">
                                 <div class="imgNum" v-if="index===1 && scope.row.postImg.length>2">+{{scope.row.postImg.length}}</div>
                             </div>
@@ -209,7 +209,7 @@
             <el-carousel >
                 <el-carousel-item v-for="(img,index) in imgPreDialog.imgList" :key="index">
                 <div class="imgsPre">
-                    <img class="imgPre" :src="require('../../assets/imgs/Upload/'+ img)" alt="" srcset="">
+                    <img class="imgPre" :src="require('../../../../march_half_wx/pages/image/'+ img)" alt="" srcset="">
                 </div>
                 </el-carousel-item>
             </el-carousel>
@@ -506,7 +506,8 @@
             }
             const submitPost = () => {
                 let yy = new Date().getFullYear();
-                let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+                let m = new Date().getMonth() + 1;
+                let mm = m < 10 ? '0' + m : m;
                 let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
                 let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
                 let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
@@ -852,7 +853,8 @@
             };
             const submitComment  = () => {
                 let yy = new Date().getFullYear();
-                let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+                let m = new Date().getMonth() + 1;
+                let mm = m < 10 ? '0' + m : m;
                 let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
                 let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
                 let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();

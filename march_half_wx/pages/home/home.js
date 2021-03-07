@@ -9,19 +9,41 @@ Page({
     notice:[],
     active: 'institution',
     institution:[],
-    service:[]
+    service:[],
+    type:[],
+    icons:[
+      't-icon-bangdaiyongyi',
+      't-icon-yingerfu',
+      't-icon-beixin',
+      't-icon-baozhen',
+      't-icon-maoyi',
+      't-icon-weiyi',
+      't-icon-gaolingmaoyi',
+      't-icon-yashemao',
+      't-icon-shishi',
+      't-icon-lvhangbao',
+      't-icon-danjianbao',
+      't-icon-diannaobao',
+      't-icon-chajianTxu',
+      't-icon-fentiyongyi',
+      't-icon-hanglixiang',
+      't-icon-lianshenyongyi',
+      't-icon-shoutibao',
+      't-icon-taolingshangyi',
+      't-icon-gengduo',
+    ]
   },
 
   onChange(event) {
-    wx.showToast({
-      title: `切换到标签 ${event.detail.name}`,
-      icon: 'none',
-    });
+    // wx.showToast({
+    //   title: `切换到标签 ${event.detail.name}`,
+    //   icon: 'none',
+    // });
   },
   loadNotice(){
     var that = this;
     let data;
-    util.baseGet('http://localhost:8088/showAllNotice',data,
+    util.baseGet('showAllNotice',data,
       function (result) {
         console.log(result);
         for (let i=0;i<result.data.length;i++) {
@@ -37,7 +59,7 @@ Page({
   loadInstitution(){
     var that = this;
     let data;
-    util.baseGet('http://localhost:8088/showAllInstitution',data,
+    util.baseGet('showAllInstitution',data,
       function (result) {
         console.log(result);
         for (let i=0;i<result.data.length;i++) {
@@ -53,9 +75,12 @@ Page({
   loadService(){
     var that = this;
     let data;
-    util.baseGet('http://localhost:8088/showAllInstitution',data,
+    util.baseGet('showAllGoodService',data,
       function (result) {
         console.log(result);
+        for (let i=0;i<result.data.length;i++) {
+          result.data[i].serviceIcon = '../image/'+result.data[i].serviceIcon.split(',')[0];
+        }
         that.setData({
           service: result.data
         })
@@ -63,12 +88,43 @@ Page({
         console.log(err);
       })
   },
+  loadType(){
+    var that = this;
+    let data;
+    util.baseGet('showAllType',data,
+      function (result) {
+        console.log(result);
+        var newType = [];
+        for (let i=0;i<7;i++) {
+          newType.push(result.data[i])
+        }
+        that.setData({
+          type: newType
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+
+  gotoAllType() {
+    //跳转个人信息
+    wx.navigateTo({
+      url: '../allType/allType'
+    })
+  },
+  gotoType(e){
+    let type = e.currentTarget.dataset['type'];
+    wx.navigateTo({
+      url: '../typeList/typeList?typeId='+type.typeId+'&typeName='+type.typeName
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.loadNotice();
+    this.loadType();
     this.loadInstitution();
     this.loadService();
   },

@@ -122,7 +122,26 @@ Page({
     ec: {
       onInit: initChart
     },
-    
+    show: false,
+    radio: true,
+  },
+
+  onClose: function() {
+    this.setData({
+      show: false
+    });
+  },
+  selectType: function() {
+    this.setData({
+      show: true
+    });
+  },
+  onClick(event) {
+    const { name } = event.currentTarget.dataset;
+    this.setData({
+      radio: name,
+    });
+    app.globalData.identity = this.data.radio;
   },
 
   bindViewTap: function () {
@@ -133,7 +152,10 @@ Page({
   },
   getUserInfo: function (e) {
     //微信授权
-    app.globalData.userInfo = e.detail.userInfo
+    app.globalData.userInfo = e.detail.userInfo;
+    if (this.data.radio === 'user') {
+      this.addUser();
+    }
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
@@ -141,9 +163,10 @@ Page({
     this.getOpenIdTap();
     this.getCodeTap();
   },
+
   showUser: function (openid) {
     wx.request({
-      url:'http://localhost:8088/showUsers',
+      url:'showUsers',
       data:{
         openid:openid
       },
@@ -168,7 +191,7 @@ Page({
     }
     console.log(data);
       wx.request({
-        url: 'http://localhost:8088/addUsers',
+        url: 'addUsers',
         data: data,
         header: {
           'content-type': 'application/json'
@@ -198,6 +221,23 @@ Page({
         complete: () => {}
       });
   },
+  loadUser(openid){
+    var that = this;
+    let data = {
+      openid:openid
+    }
+    util.baseGet('showUsers',data,
+      function (result) {
+        app.globalData.userDetail = result.data;
+        console.log(app.globalData.userDetail);
+        that.setData({
+          userDetail: result.data
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+  
   getOpenIdTap: function () {
     var that = this;
     wx.login({
@@ -224,8 +264,10 @@ Page({
               openid: res.data.openid.substr(0, 10) + '********' + res.data.openid.substr(res.data.openid.length - 8, res.data.openid.length),
               session_key: res.data.session_key.substr(0, 8) + '********' + res.data.session_key.substr(res.data.session_key.length - 6, res.data.session_key.length)
             })
-            that.showUser(app.globalData.openid);
-            that.loadUser(app.globalData.openid);
+            if (that.data.radio === 'user') {
+              that.showUser(app.globalData.openid);
+              that.loadUser(app.globalData.openid);
+            }
           }
         })
       }
@@ -241,26 +283,12 @@ Page({
       }
     })
   },
-  loadUser(openid){
-    var that = this;
-    let data = {
-      openid:openid
-    }
-    util.baseGet('http://localhost:8088/showUsers',data,
-      function (result) {
-        app.globalData.userDetail = result.data;
-        console.log(app.globalData.userDetail);
-        that.setData({
-          userDetail: result.data
-        })
-      },function (err) {
-        console.log(err);
-      })
-  },
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function () {
+    
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -348,7 +376,7 @@ Page({
 
   // login: function (options) {
   //   wx.request({
-  //     url: 'http://localhost:8088/login',
+  //     url: 'login',
   //     data: {
   //       userId: this.data.userId,
   //       password: this.data.password

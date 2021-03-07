@@ -38,7 +38,8 @@
           <el-table-column prop="nickName" label="用户昵称" align="center"></el-table-column>
           <el-table-column prop="userIcon" label="用户头像" width="80" align="center">
             <template slot-scope="scope">
-              <img class="userIcon" :src="require('../../assets/imgs/Upload/'+scope.row.userIcon)" :alt="scope.row.userIcon" v-if="scope.row.userIcon">
+              <img class="userIcon" :src="scope.row.userIcon" :alt="scope.row.userIcon" v-if="scope.row.userIcon">
+              <!-- <img class="userIcon" :src="require('../../assets/imgs/Upload/'+scope.row.userIcon)" :alt="scope.row.userIcon" v-if="scope.row.userIcon"> -->
             </template>
           </el-table-column>
           <el-table-column prop="openid" label="openId" width="250" align="center"></el-table-column>
@@ -448,7 +449,8 @@
             .userArea[1] + '/' + userDialog.form.userArea[2];
         }
         let yy = new Date().getFullYear();
-        let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+        let m = new Date().getMonth() + 1;
+        let mm = m < 10 ? '0' + m : m;
         let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
         let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
         let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
@@ -877,7 +879,8 @@
       };
       const submitFavor  = () => {
         let yy = new Date().getFullYear();
-        let mm = new Date().getMonth()<10 ? '0'+new Date().getMonth() : new Date().getMonth();
+        let m = new Date().getMonth() + 1;
+        let mm = m < 10 ? '0' + m : m;
         let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
         let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
         let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();

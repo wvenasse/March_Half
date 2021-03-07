@@ -1,0 +1,63 @@
+<view class="content">
+  <view class="rankHead">
+    <van-dropdown-menu active-color="#1989fa">
+      <van-dropdown-item value="{{ rankValue }}" options="{{ rankOption }}" bind:change="onRankChange" />
+      <van-dropdown-item id="item" title="{{ itemTitle }}">
+        <van-cell title="{{ switchTitle1 }}">
+          <view class="section">
+            <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+              <view class="picker">
+                {{region[0]}}{{region[1]}}{{region[2]}}
+              </view>
+            </picker>
+          </view>
+        </van-cell>
+        <view style="padding: 5px 16px;">
+          <van-button type="danger" block round bind:click="onConfirm">
+            确认
+          </van-button>
+        </view>
+      </van-dropdown-item>
+    </van-dropdown-menu>
+  </view>
+
+  <view class="serviceLists">
+    <view class="serviceCards">
+      <view wx:if="{{service.length>0}}" class="serviceCard" wx:for="{{service}}" wx:for-index="index" wx:key="serviceId">
+        <view class="serviceHead">
+          <image class="circleImg serviceImg" src="{{item.serviceIcon}}" mode="aspectFit" />
+        </view>
+        <view class="serviceContent">
+          <view class="serviceName">
+            {{item.serviceName}}
+            <van-tag wx:if="{{item.serviceStar>=4}}" mark type="warning">优秀</van-tag>
+          </view>
+          <view class="serviceStar">
+            <van-rate readonly allow-half value="{{ item.serviceStar }}" icon="star" void-icon="star-o"
+              style="background:#ffffff;" color="#ea0606" void-color="#eee" />
+            <text class="serviceStarText">{{item.serviceEva ? item.serviceEva:0}}条</text>
+          </view>
+          <view class="serviceOrder">
+            <view class="serviceOrderNum">
+              已售订单：{{item.serviceOrder ? item.serviceOrder : 0}}
+            </view>
+            <view class="serviceStars">
+              满意度： {{item.serviceStar ? item.serviceStar*20 : 0}}%
+            </view>
+          </view>
+          <view class="servicePrice">
+            <view class="servicePriceNum">
+              ￥{{item.servicePrice}}
+            </view>
+            <view class="servicePriceTip">
+              （需根据实际情况商定）
+            </view>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{service.length==0}}" >
+        <van-empty description="暂无数据" />
+      </view>
+    </view>
+  </view>
+</view>

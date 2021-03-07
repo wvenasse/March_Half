@@ -87,31 +87,31 @@
                 data:[
                     {
                         title:'普通用户',
-                        toltal_num:0,
+                        total_num:0,
                         total_today_num:0,
                         tag_type:'success'
                     },
                     {
                         title:'服务人员',
-                        toltal_num:0,
+                        total_num:0,
                         total_today_num:0,
                         tag_type:'danger'
                     },
                     {
                         title:'服务机构',
-                        toltal_num:0,
+                        total_num:0,
                         total_today_num:0,
                         tag_type:''
                     },
                     {
                         title:'管理人员',
-                        toltal_num:0,
+                        total_num:0,
                         total_today_num:0,
                         tag_type:'warning'
                     },
                     {
                         title:'订单数量',
-                        toltal_num:0,
+                        total_num:0,
                         total_today_num:0,
                         tag_type:'info'
                     },
@@ -830,7 +830,8 @@
             });
             const loadData = () => {
                 let yy = new Date().getFullYear();
-                let mm = new Date().getMonth() < 10 ? '0' + new Date().getMonth() : new Date().getMonth();
+                let m = new Date().getMonth() + 1;
+                let mm = m < 10 ? '0' + m : m;
                 let dd = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate();
                 let today = yy + '-' + mm + '-' + dd;
                 ShowAllAdmin()
@@ -950,7 +951,6 @@
                         web_card.data[4].total_today_num = todayNum;
                         dataNum.orderToday = todayNum;
                         web_card.data[4].total_num = response.data.length;
-
                         drawLine();
                         label_vist();
                         chinaMap();
@@ -958,6 +958,7 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+            
             }
 
             onMounted(() => {

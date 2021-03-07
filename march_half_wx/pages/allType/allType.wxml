@@ -1,0 +1,14 @@
+<view class="container">
+    <view class="affairs">
+        <view class="affairCard " wx:for="{{type}}" wx:for-index="index" wx:key="typeId">
+            <view class="cardIcons">
+                <view class="cardIcon">
+                    <view class="t-icon {{icons[index]}}"></view>
+                </view>
+            </view>
+            <view class="cardHead">
+                {{item.typeName}}
+            </view>
+        </view>
+    </view>
+</view>

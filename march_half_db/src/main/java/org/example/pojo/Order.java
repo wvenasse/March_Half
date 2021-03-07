@@ -3,6 +3,7 @@ package org.example.pojo;
 public class Order {
     private  Integer orderId;
     private  String orderName;
+    private  String orderDate;
     private  String orderTime;
     private  String orderDetail;
     private  String orderStatus;
@@ -36,6 +37,14 @@ public class Order {
 
     public void setOrderName(String orderName) {
         this.orderName = orderName;
+    }
+
+    public String getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getOrderTime() {

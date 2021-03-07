@@ -1,11 +1,14 @@
 {
   "pages": [
+    "pages/service/service",
+    "pages/institution/institution",
     "pages/home/home",
     "pages/order/order",
     "pages/my/my",
     "pages/info/info",
-
-    "pages/newlogin/newlogin"
+    "pages/allType/allType",
+    "pages/typeList/typeList",
+    "pages/images/images"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -37,7 +40,6 @@
       }
     ]
   },
-  "style": "v2",
   "sitemapLocation": "sitemap.json",
   "usingComponents": {
     "van-button": "@vant/weapp/button/index",
@@ -52,6 +54,12 @@
     "van-cell": "@vant/weapp/cell/index",
     "van-cell-group": "@vant/weapp/cell-group/index",
     "van-tag": "@vant/weapp/tag/index",
-    "van-rate": "@vant/weapp/rate/index"
+    "van-rate": "@vant/weapp/rate/index",
+    "van-dropdown-menu": "@vant/weapp/dropdown-menu/index",
+    "van-dropdown-item": "@vant/weapp/dropdown-item/index",
+    "van-share-sheet": "@vant/weapp/share-sheet/index",
+    "van-dialog": "@vant/weapp/dialog/index",
+    "van-icon": "@vant/weapp/icon/index",
+    "van-empty": "@vant/weapp/empty/index"
   }
 }

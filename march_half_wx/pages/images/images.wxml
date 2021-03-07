@@ -1,0 +1,7 @@
+<view class="content">
+    <view  class="serviceIcons">
+        <image class="serviceIcon" wx:for="{{icons}}" wx:for-index="index" wx:key="index" 
+        src="{{item}}" mode="aspectFit" bindtap="preview" data-src="{{item}}"/>
+    </view>
+</view>
+  

@@ -1,4 +1,4 @@
-page{
+page {
   background-color: #f7f8fa;
   /* #f9f9f9; */
 }
@@ -9,7 +9,7 @@ page{
   position: relative;
   z-index: -1;
   overflow: hidden;
-  
+
 }
 
 .pure_top::after {
@@ -27,12 +27,20 @@ page{
 
 
 .userinfo {
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
   height: 130rpx;
   margin: 20rpx;
   margin-top: -22%;
+}
+
+.userinfo button {
+  width: 184px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 8px 24px;
+  line-height: 1.41176471;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 17px;
 }
 
 .userinfo-avatar {
@@ -51,7 +59,7 @@ page{
   line-height: 120rpx;
 }
 
-.userCard{
+.userCard {
   width: 90%;
   height: 300rpx;
   background-color: #ffffff;
@@ -60,16 +68,17 @@ page{
   box-shadow: 0rpx 5rpx 5rpx 5rpx rgba(155, 154, 154, 0.1);
 }
 
-.cardHead,.carfBody{
+.cardHead,
+.carfBody {
   margin: 42rpx 20rpx;
 }
 
 .cardHead {
   padding-top: 10rpx;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.carfBody{
+.carfBody {
   display: flex;
   height: 70%;
 }
@@ -83,42 +92,47 @@ page{
   text-align: center;
 }
 
-.cDorm{
+.cDorm {
   background-color: #E54D42;
-  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(229,77,66, 0.8);
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(229, 77, 66, 0.8);
 }
-.cRoom{
+
+.cRoom {
   background-color: #6938B6;
-  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(102,58,181, 0.8);
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(102, 58, 181, 0.8);
 }
-.cBed{
+
+.cBed {
   background-color: #19BEB0;
-  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(28,188,180, 0.8);
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(28, 188, 180, 0.8);
 }
-.cFav{
+
+.cFav {
   background-color: #0082FF;
-  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(0,130,255, 0.8);
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(0, 130, 255, 0.8);
 }
 
-.cLike{
+.cLike {
   background-color: #961FAD;
-  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(150,31,173, 0.8);
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(150, 31, 173, 0.8);
 
 }
-.cRem{
+
+.cRem {
   background-color: #DFDB23;
   box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(223, 210, 35, 0.8);
 }
 
-.littleHead,.littleBody{
+.littleHead,
+.littleBody {
   height: 50%;
 }
 
-.littleHead{
+.littleHead {
   padding: 20rpx 0;
 }
 
-.echartCard{
+.echartCard {
   width: 90%;
   height: 500rpx;
   background-color: #ffffff;
@@ -127,7 +141,8 @@ page{
   border-radius: 10rpx;
   box-shadow: 0rpx 5rpx 5rpx 5rpx rgba(155, 154, 154, 0.1);
 }
-.ecardHead{
+
+.ecardHead {
   margin: 42rpx 20rpx;
   margin-bottom: 0;
 }

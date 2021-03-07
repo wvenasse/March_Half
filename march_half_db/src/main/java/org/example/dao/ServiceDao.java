@@ -23,6 +23,13 @@ public interface ServiceDao {
     public Integer updateServiceStar(Integer serviceId);
     //查
     public List<Service> getAllService(String keyWord);
+    //首页推荐
+    public List<Service> getAllGoodService();
+    //分类并排行
+    public List<Service> getAllServiceByType(Integer typeId);
+    public List<Service> getAllServiceByTypePrice(Integer typeId);
+    public List<Service> getAllServiceByTypeOrder(Integer typeId);
+
     //照id查
     public Service getServiceById(Integer serviceId);
 }

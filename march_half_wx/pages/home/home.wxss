@@ -1,6 +1,8 @@
 /* pages/home/home.wxss */
+@import "../../utils/iconfont-weapp-icon.wxss";
+
 page{
-    background-color: #000;
+    background-color: #f7f8fa;
     /* #f7f8fa; */
 }
 
@@ -29,10 +31,12 @@ page{
 
 .affairs {
     margin: 20rpx 0;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .affair {
-    height: 150rpx;
+    height: 160rpx;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -41,24 +45,32 @@ page{
 .affairCard{
     width: 20%;
     height: 90%;
-    color: #ffffff;
     text-align: center;
     border-radius: 10rpx;
+    margin: 17rpx;
 }
 
 .cardHead{
-    height: 50%;
+    height: 25%;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 28rpx;
-    /* text-shadow: 6px 1px 10px #ffffff; */
+    font-size: 26rpx;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-weight: 500;
+    align-items: flex-end;
+}
+
+.cardIcons {
+    height: 75%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .cardIcon{
-    height: 50%;
+    width: 100rpx;
+    height: 100rpx;
+    background: #fbfbfb;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -67,41 +79,6 @@ page{
 .cardImg{
     width: 60rpx;
     height: 60rpx;
-}
-
-.cfirst{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #FC8485 , #F4C581);
-    
-    /* 97C789 */
-}
-.csecond{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #ffa500 , #eeca66);
-}
-.cthree{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #f3d216 , #dbcb6e);
-}
-.cfour{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #19D895 , #8efdd6dc);
-}
-.cfive{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #00ffff , #cae1f7);
-}
-.csix{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #2CABFC , #4e86ec);
-}
-.cseven{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #A1A7FB , #BAAAD7);
-}
-.ceight{
-    background-color: #19D895;
-    background-image: linear-gradient(to bottom, #d402e7 , #de6ef5);
 }
 
 .posts {
@@ -117,54 +94,97 @@ page{
 }
 
 .tabs {
-    margin: 20rpx 0;
     background: #ffffff;
 }
 
-.institutionCards {
-}
-
-.institutionCard {
-    height: 180rpx;
+.institutionCard,.serviceCard {
     display: flex;
     flex-direction: row;
     margin: 5rpx 0;
-    padding: 10rpx 0;
+    padding: 40rpx 0;
     justify-content: flex-start;
+    border-bottom: 1px solid #eaeaea;
 }
-.institutionHead {
+
+.institutionCard {
+    height: 220rpx;
+}
+
+.institutionHead,.serviceHead {
     width: 25%;
     display: flex;
+    justify-content: center;
 }
+
 .institutionImg {
     max-width: 100%;
     max-height: 100%;
     border-radius: 30rpx;
 }
 
-.institutionContent {
+.serviceImg {
+    border-radius: 50%;
+    height: 140rpx;
+    width: 140rpx;
+}
+
+.institutionContent,.serviceContent {
     width: 75%;
     padding-left: 3%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    border-bottom: 1px solid #eaeaea;
     justify-content: space-around;
 }
 
-.institutionName {
+.institutionName,.serviceName {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     font-weight: bolder;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
-.institutionStar {
+.institutionStar,.serviceStar {
     display: flex;
     justify-content: flex-start;
     align-items: center;
 }
-.institutionOrder{
+
+.institutionStarText,.serviceText {
+    color: #333333;
+    font-size: small;
+    margin: 0 10rpx;
+}
+.institutionOrder,.serviceOrder{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.institutionOrderNum,.serviceOrderNum {
     color: #8a8a8a;
     font-size: 22rpx;
+}
+
+.institutionStars,.serviceStars {
+    color: #8a8a8a;
+    font-size: 22rpx;
+}
+
+.servicePrice {
+    display: flex;
+    align-items: center;
+}
+
+.servicePriceNum {
+    color: #ea0606;
+    font-size: 38rpx;
+}
+
+.servicePriceTip {
+    color: #676767;
+    font-size: 26rpx;
 }

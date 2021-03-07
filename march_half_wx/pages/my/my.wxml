@@ -2,7 +2,8 @@
   <view class="pure_top"></view>
   <view class="userinfo">
     <block wx:if="{{canIUse}}">
-      <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 登录/注册 </button>
+    <!-- open-type="getUserInfo" bindgetuserinfo="getUserInfo" -->
+      <button wx:if="{{!hasUserInfo && canIUse}}" bindtap="selectType" > 登录/注册 </button>
       <block wx:else>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
         <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
@@ -23,7 +24,7 @@
             我的地址
           </view>
           <view class="littleBody">
-            {{userDetail.userAddress}}
+            {{userDetail.userAddress ? userDetail.userAddress:0}}
           </view>
         </view>
         <view class="littleCard cRoom">
@@ -31,7 +32,7 @@
             我的订单
           </view>
           <view class="littleBody">
-            {{userDetail.userOrder}}
+            {{userDetail.userOrder ? userDetail.userOrder:0}}
           </view>
         </view>
         <view class="littleCard cBed">
@@ -39,7 +40,7 @@
             我的讨论
           </view>
           <view class="littleBody">
-            {{userDetail.userPost}}
+            {{userDetail.userPost ? userDetail.userPost:0}}
           </view>
         </view>
       </view>
@@ -55,7 +56,7 @@
             我的点赞
           </view>
           <view class="littleBody">
-            {{userDetail.userLike}}
+            {{userDetail.userLike ? userDetail.userLike:0}}
           </view>
         </view>
         <view class="littleCard cLike">
@@ -63,7 +64,7 @@
             我的收藏
           </view>
           <view class="littleBody">
-            {{userDetail.userLove}}
+            {{userDetail.userLove ? userDetail.userLove:0}}
           </view>
         </view>
         <view class="littleCard cRem">
@@ -71,12 +72,36 @@
             我的评论
           </view>
           <view class="littleBody">
-            {{userDetail.userEva}}
+            {{userDetail.userEva ? userDetail.userEva:0}}
           </view>
         </view>
       </view>
     </view>
 
   </view>
+<van-dialog id="van-dialog" />
+  <van-dialog
+  use-slot
+  title="请选择身份"
+  show="{{ show }}"
+  show-cancel-button
+  bind:close="onClose"
+  confirm-button-open-type="getUserInfo"
+  bind:getuserinfo="getUserInfo"
+>
+  <van-radio-group value="{{ radio }}">
+    <van-cell-group>
+      <van-cell title="普通用户" clickable data-name="user" bind:click="onClick">
+        <van-radio slot="right-icon" name="user" />
+      </van-cell>
+      <van-cell title="服务人员" clickable data-name="service" bind:click="onClick">
+        <van-radio slot="right-icon" name="service" />
+      </van-cell>
+      <van-cell title="服务机构" clickable data-name="institution" bind:click="onClick">
+        <van-radio slot="right-icon" name="institution" />
+      </van-cell>
+    </van-cell-group>
+  </van-radio-group>
+</van-dialog>
 
 </view>
