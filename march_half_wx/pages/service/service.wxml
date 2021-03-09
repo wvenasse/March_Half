@@ -133,6 +133,10 @@
                                 <view class="evaluationImgs">
                                     <image class="evaluationImg" src="{{item}}" mode="aspectFit" wx:if="{{index<3}}"
                                     wx:for="{{item.evaluationImg}}" wx:for-index="index" wx:key="index"/>
+                                    <view class="evaluationImgLength" wx:if="{{item.evaluationImg.length>3}}">
+                                        <van-icon name="photo-o" />{{item.evaluationImg.length}}
+                                    </view>
+                                      
                                 </view>
                             </view>
                         </view>
