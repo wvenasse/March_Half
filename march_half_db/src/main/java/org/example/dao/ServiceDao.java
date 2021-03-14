@@ -27,6 +27,7 @@ public interface ServiceDao {
     public List<Service> getAllGoodService();
     //分类并排行
     public List<Service> getAllServiceByType(Integer typeId);
+    public List<Service> getAllServiceByTypeIns(Integer typeId,Integer institutionId);
     public List<Service> getAllServiceByTypePrice(Integer typeId);
     public List<Service> getAllServiceByTypeOrder(Integer typeId);
 

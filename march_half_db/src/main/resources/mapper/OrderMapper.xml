@@ -4,9 +4,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.OrderDao">
     <insert id="addOrder" parameterType="org.example.pojo.Order">
-        insert into orders(orderName,orderTime,orderDetail,userId,orderUser,typeId,orderType,serviceId,orderService,institutionId,orderInstitution,
+        insert into orders(orderName,orderDate,orderTime,orderDetail,userId,orderUser,typeId,orderType,serviceId,orderService,institutionId,orderInstitution,
         addressId,orderContactName,orderContactPhone,orderArea,orderAddressDetail)
-        values (#{orderName},#{orderTime},#{orderDetail},#{userId},#{orderUser},#{typeId},#{orderType},#{serviceId},#{orderService},#{institutionId},#{orderInstitution},
+        values (#{orderName},#{orderDate},#{orderTime},#{orderDetail},#{userId},#{orderUser},#{typeId},#{orderType},#{serviceId},#{orderService},#{institutionId},#{orderInstitution},
         #{addressId},#{orderContactName},#{orderContactPhone},#{orderArea},#{orderAddressDetail})
     </insert>
 
@@ -15,7 +15,7 @@
     </delete>
 
     <select id="updateOrder" parameterType="org.example.pojo.Order" resultType="java.lang.Integer">
-        update orders set orderName=#{orderName},orderTime=#{orderTime},orderDetail=#{orderDetail},
+        update orders set orderName=#{orderName},orderDate=#{orderDate},orderTime=#{orderTime},orderDetail=#{orderDetail},
         userId=#{userId},orderUser=#{orderUser},typeId=#{typeId},orderType=#{orderType},serviceId=#{serviceId},orderService=#{orderService},institutionId=#{institutionId},orderInstitution=#{orderInstitution},
         addressId=#{addressId},orderContactName=#{orderContactName},orderContactPhone=#{orderContactPhone},orderArea=#{orderArea},orderAddressDetail=#{orderAddressDetail}
         where orderId=#{orderId}

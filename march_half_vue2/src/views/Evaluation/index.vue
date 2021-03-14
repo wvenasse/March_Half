@@ -161,7 +161,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item prop="evaluationDetail" label="服务评价" :label-width="evaluationDialog.formLabelWidth">
-                            <el-input type="textarea" placeholder="请输入评价" v-model="evaluationDialog.form.evaluationDetail" maxlength="50" show-word-limit>
+                            <el-input type="textarea" placeholder="请输入评价" v-model="evaluationDialog.form.evaluationDetail" maxlength="200" show-word-limit>
                             </el-input>
                         </el-form-item>
                     </el-col>

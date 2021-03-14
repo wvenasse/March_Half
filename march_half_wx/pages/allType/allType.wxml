@@ -1,6 +1,6 @@
 <view class="container">
     <view class="affairs">
-        <view class="affairCard " wx:for="{{type}}" wx:for-index="index" wx:key="typeId">
+        <view class="affairCard " wx:for="{{type}}" wx:for-index="index" wx:key="typeId"  bindtap="gotoType" data-type="{{item}}">
             <view class="cardIcons">
                 <view class="cardIcon">
                     <view class="t-icon {{icons[index]}}"></view>

@@ -1,0 +1,82 @@
+.serviceEvas {}
+
+.serviceEva {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #eeeeee;
+    padding: 20rpx 0;
+}
+
+.userIcons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userIcon {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.userContent {
+    padding: 0 10rpx;
+    width: 85%;
+}
+
+.userEva {
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10rpx;
+}
+
+.evaluationUser {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.evaluationStar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 26rpx;
+    color: #929292;
+}
+
+.evaluationStars {
+    display: flex;
+}
+
+.evaluationStatus {}
+
+.evaluationTime {}
+
+.evaluationDetail {
+    color: #222222;
+    line-height: 60rpx;
+    font-size: 30rpx;
+}
+
+.evaluationImgs {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.evaluationImg {
+    width: 180rpx;
+    height: 180rpx;
+    margin-right: 10rpx;
+}
+
+.evaluationImgLength {
+    position: relative;
+    right: 100rpx;
+    background: #73737396;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    bottom: 10rpx;
+    height: fit-content;
+}

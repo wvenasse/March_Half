@@ -1,2 +1,174 @@
-<!--pages/institution/institution.wxml-->
-<text>pages/institution/institution.wxml</text>
+<view class="content">
+    <view class="institutionHead">
+        <view class="institutionIcons">
+            <image class="institutionIcon" src="{{institution.institutionImg[0]}}" mode="aspectFit" />
+        </view>
+        <view class="institutionContent">
+            <view class="institutionName">
+                {{institution.institutionName}}
+            </view>
+            <view class="institutionStar">
+                <van-rate readonly allow-half value="{{institution.institutionStar}}" size="{{ 15 }}" color="#ee0a24"
+                    void-color="#eee" void-icon="star" />
+                {{institution.institutionEva}}条
+            </view>
+            <view class="institutionOrder">
+                <view>
+                    已售订单：{{institution.institutionOrder}}
+                </view>
+                <view>
+                    满意度：{{institution.institutionStar*20}}%
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="institutionCard">
+        <view class="stitle">
+            <view class="titleleft">
+                <van-icon name="label" size="25px" color="#ad0014" />
+                <view class="sintro">
+                    详细介绍
+                </view>
+            </view>
+        </view>
+        <view class="scontent">
+            <view class="institutionDetail">
+                <van-cell title="联系电话" icon="phone-o" value="{{institution.institutionPhone}}" />
+                <van-cell title="点赞量" icon="like-o"
+                    value="{{institution.institutionLike ? institution.institutionLike:0}}" />
+                <van-cell title="收藏量" icon="star-o"
+                    value="{{institution.institutionLove ? institution.institutionLove:0}}" />
+            </view>
+        </view>
+    </view>
+    <view class="institutionCard">
+        <view class="stitle">
+            <view class="titleleft">
+                <van-icon name="manager" size="25px" color="#ad0014" />
+                <view class="sintro">
+                    机构介绍
+                </view>
+            </view>
+        </view>
+        <view class="scontent">
+            <view class="institutionIntro">
+                <text
+                    class="pay-hint-content {{ellipsis?'ellipsis':'unellipsis'}}">{{institution.institutionIntro}}</text>
+                <view class='bg-white-ellipsis' bindtap='ellipsis'>
+                    <van-icon name="{{ellipsis?'arrow-down':'arrow-up'}}" />{{ellipsis ? '展开':'收起'}}
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="institutionCard">
+        <view class="stitle">
+            <view class="titleleft">
+                <van-icon name="photo" size="25px" color="#ad0014" />
+                <view class="sintro">
+                    机构图片
+                </view>
+            </view>
+        </view>
+        <view class="scontent">
+            <view class="institutionImgs">
+                <swiper indicator-dots='true' indicator-color='#616161' indicator-active-color='#ad0014' >
+                    <swiper-item wx:for="{{institution.institutionImg}}" wx:for-index="index" wx:key="index">
+                        <image class="institutionImg" src="{{item}}" mode="aspectFit"></image>
+                    </swiper-item>
+                </swiper>
+            </view>
+        </view>
+    </view>
+
+    <view class="institutionTab">
+        <van-tabs type="card">
+            <van-tab title="服务类别">
+                <view class="institutionCard">
+                    <view class="stitle">
+                        <view class="titleleft">
+                            <van-icon name="points" size="25px" color="#ad0014" />
+                            <view class="sintro">
+                                服务类别
+                            </view>
+                        </view>
+                    </view>
+                    <view class="scontent">
+                        <view class="institutionTypes">
+                            <view class="institutionType" wx:for="{{institution.institutionType}}" wx:for-index="index" wx:key="index" 
+                            bindtap="gotoType" data-typeIndex="{{index}}">
+                                <view class="institutionTypeIcon">
+                                    <view class="t-icon {{icons[index]}}"></view>{{item}}
+                                </view>
+                                <van-icon name="arrow" />
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </van-tab>
+            <van-tab title="用户评价">
+                <view class="institutionCard">
+                    <view class="stitle">
+                        <view class="titleleft">
+                            <van-icon name="label" size="25px" color="#ad0014" />
+                            <view class="sintro">
+                                用户评价
+                            </view>
+                        </view>
+                        <view class="titleright" bindtap="gotoinstitutionImg">
+                            <view class="stips">
+                                共{{evaluation.length}}条
+                            </view>
+                        </view>
+                    </view>
+                    <view class="scontent">
+                        <view class="institutionEvas">
+                            <view class="institutionEva" wx:for="{{evaluation}}" wx:for-index="index"
+                                wx:key="evaluationId" bindtap="gotoEvaluation" data-evaluation="{{item}}">
+                                <view class="userIcons">
+                                    <image class="userIcon" src="{{item.userIcon}}" mode="aspectFit" />
+                                    <van-tag mark type="warning">{{item.evaluationStatus}}</van-tag>
+                                </view>
+                                <view class="userContent">
+                                    <view class="userEva">
+                                        <view class="evaluationUser">
+                                            {{item.isNoName =='true' ? '匿名用户':item.evaluationUser}}
+                                            <van-tag plain type="primary">{{item.evaluationType}}</van-tag>
+                                        </view>
+                                        <view class="evaluationStar">
+                                            <view class="evaluationStars">
+                                                <view class="evaluationStatus">
+                                                    {{item.evaluationStar===5?'惊喜':''}}
+                                                    {{item.evaluationStar===4?'满意':''}}
+                                                    {{item.evaluationStar===3?'一般':''}}
+                                                    {{item.evaluationStar===2?'失望':''}}
+                                                    {{item.evaluationStar===1?'极差':''}}
+                                                </view>
+                                                <van-rate readonly allow-half value="{{item.evaluationStar}}"
+                                                    size="{{ 10 }}" color="#ee0a24" void-color="#eee" icon="like"
+                                                    void-icon="like" />
+                                            </view>
+                                            <view class="evaluationTime">
+                                                {{item.evaluationTime}}
+                                            </view>
+                                        </view>
+                                    </view>
+                                    <view class="evaluationDetail">
+                                        {{item.evaluationDetail}}
+                                    </view>
+                                    <view class="evaluationImgs">
+                                        <image class="evaluationImg" src="{{item}}" mode="aspectFit" wx:if="{{index<3}}"
+                                            wx:for="{{item.evaluationImg}}" wx:for-index="index" wx:key="index" />
+                                        <view class="evaluationImgLength" wx:if="{{item.evaluationImg.length>3}}">
+                                            <van-icon name="photo-o" />{{item.evaluationImg.length}}
+                                        </view>
+
+                                    </view>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </van-tab>
+        </van-tabs>
+    </view>
+</view>

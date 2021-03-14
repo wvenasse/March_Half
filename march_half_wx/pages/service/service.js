@@ -10,6 +10,7 @@ Page({
     serviceName:'',
     service:{},
     evaluation:{},
+    ellipsis: true,
   },
   
   loadService(){
@@ -30,7 +31,6 @@ Page({
         that.setData({
           service: result.data
         })
-        console.log(that.data.service.serviceIcon)
       },function (err) {
         console.log(err);
       })
@@ -58,6 +58,12 @@ Page({
         console.log(err);
       })
   },
+  ellipsis: function () {  
+    var value = !this.data.ellipsis;
+    this.setData({
+      ellipsis: value
+    }) 
+  },
   listToggle: function () {
     this.setData({
       showMore: !this.data.showMore
@@ -68,14 +74,20 @@ Page({
       url: '../images/images?icons='+this.data.service.serviceIcon
     })
   },
+  gotoEvaluation (e) {
+    let evaluation = e.currentTarget.dataset['evaluation'];
+    wx.navigateTo({
+      url: '../evaluation/evaluation?evaluationId='+evaluation.evaluationId
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({
-      serviceId: 6,//options.serviceId,
-      serviceName:  '呱呱呱呱呱'//options.serviceName,
+      serviceId: options.serviceId,
+      serviceName:  options.serviceName,
     })
     wx.setNavigationBarTitle({
       title: this.data.serviceName + '的介绍'

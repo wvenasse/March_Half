@@ -23,7 +23,8 @@
 
   <view class="serviceLists">
     <view class="serviceCards">
-      <view wx:if="{{service.length>0}}" class="serviceCard" wx:for="{{service}}" wx:for-index="index" wx:key="serviceId">
+      <view wx:if="{{service.length>0}}" class="serviceCard"  bindtap="gotoService" data-service="{{item}}"
+        wx:for="{{service}}" wx:for-index="index" wx:key="serviceId">
         <view class="serviceHead">
           <image class="circleImg serviceImg" src="{{item.serviceIcon}}" mode="aspectFit" />
         </view>

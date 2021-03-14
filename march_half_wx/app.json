@@ -1,14 +1,18 @@
 {
   "pages": [
-    "pages/service/service",
-    "pages/institution/institution",
     "pages/home/home",
-    "pages/order/order",
-    "pages/my/my",
-    "pages/info/info",
     "pages/allType/allType",
+    "pages/institution/institution",
+    "pages/service/service",
     "pages/typeList/typeList",
-    "pages/images/images"
+    "pages/images/images",
+    "pages/evaluation/evaluation",
+
+    "pages/order/order",
+    "pages/subscribe/subscribe",
+
+    "pages/my/my",
+    "pages/info/info"
   ],
   "window": {
     "backgroundTextStyle": "light",

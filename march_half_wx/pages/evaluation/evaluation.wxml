@@ -1,0 +1,37 @@
+<view class="serviceEva">
+    <view class="userIcons">
+        <image class="userIcon" src="{{evaluation.userIcon}}" mode="aspectFit" />
+        <van-tag mark type="warning">{{evaluation.evaluationStatus}}</van-tag>
+    </view>
+    <view class="userContent">
+        <view class="userEva">
+            <view class="evaluationUser">
+                {{evaluation.isNoName =='true' ? '匿名用户':evaluation.evaluationUser}}
+                <van-tag plain type="primary">{{evaluation.evaluationType}}</van-tag>
+            </view>
+            <view class="evaluationStar">
+                <view class="evaluationStars">
+                    <view class="evaluationStatus">
+                        {{item.evaluationStar===5?'惊喜':''}}
+                        {{item.evaluationStar===4?'满意':''}}
+                        {{item.evaluationStar===3?'一般':''}}
+                        {{item.evaluationStar===2?'失望':''}}
+                        {{item.evaluationStar===1?'极差':''}}
+                    </view>
+                    <van-rate readonly allow-half value="{{evaluation.evaluationStar}}" size="{{ 10 }}" color="#ee0a24"
+                        void-color="#eee" icon="like" void-icon="like" />
+                </view>
+                <view class="evaluationTime">
+                    {{evaluation.evaluationTime}}
+                </view>
+            </view>
+        </view>
+        <view class="evaluationDetail">
+            {{evaluation.evaluationDetail}}
+        </view>
+        <view class="evaluationImgs">
+            <image class="evaluationImg" src="{{item}}" mode="aspectFit" wx:for="{{evaluation.evaluationImg}}"
+                wx:for-index="index" wx:key="index" />
+        </view>
+    </view>
+</view>

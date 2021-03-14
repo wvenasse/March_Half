@@ -42,6 +42,9 @@
     <select id="getAllServiceByType" resultType="org.example.pojo.Service">
         select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0
     </select>
+    <select id="getAllServiceByTypeIns" resultType="org.example.pojo.Service">
+        select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 AND institutionId=#{institutionId}
+    </select>
     <select id="getAllServiceByTypePrice" resultType="org.example.pojo.Service">
         select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 order by servicePrice
     </select>

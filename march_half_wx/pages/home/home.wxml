@@ -54,7 +54,7 @@
                 <van-tab title="服务机构" name="institution">
                     <view class="institutionCards">
                         <view class="institutionCard" wx:for="{{institution}}" wx:for-index="index"
-                            wx:key="institutionId">
+                            wx:key="institutionId" bindtap="gotoInstitution" data-institution="{{item}}">
                             <view class="institutionHead">
                                 <image class="institutionImg" src="{{item.institutionImg}}" mode="aspectFit" />
                             </view>
@@ -71,10 +71,10 @@
                                 </view>
                                 <view class="institutionOrder">
                                     <view class="institutionOrderNum">
-                                        已售订单：{{item.institutionOrder}}
+                                        已售订单：{{item.institutionOrder ? item.institutionOrder:0}}
                                     </view>
                                     <view class="institutionStars">
-                                        满意度： {{item.institutionStar*20}}%
+                                        满意度： {{item.institutionStar ? item.institutionStar*20:0}}%
                                     </view>
 
                                 </view>
@@ -84,7 +84,8 @@
                 </van-tab>
                 <van-tab title="服务人员" name="service">
                     <view class="serviceCards">
-                        <view class="serviceCard" wx:for="{{service}}" wx:for-index="index" wx:key="serviceId">
+                        <view class="serviceCard" wx:for="{{service}}" wx:for-index="index"
+                         wx:key="serviceId" bindtap="gotoService" data-service="{{item}}">
                             <view class="serviceHead">
                                 <image class="circleImg serviceImg" src="{{item.serviceIcon}}" mode="aspectFit" />
                             </view>

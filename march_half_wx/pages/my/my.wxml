@@ -29,18 +29,18 @@
         </view>
         <view class="littleCard cRoom">
           <view class="littleHead">
-            我的订单
-          </view>
-          <view class="littleBody">
-            {{userDetail.userOrder ? userDetail.userOrder:0}}
-          </view>
-        </view>
-        <view class="littleCard cBed">
-          <view class="littleHead">
             我的讨论
           </view>
           <view class="littleBody">
             {{userDetail.userPost ? userDetail.userPost:0}}
+          </view>
+        </view>
+        <view class="littleCard cBed">
+          <view class="littleHead">
+            我的评论
+          </view>
+          <view class="littleBody">
+            {{userDetail.userCom ? userDetail.userCom:0}}
           </view>
         </view>
       </view>

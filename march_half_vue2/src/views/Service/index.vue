@@ -213,7 +213,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item prop="serviceIntro" label="介绍" :label-width="serviceDialog.formLabelWidth">
-              <el-input type="textarea" placeholder="请输入介绍" v-model="serviceDialog.form.serviceIntro" maxlength="50"
+              <el-input type="textarea" placeholder="请输入介绍" v-model="serviceDialog.form.serviceIntro" maxlength="100"
                 show-word-limit>
               </el-input>
             </el-form-item>

@@ -137,8 +137,10 @@ public class ServiceController {
             String serviceJson = JSON.toJSONString(service);
             return serviceJson;
         }
+//        getAllServiceByTypeIns,Integer institutionId
         return "error";
     }
+
 
     @ResponseBody
     @RequestMapping("/findAllService")

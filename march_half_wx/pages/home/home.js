@@ -118,6 +118,18 @@ Page({
       url: '../typeList/typeList?typeId='+type.typeId+'&typeName='+type.typeName
     })
   },
+  gotoInstitution(e){
+    let institution = e.currentTarget.dataset['institution'];
+    wx.navigateTo({
+      url: '../institution/institution?institutionId='+institution.institutionId+'&institutionName='+institution.institutionName
+    })
+  },
+  gotoService(e){
+    let service = e.currentTarget.dataset['service'];
+    wx.navigateTo({
+      url: '../service/service?serviceId='+service.serviceId+'&serviceName='+service.serviceName
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载

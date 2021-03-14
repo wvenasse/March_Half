@@ -123,12 +123,13 @@ Page({
       onInit: initChart
     },
     show: false,
-    radio: true,
+    radio: '',
   },
 
   onClose: function() {
     this.setData({
-      show: false
+      show: false,
+      radio:''
     });
   },
   selectType: function() {
@@ -142,6 +143,7 @@ Page({
       radio: name,
     });
     app.globalData.identity = this.data.radio;
+    wx.setStorageSync('identity', this.data.radio);
   },
 
   bindViewTap: function () {
@@ -203,6 +205,7 @@ Page({
           console.log(result)
           if (result.data == 'ok') {
             app.globalData.userDetail = this.data.users;
+            wx.setStorageSync('userDetail', this.data.users);
             wx.showToast({
               title: '绑定成功！'
             })
@@ -229,7 +232,7 @@ Page({
     util.baseGet('showUsers',data,
       function (result) {
         app.globalData.userDetail = result.data;
-        console.log(app.globalData.userDetail);
+        wx.setStorageSync('userDetail', this.data.users);
         that.setData({
           userDetail: result.data
         })
@@ -253,7 +256,10 @@ Page({
           },
           method: 'GET',
           success: function (res) {
-            console.log(res.data)
+            console.log(res.data);
+            console.log(wx.getStorageSync('userDetail'));
+            console.log(wx.getStorageSync('identity'));
+            console.log(app.globalData);
             OPEN_ID = res.data.openid; //获取到的openid  
             app.globalData.openid = res.data.openid;
             SESSION_KEY = res.data.session_key; //获取到session_key  
@@ -264,7 +270,7 @@ Page({
               openid: res.data.openid.substr(0, 10) + '********' + res.data.openid.substr(res.data.openid.length - 8, res.data.openid.length),
               session_key: res.data.session_key.substr(0, 8) + '********' + res.data.session_key.substr(res.data.session_key.length - 6, res.data.session_key.length)
             })
-            if (that.data.radio === 'user') {
+            if (app.globalData.identity === 'user') {
               that.showUser(app.globalData.openid);
               that.loadUser(app.globalData.openid);
             }
@@ -287,8 +293,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
-    
+  onLoad: function (options) {
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,

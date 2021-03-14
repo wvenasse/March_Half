@@ -7,6 +7,8 @@ Page({
    */
    data: {
     typeId:0,
+    typeName:'',
+    institutionId:0,
     rankOption: [
       { text: '默认排序', value: 'a' },
       { text: '时薪排序', value: 'b' },
@@ -48,8 +50,15 @@ Page({
     util.baseGet('showAllServiceByType',data,
       function (result) {
         console.log(result);
+        let institutionId = that.data.institutionId;
         for (let i=0;i<result.data.length;i++) {
-          result.data[i].serviceIcon = '../image/'+result.data[i].serviceIcon.split(',')[0];
+          if (institutionId!==0 && result.data[i].institutionId !== institutionId) {
+            result.data.splice(i,1);
+            i--;
+          }
+          else {
+            result.data[i].serviceIcon = '../image/'+result.data[i].serviceIcon.split(',')[0];
+          }
         }
         that.setData({
           service: result.data
@@ -77,6 +86,13 @@ Page({
     console.log(this.data.service)
   },
 
+  gotoService(e){
+    let service = e.currentTarget.dataset['service'];
+    wx.navigateTo({
+      url: '../service/service?serviceId='+service.serviceId+'&serviceName='+service.serviceName
+    })
+  },
+
   bindRegionChange: function (e) {
     this.setData({
       region: e.detail.value,
@@ -89,7 +105,8 @@ Page({
   onLoad: function (options) {
     this.setData({
       typeId: options.typeId,
-      typeName:  options.typeName,
+      typeName: options.typeName,
+      institutionId: options.institutionId? parseInt(options.institutionId):0,
     })
     wx.setNavigationBarTitle({
       title: this.data.typeName

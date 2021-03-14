@@ -20,14 +20,15 @@
                 服务区域：{{service.serviceAddress}}
             </view>
             <view class="serviceStar">
-                <van-rate readonly allow-half value="{{service.serviceStar}}" size="{{ 25 }}" color="#ee0a24" void-color="#eee" void-icon="star"/>
+                <van-rate readonly allow-half value="{{service.serviceStar}}" size="{{ 25 }}" color="#ee0a24"
+                    void-color="#eee" void-icon="star" />
             </view>
         </view>
     </view>
     <view class="serviceCard">
         <view class="stitle">
             <view class="titleleft">
-                <van-icon name="manager" size="25px" color="#ad0014"/>
+                <van-icon name="manager" size="25px" color="#ad0014" />
                 <view class="sintro">
                     个人介绍
                 </view>
@@ -35,122 +36,136 @@
         </view>
         <view class="scontent">
             <view class="serviceIntro">
-                {{service.serviceIntro}}
+                <text class="pay-hint-content {{ellipsis?'ellipsis':'unellipsis'}}">{{service.serviceIntro}}</text>
+                <view class='bg-white-ellipsis' bindtap='ellipsis'>
+                    <van-icon name="{{ellipsis?'arrow-down':'arrow-up'}}" />{{ellipsis ? '展开':'收起'}}
+                </view>
             </view>
         </view>
     </view>
     <view class="serviceCard">
         <view class="stitle">
             <view class="titleleft">
-                <van-icon name="photo" size="25px" color="#ad0014"/>
+                <van-icon name="photo" size="25px" color="#ad0014" />
                 <view class="sintro">
                     图片介绍
                 </view>
             </view>
-            <view class="titleright"  bindtap="gotoServiceIcon">
+            <view class="titleright" bindtap="gotoServiceIcon">
                 <view class="stips">
                     共{{service.serviceIcon.length}}张
                 </view>
-                <van-icon name="arrow" size="25px" color="#adabab"/>
+                <van-icon name="arrow" size="25px" color="#adabab" />
             </view>
         </view>
         <view class="scontent">
-            <view  class="serviceIcons">
-                <image class="serviceIcon" wx:for="{{service.serviceIcon}}" wx:for-index="index" wx:key="index" wx:if="{{index<3}}" src="{{item}}" mode="aspectFit" />
+            <view class="serviceIcons">
+                <image class="serviceIcon" wx:for="{{service.serviceIcon}}" wx:for-index="index" wx:key="index"
+                    wx:if="{{index<3}}" src="{{item}}" mode="aspectFit" />
             </view>
         </view>
     </view>
 
     <view class="serviceTab">
         <van-tabs type="card">
-        <van-tab title="详细介绍">
-            <view class="serviceCard">
-                <view class="stitle">
-                    <view class="titleleft">
-                        <van-icon name="label" size="25px" color="#ad0014"/>
-                        <view class="sintro">
-                            详细介绍
-                        </view>
-                    </view>
-                </view>
-                <view class="scontent">
-                    <view class="serviceDetail">
-                        <van-cell title="服务类别" icon="location-o" value="{{service.serviceType}}"/>
-                        <van-cell title="所属机构" icon="location-o" value="{{service.serviceInstitution}}"/>
-                        <van-cell title="服务时薪" icon="location-o" value="{{service.servicePrice}}"/>
-                        <van-cell title="年龄大小" icon="location-o" value="{{service.year}}"/>
-                        <van-cell title="联系电话" icon="location-o" value="{{service.servicePhone}}"/>
-                        <van-cell title="点赞量" icon="location-o" value="{{service.serviceLike ? service.serviceLike:0}}"/>
-                        <van-cell title="收藏量" icon="location-o" value="{{service.serviceLove ? service.serviceLove:0}}"/>
-                        <van-cell title="订单数" icon="location-o" value="{{service.serviceOrder ? service.serviceOrder:0}}"/>
-                        <van-cell title="评价数" icon="location-o" value="{{service.serviceEva ? service.serviceEva:0}}"/>
-                    </view>
-                </view>
-            </view>
-        </van-tab>
-        <van-tab title="用户评价">
-            <view class="serviceCard">
-                <view class="stitle">
-                    <view class="titleleft">
-                        <van-icon name="label" size="25px" color="#ad0014"/>
-                        <view class="sintro">
-                            用户评价
-                        </view>
-                    </view>
-                     <view class="titleright"  bindtap="gotoServiceIcon">
-                        <view class="stips">
-                            共{{evaluation.length}}条
-                        </view>
-                    </view>
-                </view>
-                <view class="scontent">
-                    <view class="serviceEvas">
-                        <view class="serviceEva" wx:for="{{evaluation}}" wx:for-index="index" wx:key="evaluationId" >
-                            <view class="userIcons">
-                                <image class="userIcon" src="{{item.userIcon}}" mode="aspectFit" />
+            <van-tab title="详细介绍">
+                <view class="serviceCard">
+                    <view class="stitle">
+                        <view class="titleleft">
+                            <van-icon name="label" size="25px" color="#ad0014" />
+                            <view class="sintro">
+                                详细介绍
                             </view>
-                            <view class="userContent">
-                                <view class="userEva">
-                                    <view class="evaluationUser">
-                                        {{item.isNoName =='true' ? '匿名用户':item.evaluationUser}}
-                                        <van-tag plain type="primary">{{item.evaluationType}}</van-tag>
-                                    </view>
-                                    <view class="evaluationStar">
-                                        <view class="evaluationStars">
-                                            <view class="evaluationStatus">
-                                                {{item.evaluationStatus}}
+                        </view>
+                    </view>
+                    <view class="scontent">
+                        <view class="serviceDetail">
+                            <van-cell title="服务类别" icon="location-o" value="{{service.serviceType}}" />
+                            <van-cell title="所属机构" icon="location-o" value="{{service.serviceInstitution}}" />
+                            <van-cell title="服务时薪" icon="location-o" value="{{service.servicePrice}}" />
+                            <van-cell title="年龄大小" icon="location-o" value="{{service.year}}" />
+                            <van-cell title="联系电话" icon="location-o" value="{{service.servicePhone}}" />
+                            <van-cell title="点赞量" icon="location-o"
+                                value="{{service.serviceLike ? service.serviceLike:0}}" />
+                            <van-cell title="收藏量" icon="location-o"
+                                value="{{service.serviceLove ? service.serviceLove:0}}" />
+                            <van-cell title="订单数" icon="location-o"
+                                value="{{service.serviceOrder ? service.serviceOrder:0}}" />
+                            <van-cell title="评价数" icon="location-o"
+                                value="{{service.serviceEva ? service.serviceEva:0}}" />
+                        </view>
+                    </view>
+                </view>
+            </van-tab>
+            <van-tab title="用户评价">
+                <view class="serviceCard">
+                    <view class="stitle">
+                        <view class="titleleft">
+                            <van-icon name="label" size="25px" color="#ad0014" />
+                            <view class="sintro">
+                                用户评价
+                            </view>
+                        </view>
+                        <view class="titleright" bindtap="gotoServiceIcon">
+                            <view class="stips">
+                                共{{evaluation.length}}条
+                            </view>
+                        </view>
+                    </view>
+                    <view class="scontent">
+                        <view class="serviceEvas">
+                            <view class="serviceEva" wx:for="{{evaluation}}" wx:for-index="index" wx:key="evaluationId"
+                                bindtap="gotoEvaluation" data-evaluation="{{item}}">
+                                <view class="userIcons">
+                                    <image class="userIcon" src="{{item.userIcon}}" mode="aspectFit" />
+                                    <van-tag mark type="warning">{{item.evaluationStatus}}</van-tag>
+                                </view>
+                                <view class="userContent">
+                                    <view class="userEva">
+                                        <view class="evaluationUser">
+                                            {{item.isNoName =='true' ? '匿名用户':item.evaluationUser}}
+                                            <van-tag plain type="primary">{{item.evaluationType}}</van-tag>
+                                        </view>
+                                        <view class="evaluationStar">
+                                            <view class="evaluationStars">
+                                                <view class="evaluationStatus">
+                                                    {{item.evaluationStar===5?'惊喜':''}}
+                                                    {{item.evaluationStar===4?'满意':''}}
+                                                    {{item.evaluationStar===3?'一般':''}}
+                                                    {{item.evaluationStar===2?'失望':''}}
+                                                    {{item.evaluationStar===1?'极差':''}}
+                                                </view>
+                                                <van-rate readonly allow-half value="{{item.evaluationStar}}"
+                                                    size="{{ 10 }}" color="#ee0a24" void-color="#eee" icon="like"
+                                                    void-icon="like" />
                                             </view>
-                                            <van-rate readonly allow-half value="{{service.serviceStar}}" size="{{ 10 }}" color="#ee0a24" void-color="#eee" void-icon="like"/>
-                                        </view>
-                                        <view class="evaluationTime">
-                                            {{item.evaluationTime}}
+                                            <view class="evaluationTime">
+                                                {{item.evaluationTime}}
+                                            </view>
                                         </view>
                                     </view>
-                                </view>
-                                <view class="evaluationDetail">
-                                    {{item.evaluationDetail}}
-                                </view>
-                                <view class="evaluationImgs">
-                                    <image class="evaluationImg" src="{{item}}" mode="aspectFit" wx:if="{{index<3}}"
-                                    wx:for="{{item.evaluationImg}}" wx:for-index="index" wx:key="index"/>
-                                    <view class="evaluationImgLength" wx:if="{{item.evaluationImg.length>3}}">
-                                        <van-icon name="photo-o" />{{item.evaluationImg.length}}
+                                    <view class="evaluationDetail">
+                                        {{item.evaluationDetail}}
                                     </view>
-                                      
+                                    <view class="evaluationImgs">
+                                        <image class="evaluationImg" src="{{item}}" mode="aspectFit" wx:if="{{index<3}}"
+                                            wx:for="{{item.evaluationImg}}" wx:for-index="index" wx:key="index" />
+                                        <view class="evaluationImgLength" wx:if="{{item.evaluationImg.length>3}}">
+                                            <van-icon name="photo-o" />{{item.evaluationImg.length}}
+                                        </view>
+
+                                    </view>
                                 </view>
                             </view>
                         </view>
                     </view>
                 </view>
-            </view>
-            
-        </van-tab>
-    </van-tabs>
+            </van-tab>
+        </van-tabs>
+    </view>
+
+    <view class="footer">
+        <van-button color="#ad0014" block round >立即预约</van-button>
     </view>
       
-
-    
-    
-    
 </view>
-  

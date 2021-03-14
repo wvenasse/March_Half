@@ -171,7 +171,7 @@
           </el-col>
         </el-form-item>
         <el-form-item prop="institutionIntro" label="介绍" :label-width="institutionDialog.formLabelWidth">
-          <el-input type="textarea" placeholder="请输入介绍" v-model="institutionDialog.form.institutionIntro" maxlength="50"
+          <el-input type="textarea" placeholder="请输入介绍" v-model="institutionDialog.form.institutionIntro" maxlength="100"
             show-word-limit>
           </el-input>
         </el-form-item>

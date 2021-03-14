@@ -6,7 +6,8 @@
                     <el-col :span="20">
                         <el-form :inline="true" size="small">
                             <el-form-item style="width:120px;">
-                                <el-select size="small" v-model="form.orderStatus" placeholder="订单状态" clearable @change="loadData">
+                                <el-select size="small" v-model="form.orderStatus" placeholder="订单状态" clearable
+                                    @change="loadData">
                                     <el-option key='0' label="待确定" value='0'></el-option>
                                     <el-option key='1' label="已接单" value='1'></el-option>
                                     <el-option key='2' label="进行中" value='2'></el-option>
@@ -16,7 +17,8 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item style="width:120px;">
-                                <el-select size="small" v-model="form.orderType" placeholder="订单类别" clearable @change="loadData">
+                                <el-select size="small" v-model="form.orderType" placeholder="订单类别" clearable
+                                    @change="loadData">
                                     <el-option v-for="type in optionList.typeData" :key="type.typeId"
                                         :label="type.typeName" :value="type.typeId">
                                     </el-option>
@@ -45,17 +47,21 @@
                     <el-table-column prop="orderId" label="序号" width="50"></el-table-column>
                     <el-table-column prop="orderUser" label="用户姓名" width="80" align="center">
                         <template slot-scope="scope">
-                            <el-tooltip class="item" effect="dark" :content="scope.row.orderUser" placement="bottom-start">
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderUser"
+                                placement="bottom-start">
                                 <span class="orderUser">{{scope.row.orderUser}}</span>
                             </el-tooltip>
                         </template>
                     </el-table-column>
                     <el-table-column prop="orderContactName" label="服务对象" width="80" align="center"></el-table-column>
                     <el-table-column prop="orderContactPhone" label="联系电话" width="100" align="center"></el-table-column>
-                    <el-table-column prop="orderAddressDtail" label="服务地址"  width="130" align="center">
+                    <el-table-column prop="orderDate" label="服务时间" width="200" align="center"></el-table-column>
+                    <el-table-column prop="orderAddressDtail" label="服务地址" width="130" align="center">
                         <template slot-scope="scope">
-                            <el-tooltip class="item" effect="dark" :content="scope.row.orderAddressDetail" placement="bottom-start">
-                                <span class="orderAddressDetail">{{scope.row.orderArea}}-{{scope.row.orderAddressDetail}}</span>
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderAddressDetail"
+                                placement="bottom-start">
+                                <span
+                                    class="orderAddressDetail">{{scope.row.orderArea}}-{{scope.row.orderAddressDetail}}</span>
                             </el-tooltip>
                         </template>
                     </el-table-column>
@@ -63,7 +69,8 @@
                     <el-table-column prop="orderService" label="服务人员" width="150" align="center"></el-table-column>
                     <el-table-column prop="orderInstitution" label="服务企业" width="150" align="center">
                         <template slot-scope="scope">
-                            <el-tooltip class="item" effect="dark" :content="scope.row.orderInstitution" placement="bottom-start">
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderInstitution"
+                                placement="bottom-start">
                                 <span class="orderInstitution">{{scope.row.orderInstitution}}</span>
                             </el-tooltip>
                         </template>
@@ -72,46 +79,51 @@
                     <el-table-column prop="orderStatus" label="订单状态" width="150" align="center">
                         <template slot-scope="scope">
                             <span class="orderStatus" v-if="scope.row.orderStatus == '0'">
-                                <el-popover placement="top" width="160"  trigger="hover" >
+                                <el-popover placement="top" width="160" trigger="hover">
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已接单吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'1')">确定</el-button>
+                                        <el-button type="primary" size="mini"
+                                            @click="handleOrderStatus(scope.row.orderId,'1')">确定</el-button>
                                     </div>
-                                    <el-button type="danger" plain size="mini" slot="reference" >待确定</el-button>
+                                    <el-button type="danger" plain size="mini" slot="reference">待确定</el-button>
                                 </el-popover>
                             </span>
                             <span class="orderStatus" v-else-if="scope.row.orderStatus == '1'">
-                                <el-popover placement="top" width="160"  trigger="hover" >
+                                <el-popover placement="top" width="160" trigger="hover">
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已进行吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'2')">确定</el-button>
+                                        <el-button type="primary" size="mini"
+                                            @click="handleOrderStatus(scope.row.orderId,'2')">确定</el-button>
                                     </div>
                                     <el-button type="info" plain size="mini" slot="reference">已接单</el-button>
                                 </el-popover>
                             </span>
                             <span class="orderStatus" v-else-if="scope.row.orderStatus == '2'">
-                                <el-popover placement="top" width="160"  trigger="hover" >
+                                <el-popover placement="top" width="160" trigger="hover">
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已完成吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'3')">确定</el-button>
+                                        <el-button type="primary" size="mini"
+                                            @click="handleOrderStatus(scope.row.orderId,'3')">确定</el-button>
                                     </div>
                                     <el-button type="primary" plain size="mini" slot="reference">进行中</el-button>
                                 </el-popover>
                             </span>
                             <span class="orderStatus" v-else-if="scope.row.orderStatus == '3'">
-                                <el-popover placement="top" width="160"  trigger="hover" >
+                                <el-popover placement="top" width="160" trigger="hover">
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已评价吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'4')">确定</el-button>
+                                        <el-button type="primary" size="mini"
+                                            @click="handleOrderStatus(scope.row.orderId,'4')">确定</el-button>
                                     </div>
                                     <el-button type="warning" plain size="mini" slot="reference">已完成</el-button>
                                 </el-popover>
                             </span>
                             <span class="orderStatus" v-else-if="scope.row.orderStatus == '4'">
-                                <el-popover placement="top" width="160"  trigger="hover" >
+                                <el-popover placement="top" width="160" trigger="hover">
                                     <p style="color:red;"><i class="el-icon-info"></i>确定已结束吗？</p>
                                     <div style="text-align: right; margin: 0;">
-                                        <el-button type="primary" size="mini" @click="handleOrderStatus(scope.row.orderId,'5')">确定</el-button>
+                                        <el-button type="primary" size="mini"
+                                            @click="handleOrderStatus(scope.row.orderId,'5')">确定</el-button>
                                     </div>
                                     <el-button type="success" plain size="mini" slot="reference">已评价</el-button>
                                 </el-popover>
@@ -120,7 +132,8 @@
                     </el-table-column>
                     <el-table-column prop="orderDetail" label="订单备注" align="center">
                         <template slot-scope="scope">
-                            <el-tooltip class="item" effect="dark" :content="scope.row.orderDetail" placement="bottom-start">
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderDetail"
+                                placement="bottom-start">
                                 <span class="orderDetail">{{scope.row.orderDetail}}</span>
                             </el-tooltip>
                         </template>
@@ -149,23 +162,26 @@
                 <el-form-item>
                     <el-col :span="12">
                         <el-form-item label="用户" prop="orderUser" :label-width="orderDialog.formLabelWidth">
-                             <el-select v-if="orderDialog.flag" disabled  v-model="orderDialog.form.userId" clearable placeholder="请选择用户" @change="handleUserChange">
+                            <el-select v-if="orderDialog.flag" disabled v-model="orderDialog.form.userId" clearable
+                                placeholder="请选择用户" @change="handleUserChange">
                                 <el-option v-for="user in optionList.userData" :key="user.userId" :label="user.userName"
-                                :value="user.userId">
+                                    :value="user.userId">
                                 </el-option>
                             </el-select>
-                            <el-select v-else v-model="orderDialog.form.userId" clearable filterable  placeholder="请选择用户" @change="handleUserChange">
+                            <el-select v-else v-model="orderDialog.form.userId" clearable filterable placeholder="请选择用户"
+                                @change="handleUserChange">
                                 <el-option v-for="user in optionList.userData" :key="user.userId" :label="user.userName"
-                                :value="user.userId">
+                                    :value="user.userId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="服务地址" prop="addressId" :label-width="orderDialog.formLabelWidth">
-                             <el-select v-model="orderDialog.form.addressId" clearable placeholder="请选择地址" @change="handleAddressChange">
-                                <el-option v-for="address in optionList.addressData" :key="address.addressId" :label="address.addressName"
-                                :value="address.addressId">
+                            <el-select v-model="orderDialog.form.addressId" clearable placeholder="请选择地址"
+                                @change="handleAddressChange">
+                                <el-option v-for="address in optionList.addressData" :key="address.addressId"
+                                    :label="address.addressName" :value="address.addressId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
@@ -174,25 +190,33 @@
                 <el-form-item>
                     <el-col :span="12">
                         <el-form-item label="服务类别" prop="typeId" :label-width="orderDialog.formLabelWidth">
-                             <el-select v-model="orderDialog.form.typeId" clearable placeholder="请选择类别" @change="handleTypeChange">
+                            <el-select v-model="orderDialog.form.typeId" clearable placeholder="请选择类别"
+                                @change="handleTypeChange">
                                 <el-option v-for="type in optionList.typeData" :key="type.typeId" :label="type.typeName"
-                                :value="type.typeId">
+                                    :value="type.typeId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="服务人员" prop="serviceId" :label-width="orderDialog.formLabelWidth">
-                             <el-select v-model="orderDialog.form.serviceId" clearable placeholder="请选择人员" @change="handleServiceChange">
-                                <el-option v-for="service in optionList.serviceData" :key="service.serviceId" :label="service.serviceName"
-                                :value="service.serviceId">
+                            <el-select v-model="orderDialog.form.serviceId" clearable placeholder="请选择人员"
+                                @change="handleServiceChange">
+                                <el-option v-for="service in optionList.serviceData" :key="service.serviceId"
+                                    :label="service.serviceName" :value="service.serviceId">
                                 </el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
                 </el-form-item>
+                <el-form-item prop="orderDate" label="订单时间" :label-width="orderDialog.formLabelWidth">
+                    <el-date-picker v-model="orderDialog.form.orderDate" type="datetime" placeholder="选择订单日期时间"
+                    align="right" :picker-options="pickerOptions" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss">
+                    </el-date-picker>
+                </el-form-item>
                 <el-form-item prop="orderDetail" label="订单备注" :label-width="orderDialog.formLabelWidth">
-                    <el-input type="textarea" placeholder="请输入备注" v-model="orderDialog.form.orderDetail" maxlength="50" show-word-limit>
+                    <el-input type="textarea" placeholder="请输入备注" v-model="orderDialog.form.orderDetail" maxlength="100"
+                        show-word-limit>
                     </el-input>
                 </el-form-item>
             </el-form>
@@ -242,7 +266,7 @@
             root
         }) {
             let form = reactive({
-                orderStatus:"",
+                orderStatus: "",
                 orderType: "",
                 orderUser: "",
             });
@@ -251,22 +275,23 @@
                 title: "",
                 flag: false,
                 form: {
-                    orderId:"",
-                    orderTime:"",
-                    orderDetail:"",
-                    userId:"",
-                    orderUser:"",
-                    typeId:"",
-                    orderType:"",
-                    serviceId:"",
-                    orderService:"",
-                    institutionId:"",
-                    orderInstitution:"",
-                    addressId:"",
-                    orderContactName:"",
-                    orderContactPhone:"",
-                    orderArea:"",
-                    orderAddressDetail:"",
+                    orderId: "",
+                    orderTime: "",
+                    orderDate:"",
+                    orderDetail: "",
+                    userId: "",
+                    orderUser: "",
+                    typeId: "",
+                    orderType: "",
+                    serviceId: "",
+                    orderService: "",
+                    institutionId: "",
+                    orderInstitution: "",
+                    addressId: "",
+                    orderContactName: "",
+                    orderContactPhone: "",
+                    orderArea: "",
+                    orderAddressDetail: "",
                 },
                 formLabelWidth: "120px",
             });
@@ -274,6 +299,28 @@
                 loading: false,
                 tableData: [],
             });
+            let pickerOptions = {
+                shortcuts: [{
+                    text: '今天',
+                    onClick(picker) {
+                    picker.$emit('pick', new Date());
+                    }
+                }, {
+                    text: '明天',
+                    onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + 3600 * 1000 * 24);
+                    picker.$emit('pick', date);
+                    }
+                }, {
+                    text: '一周后',
+                    onClick(picker) {
+                    const date = new Date();
+                    date.setTime(date.getTime() + 3600 * 1000 * 24 * 7);
+                    picker.$emit('pick', date);
+                    }
+                }]
+            };
             const loadData = () => {
                 table.loading = true;
                 let data = {
@@ -285,36 +332,37 @@
                 if (form.orderStatus !== '') {
                     data['orderStatus'] = form.orderStatus;
                     FindAllOrderByStatus(data)
-                    .then(function (response) {
-                        console.log(response.data);
-                        table.loading = false;
-                        table.tableData = response.data.pageInfo.list;
-                        if (form.orderType) {
-                            table.tableData = table.tableData.filter(order => order.typeId === form.orderType);
-                        }
-                        pagination.totalRecordCount = response.data.pageInfo.total;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-                }
-                else {
+                        .then(function (response) {
+                            console.log(response.data);
+                            table.loading = false;
+                            table.tableData = response.data.pageInfo.list;
+                            if (form.orderType) {
+                                table.tableData = table.tableData.filter(order => order.typeId === form
+                                    .orderType);
+                            }
+                            pagination.totalRecordCount = response.data.pageInfo.total;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                } else {
                     FindAllOrder(data)
-                    .then(function (response) {
-                        console.log(response.data);
-                        table.loading = false;
-                        table.tableData = response.data.pageInfo.list;
-                        if (form.orderType) {
-                            table.tableData = table.tableData.filter(order => order.typeId === form.orderType);
-                        }
-                        pagination.totalRecordCount = response.data.pageInfo.total;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                        .then(function (response) {
+                            console.log(response.data);
+                            table.loading = false;
+                            table.tableData = response.data.pageInfo.list;
+                            if (form.orderType) {
+                                table.tableData = table.tableData.filter(order => order.typeId === form
+                                    .orderType);
+                            }
+                            pagination.totalRecordCount = response.data.pageInfo.total;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
                 }
-                
-                
+
+
             };
             const openDiaog = (order) => {
                 console.log(order)
@@ -343,19 +391,23 @@
             }
             const submitOrder = () => {
                 if (orderDialog.form.serviceArea) {
-                    orderDialog.form.serviceArea = orderDialog.form.serviceArea[0] + '/' + orderDialog.form.serviceArea[1] + '/' + orderDialog.form.serviceArea[2];
+                    orderDialog.form.serviceArea = orderDialog.form.serviceArea[0] + '/' + orderDialog.form
+                        .serviceArea[1] + '/' + orderDialog.form.serviceArea[2];
                 }
                 let yy = new Date().getFullYear();
                 let m = new Date().getMonth() + 1;
                 let mm = m < 10 ? '0' + m : m;
-                let dd = new Date().getDate()<10 ? '0'+new Date().getDate() : new Date().getDate();
-                let hh = new Date().getHours()<10 ? '0'+new Date().getHours() : new Date().getHours();
-                let mf = new Date().getMinutes()<10 ? '0'+new Date().getMinutes() : new Date().getMinutes();
-                let ss = new Date().getSeconds()<10 ? '0'+new Date().getSeconds() : new Date().getSeconds();
-                orderDialog.form.orderTime = yy+'-'+mm+'-'+dd+' '+hh+':'+mf+':'+ss;
-                orderDialog.form.orderName = orderDialog.form.orderContactName +','+ orderDialog.form.orderType +','+ orderDialog.form.orderService +','+ orderDialog.form.orderInstitution +','+ orderDialog.form.orderTime;
+                let dd = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate();
+                let hh = new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours();
+                let mf = new Date().getMinutes() < 10 ? '0' + new Date().getMinutes() : new Date().getMinutes();
+                let ss = new Date().getSeconds() < 10 ? '0' + new Date().getSeconds() : new Date().getSeconds();
+                orderDialog.form.orderTime = yy + '-' + mm + '-' + dd + ' ' + hh + ':' + mf + ':' + ss;
+                orderDialog.form.orderName = orderDialog.form.orderContactName + ',' + orderDialog.form.orderType +
+                    ',' + orderDialog.form.orderService + ',' + orderDialog.form.orderInstitution + ',' +
+                    orderDialog.form.orderTime;
                 let data = {
                     orderName: orderDialog.form.orderName,
+                    orderDate: orderDialog.form.orderDate,
                     orderTime: orderDialog.form.orderTime,
                     orderDetail: orderDialog.form.orderDetail,
                     userId: orderDialog.form.userId,
@@ -439,38 +491,38 @@
             };
             const updateOrderNum = (order) => {
                 let userData = {
-                    userId:order.userId
+                    userId: order.userId
                 };
                 UpdateUserOrderNum(userData)
                     .then(function (response) {
-                    console.log(response.data);
+                        console.log(response.data);
                     })
                     .catch(function (error) {
-                    console.log(error);
+                        console.log(error);
                     });
                 let serviceData = {
-                    serviceId:order.serviceId
+                    serviceId: order.serviceId
                 };
                 UpdateServiceOrderNum(serviceData)
                     .then(function (response) {
-                    console.log(response.data);
+                        console.log(response.data);
                     })
                     .catch(function (error) {
-                    console.log(error);
+                        console.log(error);
                     });
                 let institutionData = {
-                    institutionId:order.institutionId
+                    institutionId: order.institutionId
                 };
                 UpdateInstitutionOrderNum(institutionData)
                     .then(function (response) {
-                    console.log(response.data);
+                        console.log(response.data);
                     })
                     .catch(function (error) {
-                    console.log(error);
+                        console.log(error);
                     });
             }
-            const handleOrderStatus = (orderId,status) => {
-                console.log(orderId,status);
+            const handleOrderStatus = (orderId, status) => {
+                console.log(orderId, status);
                 let data = {
                     orderId: orderId,
                     orderStatus: status
@@ -491,7 +543,7 @@
                 addressData: [],
                 serviceData: [],
                 typeData: [],
-                institutionData:[]
+                institutionData: []
             });
             const loadUser = () => {
                 ShowAllUser().then(function (response) {
@@ -512,7 +564,7 @@
             }
             const loadAddress = (userId) => {
                 let data = {
-                    userId:userId
+                    userId: userId
                 };
                 ShowAllAddress(data).then(function (response) {
                         console.log(response);
@@ -526,17 +578,16 @@
                 console.log('add')
                 console.log(val)
                 if (val) {
-                for (let i = 0; i < optionList.addressData.length; i++) {
-                    if (optionList.addressData[i].addressId === val) {
-                        let address = optionList.addressData[i].addressVal.split('-')
-                        orderDialog.form.orderContactName = address[0];
-                        orderDialog.form.orderContactPhone = address[1];
-                        orderDialog.form.orderArea = address[2];
-                        orderDialog.form.orderAddressDetail = address[3];
+                    for (let i = 0; i < optionList.addressData.length; i++) {
+                        if (optionList.addressData[i].addressId === val) {
+                            let address = optionList.addressData[i].addressVal.split('-')
+                            orderDialog.form.orderContactName = address[0];
+                            orderDialog.form.orderContactPhone = address[1];
+                            orderDialog.form.orderArea = address[2];
+                            orderDialog.form.orderAddressDetail = address[3];
+                        }
                     }
-                }
-                }
-                else {
+                } else {
                     orderDialog.form.orderContactName = '';
                     orderDialog.form.orderContactPhone = '';
                     orderDialog.form.orderArea = '';
@@ -554,14 +605,13 @@
             }
             const handleTypeChange = (val) => {
                 if (val) {
-                for (let i = 0; i < optionList.typeData.length; i++) {
-                    if (optionList.typeData[i].typeId === val) {
-                        orderDialog.form.orderType = optionList.typeData[i].typeName;
-                        loadService(val);
+                    for (let i = 0; i < optionList.typeData.length; i++) {
+                        if (optionList.typeData[i].typeId === val) {
+                            orderDialog.form.orderType = optionList.typeData[i].typeName;
+                            loadService(val);
+                        }
                     }
-                }
-                }
-                else {
+                } else {
                     orderDialog.form.orderType = '';
                 }
             }
@@ -585,15 +635,14 @@
             }
             const handleServiceChange = (val) => {
                 if (val) {
-                for (let i = 0; i < optionList.serviceData.length; i++) {
-                    if (optionList.serviceData[i].serviceId === val) {
-                        orderDialog.form.orderService = optionList.serviceData[i].serviceName;
-                        orderDialog.form.institutionId = optionList.serviceData[i].institutionId;
-                        orderDialog.form.orderInstitution = optionList.serviceData[i].serviceInstitution;
+                    for (let i = 0; i < optionList.serviceData.length; i++) {
+                        if (optionList.serviceData[i].serviceId === val) {
+                            orderDialog.form.orderService = optionList.serviceData[i].serviceName;
+                            orderDialog.form.institutionId = optionList.serviceData[i].institutionId;
+                            orderDialog.form.orderInstitution = optionList.serviceData[i].serviceInstitution;
+                        }
                     }
-                }
-                }
-                else {
+                } else {
                     orderDialog.form.orderService = '';
                     orderDialog.form.institutionId = '';
                     orderDialog.form.orderInstitution = '';
@@ -626,6 +675,7 @@
             return {
                 form,
                 table,
+                pickerOptions,
                 pagination,
                 orderDialog,
 
