@@ -408,8 +408,9 @@
                 let data = {
                     orderName: orderDialog.form.orderName,
                     orderDate: orderDialog.form.orderDate,
-                    orderTime: orderDialog.form.orderTime,
                     orderDetail: orderDialog.form.orderDetail,
+                    orderTime: orderDialog.form.orderTime,
+
                     userId: orderDialog.form.userId,
                     orderUser: orderDialog.form.orderUser,
                     typeId: orderDialog.form.typeId,
@@ -418,6 +419,7 @@
                     orderService: orderDialog.form.orderService,
                     institutionId: orderDialog.form.institutionId,
                     orderInstitution: orderDialog.form.orderInstitution,
+
                     addressId: orderDialog.form.addressId,
                     orderContactName: orderDialog.form.orderContactName,
                     orderContactPhone: orderDialog.form.orderContactPhone,
@@ -653,7 +655,7 @@
             let pagination = reactive({
                 pageIndex: 1,
                 totalRecordCount: 0,
-                pageSize: 5,
+                pageSize: 10,
             });
             const handleCurrentChange = (val) => {
                 pagination.pageIndex = val;

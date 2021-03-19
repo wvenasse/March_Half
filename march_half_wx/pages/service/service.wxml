@@ -165,7 +165,7 @@
     </view>
 
     <view class="footer">
-        <van-button color="#ad0014" block round >立即预约</van-button>
+        <van-button color="#ad0014" block round bindtap="gotoSubscribe">立即预约</van-button>
     </view>
       
 </view>

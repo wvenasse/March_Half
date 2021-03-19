@@ -5,9 +5,9 @@
 <mapper namespace="org.example.dao.OrderDao">
     <insert id="addOrder" parameterType="org.example.pojo.Order">
         insert into orders(orderName,orderDate,orderTime,orderDetail,userId,orderUser,typeId,orderType,serviceId,orderService,institutionId,orderInstitution,
-        addressId,orderContactName,orderContactPhone,orderArea,orderAddressDetail)
+        addressId,orderContactName,orderContactPhone,orderArea,orderAddressDetail,orderStatus)
         values (#{orderName},#{orderDate},#{orderTime},#{orderDetail},#{userId},#{orderUser},#{typeId},#{orderType},#{serviceId},#{orderService},#{institutionId},#{orderInstitution},
-        #{addressId},#{orderContactName},#{orderContactPhone},#{orderArea},#{orderAddressDetail})
+        #{addressId},#{orderContactName},#{orderContactPhone},#{orderArea},#{orderAddressDetail},#{orderStatus})
     </insert>
 
     <delete id="delOrder" parameterType="java.lang.Integer">
@@ -17,7 +17,7 @@
     <select id="updateOrder" parameterType="org.example.pojo.Order" resultType="java.lang.Integer">
         update orders set orderName=#{orderName},orderDate=#{orderDate},orderTime=#{orderTime},orderDetail=#{orderDetail},
         userId=#{userId},orderUser=#{orderUser},typeId=#{typeId},orderType=#{orderType},serviceId=#{serviceId},orderService=#{orderService},institutionId=#{institutionId},orderInstitution=#{orderInstitution},
-        addressId=#{addressId},orderContactName=#{orderContactName},orderContactPhone=#{orderContactPhone},orderArea=#{orderArea},orderAddressDetail=#{orderAddressDetail}
+        addressId=#{addressId},orderContactName=#{orderContactName},orderContactPhone=#{orderContactPhone},orderArea=#{orderArea},orderAddressDetail=#{orderAddressDetail},orderStatus=#{orderStatus}
         where orderId=#{orderId}
     </select>
     <select id="updateOrderStatus" resultType="java.lang.Integer">

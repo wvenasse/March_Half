@@ -528,7 +528,7 @@
       let pagination = reactive({
         pageIndex: 1,
         totalRecordCount: 0,
-        pageSize: 5,
+        pageSize: 10,
       });
       const handleCurrentChange = (val) => {
         pagination.pageIndex = val;

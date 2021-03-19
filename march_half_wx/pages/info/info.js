@@ -20,10 +20,11 @@ Page({
   loadUsers(openid){
     var that = this;
     let data = {
-      openid:openid
+      openid: wx.getStorageSync('openid')
     }
     util.baseGet('showUsers',data,
       function (result) {
+        console.log(result)
         result.data.userArea = result.data.userArea.split('/');
         that.setData({
           users:result.data,
@@ -91,9 +92,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(app.globalData);
-    console.log(options);
-    this.loadUsers(options.openid);
+    this.loadUsers();
   },
 
   /**

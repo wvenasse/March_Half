@@ -1,6 +1,9 @@
 {
   "pages": [
+    
+    
     "pages/home/home",
+    "pages/subscribe/subscribe",
     "pages/allType/allType",
     "pages/institution/institution",
     "pages/service/service",
@@ -9,7 +12,7 @@
     "pages/evaluation/evaluation",
 
     "pages/order/order",
-    "pages/subscribe/subscribe",
+    
 
     "pages/my/my",
     "pages/info/info"
@@ -64,6 +67,7 @@
     "van-share-sheet": "@vant/weapp/share-sheet/index",
     "van-dialog": "@vant/weapp/dialog/index",
     "van-icon": "@vant/weapp/icon/index",
-    "van-empty": "@vant/weapp/empty/index"
+    "van-empty": "@vant/weapp/empty/index",
+    "van-action-sheet": "@vant/weapp/action-sheet/index"
   }
 }

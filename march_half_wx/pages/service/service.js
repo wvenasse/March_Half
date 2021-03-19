@@ -80,6 +80,11 @@ Page({
       url: '../evaluation/evaluation?evaluationId='+evaluation.evaluationId
     })
   },
+  gotoSubscribe() {
+    wx.navigateTo({
+      url: '../subscribe/subscribe?serviceId='+this.data.serviceId
+    })
+  },
 
   /**
    * 生命周期函数--监听页面加载
@@ -94,7 +99,6 @@ Page({
     })
     this.loadService();
     this.loadEvaluation();
-
   },
 
   /**

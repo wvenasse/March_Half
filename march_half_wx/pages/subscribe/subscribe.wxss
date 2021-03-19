@@ -1,1 +1,222 @@
 /* pages/subscribe/subscribe.wxss */
+page{
+    background-color: #f7f8fa;
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.subscribeHeader {
+    background: #fff;
+    padding: 20rpx 30rpx;
+}
+.headTitle {
+    font-size: 30rpx;
+    font-weight: 600;
+}
+.orderAddress {
+    padding-left: 40rpx;
+    margin-top: 20rpx;
+    display: flex;
+    justify-content: space-between;
+    font-size: 30rpx;
+    font-weight: 500;
+    color: #737373;
+}
+.notAddress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.haveAddress {
+
+}
+
+.subscribeContent {
+    flex: auto;
+    margin-top: 20rpx;
+    background: #fff;
+    padding: 20rpx 30rpx;
+}
+
+.orderService {
+    display: flex;
+    margin-bottom: 20rpx;
+}
+
+.service {
+    font-size: 30rpx;
+    font-weight: 600;
+}
+
+.serviceName {
+    font-size: 30rpx;
+    color: #737373;
+}
+
+.serviceInstitution {
+    display: flex;
+    margin-bottom: 40rpx;
+}
+
+.institution {
+    font-size: 30rpx;
+    font-weight: 600;
+}
+
+.institutionName {
+    font-size: 30rpx;
+    color: #737373;
+}
+
+.orderCell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 0;
+}
+
+.cellTitle {
+    display: flex;
+    align-items: center;
+}
+
+.warning {
+    color: #ad0014;
+    display: flex;
+    align-items: baseline;
+    font-size: 50rpx;
+    height: 50rpx;
+}
+
+.cellName {
+    font-weight: 600;
+    font-size: 30rpx;
+}
+
+.cellContent {
+    display: flex;
+    font-size: 30rpx;
+    color: #737373;
+    align-items: center;
+}
+
+.noContent {
+
+}
+
+.haveContent {
+
+}
+
+.orderDetail {
+    padding: 20rpx 0;
+}
+
+.detailName {
+    font-size: 30rpx;
+    font-weight: 600;
+    margin-bottom: 20rpx;
+}
+
+.detailContent {
+    background: #eeeeee;
+    border-radius: 10rpx;
+    width: 100%;
+    padding: 20rpx;
+    font-size: 30rpx;
+}
+
+.detailContent textarea{
+    width: 100%;
+}
+
+.currentWordNumber {
+    text-align: right;
+    color: #ababab;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    height: 90rpx;
+    width: 100%;
+    background: #fff;
+}
+
+.sheetContent {
+    padding: 20rpx 50rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+.sheetCell {
+    padding: 10rpx 0;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+.sheetcHead {
+    font-size: 30rpx;
+    font-weight: 600;
+    
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderContactName {
+
+}
+
+.orderContactPhone {
+
+}
+
+.sheetcContent {
+    font-size: 30rpx;
+    line-height: 40rpx;
+    color: #737373;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.orderArea {
+
+}
+
+.orderAddressDetail {
+
+}
+
+.sheetContain {
+    padding: 20rpx 0rpx;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.sheetType {
+    width: 200rpx;
+    text-align: center;
+    background: #d0d0d0;
+    line-height: 60rpx;
+    border-radius: 30rpx;
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 20rpx;
+}
+
+.selectType {
+    background: #ad0014;
+}

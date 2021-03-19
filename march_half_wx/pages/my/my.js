@@ -142,19 +142,18 @@ Page({
     this.setData({
       radio: name,
     });
-    app.globalData.identity = this.data.radio;
     wx.setStorageSync('identity', this.data.radio);
   },
 
   bindViewTap: function () {
     //跳转个人信息
     wx.navigateTo({
-      url: '../info/info?openid=' + OPEN_ID
+      url: '../info/info'
     })
   },
   getUserInfo: function (e) {
     //微信授权
-    app.globalData.userInfo = e.detail.userInfo;
+    wx.setStorageSync('userInfo', e.detail.userInfo);
     if (this.data.radio === 'user') {
       this.addUser();
     }
@@ -182,10 +181,10 @@ Page({
   addUser: function (){
     var Time = util.formatTime(new Date());
     var data = {
-      openid: app.globalData.userInfo.openid,
-      nickName: app.globalData.userInfo.nickName,
+      openid: wx.getStorageSync('userInfo').openid,
+      nickName: wx.getStorageSync('userInfo').nickName,
       userName: '',
-      userIcon: app.globalData.userInfo.avatarUrl,
+      userIcon: wx.getStorageSync('userInfo').avatarUrl,
       userSfz: '',
       userPhone: '',
       userTime: Time,
@@ -204,7 +203,6 @@ Page({
         success: (result) => {
           console.log(result)
           if (result.data == 'ok') {
-            app.globalData.userDetail = this.data.users;
             wx.setStorageSync('userDetail', this.data.users);
             wx.showToast({
               title: '绑定成功！'
@@ -231,8 +229,7 @@ Page({
     }
     util.baseGet('showUsers',data,
       function (result) {
-        app.globalData.userDetail = result.data;
-        wx.setStorageSync('userDetail', this.data.users);
+        wx.setStorageSync('userDetail', result.data);
         that.setData({
           userDetail: result.data
         })
@@ -257,22 +254,17 @@ Page({
           method: 'GET',
           success: function (res) {
             console.log(res.data);
-            console.log(wx.getStorageSync('userDetail'));
-            console.log(wx.getStorageSync('identity'));
-            console.log(app.globalData);
             OPEN_ID = res.data.openid; //获取到的openid  
-            app.globalData.openid = res.data.openid;
+            wx.setStorageSync('openid', res.data.openid);
             SESSION_KEY = res.data.session_key; //获取到session_key  
-            app.globalData.session_key = res.data.session_key;
-            // console.log(OPEN_ID.length)
-            // console.log(SESSION_KEY.length)
+            wx.setStorageSync('session_key', res.data.session_key);
             that.setData({
               openid: res.data.openid.substr(0, 10) + '********' + res.data.openid.substr(res.data.openid.length - 8, res.data.openid.length),
               session_key: res.data.session_key.substr(0, 8) + '********' + res.data.session_key.substr(res.data.session_key.length - 6, res.data.session_key.length)
             })
-            if (app.globalData.identity === 'user') {
-              that.showUser(app.globalData.openid);
-              that.loadUser(app.globalData.openid);
+            if (wx.getStorageSync('identity') === 'user') {
+              that.showUser(wx.getStorageSync('openid'));
+              that.loadUser(wx.getStorageSync('openid'));
             }
           }
         })
@@ -285,7 +277,7 @@ Page({
       success: function (res) {
         console.log(res.code)
         CODE = res.code;
-        app.globalData.code = res.code;
+        wx.setStorageSync('code',res.code)
       }
     })
   },
@@ -294,13 +286,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if (app.globalData.userInfo) {
+    if (wx.getStorageSync('userDetail')) {
       this.setData({
-        userInfo: app.globalData.userInfo,
+        userInfo: wx.getStorageSync('userInfo'),
+        userDetail: wx.getStorageSync('userDetail'),
         hasUserInfo: true
       })
-      this.getOpenIdTap();
-      this.getCodeTap();
+      console.log(this.data.userInfo)
+      // this.getOpenIdTap();
+      // this.getCodeTap();
     } else if (this.data.canIUse) {
       // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
       // 所以此处加入 callback 以防止这种情况
@@ -316,7 +310,7 @@ Page({
       // 在没有 open-type=getUserInfo 版本的兼容处理
       wx.getUserInfo({
         success: res => {
-          app.globalData.userInfo = res.userInfo
+          wx.setStorageSync('userInfo',res.userInfo)
           this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true

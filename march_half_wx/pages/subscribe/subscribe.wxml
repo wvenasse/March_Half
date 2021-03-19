@@ -1,2 +1,131 @@
-<!--pages/subscribe/subscribe.wxml-->
-<text>pages/subscribe/subscribe.wxml</text>
+<view class="content">
+    <view class="subscribeHeader">
+        <view class="headTitle">
+            服务地址
+        </view>
+        <view class="orderAddress" bindtap="onAddressOpen">
+            <view class="notAddress" wx:if="{{!orderInfo.addressId}}">
+                请填写服务地址
+            </view>
+            <view class="haveAddress" wx:else>
+                <view class="sheetCell" style="border:0">
+                    <view class="sheetcHead">
+                        <view class="orderContactName">
+                            {{orderInfo.orderContactName}}
+                        </view>
+                        <view class="orderContactPhone">
+                            {{orderInfo.orderContactPhone}}
+                        </view>
+                    </view>
+                    <view class="sheetcContent">
+                        <view class="orderArea">
+                            {{orderInfo.orderArea}}
+                        </view>
+                        <view class="orderAddressDetail">
+                            {{orderInfo.orderAddressDetail}}
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <van-icon name="arrow" />
+        </view>
+    </view>
+    <view class="subscribeContent">
+        <view class="orderService">
+            <view class="service">
+                已选服务人员：
+            </view>
+            <view class="serviceName">
+                {{service.serviceName}}
+            </view>
+        </view>
+        <view class="serviceInstitution">
+            <view class="institution">
+                售后服务机构：
+            </view>
+            <view class="institutionName">
+                {{service.serviceInstitution}}
+            </view>
+        </view>
+        <view class="orderCell" bindtap="onTypeOpen">
+            <view class="cellTitle">
+                <view class="warning">*</view>
+                <view class="cellName">已选类别：</view>
+            </view>
+            <view class="cellContent">
+                <view class="noContent" wx:if="{{!orderInfo.typeId}}">
+                    请选择类别
+                </view>
+                <view class="haveContent" wx:else>
+                    {{orderInfo.orderType}}
+                </view>
+                <van-icon name="arrow" />
+            </view>
+        </view>
+        <picker mode="multiSelector" value="{{dateTime}}" range="{{dateTimeArray}}" bindchange="changeDateTime"
+            bindcolumnchange="changeDateTimeColumn">
+            <view class="orderCell">
+                <view class="cellTitle">
+                    <view class="warning">*</view>
+                    <view class="cellName">服务时间：</view>
+                </view>
+
+                <view class="cellContent">
+                    <view class="noContent" wx:if="{{!orderInfo.orderDate}}">
+                        <view>请选择时间</view>
+                    </view>
+                    <view class="haveContent" wx:else>
+                        {{orderInfo.orderDate}}
+                    </view>
+                    <van-icon name="arrow" />
+                </view>
+
+            </view>
+        </picker>
+        <view class="orderDetail">
+            <view class="detailName">
+                其他需求
+            </view>
+            <view class="detailContent">
+                <textarea auto-height placeholder="请填写其他需求" maxlength="100" value="{{orderInfo.orderDetail}}"
+                    bindinput='_input' rows="3">
+                </textarea>
+                <view class="currentWordNumber">({{currentNoteLen|0}}/{{noteMaxLen}})</view>
+            </view>
+        </view>
+    </view>
+    <view class="footer">
+        <van-button color="#ad0014" block round bindtap="submitOreder">立即提交</van-button>
+    </view>
+    <van-action-sheet show="{{ isShowAddress }}" title="服务地址" bind:close="onAddressClose">
+        <view class="sheetContent">
+            <view class="sheetCell" wx:for="{{address}}" wx:for-index="index" wx:key="index" bindtap="onAddressSelect"
+                data-address="{{item}}">
+                <view class="sheetcHead">
+                    <view class="orderContactName">
+                        {{item.contactName}}
+                    </view>
+                    <view class="orderContactPhone">
+                        {{item.contactPhone}}
+                    </view>
+                </view>
+                <view class="sheetcContent">
+                    <view class="orderArea">
+                        {{item.addressArea}}
+                    </view>
+                    <view class="orderAddressDetail">
+                        {{item.addressDetail}}
+                    </view>
+                </view>
+            </view>
+        </view>
+    </van-action-sheet>
+    <van-action-sheet show="{{ isShowType }}" title="服务类别" bind:close="onTypeClose">
+        <view class="sheetContain">
+            <view class="sheetType {{orderInfo.typeId ===item.typeId?'selectType':''}}" wx:for="{{type}}"
+                wx:for-index="index" wx:key="index" bindtap="onTypeSelect" data-type="{{item}}">
+                {{item.serviceType}}
+            </view>
+        </view>
+    </van-action-sheet>
+</view>
