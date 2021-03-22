@@ -18,6 +18,26 @@
         select * from favors where userId=#{userId} AND favorType=#{favorType}
     </select>
 
+    <select id="isFavorService" resultType="org.example.pojo.Favor">
+        select * from favors where userId=#{userId} AND favorType=#{favorType} AND serviceId=#{serviceId}
+    </select>
+    <select id="isFavorInstitution" resultType="org.example.pojo.Favor">
+        select * from favors where userId=#{userId} AND favorType=#{favorType} AND institutionId=#{institutionId}
+    </select>
+    <select id="isFavorPost" resultType="org.example.pojo.Favor">
+        select * from favors where userId=#{userId} AND favorType=#{favorType} AND postId=#{postId}
+    </select>
+
+    <select id="isFavorServiceNum" resultType="org.example.pojo.Favor">
+        select * from favors where favorType=#{favorType} AND serviceId=#{serviceId}
+    </select>
+    <select id="isFavorInstitutionNum" resultType="org.example.pojo.Favor">
+        select * from favors where favorType=#{favorType} AND institutionId=#{institutionId}
+    </select>
+    <select id="isFavorPostNum" resultType="org.example.pojo.Favor">
+        select * from favors where favorType=#{favorType} AND postId=#{postId}
+    </select>
+
     <select id="getFavorById" resultType="org.example.pojo.Favor">
         select * from favors where favorId=#{favorId}
      </select>

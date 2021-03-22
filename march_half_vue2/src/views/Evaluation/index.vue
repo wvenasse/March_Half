@@ -547,6 +547,7 @@
             }
             const loadOrder = (userId) => {
                 let data ={
+                    userId:userId,
                     orderStatus: '3'
                 }
                 ShowAllOrderByStatus(data).then(function (response) {

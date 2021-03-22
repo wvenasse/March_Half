@@ -3,7 +3,10 @@ package org.example.pojo;
 public class Order {
     private  Integer orderId;
     private  String orderName;
-    private  String orderDate;
+    private  String orderStartDate;
+    private  String orderEndDate;
+    private  Integer orderPriceTotal;
+    private  Integer orderPrice;
     private  String orderTime;
     private  String orderDetail;
     private  String orderStatus;
@@ -13,6 +16,7 @@ public class Order {
     private  Integer typeId;
     private  String orderType;
     private  Integer serviceId;
+    private  String serviceImg;
     private  String orderService;
     private  Integer institutionId;
     private  String orderInstitution;
@@ -39,12 +43,44 @@ public class Order {
         this.orderName = orderName;
     }
 
-    public String getOrderDate() {
-        return orderDate;
+    public String getOrderStartDate() {
+        return orderStartDate;
     }
 
-    public void setOrderDate(String orderDate) {
-        this.orderDate = orderDate;
+    public void setOrderStartDate(String orderStartDate) {
+        this.orderStartDate = orderStartDate;
+    }
+
+    public String getOrderEndDate() {
+        return orderEndDate;
+    }
+
+    public void setOrderEndDate(String orderEndDate) {
+        this.orderEndDate = orderEndDate;
+    }
+
+    public Integer getOrderPriceTotal() {
+        return orderPriceTotal;
+    }
+
+    public void setOrderPriceTotal(Integer orderPriceTotal) {
+        this.orderPriceTotal = orderPriceTotal;
+    }
+
+    public Integer getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(Integer orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
+    public String getServiceImg() {
+        return serviceImg;
+    }
+
+    public void setServiceImg(String serviceImg) {
+        this.serviceImg = serviceImg;
     }
 
     public String getOrderTime() {

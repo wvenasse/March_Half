@@ -1,0 +1,37 @@
+/* pages/favor/favor.wxss */
+page {
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+    display: flex;
+}
+
+.aside {
+    flex: 0 0 85px;
+}
+
+.favorContent {
+    flex: auto;
+    padding: 20rpx;
+}
+
+.favorList {
+    height: 100%;
+}
+
+.favorCell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eeeeee;
+    padding: 20rpx 0;
+    font-size: 30rpx;
+    font-weight: 600;
+}
+
+.dialog-content {
+    text-align: center;
+    padding: 20rpx 0;
+}

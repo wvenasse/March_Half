@@ -1,0 +1,66 @@
+/* pages/address/address.wxss */
+page{
+    background-color: #f7f8fa;
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+}
+
+.addressList {
+
+}
+
+.addressCell {
+    margin: 10rpx 0;
+    background: #fff;
+    padding: 20rpx;
+}
+
+.cellTitle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 30rpx;
+    font-weight: 600;
+
+}
+
+.cellContent {
+    display: flex;
+    flex-direction: column;
+    font-weight: 200;
+    font-size: 30rpx;
+    padding: 20rpx 0;
+    line-height: 40rpx;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.cellButton {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 20rpx 0 0 0;
+}
+
+.editButton {
+
+}
+
+.deleteButton {
+    margin-left: 20rpx;
+}
+
+.dialog-content {
+    text-align: center;
+    padding: 20rpx 0;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    height: 90rpx;
+    width: 100%;
+    background: #fff;
+}

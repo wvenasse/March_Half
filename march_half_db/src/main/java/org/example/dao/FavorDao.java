@@ -20,4 +20,11 @@ public interface FavorDao {
 
     public Favor getFavorById(Integer favorId);
 
+    public Favor isFavorService(Integer favorType,Integer userId,Integer serviceId);
+    public Favor isFavorInstitution(Integer favorType,Integer userId,Integer institutionId);
+    public Favor isFavorPost(Integer favorType,Integer userId,Integer postId);
+
+    public List<Favor>  isFavorServiceNum(Integer favorType,Integer serviceId);
+    public List<Favor>  isFavorInstitutionNum(Integer favorType,Integer institutionId);
+    public List<Favor>  isFavorPostNum(Integer favorType,Integer postId);
 }

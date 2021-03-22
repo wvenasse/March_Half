@@ -21,7 +21,7 @@ page {
   text-shadow:2px 1px 2px rgba(255, 255, 255,0.7);
   margin-top: 30rpx;
   font-weight: bold;
-  background: linear-gradient(to right, #ead6ee, #009E9D);
+  background: linear-gradient(to right, #ead6ee, #ad0014);
   -webkit-background-clip: text;
   background-clip: text;
   color: #009E9D;

@@ -1,0 +1,42 @@
+<view class="content">
+    <view class="evaluationHeader">
+        <view class="serviceImg">
+            <image class="circleImg" src="{{order.serviceImg}}" mode="aspectFit" />
+        </view>
+        <view class="serviceInfo">
+            {{order.orderType}}-{{order.orderService}}-{{order.orderInstitution}}
+        </view>
+    </view>
+    <view class="evaluationContent">
+        <view class="evaluationStar">
+            <view>
+                服务星级：
+            </view>
+            <van-rate value="{{ evaluation.evaluationStar }}" size="{{ 25 }}" 
+            allow-half icon="like" color="#ab0014" void-icon="like-o" bind:change="onStarChange" />
+            <view class="field">
+                <van-field value="{{evaluationStar}}" readonly border="{{ false }}" />
+            </view>
+        </view>
+        <view class="evaluationDetail">
+            <textarea auto-height placeholder="效果如何，服务是否周到，态度怎么样？" maxlength="200" value="{{evaluation.evaluationDetail}}"
+                bindinput='_input' rows="8">
+            </textarea>
+            <view class="currentWordNumber">({{currentNoteLen|0}}/{{noteMaxLen}})</view>
+        </view>
+        <view class="evaluationImg">
+            <van-uploader file-list="{{ fileList }}"  max-count="3" bind:after-read="afterRead" 
+            />
+            <!-- <input type="file" id="saveImage" name="myphoto" bind:change="tirggerFile" 
+            accept="image/jpeg,image/jpg,image/png" ref="new_image" > -->
+        </view>
+        <view class="isNoName">
+            匿名评价：
+            <van-switch size="20px" checked="{{ evaluation.isNoName }}" bind:change="onIsNameChange" 
+            active-color="#ab0014" inactive-color="#ababab" />
+        </view>
+    </view>
+</view>
+<view class="footer">
+    <van-button color="#ad0014" block round bindtap="sbumitEvalustion">发表评价</van-button>
+</view>

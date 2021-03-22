@@ -1,21 +1,25 @@
 {
   "pages": [
     
-    
+
     "pages/home/home",
-    "pages/subscribe/subscribe",
     "pages/allType/allType",
     "pages/institution/institution",
     "pages/service/service",
     "pages/typeList/typeList",
+    "pages/subscribe/subscribe",
     "pages/images/images",
     "pages/evaluation/evaluation",
 
     "pages/order/order",
-    
+    "pages/orderDetail/orderDetail",
+    "pages/send-evaluation/send-evaluation",
 
     "pages/my/my",
-    "pages/info/info"
+    "pages/info/info",
+    "pages/address/address",
+    "pages/addressDetail/addressDetail",
+    "pages/favor/favor"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -25,7 +29,7 @@
   },
   "tabBar": {
     "color": "#8a8a8a",
-    "selectedColor": "#009E9D",
+    "selectedColor": "#ad0014",
     "backgroundColor": "#ffffff",
     "list": [{
         "pagePath": "pages/home/home",
@@ -68,6 +72,12 @@
     "van-dialog": "@vant/weapp/dialog/index",
     "van-icon": "@vant/weapp/icon/index",
     "van-empty": "@vant/weapp/empty/index",
-    "van-action-sheet": "@vant/weapp/action-sheet/index"
+    "van-action-sheet": "@vant/weapp/action-sheet/index",
+    "van-uploader": "@vant/weapp/uploader/index",
+    "van-switch": "@vant/weapp/switch/index",
+    "van-toast": "@vant/weapp/toast/index",
+    "van-swipe-cell": "@vant/weapp/swipe-cell/index",
+    "van-sidebar": "@vant/weapp/sidebar/index",
+    "van-sidebar-item": "@vant/weapp/sidebar-item/index"
   }
 }

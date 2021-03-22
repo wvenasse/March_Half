@@ -1,0 +1,23 @@
+<view class="content">
+    <view class="addressDetail">
+        <van-cell-group>
+            <van-field model:value="{{ address.contactName }}" required clearable center bind:change="onNameChange"
+            label="联系人" placeholder="请输入联系人姓名" border="{{ false }}" />
+            <van-field model:value="{{ address.contactPhone }}" type="number" required clearable center 
+            label="联系电话" placeholder="请输入联系人电话" border="{{ false }}" bind:change="onPhoneChange"/>
+
+            <van-field model:value="{{ address.addressArea }}" center clearable use-button-slot required
+            label="所在地区" placeholder="所在地区" border="{{ false }}" >
+                <van-button slot="button" size="small" color="#ab0014" bindtap="onChangeAddress">
+                    选择地区
+                </van-button>
+            </van-field>
+            <van-field model:value="{{ address.addressDetail }}" type="textarea" autosize required clearable center
+            label="详细地址" placeholder="详细地址" border="{{ false }}" bind:change="onDetailChange"/>
+        </van-cell-group>
+    </view>
+    <view class="footer">
+        <van-button color="#ad0014" block bindtap="submitAddress">保存</van-button>
+    </view>
+</view>
+  

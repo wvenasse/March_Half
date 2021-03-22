@@ -19,7 +19,7 @@
         个人操作
       </view>
       <view class="carfBody">
-        <view class="littleCard cDorm">
+        <view class="littleCard cDorm" bindtap="gotoAddress">
           <view class="littleHead">
             我的地址
           </view>
@@ -51,7 +51,15 @@
         个人信息
       </view>
       <view class="carfBody">
-        <view class="littleCard cFav">
+        <view class="littleCard cRem" bindtap="gotoOrder">
+          <view class="littleHead">
+            我的订单
+          </view>
+          <view class="littleBody">
+            {{userDetail.userOrder ? userDetail.userOrder:0}}
+          </view>
+        </view>
+        <view class="littleCard cFav" bindtap="gotoLike">
           <view class="littleHead">
             我的点赞
           </view>
@@ -59,20 +67,12 @@
             {{userDetail.userLike ? userDetail.userLike:0}}
           </view>
         </view>
-        <view class="littleCard cLike">
+        <view class="littleCard cLike" bindtap="gotoLove">
           <view class="littleHead">
             我的收藏
           </view>
           <view class="littleBody">
             {{userDetail.userLove ? userDetail.userLove:0}}
-          </view>
-        </view>
-        <view class="littleCard cRem">
-          <view class="littleHead">
-            我的评论
-          </view>
-          <view class="littleBody">
-            {{userDetail.userEva ? userDetail.userEva:0}}
           </view>
         </view>
       </view>

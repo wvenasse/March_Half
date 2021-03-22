@@ -1,0 +1,142 @@
+<view class="content">
+    <view class="orderDetailHeader">
+        <view class="orderStatus" wx:if="{{order.orderStatus==0}}">
+            待接单
+        </view>
+        <view class="orderStatus" wx:if="{{order.orderStatus==1}}">
+            待服务
+        </view>
+        <view class="orderStatus" wx:if="{{order.orderStatus==2}}">
+            进行中
+        </view>
+        <view class="orderStatus" wx:if="{{order.orderStatus==3}}">
+            待评价
+        </view>
+        <view class="orderStatus" wx:if="{{order.orderStatus==4}}">
+            已完成
+        </view>
+        <view class="orderStartDate">
+            {{order.orderStartDate}}
+        </view>
+    </view>
+    <view class="orderDetailContactInfo">
+        <van-icon name="location-o" size="20px" />
+        <view class="orderDetailContact">
+            <view class="orderContact">
+                <view>
+                    {{order.orderContactName}}
+                </view>
+                <view>
+                    {{order.orderContactPhone}}
+                </view>
+            </view>
+            <view class="orderAddress">
+                地址：{{order.orderArea}}-{{order.orderAddressDetail}}
+            </view>
+        </view>
+    </view>
+    <view class="orderDetailInfo">
+        <view class="detailInfoHeader">
+            <van-icon name="description" size="20px"/>
+            <view>
+                订单信息
+            </view>
+        </view>
+        <view class="detailInfoContent">
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    服务人员：
+                </view>
+                <view class="cellContent" bindtap="gotoService">
+                    <view class="orderService">
+                        <image class="circleImg serviceImg" src="{{order.serviceImg}}" mode="aspectFit" />
+                        {{order.orderService}}
+                    </view>
+                    <van-icon name="arrow" size="18px" color="#bbbbbb" />
+                </view>
+            </view>
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    服务类别：
+                </view>
+                <view class="cellContent">
+                    <view class="orderType">
+                        {{order.orderType}}
+                    </view>
+                </view>
+            </view>
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    服务机构：
+                </view>
+                <view class="cellContent">
+                    <view class="orderInstitution">
+                        {{order.orderInstitution}}
+                    </view>
+                </view>
+            </view>
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    开始时间：
+                </view>
+                <view class="cellContent">
+                    <view class="orderDate">
+                        {{order.orderStartDate}}
+                    </view>
+                </view>
+            </view>
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    结束时间：
+                </view>
+                <view class="cellContent">
+                    <view class="orderDate">
+                        {{order.orderEndDate}}
+                    </view>
+                </view>
+            </view>
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    服务总价：
+                </view>
+                <view class="cellContent">
+                    <view class="orderPriceTotal">
+                        ￥{{order.orderPriceTotal}}
+                    </view>
+                </view>
+            </view>
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    服务备注：
+                </view>
+                <view class="cellContent">
+                    <view class="orderDetail">
+                        {{order.orderDetail}}
+                    </view>
+                </view>
+            </view>
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    服务编号：
+                </view>
+                <view class="cellContent">
+                    <view class="orderId">
+                        {{order.orderId}}
+                    </view>
+                </view>
+            </view>
+            <view class="detailInfoCell">
+                <view class="cellTitle">
+                    下单时间：
+                </view>
+                <view class="cellContent">
+                    <view class="orderTime">
+                        {{order.orderTime}}
+                    </view>
+                </view>
+            </view>
+
+        </view>
+    </view>
+</view>
+  

@@ -1,0 +1,21 @@
+/* pages/addressDetail/addressDetail.wxss */
+page{
+    background-color: #f7f8fa;
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+}
+
+.addressDetail {
+
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    height: 90rpx;
+    width: 100%;
+    background: #fff;
+}

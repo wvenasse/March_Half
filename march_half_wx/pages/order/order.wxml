@@ -1,2 +1,99 @@
+<view class="content">
+    <view class="orderHeader">
+        <van-tabs swipeable sticky bind:click="onClickStatus" class="tabs">
+            <van-tab title="待接单"></van-tab>
+            <van-tab title="未服务"></van-tab>
+            <van-tab title="进行中"></van-tab>
+            <van-tab title="待评价"></van-tab>
+            <van-tab title="已完成"></van-tab>
+        </van-tabs>
+    </view>
+    <view class="orderContent">
+        <view class="orderList" wx:if="{{orderList.length>0}}">
+            <view class="orderCard" wx:for="{{orderList}}" wx:for-index="index" wx:key="index">
+                <view class="orderTitle" bindtap="gotoOrderDetail" data-order="{{item}}">
+                    <view class="orderInstitution">
+                        <van-icon name="friends" size="18px" color="#ad0014" />
+                        {{item.orderInstitution}}
+                        <van-icon name="arrow" size="12px" color="#ababab" />
+                    </view>
+                    <view class="orderStatus" wx:if="{{orderStatus === 0}}">
+                        待接单
+                    </view>
+                    <view class="orderStatus" wx:if="{{orderStatus === 1}}">
+                        待服务
+                    </view>
+                    <view class="orderStatus" wx:if="{{orderStatus === 2}}">
+                        进行中
+                    </view>
+                    <view class="orderStatus" wx:if="{{orderStatus === 3}}">
+                        待评价
+                    </view>
+                    <view class="orderStatus" wx:if="{{orderStatus === 4}}">
+                        已完成
+                    </view>
+                </view>
+                <view class="orderInfo" bindtap="gotoOrderDetail" data-order="{{item}}">
+                    <view class="orderServiceImg">
+                        <image class="circleImg serviceImg" src="{{item.serviceImg}}" mode="aspectFit" />
+                    </view>
+                    <view class="orderContain">
+                        <view class="orderServiceInfo">
+                            <view class="orderService">
+                                {{item.orderService}}
+                            </view>
+                            <view class="orderPrice">
+                                <van-tag color="#ffe1e1" plain text-color="#ad0014">￥{{item.orderPrice}}/H</van-tag>
+                            </view>
+                        </view>
+                        <view class="orderTypeInfo">
+                            <view class="orderType">
+                                {{item.orderType}}
+                            </view>
+                            <view class="orderDate">
+                                x{{item.date}}
+                            </view>
+                        </view>
+                    </view>
 
-<text>pages/order/order.wxml</text>
+                </view>
+                <view class="orderEdit" wx:if="{{orderStatus !== 4}}">
+                    <view class="exitButton" wx:if="{{orderStatus == 0 ||orderStatus == 1}}">
+                        <van-button color="#ad0014" plain round size="small" bindtap="editOrder" data-order="{{item}}">
+                            修改订单
+                        </van-button>
+                    </view>
+                    <view class="exitButton" wx:if="{{orderStatus == 0 ||orderStatus == 1}}">
+                        <van-button color="#ad0014" plain round size="small" bindtap="openDetele" data-order="{{item}}">
+                            删除订单
+                        </van-button>
+                    </view>
+                    <view class="exitButton" wx:if="{{orderStatus == 2}}">
+                        <van-button color="#ad0014" round size="small" bindtap="openTip" data-order="{{item}}">
+                            确认完成
+                        </van-button>
+                    </view>
+                    <view class="exitButton" wx:if="{{orderStatus == 3}}">
+                        <van-button color="#ad0014" round size="small" bindtap="openEvaluation" data-order="{{item}}">
+                            评价
+                        </van-button>
+                    </view>
+                </view>
+
+            </view>
+        </view>
+        <van-empty description="暂无订单" wx:if="{{orderList.length==0}}" />
+    </view>
+    <van-dialog use-slot show="{{ isShowTip }}" show-cancel-button bind:cancel="closeTip"
+        bind:confirm="updateOrderStatus">
+        <view class="dialog-content">
+            确定该订单已完成吗？
+        </view>
+    </van-dialog>
+    <van-dialog use-slot show="{{ isShowDelete }}" show-cancel-button bind:cancel="closeDelete"
+        bind:confirm="deleteOrder">
+        <view class="dialog-content">
+            确定删除该订单吗？
+        </view>
+    </van-dialog>
+</view>

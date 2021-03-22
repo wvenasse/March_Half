@@ -58,13 +58,6 @@ public class AddressController {
         return addressJson;
     }
 
-    @RequestMapping(value = "/showAddress", produces = "text/json;charset=UTF-8")
-    public String showAddress(Integer addressId){
-        Address address = addressDao.getAddressById(addressId);
-        String addressJson = JSON.toJSONString(address);
-        return addressJson;
-    }
-
     @ResponseBody
     @RequestMapping("/findAllAddress")
     public R findAllAddress(@RequestParam("pageIndex") int pageIndex,
@@ -75,5 +68,10 @@ public class AddressController {
         return R.ok().put("pageInfo", pageInfo);
     }
 
-
+    @RequestMapping(value = "/showAddress", produces = "text/json;charset=UTF-8")
+    public String showAddress(Integer addressId){
+        Address address = addressDao.getAddressById(addressId);
+        String addressJson = JSON.toJSONString(address);
+        return addressJson;
+    }
 }

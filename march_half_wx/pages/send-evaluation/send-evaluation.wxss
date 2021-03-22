@@ -1,0 +1,85 @@
+/* pages/send-evaluation/send-evaluation.wxss */
+page {
+    background-color: #f7f8fa;
+    height: 100%;
+    padding: 40rpx 0 0 0;
+}
+
+.content {
+    background: #ffffff;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 20rpx;
+    box-shadow: 0 0 5px #dedede;
+    padding: 20rpx;
+}
+
+.evaluationHeader {
+    display: flex;
+    align-items: center;
+}
+.serviceImg {
+    flex: 0 0 100rpx;
+}
+.serviceImg image{
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 10rpx;
+}
+.serviceInfo {
+    padding-left: 20rpx;
+    font-size: 30rpx;
+    font-weight: 600;
+    flex: auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.evaluationContent {
+    
+}
+.evaluationStar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 30rpx;
+    padding: 20rpx 0;
+}
+.field{
+    width: 136rpx;
+}
+.evaluationDetail {
+    background: #eeeeee;
+    border-radius: 10rpx;
+    width: 100%;
+    padding: 20rpx;
+    font-size: 30rpx;
+    margin-bottom: 40rpx;
+}
+
+.evaluationDetail textarea{
+    width: 100%;
+}
+.currentWordNumber {
+    text-align: right;
+    color: #ababab;
+}
+.evaluationImg {
+    
+}
+.isNoName {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 30rpx;
+    font-weight: 600;
+    padding: 20rpx 0;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    height: 90rpx;
+    width: 100%;
+    background: #fff;
+}

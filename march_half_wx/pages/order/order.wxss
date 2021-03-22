@@ -1,1 +1,135 @@
 /* pages/forum/forum.wxss */
+page {
+    /* background-color: #f7f8fa; */
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+}
+
+.orderHeader {
+    background: #fff;
+}
+
+.orderContent {
+    padding: 20rpx 30rpx;
+}
+
+.orderList {
+
+}
+
+.orderCard {
+    background: #fff;
+    border-radius: 20rpx;
+    margin-bottom: 20rpx;
+    box-shadow:0 0 10px #dedede;
+    padding: 20rpx;
+}
+
+.cardHead{
+    height: 25%;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 26rpx;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.orderTitle {
+    display: flex;
+    justify-content: space-between;
+}
+
+.orderInstitution {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 30rpx;
+    font-weight: 600;
+}
+
+.orderStatus {
+    font-size: 30rpx;
+    color: #ad0014;
+}
+
+
+.orderInfo {
+    display: flex;
+    align-items: center;
+    padding: 10rpx 0;
+}
+
+.orderServiceImg {
+
+}
+.orderServiceImg  image{
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 30rpx;
+}
+
+.orderContain {
+    flex: auto;
+    padding-left: 20rpx;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    height: 150rpx;
+}
+
+.orderServiceInfo {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.orderService {
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 30rpx;
+    font-weight: 600;
+}
+
+.orderPrice {
+
+}
+
+.orderTypeInfo {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #a7a7a7;
+}
+
+.orderType {
+
+}
+
+.orderDate {
+
+}
+
+.orderEdit {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 20rpx;
+    border-top: 1px solid #eeeeee;
+}
+.exitButton {
+    margin-left: 20rpx;
+}
+
+.dialog-content {
+    text-align: center;
+    padding: 20rpx 0;
+}

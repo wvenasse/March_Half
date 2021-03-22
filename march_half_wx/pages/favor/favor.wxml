@@ -1,0 +1,28 @@
+<view class="content">
+    <view class="aside">
+        <van-sidebar active-key="{{ activeKey }}" bind:change="onTypeChange">
+            <van-sidebar-item title="服务人员" />
+            <van-sidebar-item title="服务机构" />
+            <van-sidebar-item title="讨论贴" />
+        </van-sidebar>
+    </view>
+    <view class="favorContent">
+        <view wx:if="{{favor.length>0}}">
+            <view wx:for="{{favor}}" wx:for-index="index" wx:key="index" class="favorList">
+                <view class="favorCell">
+                    <view bindtap="onFavorClick" data-favor="{{item}}">
+                        {{activeKey==0?item.serviceName: activeKey==1?item.institutionName:item.postName}}</view>
+                    <view>
+                        <van-button color="#ab0014" size="mini" bindtap="openTip" data-favor="{{item}}">删除</van-button>
+                    </view>
+                </view>
+            </view>
+        </view>
+        <van-empty description="暂无内容" wx:if="{{favor.length==0}}" />
+    </view>
+    <van-dialog use-slot show="{{ isShowTip }}" show-cancel-button bind:cancel="closeTip" bind:confirm="deleteFavor" >
+        <view class="dialog-content">
+            确定删除吗？
+        </view>
+    </van-dialog>
+</view>

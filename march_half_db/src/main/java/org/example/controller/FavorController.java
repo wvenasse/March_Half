@@ -58,13 +58,6 @@ public class FavorController {
         return favorJson;
     }
 
-    @RequestMapping(value = "/showFavor", produces = "text/json;charset=UTF-8")
-    public String showFavor(Integer addressId){
-        Favor favor = favorDao.getFavorById(addressId);
-        String favorJson = JSON.toJSONString(favor);
-        return favorJson;
-    }
-
     @ResponseBody
     @RequestMapping("/findAllFavor")
     public R findAllFavor(@RequestParam("pageIndex") int pageIndex,
@@ -76,5 +69,48 @@ public class FavorController {
         return R.ok().put("pageInfo", pageInfo);
     }
 
+    @RequestMapping(value = "/showFavor", produces = "text/json;charset=UTF-8")
+    public String showFavor(Integer favorId){
+        Favor favor = favorDao.getFavorById(favorId);
+        String favorJson = JSON.toJSONString(favor);
+        return favorJson;
+    }
 
+    @RequestMapping(value = "/isFavorService", produces = "text/json;charset=UTF-8")
+    public String isFavorService(Integer favorType,Integer userId,Integer serviceId){
+        Favor favor = favorDao.isFavorService(favorType,userId,serviceId);
+        String favorJson = JSON.toJSONString(favor);
+        return favorJson;
+    }
+    @RequestMapping(value = "/isFavorInstitution", produces = "text/json;charset=UTF-8")
+    public String isFavorInstitution(Integer favorType,Integer userId,Integer institutionId){
+        Favor favor = favorDao.isFavorInstitution(favorType,userId,institutionId);
+        String favorJson = JSON.toJSONString(favor);
+        return favorJson;
+    }
+    @RequestMapping(value = "/isFavorPost", produces = "text/json;charset=UTF-8")
+    public String isFavorPost(Integer favorType,Integer userId,Integer postId){
+        Favor favor = favorDao.isFavorPost(favorType,userId,postId);
+        String favorJson = JSON.toJSONString(favor);
+        return favorJson;
+    }
+
+    @RequestMapping(value = "/isFavorServiceNum", produces = "text/json;charset=UTF-8")
+    public String isFavorServiceNum(Integer favorType,Integer serviceId){
+        List<Favor>  favor = favorDao.isFavorServiceNum(favorType,serviceId);
+        String favorJson = JSON.toJSONString(favor);
+        return favorJson;
+    }
+    @RequestMapping(value = "/isFavorInstitutionNum", produces = "text/json;charset=UTF-8")
+    public String isFavorInstitutionNum(Integer favorType,Integer institutionId){
+        List<Favor>  favor = favorDao.isFavorInstitutionNum(favorType,institutionId);
+        String favorJson = JSON.toJSONString(favor);
+        return favorJson;
+    }
+    @RequestMapping(value = "/isFavorPostNum", produces = "text/json;charset=UTF-8")
+    public String isFavorPostNum(Integer favorType,Integer postId){
+        List<Favor>  favor = favorDao.isFavorPostNum(favorType,postId);
+        String favorJson = JSON.toJSONString(favor);
+        return favorJson;
+    }
 }

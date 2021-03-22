@@ -171,4 +171,19 @@
             </van-tab>
         </van-tabs>
     </view>
+
+    <view class="footer">
+        <view class="fooerLeft">
+            <view class="footLike" bindtap="onLikeChange">
+                <van-icon name="like-o" size="50rpx" wx:if="{{!isLike}}"/>
+                <van-icon name="like" color="#ab0014" size="50rpx"  wx:if="{{isLike}}"/>
+                ({{likeNum}})
+            </view>
+            <view class="footLove" bindtap="onLoveChange">
+                <van-icon name="star-o" size="50rpx" wx:if="{{!isLove}}"/>
+                <van-icon name="star" color="#ab0014" size="50rpx" wx:if="{{isLove}}"/>
+                ({{loveNum}})
+            </view>
+        </view>
+    </view>
 </view>

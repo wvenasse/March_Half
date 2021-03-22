@@ -229,6 +229,7 @@ Page({
     }
     util.baseGet('showUsers',data,
       function (result) {
+        console.log(result)
         wx.setStorageSync('userDetail', result.data);
         that.setData({
           userDetail: result.data
@@ -281,6 +282,27 @@ Page({
       }
     })
   },
+
+  gotoAddress(){
+    wx.navigateTo({
+      url: '../address/address'
+    })
+  },
+  gotoOrder(){
+    wx.switchTab({ 
+      url: '../order/order'
+    }) 
+  },
+  gotoLike() {
+    wx.navigateTo({
+      url: '../favor/favor?favorType='+1
+    })
+  },
+  gotoLove() {
+    wx.navigateTo({
+      url: '../favor/favor?favorType='+2
+    })
+  },
   
   /**
    * 生命周期函数--监听页面加载
@@ -292,7 +314,7 @@ Page({
         userDetail: wx.getStorageSync('userDetail'),
         hasUserInfo: true
       })
-      console.log(this.data.userInfo)
+      this.loadUser(wx.getStorageSync('openid'));
       // this.getOpenIdTap();
       // this.getCodeTap();
     } else if (this.data.canIUse) {
@@ -331,8 +353,8 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-
+  onShow:function(e){
+    this.onLoad();
   },
 
   /**

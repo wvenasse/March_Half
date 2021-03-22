@@ -6,6 +6,8 @@ Page({
    * 页面的初始数据
    */
   data: {
+    serviceId:'',
+    orderId:'',
     service: {},
     orderInfo: {
       orderName:'',
@@ -18,6 +20,12 @@ Page({
       orderContactPhone:'',
       orderArea:'',
       orderAddressDetail:'',
+
+      orderStartDate: '',
+      orderEndDate: '',
+      orderPrice:'',
+      orderPriceTotal:'',
+      serviceImg:'',
     },
     focus: false,
     address:[],
@@ -26,9 +34,9 @@ Page({
     type:[],
     isShowType:false,
 
-    isShowTime:false,
     dateTimeArray: null,
-    dateTime: null,
+    startDateTime: null,
+    endDateTime:null,
     startYear: 2000,
     endYear: 2050,
 
@@ -76,6 +84,23 @@ Page({
         console.log(err);
       })
   },
+  loadOrder() {
+    let data={
+      orderId: this.data.orderId
+    };
+    let that = this;
+    util.baseGet('showOrder',data,
+      function (result) {
+        console.log(result);
+        that.setData({
+          orderInfo: result.data,
+          currentNoteLen: result.data.orderDetail.length
+        })
+        that.loadService(result.data.serviceId);
+      },function (err) {
+        console.log(err);
+      })
+  },
 
   onAddressOpen() {
     this.setData({ isShowAddress: true });
@@ -119,12 +144,12 @@ Page({
     });
   },
   
-  changeDateTime(e){
-    this.setData({ dateTime: e.detail.value });
+  changeStartDateTime(e){
+    this.setData({ startDateTime: e.detail.value });
   },
-  changeDateTimeColumn(e){
-    var orderDate = 'orderInfo.orderDate'
-    var arr = this.data.dateTime;
+  changeStartDateTimeColumn(e){
+    var orderStartDate = 'orderInfo.orderStartDate'
+    var arr = this.data.startDateTime;
     var dateArr = this.data.dateTimeArray;
     arr[e.detail.column] = e.detail.value;
     dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
@@ -132,8 +157,25 @@ Page({
     console.log(date)
     this.setData({
       dateTimeArray: dateArr,
-      dateTime: arr,
-      [orderDate]: date
+      startDateTime: arr,
+      [orderStartDate]: date
+    });
+  },
+  changeEndDateTime(e){
+    this.setData({ startDateTime: e.detail.value });
+  },
+  changeEndDateTimeColumn(e){
+    var orderEndDate = 'orderInfo.orderEndDate'
+    var arr = this.data.endDateTime;
+    var dateArr = this.data.dateTimeArray;
+    arr[e.detail.column] = e.detail.value;
+    dateArr[2] = dateTimePicker.getMonthDay(dateArr[0][arr[0]], dateArr[1][arr[1]]);
+    var date =  dateArr[0][arr[0]]+'-'+dateArr[1][arr[1]]+'-'+dateArr[2][arr[2]]+' '+dateArr[3][arr[3]]+':'+dateArr[4][arr[4]]+':'+dateArr[5][arr[5]];
+    console.log(date)
+    this.setData({
+      dateTimeArray: dateArr,
+      endDateTime: arr,
+      [orderEndDate]: date
     });
   },
 
@@ -154,13 +196,23 @@ Page({
     let Name = orderInfo.orderContactName + ',' + orderInfo.orderType +
     ',' + service.serviceName + ',' + service.serviceInstitution + ',' +
     Time;
+    let img;
+    if (this.data.service.serviceIcon) {
+      img = this.data.service.serviceIcon.split(',')[0];
+    }
+    let startTime = (Date.parse(new Date(orderInfo.orderStartDate)))/1000;
+    let endTime = (Date.parse(new Date(orderInfo.orderEndDate)))/1000;
+    let time = (endTime-startTime)/60/60;
+    let total = Math.round(service.servicePrice * time);
     let data = {
       orderName: Name,
-      orderDate: orderInfo.orderDate,
-      orderDetail: orderInfo.orderDetail,
+      orderStartDate: orderInfo.orderStartDate,
+      orderEndDate: orderInfo.orderEndDate,
+      orderPriceTotal: total,
+      orderPrice: service.servicePrice,
       orderTime: Time,
-      orderStatus:'0',
-
+      serviceImg: img,
+      orderDetail: orderInfo.orderDetail,
       userId: wx.getStorageSync('userDetail').userId,
       orderUser: wx.getStorageSync('userDetail').userName,
       typeId: orderInfo.typeId,
@@ -176,10 +228,21 @@ Page({
       orderArea: orderInfo.orderArea,
       orderAddressDetail: orderInfo.orderAddressDetail,
     };
-    util.baseGet('addOrder', data,
+    let url;
+    if (this.data.orderId) {
+      url = 'updateOrder';
+      data['orderId'] = this.data.orderId;
+      data['orderStatus'] = orderInfo.orderStatus
+    } else {
+      url = 'addOrder';
+      data['orderStatus'] = '0'
+    }
+    let that = this;
+    util.baseGet(url, data,
       function (result) {
         console.log(result);
         if (result.data.code == 200) {
+          that.updateUserOrderNum();
           wx.switchTab({ 
             url: '../order/order'
           }) 
@@ -189,16 +252,48 @@ Page({
         console.log(err);
       })
   },
+
+  updateUserOrderNum() {
+    var that = this;
+    let data = {
+      userId: wx.getStorageSync('userDetail').userId
+    };
+    util.baseGet('updateUserOrderNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
-    this.setData({
-      dateTime: obj.dateTime,
-      dateTimeArray: obj.dateTimeArray
-    });
-    this.loadService(options.serviceId);
+    let title;
+    if (options.orderId) {
+      title = '修改';
+      wx.setNavigationBarTitle({
+        title: title + '订单'
+      })
+      this.setData({
+        orderId: options.orderId
+      })
+      this.loadOrder();
+    } else if (options.serviceId) {
+      title = '发布';
+      wx.setNavigationBarTitle({
+        title: title + '订单'
+      })
+      var obj = dateTimePicker.dateTimePicker(this.data.startYear, this.data.endYear);
+      this.setData({
+        serviceId: options.serviceId,
+        startDateTime: obj.dateTime,
+        endDateTime: obj.dateTime,
+        dateTimeArray: obj.dateTimeArray
+      });
+      this.loadService(options.serviceId);
+    }
     this.loadAddress();
   },
 

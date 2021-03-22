@@ -4,9 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.OrderDao">
     <insert id="addOrder" parameterType="org.example.pojo.Order">
-        insert into orders(orderName,orderDate,orderTime,orderDetail,userId,orderUser,typeId,orderType,serviceId,orderService,institutionId,orderInstitution,
+        insert into orders(orderName,orderStartDate,orderEndDate,orderPriceTotal,orderPrice,orderTime,serviceImg,
+        orderDetail,userId,orderUser,typeId,orderType,serviceId,orderService,institutionId,orderInstitution,
         addressId,orderContactName,orderContactPhone,orderArea,orderAddressDetail,orderStatus)
-        values (#{orderName},#{orderDate},#{orderTime},#{orderDetail},#{userId},#{orderUser},#{typeId},#{orderType},#{serviceId},#{orderService},#{institutionId},#{orderInstitution},
+        values (#{orderName},#{orderStartDate},#{orderEndDate},#{orderPriceTotal},#{orderPrice},#{orderTime},
+        #{serviceImg},#{orderDetail},#{userId},#{orderUser},#{typeId},#{orderType},#{serviceId},#{orderService},
+        #{institutionId}, #{orderInstitution},
         #{addressId},#{orderContactName},#{orderContactPhone},#{orderArea},#{orderAddressDetail},#{orderStatus})
     </insert>
 
@@ -15,9 +18,13 @@
     </delete>
 
     <select id="updateOrder" parameterType="org.example.pojo.Order" resultType="java.lang.Integer">
-        update orders set orderName=#{orderName},orderDate=#{orderDate},orderTime=#{orderTime},orderDetail=#{orderDetail},
-        userId=#{userId},orderUser=#{orderUser},typeId=#{typeId},orderType=#{orderType},serviceId=#{serviceId},orderService=#{orderService},institutionId=#{institutionId},orderInstitution=#{orderInstitution},
-        addressId=#{addressId},orderContactName=#{orderContactName},orderContactPhone=#{orderContactPhone},orderArea=#{orderArea},orderAddressDetail=#{orderAddressDetail},orderStatus=#{orderStatus}
+        update orders set orderName=#{orderName},orderStartDate=#{orderStartDate},orderEndDate=#{orderEndDate},
+        orderPriceTotal=#{orderPriceTotal},orderPrice=#{orderPrice},orderTime=#{orderTime},
+        orderDetail=#{orderDetail},serviceImg=#{serviceImg},
+        userId=#{userId},orderUser=#{orderUser},typeId=#{typeId},orderType=#{orderType},serviceId=#{serviceId},
+        orderService=#{orderService},institutionId=#{institutionId},orderInstitution=#{orderInstitution},
+        addressId=#{addressId},orderContactName=#{orderContactName},orderContactPhone=#{orderContactPhone},
+        orderArea=#{orderArea},orderAddressDetail=#{orderAddressDetail},orderStatus=#{orderStatus}
         where orderId=#{orderId}
     </select>
     <select id="updateOrderStatus" resultType="java.lang.Integer">
@@ -32,7 +39,7 @@
         select * from orders where userId=#{userId}
     </select>
     <select id="getAllOrderByStatus" resultType="org.example.pojo.Order">
-        select * from orders where orderStatus=#{orderStatus}
+        select * from orders where orderStatus=#{orderStatus} And userId=#{userId}
     </select>
 
     <select id="getOrderById" resultType="org.example.pojo.Order">

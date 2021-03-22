@@ -165,7 +165,20 @@
     </view>
 
     <view class="footer">
-        <van-button color="#ad0014" block round bindtap="gotoSubscribe">立即预约</van-button>
+        <view class="fooerLeft">
+            <view class="footLike" bindtap="onLikeChange">
+                <van-icon name="like-o" size="50rpx" wx:if="{{!isLike}}"/>
+                <van-icon name="like" color="#ab0014" size="50rpx"  wx:if="{{isLike}}"/>
+                ({{likeNum}})
+            </view>
+            <view class="footLove" bindtap="onLoveChange">
+                <van-icon name="star-o" size="50rpx" wx:if="{{!isLove}}"/>
+                <van-icon name="star" color="#ab0014" size="50rpx" wx:if="{{isLove}}"/>
+                ({{loveNum}})
+            </view>
+        </view>
+        <view class="fooerRight">
+            <van-button color="#ad0014" block round bindtap="gotoSubscribe">立即预约</van-button>
+        </view>
     </view>
-      
 </view>

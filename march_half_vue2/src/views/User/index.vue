@@ -703,7 +703,8 @@
         table: {
           loading: false,
           tableData: []
-        }
+        },
+        userId:0
       });
       const loadUserAddress = (userId) => {
         userAddressDialog.table.loading = true;
@@ -758,7 +759,7 @@
         addressDialog.form.addressArea = addressDialog.form.addressArea[0] +'/'+ addressDialog.form.addressArea[1] +'/'+ addressDialog.form.addressArea[2];
         addressDialog.form.addressName = addressDialog.form.contactName + ',' + addressDialog.form.contactPhone + ',' + addressDialog.form.addressArea + ',' + addressDialog.form.addressDetail;
         let data = {
-          addressId: addressDialog.form.addressId,
+          userId: addressDialog.userId,
           contactName: addressDialog.form.contactName,
           contactPhone: addressDialog.form.contactPhone,
           addressArea: addressDialog.form.addressArea,

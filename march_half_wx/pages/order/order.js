@@ -1,18 +1,179 @@
 // pages/forum/forum.js
+var util = require('../../utils/util.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    icons:[
+      't-icon-bangdaiyongyi',
+      't-icon-yingerfu',
+      't-icon-beixin',
+      't-icon-baozhen',
+      't-icon-maoyi',
+      't-icon-weiyi',
+      't-icon-gaolingmaoyi',
+      't-icon-yashemao',
+      't-icon-shishi',
+      't-icon-lvhangbao',
+      't-icon-danjianbao',
+      't-icon-diannaobao',
+      't-icon-chajianTxu',
+      't-icon-fentiyongyi',
+      't-icon-hanglixiang',
+      't-icon-lianshenyongyi',
+      't-icon-shoutibao',
+      't-icon-taolingshangyi',
+      't-icon-gengduo',
+    ],
+    orderList:[],
+    orderStatus:0,
+    isShowTip:false,
+    isShowDelete:false,
+    currentOrder:{}
   },
-
+  onClickStatus(event) {
+    let index = event.detail.index;
+    let status;
+    if (index === 0) {
+      status=0;
+    }
+    else if (index === 1) {
+      status=1;
+    }
+    else if (index === 2) {
+      status=2;
+    }
+    else if (index === 3) {
+      status=3;
+    }
+    else if (index === 4) {
+      status=4;
+    }
+    this.setData({
+      orderStatus:status
+    })
+    wx.setStorageSync('orderStatus',status)
+    this.loadOrder();
+  },
+  loadOrder(){
+    var that = this;
+    let data={
+      orderStatus: wx.getStorageSync('orderStatus') || this.data.orderStatus,
+      userId: wx.getStorageSync('userDetail').userId
+    };
+    util.baseGet('showAllOrderByStatus',data,
+      function (result) {
+        console.log(result);
+        for (let i=0;i<result.data.length;i++) {
+          result.data[i].date =  Math.round(((Date.parse(new Date(result.data[i].orderEndDate)))/1000-(Date.parse(new Date(result.data[i].orderStartDate)))/1000)/60/60);
+          result.data[i].serviceImg = '../image/'+result.data[i].serviceImg.split(',')[0];
+        }
+        that.setData({
+          orderList: result.data.reverse()
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+  gotoOrderDetail(e){
+    let order = e.currentTarget.dataset['order'];
+    wx.navigateTo({
+      url: '../orderDetail/orderDetail?orderId='+order.orderId
+    })
+  },
+  editOrder(e){
+    let order = e.currentTarget.dataset['order'];
+    wx.navigateTo({
+      url: '../subscribe/subscribe?orderId='+order.orderId
+    })
+  },
+  openTip(e){
+    let order = e.currentTarget.dataset['order'];
+    this.setData({
+      isShowTip: true,
+      currentOrder:order
+    })
+  },
+  closeTip(){
+    this.setData({
+      isShowTip: false
+    })
+  },
+  updateOrderStatus(){
+    let order = this.data.currentOrder;
+    var that = this;
+    let data={
+      orderId: order.orderId,
+      orderStatus: '3'
+    };
+    util.baseGet('updateOrderStatus',data,
+      function (result) {
+        console.log(result);
+        that.loadOrder();
+        that.setData({
+          isShowTip: false
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+  openDetele(e){
+    let order = e.currentTarget.dataset['order'];
+    this.setData({
+      isShowDelete: true,
+      currentOrder:order
+    })
+  },
+  closeDelete(){
+    this.setData({
+      isShowDelete: false
+    })
+  },
+  deleteOrder(){
+    let order = this.data.currentOrder;
+    var that = this;
+    let data={
+      orderId: order.orderId
+    };
+    util.baseGet('delOrder',data,
+      function (result) {
+        console.log(result);
+        that.loadOrder();
+        that.setData({
+          isShowDelete: false
+        })
+        that.updateUserOrderNum();
+      },function (err) {
+        console.log(err);
+      })
+  },
+  openEvaluation(e){
+    let order = e.currentTarget.dataset['order'];
+    wx.navigateTo({
+      url: '../send-evaluation/send-evaluation?orderId='+order.orderId
+    })
+  },
+  updateUserOrderNum() {
+    var that = this;
+    let data = {
+      userId: wx.getStorageSync('userDetail').userId
+    };
+    util.baseGet('updateUserOrderNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    this.loadOrder();
   },
 
   /**
@@ -26,7 +187,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.loadOrder();
   },
 
   /**

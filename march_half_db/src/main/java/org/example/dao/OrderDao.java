@@ -21,7 +21,7 @@ public interface OrderDao {
     //查
     public List<Order> getAllOrder(String keyWord);
     public List<Order> getAllOrderByUser(Integer userId);
-    public List<Order> getAllOrderByStatus(String orderStatus);
+    public List<Order> getAllOrderByStatus(String orderStatus,Integer userId);
     //照id查
     public Order getOrderById(Integer orderId);
 }

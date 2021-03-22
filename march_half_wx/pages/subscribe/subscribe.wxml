@@ -62,24 +62,40 @@
                 <van-icon name="arrow" />
             </view>
         </view>
-        <picker mode="multiSelector" value="{{dateTime}}" range="{{dateTimeArray}}" bindchange="changeDateTime"
-            bindcolumnchange="changeDateTimeColumn">
+        <picker mode="multiSelector" value="{{startDateTime}}" range="{{dateTimeArray}}" bindchange="changeStartDateTime"
+            bindcolumnchange="changeStartDateTimeColumn">
             <view class="orderCell">
                 <view class="cellTitle">
                     <view class="warning">*</view>
-                    <view class="cellName">服务时间：</view>
+                    <view class="cellName">服务开始时间：</view>
                 </view>
-
                 <view class="cellContent">
-                    <view class="noContent" wx:if="{{!orderInfo.orderDate}}">
-                        <view>请选择时间</view>
+                    <view class="noContent" wx:if="{{!orderInfo.orderStartDate}}">
+                        <view>请选择开始时间</view>
                     </view>
                     <view class="haveContent" wx:else>
-                        {{orderInfo.orderDate}}
+                        {{orderInfo.orderStartDate}}
                     </view>
                     <van-icon name="arrow" />
                 </view>
-
+            </view>
+        </picker>
+        <picker mode="multiSelector" value="{{endDateTime}}" range="{{dateTimeArray}}" bindchange="changeEndDateTime"
+            bindcolumnchange="changeEndDateTimeColumn">
+            <view class="orderCell">
+                <view class="cellTitle">
+                    <view class="warning">*</view>
+                    <view class="cellName">服务结束时间：</view>
+                </view>
+                <view class="cellContent">
+                    <view class="noContent" wx:if="{{!orderInfo.orderEndDate}}">
+                        <view>请选择结束时间</view>
+                    </view>
+                    <view class="haveContent" wx:else>
+                        {{orderInfo.orderEndDate}}
+                    </view>
+                    <van-icon name="arrow" />
+                </view>
             </view>
         </picker>
         <view class="orderDetail">

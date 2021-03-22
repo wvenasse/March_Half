@@ -31,7 +31,13 @@ Page({
       't-icon-shoutibao',
       't-icon-taolingshangyi',
       't-icon-gengduo',
-    ]
+    ],
+    isLike:false,
+    isLove:false,
+    likeNum:0,
+    loveNum:0,
+    likeId:0,
+    loveId:0
   },
   
   loadinstitution(){
@@ -106,6 +112,202 @@ Page({
     })
   },
 
+  loadLike(){
+    var that = this;
+    let loveData={
+      favorType: 1,
+      userId: wx.getStorageSync('userDetail').userId,
+      institutionId: this.data.institutionId
+    };
+    util.baseGet('isFavorInstitution',loveData,
+      function (result) {
+        console.log(result);
+        that.setData({
+          likeId:result.data.favorId
+        })
+        that.deleteLike();
+      },function (err) {
+        console.log(err);
+      })
+  },
+  loadLove(){
+    var that = this;
+    let loveData={
+      favorType: 2,
+      userId: wx.getStorageSync('userDetail').userId,
+      institutionId: this.data.institutionId
+    };
+    util.baseGet('isFavorInstitution',loveData,
+      function (result) {
+        console.log(result);
+        that.setData({
+          loveId:result.data.favorId
+        })
+        that.deleteLove();
+      },function (err) {
+        console.log(err);
+      })
+  },
+  loadLikeNum(){
+    var that = this;
+    let userId = wx.getStorageSync('userDetail').userId;
+    let like = false;
+    let likeData={
+      favorType: 1,
+      institutionId: this.data.institutionId
+    };
+    util.baseGet('isFavorInstitutionNum',likeData,
+      function (result) {
+        console.log(result);
+        for (let i=0;i<result.data.length;i++) {
+          if (result.data[i].userId == userId) {
+            like = true;
+            break;
+          }
+        }
+        that.setData({
+          isLike:like,
+          likeNum:result.data.length
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+  loadLoveNum(){
+    var that = this;
+    let userId = wx.getStorageSync('userDetail').userId;
+    let love = false;
+    let loveData={
+      favorType: 2,
+      institutionId: this.data.institutionId
+    };
+    util.baseGet('isFavorInstitutionNum',loveData,
+      function (result) {
+        console.log(result);
+        for (let i=0;i<result.data.length;i++) {
+          if (result.data[i].userId == userId) {
+            love = true;
+            break;
+          }
+        }
+        that.setData({
+          isLove:love,
+          loveNum:result.data.length
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+  onLikeChange(){
+    let that = this;
+    let Time = util.formatTime(new Date());
+    if (this.data.isLike) {
+      this.loadLike();
+    }
+    else {
+      let data = {
+        userId: wx.getStorageSync('userDetail').userId,
+        favorType: 1,
+        favorTime: Time,
+        institutionId: this.data.institutionId,
+        institutionName: this.data.institutionName
+      };
+      util.baseGet('addFavor',data,
+        function (result) {
+          console.log(result);
+          if (result.data.code) {
+            that.loadLikeNum();
+            that.updateUserLikeNum();
+          }
+        },function (err) {
+          console.log(err);
+        })
+    }
+  },
+  onLoveChange(){
+    let that = this;
+    let Time = util.formatTime(new Date());
+    if (this.data.isLove) {
+      this.loadLove();
+    }
+    else {
+      let data = {
+        userId: wx.getStorageSync('userDetail').userId,
+        favorType: 2,
+        favorTime: Time,
+        institutionId: this.data.institutionId,
+        institutionName: this.data.institutionName
+      };
+      util.baseGet('addFavor',data,
+        function (result) {
+          console.log(result);
+          if (result.data.code) {
+            that.loadLoveNum();
+            that.updateUserLoveNum();
+          }
+        },function (err) {
+          console.log(err);
+        })
+    }
+  },
+  deleteLike(){
+    var that = this;
+    let loveData={
+      favorId: this.data.likeId
+    };
+    util.baseGet('delFavor',loveData,
+      function (result) {
+        console.log(result);
+        if (result.data.code == 200) {
+          that.loadLikeNum();
+        }
+      },function (err) {
+        console.log(err);
+      })
+  },
+  deleteLove(){
+    var that = this;
+    let loveData={
+      favorId: this.data.loveId
+    };
+    util.baseGet('delFavor',loveData,
+      function (result) {
+        console.log(result);
+        if (result.data.code == 200) {
+          that.loadLoveNum();
+        }
+      },function (err) {
+        console.log(err);
+      })
+  },
+
+  updateUserLikeNum() {
+    var that = this;
+    let data = {
+      userId: wx.getStorageSync('userDetail').userId
+    };
+    util.baseGet('updateUserLikeNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateUserLoveNum() {
+    var that = this;
+    let data = {
+      userId: wx.getStorageSync('userDetail').userId
+    };
+    util.baseGet('updateUserLoveNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+
   /**
    * 生命周期函数--监听页面加载
    */
@@ -119,7 +321,8 @@ Page({
     })
     this.loadinstitution();
     this.loadEvaluation();
-
+    this.loadLikeNum();
+    this.loadLoveNum();
   },
 
   /**

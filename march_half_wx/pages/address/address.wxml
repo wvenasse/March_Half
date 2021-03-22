@@ -1,0 +1,45 @@
+<view class="content">
+    <view class="addressList">
+        <view class="addressCell" wx:for="{{address}}" wx:for-index="index" wx:key="addressId">
+            <view class="cellTitle">
+                <view>
+                    {{item.contactName}}
+                </view>
+                <view>
+                    {{item.contactPhone}}
+                </view>
+            </view>
+            <view class="cellContent">
+                <view>
+                    {{item.addressArea}}
+                </view>
+                <view>
+                    {{item.addressDetail}}
+                </view>
+            </view>
+            <view class="cellButton">
+                <view class="editButton">
+                    <van-button icon="edit" color="#737373" plain size="mini" 
+                    bindtap="gotoAddressDetail" data-address="{{item}}">
+                        编辑
+                    </van-button>
+                </view>
+                <view class="deleteButton">
+                    <van-button icon="failure" color="#737373" plain size="mini" 
+                    bindtap="openTip" data-address="{{item}}">
+                        删除
+                    </van-button>
+                </view>
+            </view>
+            <van-dialog use-slot show="{{ isShowTip }}" show-cancel-button bind:cancel="closeTip"
+                bind:confirm="deleteAddress" data-address="{{item}}">
+                <view class="dialog-content">
+                    确定删除该地址吗？
+                </view>
+            </van-dialog>
+        </view>
+    </view>
+    <view class="footer">
+        <van-button color="#ad0014" block bindtap="gotoAddressDetail">新增地址</van-button>
+    </view>
+</view>

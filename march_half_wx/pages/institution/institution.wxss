@@ -257,3 +257,29 @@ swiper{
     bottom: 10rpx;
     height: fit-content;
 }
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    height: 90rpx;
+    width: 100%;
+    background: #fff;
+    display: flex;
+}
+
+.fooerLeft {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.fooerRight {
+    width: 50%;
+    padding: 0 20rpx;
+}
+
+.footLike,.footLove {
+    display: flex;
+    align-items: center;
+}

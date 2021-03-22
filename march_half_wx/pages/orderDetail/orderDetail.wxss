@@ -1,0 +1,135 @@
+/* pages/orderDetail/orderDetail.wxss */
+page {
+    background-color: #f7f8fa;
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.orderDetailHeader {
+    background: linear-gradient(to bottom,#ab0014,#f7f8fa);
+    height: 300rpx;
+    display: flex;
+    color: #fff;
+    font-size: 36rpx;
+    font-weight: 600;
+    justify-content: space-between;
+    padding: 20rpx;
+    position: absolute;
+    width: 100%;
+}
+
+.orderStatus {
+
+}
+.orderStartDate {
+
+}
+.orderDetailContactInfo {
+    z-index: 2;
+    position: relative;
+    background: #fff;
+    width: 90%;
+    margin: 100rpx 0 20rpx 0;
+    border-radius: 20rpx;
+    box-shadow: 0 0 5px #54545442;
+    padding: 20rpx;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.orderDetailContact {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+    font-weight: 600;
+    font-size: 28rpx;
+    width: 92%;
+}
+.orderContact {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+    padding: 10rpx 0;
+}
+.orderAddress {
+    padding: 10rpx 0;
+}
+.orderDetailInfo {
+    z-index: 2;
+    position: relative;
+    background: #fff;
+    width: 90%;
+    border-radius: 20rpx;
+    box-shadow: 0 0 5px #54545442;
+    padding: 20rpx;
+}
+.detailInfoHeader {
+    display: flex;
+    font-size: 32rpx;
+    font-weight: 600;
+    padding: 0 0 20rpx 0;
+    border-bottom: 1px solid #eeeeee;
+}
+.detailInfoContent {
+    padding: 20rpx 0;
+}
+.detailInfoCell {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-bottom: 20rpx;
+}
+.cellTitle {
+    font-size: 30rpx;
+    font-weight: 600;
+    flex: 0 0 200rpx;
+}
+.cellContent {
+    display: flex;
+    align-items: center;
+    flex: auto;
+}
+.orderService {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+}
+.orderService image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+    margin-right: 20rpx;
+}
+.orderType {
+
+}
+.orderInstitution {
+
+}
+.orderDate {
+
+}
+.orderPriceTotal {
+
+}
+.orderDetail {
+
+}
+.orderId {
+
+}
+.orderTime {
+
+}

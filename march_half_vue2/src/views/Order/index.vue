@@ -55,7 +55,11 @@
                     </el-table-column>
                     <el-table-column prop="orderContactName" label="服务对象" width="80" align="center"></el-table-column>
                     <el-table-column prop="orderContactPhone" label="联系电话" width="100" align="center"></el-table-column>
-                    <el-table-column prop="orderDate" label="服务时间" width="200" align="center"></el-table-column>
+                    <el-table-column prop="orderDate" label="服务时间" width="280" align="center">
+                        <template slot-scope="scope">
+                            <span>{{scope.row.orderStartDate}}~{{scope.row.orderEndDate}}</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="orderAddressDtail" label="服务地址" width="130" align="center">
                         <template slot-scope="scope">
                             <el-tooltip class="item" effect="dark" :content="scope.row.orderAddressDetail"
@@ -72,6 +76,15 @@
                             <el-tooltip class="item" effect="dark" :content="scope.row.orderInstitution"
                                 placement="bottom-start">
                                 <span class="orderInstitution">{{scope.row.orderInstitution}}</span>
+                            </el-tooltip>
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="orderPriceTotal" label="订单总价" width="150" align="center"></el-table-column>
+                    <el-table-column prop="orderDetail" label="订单备注" align="center">
+                        <template slot-scope="scope">
+                            <el-tooltip class="item" effect="dark" :content="scope.row.orderDetail"
+                                placement="bottom-start">
+                                <span class="orderDetail">{{scope.row.orderDetail}}</span>
                             </el-tooltip>
                         </template>
                     </el-table-column>
@@ -128,14 +141,6 @@
                                     <el-button type="success" plain size="mini" slot="reference">已评价</el-button>
                                 </el-popover>
                             </span>
-                        </template>
-                    </el-table-column>
-                    <el-table-column prop="orderDetail" label="订单备注" align="center">
-                        <template slot-scope="scope">
-                            <el-tooltip class="item" effect="dark" :content="scope.row.orderDetail"
-                                placement="bottom-start">
-                                <span class="orderDetail">{{scope.row.orderDetail}}</span>
-                            </el-tooltip>
                         </template>
                     </el-table-column>
                     <el-table-column label="操作" fixed="right" align="center" width="150px">
@@ -210,8 +215,11 @@
                     </el-col>
                 </el-form-item>
                 <el-form-item prop="orderDate" label="订单时间" :label-width="orderDialog.formLabelWidth">
-                    <el-date-picker v-model="orderDialog.form.orderDate" type="datetime" placeholder="选择订单日期时间"
+                    <!-- <el-date-picker v-model="orderDialog.form.orderDate" type="datetime" placeholder="选择订单日期时间"
                     align="right" :picker-options="pickerOptions" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss">
+                    </el-date-picker> -->
+                    <el-date-picker v-model="orderDialog.form.orderDate" type="datetimerange"
+                    range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss">
                     </el-date-picker>
                 </el-form-item>
                 <el-form-item prop="orderDetail" label="订单备注" :label-width="orderDialog.formLabelWidth">
@@ -278,12 +286,17 @@
                     orderId: "",
                     orderTime: "",
                     orderDate:"",
+                    orderStartDate:"",
+                    orderEndDate:"",
+                    orderPriceTotal:"",
                     orderDetail: "",
                     userId: "",
                     orderUser: "",
                     typeId: "",
                     orderType: "",
                     serviceId: "",
+                    serviceImg:"",
+                    servicePrice:0,
                     orderService: "",
                     institutionId: "",
                     orderInstitution: "",
@@ -366,6 +379,11 @@
             };
             const openDiaog = (order) => {
                 console.log(order)
+                let yy = new Date().getFullYear();
+                let m = new Date().getMonth();
+                let mm = m < 10 ? '0' + m : m;
+                let dd = new Date().getDate() < 10 ? '0' + new Date().getDate() : new Date().getDate();
+                let hh = new Date().getHours() < 10 ? '0' + new Date().getHours() : new Date().getHours();
                 if (order !== 0) {
                     orderDialog.title = "修改订单";
                     orderDialog.flag = true;
@@ -376,10 +394,12 @@
                     if (orderDialog.form.typeId) {
                         loadService(orderDialog.form.typeId);
                     }
+                    orderDialog.form.orderDate = [order.orderStartDate, order.orderEndDate];
                 } else {
                     orderDialog.title = "新增订单";
                     orderDialog.flag = false;
                     orderDialog.form = {};
+                    orderDialog.form.orderDate = [new Date(yy, mm, dd, hh), new Date(yy, mm, dd, hh)];
                 }
                 orderDialog.visible = true;
             };
@@ -405,9 +425,16 @@
                 orderDialog.form.orderName = orderDialog.form.orderContactName + ',' + orderDialog.form.orderType +
                     ',' + orderDialog.form.orderService + ',' + orderDialog.form.orderInstitution + ',' +
                     orderDialog.form.orderTime;
+                let startTime = (Date.parse(new Date(orderDialog.form.orderDate[0])))/1000;
+                let endTime = (Date.parse(new Date(orderDialog.form.orderDate[1])))/1000;
+                let time = (endTime-startTime)/60/60;
+                orderDialog.form.orderPriceTotal = Math.round(orderDialog.form.orderPrice * time);
                 let data = {
                     orderName: orderDialog.form.orderName,
-                    orderDate: orderDialog.form.orderDate,
+                    orderStartDate: orderDialog.form.orderDate[0],
+                    orderEndDate: orderDialog.form.orderDate[1],
+                    orderPrice: orderDialog.form.orderPrice,
+                    orderPriceTotal: orderDialog.form.orderPriceTotal,
                     orderDetail: orderDialog.form.orderDetail,
                     orderTime: orderDialog.form.orderTime,
 
@@ -416,6 +443,7 @@
                     typeId: orderDialog.form.typeId,
                     orderType: orderDialog.form.orderType,
                     serviceId: orderDialog.form.serviceId,
+                    serviceImg:  orderDialog.form.serviceImg,
                     orderService: orderDialog.form.orderService,
                     institutionId: orderDialog.form.institutionId,
                     orderInstitution: orderDialog.form.orderInstitution,
@@ -426,7 +454,9 @@
                     orderArea: orderDialog.form.orderArea,
                     orderAddressDetail: orderDialog.form.orderAddressDetail,
                 };
+                console.log(data)
                 if (orderDialog.flag) {
+                    data['orderStatus'] = orderDialog.form.orderStatus;
                     data['orderId'] = orderDialog.form.orderId;
                     UpdateOrder(data)
                         .then(function (response) {
@@ -577,16 +607,14 @@
                     });
             }
             const handleAddressChange = (val) => {
-                console.log('add')
-                console.log(val)
                 if (val) {
                     for (let i = 0; i < optionList.addressData.length; i++) {
                         if (optionList.addressData[i].addressId === val) {
-                            let address = optionList.addressData[i].addressVal.split('-')
-                            orderDialog.form.orderContactName = address[0];
-                            orderDialog.form.orderContactPhone = address[1];
-                            orderDialog.form.orderArea = address[2];
-                            orderDialog.form.orderAddressDetail = address[3];
+                            // let address = optionList.addressData[i].addressVal.split('-')
+                            orderDialog.form.orderContactName = optionList.addressData[i].contactName;
+                            orderDialog.form.orderContactPhone = optionList.addressData[i].contactPhone;
+                            orderDialog.form.orderArea = optionList.addressData[i].addressArea;
+                            orderDialog.form.orderAddressDetail = optionList.addressData[i].addressDetail;
                         }
                     }
                 } else {
@@ -639,6 +667,9 @@
                 if (val) {
                     for (let i = 0; i < optionList.serviceData.length; i++) {
                         if (optionList.serviceData[i].serviceId === val) {
+                        console.log(optionList.serviceData[i].servicePrice)
+                            orderDialog.form.serviceImg = optionList.serviceData[i].serviceIcon.split(',')[0];
+                            orderDialog.form.orderPrice = optionList.serviceData[i].servicePrice;
                             orderDialog.form.orderService = optionList.serviceData[i].serviceName;
                             orderDialog.form.institutionId = optionList.serviceData[i].institutionId;
                             orderDialog.form.orderInstitution = optionList.serviceData[i].serviceInstitution;

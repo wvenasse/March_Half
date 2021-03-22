@@ -72,8 +72,8 @@ public class OrderController {
         return orderJson;
     }
     @RequestMapping(value = "/showAllOrderByStatus", produces = "text/json;charset=UTF-8")
-    public String showAllOrderByStatus(String orderStatus){
-        List<Order> order = orderDao.getAllOrderByStatus(orderStatus);
+    public String showAllOrderByStatus(String orderStatus,Integer userId){
+        List<Order> order = orderDao.getAllOrderByStatus(orderStatus,userId);
         String orderJson = JSON.toJSONString(order);
         return orderJson;
     }
@@ -98,9 +98,10 @@ public class OrderController {
     @RequestMapping("/findAllOrderByStatus")
     public R findAllOrderByStatus(@RequestParam("pageIndex") int pageIndex,
                           @RequestParam("pageSize") int pageSize,
-                          @RequestParam("orderStatus") String orderStatus){
+                          @RequestParam("orderStatus") String orderStatus,
+                                  @RequestParam("userId") Integer userId){
         PageHelper.startPage(pageIndex,pageSize);
-        PageInfo<Order> pageInfo = new PageInfo(orderDao.getAllOrderByStatus(orderStatus));
+        PageInfo<Order> pageInfo = new PageInfo(orderDao.getAllOrderByStatus(orderStatus,userId));
         return R.ok().put("pageInfo", pageInfo);
     }
 
