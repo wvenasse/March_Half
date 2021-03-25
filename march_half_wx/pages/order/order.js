@@ -168,7 +168,32 @@ Page({
         console.log(err);
       })
   },
-  
+  updateServiceOrderNum() {
+    var that = this;
+    let data = {
+      serviceId: this.currentOrder.serviceId
+    };
+    util.baseGet('updateServiceOrderNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateInstitutionOrderNum() {
+    var that = this;
+    let data = {
+      institutionId: this.currentOrder.institutionId
+    };
+    util.baseGet('updateInstitutionOrderNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
   /**
    * 生命周期函数--监听页面加载
    */

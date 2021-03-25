@@ -243,6 +243,8 @@ Page({
         console.log(result);
         if (result.data.code == 200) {
           that.updateUserOrderNum();
+          that.updateServiceOrderNum();
+          that.updateInstitutionOrderNum();
           wx.switchTab({ 
             url: '../order/order'
           }) 
@@ -259,6 +261,32 @@ Page({
       userId: wx.getStorageSync('userDetail').userId
     };
     util.baseGet('updateUserOrderNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateServiceOrderNum() {
+    var that = this;
+    let data = {
+      serviceId: this.service.serviceId
+    };
+    util.baseGet('updateServiceOrderNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateInstitutionOrderNum() {
+    var that = this;
+    let data = {
+      institutionId: this.service.institutionId
+    };
+    util.baseGet('updateInstitutionOrderNum', data,
       function (result) {
         console.log(result);
       },

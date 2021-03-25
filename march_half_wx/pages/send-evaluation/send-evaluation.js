@@ -165,6 +165,58 @@ Page({
         console.log(err);
       })
   },
+  updateServiceEvaNum() {
+    var that = this;
+    let data = {
+      serviceId: this.order.serviceId
+    };
+    util.baseGet('updateServiceEvaNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateInstitutionEvaNum() {
+    var that = this;
+    let data = {
+      institutionId: this.order.institutionId
+    };
+    util.baseGet('updateInstitutionEvaNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateServiceStar() {
+    var that = this;
+    let data = {
+      serviceId: this.order.serviceId
+    };
+    util.baseGet('updateServiceStar', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateInstitutionStar() {
+    var that = this;
+    let data = {
+      institutionId: this.order.institutionId
+    };
+    util.baseGet('updateInstitutionStar', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
 
   /**
    * 生命周期函数--监听页面加载

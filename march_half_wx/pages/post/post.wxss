@@ -1,0 +1,174 @@
+/* pages/post/post.wxss */
+page {
+    background-color: #f7f8fa;
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.searchBar {
+    display: flex;
+    background: #ffffff;
+    border-radius: 20rpx;
+    flex: 0 0 25px;
+}
+
+.search-input {
+    width: 80%;
+    padding: 0 20rpx;
+    display: flex;
+    align-items: center;
+    background: #f5f5f57a;
+    border-radius: 0 10rpx 10rpx 0;
+}
+
+.sinput {
+    width: 100%;
+    color:gray;
+}
+input:-ms-input-placeholder {
+    color: #C0C0C0;
+    font-size: 14px;
+}
+
+.search-button {
+    width: 20%;
+    background: #f5f5f57a;
+    border-radius: 10rpx 0 0 10rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.postTabs {
+
+}
+
+.postContent {
+    flex: auto;
+    padding-top: 20rpx;
+}
+
+.postList {
+
+}
+
+.postCell {
+    display: flex;
+    flex-direction: column;
+    padding: 30rpx 20rpx;
+    background: #ffffff;
+    margin-bottom: 20rpx;
+}
+
+.cellTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.titleLeft {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 50%;
+}
+
+.userIcons {
+
+}
+
+.userIcon {
+    width: 50rpx;
+    height: 50rpx;
+    border-radius: 50%;
+}
+
+.postUser {
+    padding-left: 20rpx;
+    height: 50rpx;
+}
+
+.titleRight {
+    color: #888888;
+    font-weight: 600;
+    font-size: 30rpx;
+    height: 50rpx;
+}
+
+.cellContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10rpx 0;
+}
+
+.cellText {
+    flex: auto;
+    display: flex;
+    flex-direction: column;
+    font-size: 32rpx;
+    line-height: 50rpx;
+}
+
+.postTitle {
+    font-weight: 600;
+    font-size: 36rpx;
+}
+
+.postDetail {
+
+}
+
+.cellImgs {
+    /* flex: 0 0 200rpx; */
+}
+
+.none {
+    display: none;
+}
+
+.cellImg {
+    max-width: 200rpx;
+    max-height: 200rpx;
+}
+
+.cellFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #888888;
+}
+
+.footerLeft {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.postLike {
+    margin-right: 20rpx;
+}
+
+.postLove {
+    margin-right: 20rpx;
+}
+
+.postCom {
+
+}
+
+.footerRight {
+    font-size: 30rpx;
+}
+
+
+.footer {
+    position: fixed;
+    bottom: 100rpx;
+    right: 20rpx;
+}

@@ -218,6 +218,7 @@ Page({
           if (result.data.code) {
             that.loadLikeNum();
             that.updateUserLikeNum();
+            that.updateInstitutionLikeNum();
           }
         },function (err) {
           console.log(err);
@@ -244,6 +245,7 @@ Page({
           if (result.data.code) {
             that.loadLoveNum();
             that.updateUserLoveNum();
+            that.updateInstitutionLoveNum();
           }
         },function (err) {
           console.log(err);
@@ -300,6 +302,32 @@ Page({
       userId: wx.getStorageSync('userDetail').userId
     };
     util.baseGet('updateUserLoveNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateInstitutionLikeNum() {
+    var that = this;
+    let data = {
+      institutionId: this.data.institutionId
+    };
+    util.baseGet('updateInstitutionLikeNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updateInstitutionLoveNum() {
+    var that = this;
+    let data = {
+      institutionId: this.data.institutionId
+    };
+    util.baseGet('updateInstitutionLoveNum', data,
       function (result) {
         console.log(result);
       },

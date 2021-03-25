@@ -1,0 +1,39 @@
+<view class="content">
+    <view class="postContent">
+        <view class="postText">
+            <view class="postTiltle">
+                {{post.postTitle}}
+            </view>
+            <view class="postDetail">
+                {{post.postDetail}}
+            </view>
+        </view>
+        <view class="postContainer">
+            <view class="postInfo">
+                <view class="userIcons">
+                    <image class="userIcon" src="{{post.userIcon}}" mode="aspectFit" />
+                </view>
+                <view class="postUser">
+                    {{post.postUser}}
+                </view>
+                提问于
+                <view class="postTime">
+                    {{post.postTime}}
+                </view>
+            </view>
+            <van-tag color="#ab0014" plain>{{post.postType}}</van-tag>
+        </view>
+    </view>
+    <view class="postComment">
+        postComment
+    </view>
+    <view class="footer">
+        <view class="fooerLeft">
+            <input class="cinput" type="text" placeholder="回复楼主" />
+        </view>
+        <view class="fooerRight">
+            <van-button color="#ad0014" block round bindtap="gotoSubscribe">立即预约</van-button>
+        </view>
+    </view>
+</view>
+  

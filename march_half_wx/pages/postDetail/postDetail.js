@@ -1,4 +1,4 @@
-// pages/service/service.js
+// pages/postDetail/postDetail.js
 var util = require('../../utils/util.js');
 Page({
 
@@ -6,92 +6,27 @@ Page({
    * 页面的初始数据
    */
   data: {
-    serviceId:0,
-    serviceName:'',
-    service:{},
-    evaluation:{},
-    ellipsis: true,
-    isLike:false,
-    isLove:false,
-    likeNum:0,
-    loveNum:0,
-    likeId:0,
-    loveId:0
+    postId:0,
+    postName:'',
+    post:{}
   },
-  
-  loadService(){
+  loadPost(){
     var that = this;
-    let year = new Date().getFullYear()
-    let data={
-      serviceId: this.data.serviceId
+    let data = {
+      postId: this.data.postId
     };
-    util.baseGet('showService',data,
+    util.baseGet('showPost', data,
       function (result) {
         console.log(result);
-        let syear = result.data.serviceSfz.slice(6,10);
-        result.data.year = year-syear;
-        result.data.serviceIcon = result.data.serviceIcon.split(',');
-        for (let i=0;i<result.data.serviceIcon.length;i++) {
-          result.data.serviceIcon[i] = '../image/' + result.data.serviceIcon[i];
-        }
         that.setData({
-          service: result.data
+          post: result.data
         })
-      },function (err) {
-        console.log(err);
-      })
-  },
-  loadEvaluation(){
-    var that = this;
-    let data={
-      serviceId: this.data.serviceId
-    };
-    util.baseGet('showAllEvaluationByService',data,
-      function (result) {
-        console.log(result);
-        for (let i=0;i<result.data.length;i++) {
-          result.data[i].userIcon = '../image/' + result.data[i].userIcon;
-          let imgs = result.data[i].evaluationImg.split(',');
-          for (let j=0;j<imgs.length;j++) {
-            imgs[j] =  '../image/' + imgs[j];
-          }
-          result.data[i].evaluationImg = imgs;
-        }
-        that.setData({
-          evaluation: result.data
-        })
-      },function (err) {
+      },
+      function (err) {
         console.log(err);
       })
   },
 
-  ellipsis: function () {  
-    var value = !this.data.ellipsis;
-    this.setData({
-      ellipsis: value
-    }) 
-  },
-  listToggle: function () {
-    this.setData({
-      showMore: !this.data.showMore
-    })
-  },
-  gotoServiceIcon () {
-    wx.navigateTo({
-      url: '../images/images?icons='+this.data.service.serviceIcon
-    })
-  },
-  gotoEvaluation (e) {
-    let evaluation = e.currentTarget.dataset['evaluation'];
-    wx.navigateTo({
-      url: '../evaluation/evaluation?evaluationId='+evaluation.evaluationId
-    })
-  },
-  gotoSubscribe() {
-    wx.navigateTo({
-      url: '../subscribe/subscribe?serviceId='+this.data.serviceId
-    })
-  },
 
   loadLike(){
     var that = this;
@@ -263,7 +198,6 @@ Page({
         console.log(err);
       })
   },
-
   updateUserLikeNum() {
     var that = this;
     let data = {
@@ -290,12 +224,12 @@ Page({
         console.log(err);
       })
   },
-  updateServiceLikeNum() {
+  updatePostLikeNum() {
     var that = this;
     let data = {
-      serviceId: this.data.serviceId
+      postId: this.data.postId
     };
-    util.baseGet('updateServiceLikeNum', data,
+    util.baseGet('updatePostLikeNum', data,
       function (result) {
         console.log(result);
       },
@@ -303,12 +237,12 @@ Page({
         console.log(err);
       })
   },
-  updateServiceLoveNum() {
+  updatePostLoveNum() {
     var that = this;
     let data = {
-      serviceId: this.data.serviceId
+      postId: this.data.postId
     };
-    util.baseGet('updateServiceLoveNum', data,
+    util.baseGet('updatePostLoveNum', data,
       function (result) {
         console.log(result);
       },
@@ -316,22 +250,45 @@ Page({
         console.log(err);
       })
   },
-
+  
+  updateUserComNum() {
+    var that = this;
+    let data = {
+      userId: wx.getStorageSync('userDetail').userId
+    };
+    util.baseGet('updateUserComNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  updatePostComNum() {
+    var that = this;
+    let data = {
+      postId: this.data.postId
+    };
+    util.baseGet('updatePostComNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({
-      serviceId: options.serviceId,
-      serviceName:  options.serviceName,
+      postId: 1,//options.postId,
+      postName:  'ssfdsfadgf'//options.postName,
     })
     wx.setNavigationBarTitle({
-      title: this.data.serviceName + '的介绍'
+      title: this.data.postName
     })
-    this.loadService();
-    this.loadEvaluation();
-    this.loadLikeNum();
-    this.loadLoveNum();
+    this.loadPost();
   },
 
   /**

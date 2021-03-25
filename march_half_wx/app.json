@@ -1,6 +1,9 @@
 {
   "pages": [
+    "pages/postDetail/postDetail",
+    "pages/post/post",
     
+    "pages/send-post/send-post",
 
     "pages/home/home",
     "pages/allType/allType",

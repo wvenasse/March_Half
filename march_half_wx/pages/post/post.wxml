@@ -1,0 +1,68 @@
+<view class="content">
+    <view class="searchBar">
+        <view class="search-button">
+            <van-icon name="search" size="30px" color="#c1c1c1"/>
+        </view>
+        <view class="search-input">
+            <input class="sinput" type="text" placeholder="请输入关键字" value="{{searchValue}}" bindconfirm="search"/>
+        </view>
+    </view>
+    <view class="postTabs">
+        <van-tabs active="{{ activeType }}" bind:click="onTypeClick" sticky animated swipeable>
+            <van-tab wx:for="{{type}}" wx:for-index="index" wx:key="index" title="{{item.typeName}}"></van-tab>
+        </van-tabs>
+    </view>
+    <view class="postContent">
+        <view class="postList">
+            <view class="postCell" wx:for="{{post}}" wx:for-index="index" wx:key="index"
+            bindtap="gotoPostDetail" data-post="{{item}}">
+                <view class="cellTitle">
+                    <view class="titleLeft">
+                        <view class="userIcons">
+                            <image class="userIcon" src="{{item.userIcon}}" mode="aspectFit" />
+                        </view>
+                        <view class="postUser">
+                            {{item.isNoName=='true'?'匿名用户':item.postUser}}
+                        </view>
+                    </view>
+                    <view class="titleRight">
+                        {{item.postType}}
+                    </view>
+                </view>
+                <view class="cellContent">
+                    <view class="cellText">
+                        <view class="postTitle">
+                            {{item.postTitle}}
+                        </view>
+                        <view class="postDetail">
+                            {{item.postDetail}}{{item.postImg[0]}}
+                        </view>
+                    </view>
+                    <!-- <view class="{{item.postImg[0] ? 'cellImgs':'none'}}" >
+                        <image class="cellImg" src="{{item.postImg[0]}}" mode="aspectFit" />
+                    </view> -->
+                </view>
+                <view class="cellFooter">
+                    <view class="footerLeft">
+                        <view class="postLike">
+                            <van-icon name="like-o" size="15px" color="#c1c1c1"/>{{item.postLike?item.postLike:0}}
+                        </view>
+                        <view class="postLove">
+                            <van-icon name="star-o" size="15px" color="#c1c1c1"/>{{item.postLove?item.postLove:0}}
+                        </view>
+                        <view class="postCom">
+                            <van-icon name="comment-o" size="15px" color="#c1c1c1"/>{{item.postCom?item.postCom:0}}
+                        </view>
+                    </view>
+                    <view class="footerRight">
+                        {{item.postTime}}
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="footer" bindtap="sendPost">
+        <van-button icon="edit" color="#ad0014" round />
+    </view>
+</view>
+  

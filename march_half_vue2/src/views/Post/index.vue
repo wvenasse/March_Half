@@ -190,15 +190,10 @@
                         </el-form-item>
                     </el-col>
                 </el-form-item>
-                <el-form-item >
-                    <el-col :span="12">
-                        <el-form-item  label="" prop="isNoName" :label-width="postDialog.formLabelWidth">
-                            
-                        </el-form-item>
-                    </el-col>
-                    <el-col :span="12">
-                    </el-col>
-                </el-form-item>
+                <!-- <el-form-item >
+                    <tinymce-editor ref="editor" v-model="postDialog.form.postDetail" @onClick="onClick" v-if="postDialog.visible">
+                    </tinymce-editor>
+                </el-form-item> -->
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="postDialog.visible = false">取 消</el-button>
@@ -342,6 +337,7 @@
 </template>
 
 <script>
+    import TinymceEditor from '../../components/System/tinymce'
     import {
         onMounted,
         reactive,
@@ -380,6 +376,9 @@
     } from "@/api/System"
     export default {
         name: "post",
+        components: {
+            TinymceEditor
+        },
         setup(props, {
             refs,
             root

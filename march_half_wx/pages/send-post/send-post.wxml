@@ -1,0 +1,56 @@
+<view class="content">
+    <view class="postCell" bindtap="onTypeOpen">
+        <view class="cellTitle">
+            <view class="warning"><van-icon name="apps-o" size="20px"/></view>
+            <view class="noContent" wx:if="{{!post.typeId}}">
+                请选择类别
+            </view>
+            <view class="haveContent" wx:else>
+                {{post.postType}}
+            </view>
+        </view>
+        <view class="cellContent">
+            <van-icon name="arrow" size="20px"/>
+        </view>
+    </view>
+    <view class="postTitle">
+        <view class="title">
+            标题
+        </view>
+        <view class="postInput">
+             <input class="pinput" type="text" placeholder="请输入关键字" maxlength="20"
+             value="{{searchValue}}" bindinput="input"/>
+        </view>
+    </view>
+    <view class="postDetail">
+        <view class="detailContent">
+            <textarea auto-height placeholder="在此处输入正文" maxlength="100" value="{{post.postDetail}}"
+             bindinput='_input' rows="3">
+            </textarea>
+            <view class="currentWordNumber">({{currentNoteLen|0}}/{{noteMaxLen}})</view>
+        </view>
+    </view>
+    <view class="postCell" >
+        <view class="cellTitle">
+            <view class="warning"><van-icon name="closed-eye" size="20px"/></view>
+            <view class="noContent">
+                是否匿名
+            </view>
+        </view>
+        <view class="cellContent">
+            <van-switch checked="{{ post.isNoName }}" bind:change="onIsNoNameChange"
+            active-color="#ab0014" inactive-color="#b1b1b1" size="20px"/>
+        </view>
+    </view>
+    <view class="footer">
+        <van-button color="#ad0014" block round bindtap="submitPost">立即发布</van-button>
+    </view>
+    <van-action-sheet show="{{ isShowType }}" title="类别" bind:close="onTypeClose">
+        <view class="sheetContain">
+            <view class="sheetType {{post.typeId ===item.typeId?'selectType':''}}" wx:for="{{type}}"
+                wx:for-index="index" wx:key="index" bindtap="onTypeSelect" data-type="{{item}}">
+                {{item.typeName}}
+            </view>
+        </view>
+    </van-action-sheet>
+</view>
