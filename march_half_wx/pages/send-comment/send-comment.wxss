@@ -1,0 +1,36 @@
+/* pages/send-comment/send-comment.wxss */
+page {
+    background-color: #f7f8fa;
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+}
+
+.detailContent {
+    background: #f7f7f785;
+    border-radius: 10rpx;
+    width: 100%;
+    padding: 40rpx 20rpx;
+    font-size: 30rpx;
+}
+
+.detailContent textarea{
+    width: 100%;
+    color: #000000;
+    font-size: 32rpx;
+}
+
+.currentWordNumber {
+    text-align: right;
+    color: #ababab;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    height: 90rpx;
+    width: 100%;
+    background: #fff;
+}

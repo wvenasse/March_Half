@@ -276,7 +276,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="评论内容" :label-width="commentDialog.formLabelWidth">
-                            <el-input v-model="commentDialog.form.commentDetail" autocomplete="off"></el-input>
+                            <el-input type="textarea" v-model="commentDialog.form.commentDetail" maxlength="100" show-word-limit autocomplete="off"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-form-item>

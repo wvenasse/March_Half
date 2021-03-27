@@ -8,7 +8,17 @@ Page({
   data: {
     postId:0,
     postName:'',
-    post:{}
+    post:{},
+    firstComment:[],
+    isShowDelete:false,
+    currentComment:{},
+    userId: wx.getStorageSync('userDetail').userId,
+    isLike:false,
+    isLove:false,
+    likeNum:0,
+    loveNum:0,
+    likeId:0,
+    loveId:0
   },
   loadPost(){
     var that = this;
@@ -26,16 +36,106 @@ Page({
         console.log(err);
       })
   },
+  loadComment(){
+    var that = this;
+    let data = {
+      postId: this.data.postId
+    };
+    util.baseGet('showAllCommentFirst', data,
+      function (result) {
+        console.log(result);
+        that.setData({
+          firstComment: result.data
+        })
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  openSecondComment(e){
+    let comment = e.currentTarget.dataset['firstcomment'];
+    let index = e.currentTarget.dataset['commentindex'];
+    let firstComment = this.data.firstComment;
+    var that = this;
+    if (comment.isSecondComment) {
+      firstComment[index].isSecondComment = false;
+      that.setData({
+        firstComment: firstComment
+      })
+      return;
+    }
+    let data = {
+      postId: this.data.postId,
+      toCommentId: comment.commentId
+    };
+    util.baseGet('showAllCommentSecond', data,
+      function (result) {
+        console.log(result);
+        firstComment[index].secondComment = result.data;
+        firstComment[index].isSecondComment = true;
+        that.setData({
+          firstComment: firstComment
+        })
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  sendComment(e){
+    let comment = e.currentTarget.dataset['comment'];
+    if (comment) {
+      wx.navigateTo({
+        url: '../send-comment/send-comment?commentId='+comment.commentId+'&commentUser='+comment.commentUser+'&postId='+this.data.postId+'&postName='+this.data.postName
+      })
+    }
+    else {
+      wx.navigateTo({
+        url: '../send-comment/send-comment?postId='+this.data.postId+'&postName='+this.data.postName
+      })
+    }
+  },
 
+  openDetele(e){
+    let comment = e.currentTarget.dataset['comment'];
+    this.setData({
+      isShowDelete: true,
+      currentComment:comment
+    })
+  },
+  closeDelete(){
+    this.setData({
+      isShowDelete: false
+    })
+  },
+  deleteComment(){
+    let comment = this.data.currentComment;
+    var that = this;
+    let data={
+      commentId: comment.commentId
+    };
+    util.baseGet('delComment',data,
+      function (result) {
+        console.log(result);
+        that.loadComment();
+        that.setData({
+          isShowDelete: false
+        })
+        that.updateUserComNum();
+        that.updatePostComNum();
+        that.updateCommentNum();
+      },function (err) {
+        console.log(err);
+      })
+  },
 
   loadLike(){
     var that = this;
     let loveData={
       favorType: 1,
       userId: wx.getStorageSync('userDetail').userId,
-      serviceId: this.data.serviceId
+      postId: this.data.postId
     };
-    util.baseGet('isFavorService',loveData,
+    util.baseGet('isFavorPost',loveData,
       function (result) {
         console.log(result);
         that.setData({
@@ -51,9 +151,9 @@ Page({
     let loveData={
       favorType: 2,
       userId: wx.getStorageSync('userDetail').userId,
-      serviceId: this.data.serviceId
+      postId: this.data.postId
     };
-    util.baseGet('isFavorService',loveData,
+    util.baseGet('isFavorPost',loveData,
       function (result) {
         console.log(result);
         that.setData({
@@ -70,9 +170,9 @@ Page({
     let like = false;
     let likeData={
       favorType: 1,
-      serviceId: this.data.serviceId
+      postId: this.data.postId
     };
-    util.baseGet('isFavorServiceNum',likeData,
+    util.baseGet('isFavorPostNum',likeData,
       function (result) {
         console.log(result);
         for (let i=0;i<result.data.length;i++) {
@@ -95,9 +195,9 @@ Page({
     let love = false;
     let loveData={
       favorType: 2,
-      serviceId: this.data.serviceId
+      postId: this.data.postId
     };
-    util.baseGet('isFavorServiceNum',loveData,
+    util.baseGet('isFavorPostNum',loveData,
       function (result) {
         console.log(result);
         for (let i=0;i<result.data.length;i++) {
@@ -125,8 +225,8 @@ Page({
         userId: wx.getStorageSync('userDetail').userId,
         favorType: 1,
         favorTime: Time,
-        serviceId: this.data.serviceId,
-        serviceName: this.data.serviceName
+        postId: this.data.postId,
+        postName: this.data.postName
       };
       util.baseGet('addFavor',data,
         function (result) {
@@ -134,7 +234,7 @@ Page({
           if (result.data.code == 200) {
             that.loadLikeNum();
             that.updateUserLikeNum();
-            that.updateServiceLikeNum();
+            that.updatePostLikeNum();
           }
         },function (err) {
           console.log(err);
@@ -152,8 +252,8 @@ Page({
         userId: wx.getStorageSync('userDetail').userId,
         favorType: 2,
         favorTime: Time,
-        serviceId: this.data.serviceId,
-        serviceName: this.data.serviceName
+        postId: this.data.postId,
+        postName: this.data.postName
       };
       util.baseGet('addFavor',data,
         function (result) {
@@ -161,7 +261,7 @@ Page({
           if (result.data.code == 200) {
             that.loadLoveNum();
             that.updateUserLoveNum();
-            that.updateServiceLoveNum();
+            that.updatePostLoveNum();
           }
         },function (err) {
           console.log(err);
@@ -277,18 +377,34 @@ Page({
         console.log(err);
       })
   },
+  updateCommentNum() {
+    var that = this;
+    let data = {
+      commentId: this.data.currentComment.commentId
+    };
+    util.baseGet('updateCommentNum', data,
+      function (result) {
+        console.log(result);
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
     this.setData({
-      postId: 1,//options.postId,
-      postName:  'ssfdsfadgf'//options.postName,
+      postId: options.postId,
+      postName:  options.postName,
     })
     wx.setNavigationBarTitle({
       title: this.data.postName
     })
     this.loadPost();
+    this.loadComment();
+    this.loadLikeNum();
+    this.loadLoveNum();
   },
 
   /**

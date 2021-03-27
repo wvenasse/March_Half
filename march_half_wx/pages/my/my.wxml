@@ -27,9 +27,9 @@
             {{userDetail.userAddress ? userDetail.userAddress:0}}
           </view>
         </view>
-        <view class="littleCard cRoom">
+        <view class="littleCard cRoom" bindtap="gotoPost">
           <view class="littleHead">
-            我的讨论
+            我的提问
           </view>
           <view class="littleBody">
             {{userDetail.userPost ? userDetail.userPost:0}}
@@ -37,7 +37,7 @@
         </view>
         <view class="littleCard cBed">
           <view class="littleHead">
-            我的评论
+            我的回答
           </view>
           <view class="littleBody">
             {{userDetail.userCom ? userDetail.userCom:0}}

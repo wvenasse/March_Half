@@ -63,6 +63,9 @@ Page({
       })
     } else if (activeKey == 2) {
       console.log('post')
+      wx.navigateTo({
+        url: '../postDetail/postDetail?postId=' + favor.postId
+      })
     }
   },
   openTip(e) {

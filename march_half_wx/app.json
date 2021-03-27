@@ -1,11 +1,7 @@
 {
   "pages": [
-    "pages/postDetail/postDetail",
-    "pages/post/post",
-    
-    "pages/send-post/send-post",
-
     "pages/home/home",
+
     "pages/allType/allType",
     "pages/institution/institution",
     "pages/service/service",
@@ -13,6 +9,12 @@
     "pages/subscribe/subscribe",
     "pages/images/images",
     "pages/evaluation/evaluation",
+    
+    "pages/post/post",
+    "pages/postDetail/postDetail",
+    "pages/send-post/send-post",
+    "pages/send-comment/send-comment",
+    "pages/myPost/myPost", 
 
     "pages/order/order",
     "pages/orderDetail/orderDetail",

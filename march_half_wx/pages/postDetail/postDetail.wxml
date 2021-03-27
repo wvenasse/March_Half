@@ -25,15 +25,86 @@
         </view>
     </view>
     <view class="postComment">
-        postComment
+        <view class="commentLength">
+            共{{firstComment.length}}条回答
+        </view>
+        <view class="commentList">
+            <view class="commentCell" wx:for="{{firstComment}}" wx:for-index="index" wx:key="index">
+                <view class="commentIcon">
+                    <image class="userIcon" src="{{item.userIcon}}" mode="aspectFit" />
+                </view>
+                <view class="commentInfo">
+                    <view class="infoHead">
+                        <view class="commentUser">
+                            {{item.commentUser}}
+                        </view>
+                        <view class="commentTime">
+                            {{item.commentTime}}
+                        </view>
+                    </view>
+                    <view class="commentDetail">
+                        {{item.commentDetail}}
+                    </view>
+                    <view class="postButtons">
+                        <view class="editComment" bindtap="sendComment" data-comment="{{item}}">
+                            回复
+                        </view>
+                        <view class="deleteComment" wx:if="{{userId == item.userId}}"
+                        bindtap="openDetele" data-comment="{{item}}">
+                            删除
+                        </view>
+                    </view>
+                    <view wx:if="{{item.commentNum}}" class="commentNum" 
+                    bindtap="openSecondComment" data-firstcomment="{{item}}" data-commentindex="{{index}}">
+                        共有{{item.commentNum}}条回复
+                        <van-icon name="arrow-down" wx:if="{{!item.isSecondComment}}"/>
+                        <van-icon name="arrow-up" wx:if="{{item.isSecondComment}}"/>
+                    </view>
+                    <view class="sCommentList" wx:if="{{item.isSecondComment}}">
+                        <view class="sCommentCell"
+                        wx:for="{{item.secondComment}}" wx:for-index="index" wx:key="index">
+                            <view class="scommentInfo">
+                                <view class="scommentUser">
+                                    {{item.commentUser}}
+                                </view>
+                                ：
+                                <view class="scommentDetail">
+                                    {{item.commentDetail}}
+                                </view>
+                            </view>
+                            <view class="deleteComment" wx:if="{{userId == item.userId}}"
+                            bindtap="openDetele" data-comment="{{item}}">
+                                删除
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
     </view>
     <view class="footer">
         <view class="fooerLeft">
-            <input class="cinput" type="text" placeholder="回复楼主" />
+            <view class="cinput" bindtap="sendComment">发表评论……</view>
         </view>
         <view class="fooerRight">
-            <van-button color="#ad0014" block round bindtap="gotoSubscribe">立即预约</van-button>
+            <view class="footLike" bindtap="onLikeChange">
+                <van-icon name="like-o" size="50rpx" wx:if="{{!isLike}}"/>
+                <van-icon name="like" color="#ab0014" size="50rpx"  wx:if="{{isLike}}"/>
+                ({{likeNum}})
+            </view>
+            <view class="footLove" bindtap="onLoveChange">
+                <van-icon name="star-o" size="50rpx" wx:if="{{!isLove}}"/>
+                <van-icon name="star" color="#ab0014" size="50rpx" wx:if="{{isLove}}"/>
+                ({{loveNum}})
+            </view>
         </view>
     </view>
+
+    <van-dialog use-slot show="{{ isShowDelete }}" show-cancel-button bind:cancel="closeDelete"
+        bind:confirm="deleteComment">
+        <view class="dialog-content">
+            确定删除该评论吗？
+        </view>
+    </van-dialog>
 </view>
   

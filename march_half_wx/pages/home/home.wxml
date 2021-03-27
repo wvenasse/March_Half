@@ -34,18 +34,29 @@
         </view>
     </view>
     <view class="content">
-        <view class="posts">
-            <view class="postTitle">
-                讨论贴
+        <view class="posts" bindtap="gotoPost">
+            <view class="postHead">
+                <view class="postName">
+                    问大家
+                </view>
+                <view class="postAll">
+                    查看全部<van-icon name="arrow" color="#ab0014" size="13px"/>
+                </view>
             </view>
-            <van-cell-group>
-                <van-cell title="置顶" is-link link-type="navigateTo" url="../info/info" border="{{ false }}"
-                    icon="back-top" />
-                <van-cell title="热门" is-link link-type="navigateTo" url="../info/info" border="{{ false }}"
-                    icon="fire-o" />
-                <van-cell title="最新" is-link link-type="navigateTo" url="../info/info" border="{{ false }}"
-                    icon="label-o" />
-            </van-cell-group>
+            <view class="postContent">
+                <view class="postCell" wx:for="{{post}}" wx:for-index="index" wx:key="index">
+                    <view class="cellLeft">
+                        <!-- <van-icon name="question" color="#ab0014" size="20px"/>  -->
+                        <view class="postIcon">问</view>
+                        <view class="postTitle">
+                            {{item.postTitle}}
+                        </view>
+                    </view>
+                    <view class="postRight">
+                        {{item.postCom}}条回答
+                    </view>
+                </view>
+            </view>
         </view>
     </view>
     <view class="content">

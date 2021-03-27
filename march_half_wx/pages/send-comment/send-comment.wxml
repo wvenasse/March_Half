@@ -1,0 +1,14 @@
+<view class="content">
+    <view class="commentDetail">
+        <view class="detailContent">
+            <textarea auto-height placeholder="{{placeholderText}}" maxlength="100" value="{{comment.commentDetail}}"
+             bindinput='_input' rows="3">
+            </textarea>
+            <view class="currentWordNumber">({{currentNoteLen|0}}/{{noteMaxLen}})</view>
+        </view>
+    </view>
+    <view class="footer">
+        <van-button color="#ad0014" block round bindtap="sunmitComment">立即发表</van-button>
+    </view>
+</view>
+  

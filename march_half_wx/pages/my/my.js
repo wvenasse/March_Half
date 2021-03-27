@@ -288,6 +288,11 @@ Page({
       url: '../address/address'
     })
   },
+  gotoPost(){
+    wx.navigateTo({
+      url: '../myPost/myPost'
+    })
+  },
   gotoOrder(){
     wx.switchTab({ 
       url: '../order/order'

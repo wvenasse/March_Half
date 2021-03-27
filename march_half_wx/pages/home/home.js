@@ -7,6 +7,7 @@ Page({
    */
   data: {
     notice:[],
+    post:[],
     active: 'institution',
     institution:[],
     service:[],
@@ -34,80 +35,122 @@ Page({
     ]
   },
 
+  async init () {
+    await util.showLoading() // 显示loading
+    await Promise.all([this.loadNotice(), this.loadInstitution(), this.loadService(), this.loadType(), this.loadPost()]); // 请求数据
+    await util.hideLoading() // 等待请求数据成功后，隐藏loading
+  },
+  
+  loadNotice(){
+    var that = this;
+    let data;
+    return new Promise((resolve, reject) => {
+      util.getData('showAllNotice', data).then((res) => {
+        for (let i=0;i<res.length;i++) {
+          res[i].noticeImg = '../image/'+res[i].noticeImg;
+        }
+        this.setData({
+          notice: res
+        })
+        console.log(res)
+        resolve()
+      })
+        .catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
+  },
+  loadInstitution(){
+    var that = this;
+    let data;
+    return new Promise((resolve, reject) => {
+      util.getData('showAllInstitution', data).then((res) => {
+        for (let i=0;i<res.length;i++) {
+          res[i].institutionImg = '../image/'+res[i].institutionImg.split(',')[0];
+        }
+        this.setData({
+          institution: res
+        })
+        console.log(res)
+        resolve()
+      })
+        .catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
+  },
+  loadService(){
+    var that = this;
+    let data;
+    return new Promise((resolve, reject) => {
+      util.getData('showAllGoodService', data).then((res) => {
+        for (let i=0;i<res.length;i++) {
+          res[i].serviceIcon = '../image/'+res[i].serviceIcon.split(',')[0];
+        }
+        this.setData({
+          service: res
+        })
+        console.log(res)
+        resolve()
+      })
+        .catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
+  },
+  loadType(){
+    var that = this;
+    let data;
+    return new Promise((resolve, reject) => {
+      util.getData('showAllType', data).then((res) => {
+        var newType = [];
+        for (let i=0;i<7;i++) {
+          newType.push(res[i])
+        }
+        this.setData({
+          type: newType
+        })
+        console.log(res)
+        resolve()
+      })
+        .catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
+  },
+  loadPost(){
+    var that = this;
+    let data;
+    return new Promise((resolve, reject) => {
+      util.getData('showAllPost', data).then((res) => {
+        var newPost = [];
+        for (let i=0;i<3;i++) {
+          newPost.push(res[i])
+        }
+        this.setData({
+          post: newPost
+        })
+        console.log(res)
+        resolve()
+      })
+        .catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
+  },
+
   onChange(event) {
     // wx.showToast({
     //   title: `切换到标签 ${event.detail.name}`,
     //   icon: 'none',
     // });
   },
-  loadNotice(){
-    var that = this;
-    let data;
-    util.baseGet('showAllNotice',data,
-      function (result) {
-        console.log(result);
-        for (let i=0;i<result.data.length;i++) {
-          result.data[i].noticeImg = '../image/'+result.data[i].noticeImg;
-        }
-        that.setData({
-          notice: result.data
-        })
-      },function (err) {
-        console.log(err);
-      })
-  },
-  loadInstitution(){
-    var that = this;
-    let data;
-    util.baseGet('showAllInstitution',data,
-      function (result) {
-        console.log(result);
-        for (let i=0;i<result.data.length;i++) {
-          result.data[i].institutionImg = '../image/'+result.data[i].institutionImg.split(',')[0];
-        }
-        that.setData({
-          institution: result.data
-        })
-      },function (err) {
-        console.log(err);
-      })
-  },
-  loadService(){
-    var that = this;
-    let data;
-    util.baseGet('showAllGoodService',data,
-      function (result) {
-        console.log(result);
-        for (let i=0;i<result.data.length;i++) {
-          result.data[i].serviceIcon = '../image/'+result.data[i].serviceIcon.split(',')[0];
-        }
-        that.setData({
-          service: result.data
-        })
-      },function (err) {
-        console.log(err);
-      })
-  },
-  loadType(){
-    var that = this;
-    let data;
-    util.baseGet('showAllType',data,
-      function (result) {
-        console.log(result);
-        var newType = [];
-        for (let i=0;i<7;i++) {
-          newType.push(result.data[i])
-        }
-        that.setData({
-          type: newType
-        })
-      },function (err) {
-        console.log(err);
-      })
-  },
-
   gotoAllType() {
-    //跳转个人信息
     wx.navigateTo({
       url: '../allType/allType'
     })
@@ -116,6 +159,11 @@ Page({
     let type = e.currentTarget.dataset['type'];
     wx.navigateTo({
       url: '../typeList/typeList?typeId='+type.typeId+'&typeName='+type.typeName
+    })
+  },
+  gotoPost(e){
+    wx.navigateTo({
+      url: '../post/post'
     })
   },
   gotoInstitution(e){
@@ -135,10 +183,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.loadNotice();
-    this.loadType();
-    this.loadInstitution();
-    this.loadService();
+    this.init()
   },
 
   /**

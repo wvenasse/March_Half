@@ -13,7 +13,7 @@ page {
 .postContent {
     background: linear-gradient(135deg, transparent, #ab001426);
     border-radius: 50rpx;
-    padding: 50rpx 20rpx;
+    padding: 50rpx 20rpx 100rpx 20rpx;
 }
 .postText {
     
@@ -55,6 +55,102 @@ page {
     
 }
 .postComment {
+    border-radius: 20rpx;
+    padding: 20rpx;
+    background: #ffffff;
+    position: relative;
+    top: -90rpx;
+    height: 75%;
+    overflow: auto;
+}
+
+.commentLength {
+    color: #ababab;
+    font-size: 30rpx;
+}
+.commentList {
+}
+.commentCell {
+    padding: 20rpx 0;
+    display: flex;
+    border-bottom: 1rpx solid #eeeeee;
+}
+.commentIcon {
+    flex: 0 0 50rpx;
+}
+.userIcon {
+    
+}
+.commentInfo {
+    flex: auto;
+    padding: 0 0 0 20rpx;
+}
+.infoHead {
+    display: flex;
+    justify-content: space-between;
+    color: #ababab;
+    font-size: 26rpx;
+    margin-bottom: 10rpx;
+}
+.commentUser {
+    
+}
+.commentTime {
+    
+}
+.commentDetail {
+    
+}
+
+.postButtons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    font-size: 26rpx;
+    font-weight: 200;
+}
+.editComment {
+    color: #525252;
+}
+
+.deleteComment {
+    margin-left: 10rpx;
+    color: #ab0014;
+    font-size: 26rpx;
+    font-weight: 200;
+}
+
+.commentNum {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 26rpx;
+    color: #424242;
+}
+
+.sCommentList{
+    background: #efefef73;
+    margin-top: 10rpx;
+}
+
+.sCommentCell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 28rpx;
+    color: #424242;
+    padding: 10rpx;
+}
+.scommentInfo {
+    display: flex;
+    align-items: center;
+}
+
+.scommentUser {
+    color: #ababab;
+}
+
+.scommentDetail {
     
 }
 
@@ -69,17 +165,35 @@ page {
 }
 
 .fooerLeft {
-    width: 80%;
+    width: 60%;
+    padding-left: 20rpx;
+    display: flex;
+    align-items: center;
+}
+.cinput {
+    background: #f3f3f3;
+    border-radius: 10rpx;
+    height: 80%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    color: #969696;
+    font-weight: 600;
+    padding-left: 10rpx;
+}
+.fooerRight {
+    width: 40%;
     display: flex;
     align-items: center;
     justify-content: space-around;
 }
 
-.cinput {
-    
+.footLike,.footLove {
+    display: flex;
+    align-items: center;
 }
 
-.fooerRight {
-    width: 20%;
-    padding: 0 20rpx;
+.dialog-content {
+    text-align: center;
+    padding: 20rpx 0;
 }

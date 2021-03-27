@@ -82,16 +82,63 @@ page{
 }
 
 .posts {
-    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 10rpx;
-    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.postHead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.postName {
+    font-size: 36rpx;
+    font-weight: 600;
+}
+.postAll {
+    font-size: 26rpx;
+    font-weight: 300;
+    color: #ab0014;
+}
+.postContent {
+    padding: 10rpx;
+    display: flex;
+    flex-direction: column;
+}
+.postCell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10rpx 0;
+}
+.cellLeft {
+    display: flex;
+    align-items: center;
+}
+.postIcon{
+    width: 36rpx;
+    height: 36rpx;
+    background: #ab0014;
+    color: #fff;
+    font-size: 26rpx;
+    font-weight: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .postTitle {
+    padding-left: 10rpx;
+}
+.postRight {
+    font-size: 26rpx;
+    color: #ababab;
+}
+
+/* .postTitle {
     font-size: 45rpx;
     text-align: center;
     font-weight: bold;
-}
+} */
 
 .tabs {
     background: #ffffff;
