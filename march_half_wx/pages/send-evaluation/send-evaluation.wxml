@@ -13,7 +13,7 @@
                 服务星级：
             </view>
             <van-rate value="{{ evaluation.evaluationStar }}" size="{{ 25 }}" 
-            allow-half icon="like" color="#ab0014" void-icon="like-o" bind:change="onStarChange" />
+            icon="like" color="#ab0014" void-icon="like-o" bind:change="onStarChange" />
             <view class="field">
                 <van-field value="{{evaluationStar}}" readonly border="{{ false }}" />
             </view>
@@ -25,10 +25,21 @@
             <view class="currentWordNumber">({{currentNoteLen|0}}/{{noteMaxLen}})</view>
         </view>
         <view class="evaluationImg">
-            <van-uploader file-list="{{ fileList }}"  max-count="3" bind:after-read="afterRead" 
-            />
-            <!-- <input type="file" id="saveImage" name="myphoto" bind:change="tirggerFile" 
-            accept="image/jpeg,image/jpg,image/png" ref="new_image" > -->
+            <view class="uploadButton">
+                <view class="uButton" bindtap="chooseImage" hidden="{{imageUrlList.length>8}}">
+                    <van-icon name="plus" color="#dcdee0" size="24px" />
+                </view>
+            </view>
+            <view class="imageList" hidden="{{imageUrlList.length==0}}">
+                <view class="uploadImages" wx:for="{{imageUrlList}}" wx:for-index="index" wx:key="index">
+                    <view class="uploadImage">
+                        <image class="uploadImg" src="{{item}}" mode="aspectFit" />
+                    </view>
+                    <view class="deleteIcon" bindtap="deleteImage" data-image="{{item}}" data-imageIndex="{{index}}">
+                        <van-icon name="cross" color="#fff" size="13px"/>
+                    </view>
+                </view>
+            </view>
         </view>
         <view class="isNoName">
             匿名评价：

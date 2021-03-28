@@ -50,12 +50,11 @@ page {
     width: 136rpx;
 }
 .evaluationDetail {
-    background: #eeeeee;
+    background: #f7f8fa;
     border-radius: 10rpx;
     width: 100%;
     padding: 20rpx;
     font-size: 30rpx;
-    margin-bottom: 40rpx;
 }
 
 .evaluationDetail textarea{
@@ -67,6 +66,45 @@ page {
 }
 .evaluationImg {
     
+}
+.uploadButton {
+    padding: 20rpx 0;
+}
+.uButton {
+    width: 100rpx;
+    height: 100rpx;
+    background: #f7f8fa;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.imageList {
+    display: flex;
+    flex-wrap: wrap;
+}
+.uploadImages {
+    display: flex;
+    position: relative;
+    padding: 5rpx;
+}
+.uploadImage {
+
+}
+.uploadImg {
+    width: 200rpx;
+    height: 200rpx;
+}
+.deleteIcon {
+    position: absolute;
+    top: 5rpx;
+    right: 5rpx;
+    width: 47rpx;
+    height: 32rpx;
+    border-radius: 0 0 0 32rpx;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .isNoName {
     display: flex;

@@ -298,6 +298,11 @@ Page({
       url: '../order/order'
     }) 
   },
+  gotoEvaluation(){
+    wx.navigateTo({
+      url: '../myEvaluation/myEvaluation'
+    })
+  },
   gotoLike() {
     wx.navigateTo({
       url: '../favor/favor?favorType='+1

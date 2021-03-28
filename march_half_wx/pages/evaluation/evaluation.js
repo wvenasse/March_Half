@@ -15,10 +15,10 @@ Page({
     util.baseGet('showEvaluation', data,
       function (result) {
         console.log(result);
-        result.data.userIcon = '../image/' + result.data.userIcon;
+        result.data.userIcon = result.data.userIcon;
         let imgs = result.data.evaluationImg.split(',');
         for (let j = 0; j < imgs.length; j++) {
-          imgs[j] = '../image/' + imgs[j];
+          imgs[j] = util.imageUrl(imgs[j]);
         }
         result.data.evaluationImg = imgs;
         that.setData({

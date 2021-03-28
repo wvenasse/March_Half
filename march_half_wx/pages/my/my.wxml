@@ -27,17 +27,17 @@
             {{userDetail.userAddress ? userDetail.userAddress:0}}
           </view>
         </view>
-        <view class="littleCard cRoom" bindtap="gotoPost">
+        <view class="littleCard cRoom" bindtap="gotoOrder">
           <view class="littleHead">
-            我的提问
+            我的订单
           </view>
           <view class="littleBody">
             {{userDetail.userPost ? userDetail.userPost:0}}
           </view>
         </view>
-        <view class="littleCard cBed">
+        <view class="littleCard cBed" bindtap="gotoEvaluation">
           <view class="littleHead">
-            我的回答
+            我的评价
           </view>
           <view class="littleBody">
             {{userDetail.userCom ? userDetail.userCom:0}}
@@ -51,9 +51,9 @@
         个人信息
       </view>
       <view class="carfBody">
-        <view class="littleCard cRem" bindtap="gotoOrder">
+        <view class="littleCard cRem" bindtap="gotoPost">
           <view class="littleHead">
-            我的订单
+            我的提问
           </view>
           <view class="littleBody">
             {{userDetail.userOrder ? userDetail.userOrder:0}}

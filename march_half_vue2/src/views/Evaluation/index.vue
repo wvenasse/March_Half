@@ -56,8 +56,12 @@
                         <template slot-scope="scope">
                             <div style="display:flex;justify-content: center;">
                                 <div class="evaluationImgs" v-for="(img,index) in scope.row.evaluationImg" :key="index">
+                                <img class="evaluationImg" :src="img"
+                                :alt="img" v-if="index<2&&(img.indexOf('https')>-1||img.indexOf('http')>-1)" @click="openImgPreDialog(scope.row.evaluationImg)">
+                                <img class="evaluationImg" :src="'https://6d61-march-half-9g5lt2qy94c600b9-1305397103.tcb.qcloud.la/'+ img"
+                                :alt="img" v-else-if="index<2&&(img.indexOf('-')>-1)" @click="openImgPreDialog(scope.row.evaluationImg)">
                                 <img class="evaluationImg" :src="require('../../../../march_half_wx/pages/image/'+ img)"
-                                :alt="img" v-if="index<2" @click="openImgPreDialog(scope.row.evaluationImg)">
+                                :alt="img" v-else-if="index<2" @click="openImgPreDialog(scope.row.evaluationImg)">
                                 <div class="imgNum" v-if="index===1 && scope.row.evaluationImg.length>2">+{{scope.row.evaluationImg.length}}</div>
                                 </div>
                             </div>
@@ -192,7 +196,9 @@
             <el-carousel >
                 <el-carousel-item v-for="(img,index) in imgPreDialog.imgList" :key="index">
                 <div class="imgsPre">
-                    <img class="imgPre" :src="require('../../../../march_half_wx/pages/image/'+ img)" alt="" srcset="">
+                    <img class="imgPre" v-if="img.indexOf('https')>-1||img.indexOf('http')>-1" :src="img" alt="" srcset="">
+                    <img class="imgPre" v-else-if="img.indexOf('-')>-1" :src="'https://6d61-march-half-9g5lt2qy94c600b9-1305397103.tcb.qcloud.la/'+ img" alt="" srcset="">
+                    <img class="imgPre" v-else :src="require('../../../../march_half_wx/pages/image/'+ img)" alt="" srcset="">
                 </div>
                 </el-carousel-item>
             </el-carousel>
@@ -204,6 +210,7 @@
 </template>
 
 <script>
+    import {changeImageUrl} from "@/utils/imageUrl";
     import {
         onMounted,
         reactive,

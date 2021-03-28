@@ -1,5 +1,7 @@
 {
   "pages": [
+    
+
     "pages/home/home",
 
     "pages/allType/allType",
@@ -17,6 +19,7 @@
     "pages/myPost/myPost", 
 
     "pages/order/order",
+    "pages/myEvaluation/myEvaluation",
     "pages/orderDetail/orderDetail",
     "pages/send-evaluation/send-evaluation",
 

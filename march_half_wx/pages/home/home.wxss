@@ -120,7 +120,7 @@ page{
     background: #ab0014;
     color: #fff;
     font-size: 26rpx;
-    font-weight: 100;
+    font-weight: 400;
     display: flex;
     align-items: center;
     justify-content: center;

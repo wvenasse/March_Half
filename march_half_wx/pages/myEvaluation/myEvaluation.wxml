@@ -1,0 +1,50 @@
+<view class="content">
+    <view class="serviceCard">
+        <view class="scontent">
+            <view class="serviceEvas">
+                <view class="serviceEva" wx:for="{{evaluation}}" wx:for-index="index" wx:key="evaluationId"
+                    bindtap="gotoEvaluation" data-evaluation="{{item}}">
+                    <view class="userIcons">
+                        <image class="userIcon" src="{{item.userIcon}}" mode="aspectFit" />
+                        <van-tag mark type="warning">{{item.evaluationStatus}}</van-tag>
+                    </view>
+                    <view class="userContent">
+                        <view class="userEva">
+                            <view class="evaluationUser">
+                                {{item.isNoName =='true' ? '匿名用户':item.evaluationUser}}
+                                <van-tag plain type="primary">{{item.evaluationType}}</van-tag>
+                            </view>
+                            <view class="evaluationStar">
+                                <view class="evaluationStars">
+                                    <view class="evaluationStatus">
+                                        {{item.evaluationStar===5?'惊喜':''}}
+                                        {{item.evaluationStar===4?'满意':''}}
+                                        {{item.evaluationStar===3?'一般':''}}
+                                        {{item.evaluationStar===2?'失望':''}}
+                                        {{item.evaluationStar===1?'极差':''}}
+                                    </view>
+                                    <van-rate readonly allow-half value="{{item.evaluationStar}}" size="{{ 10 }}"
+                                        color="#ee0a24" void-color="#eee" icon="like" void-icon="like" />
+                                </view>
+                                <view class="evaluationTime">
+                                    {{item.evaluationTime}}
+                                </view>
+                            </view>
+                        </view>
+                        <view class="evaluationDetail">
+                            {{item.evaluationDetail}}
+                        </view>
+                        <view class="evaluationImgs">
+                            <image class="evaluationImg" src="{{item}}" mode="aspectFit" wx:if="{{index<3}}"
+                                wx:for="{{item.evaluationImg}}" wx:for-index="index" wx:key="index" />
+                            <view class="evaluationImgLength" wx:if="{{item.evaluationImg.length>3}}">
+                                <van-icon name="photo-o" />{{item.evaluationImg.length}}
+                            </view>
+
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

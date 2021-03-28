@@ -29,9 +29,13 @@
                     <el-table-column prop="noticeName" label="公告名称"></el-table-column>
                     <el-table-column prop="noticeImg" label="公告图片">
                         <template slot-scope="scope">
-                            <img class="noticeImg" :src="require('../../../../march_half_wx/pages/image/'+scope.row.noticeImg)" :alt="scope.row.noticeImg" v-if="scope.row.noticeImg">
-                            <!-- <img class="noticeImg" :src="imgUrl+scope.row.noticeImg" :alt="scope.row.noticeImg" v-if="scope.row.noticeImg"> -->
-                        </template>
+                            <img class="noticeImg" :src="scope.row.noticeImg" 
+                            :alt="scope.row.noticeImg" v-if="scope.row.noticeImg.indexOf('https')>-1||scope.row.noticeImg.indexOf('http')>-1">
+                            <img class="noticeImg" :src="'https://6d61-march-half-9g5lt2qy94c600b9-1305397103.tcb.qcloud.la/'+ scope.row.noticeImg"
+                            :alt="scope.row.noticeImg" v-else-if="scope.row.noticeImg.indexOf('-')>-1">
+                            <img class="noticeImg" :src="require('../../../../march_half_wx/pages/image/'+scope.row.noticeImg)" 
+                            :alt="scope.row.noticeImg" v-else>
+                         </template>
                     </el-table-column>
                     <el-table-column prop="noticeDetail" label="公告内容">
                         <template slot-scope="scope">

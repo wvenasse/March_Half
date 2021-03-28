@@ -57,7 +57,7 @@ Page({
             i--;
           }
           else {
-            result.data[i].serviceIcon = '../image/'+result.data[i].serviceIcon.split(',')[0];
+            result.data[i].serviceIcon = util.imageUrl(result.data[i].serviceIcon.split(',')[0]);
           }
         }
         that.setData({

@@ -2,6 +2,11 @@
 var util = require('./utils/util.js');
 App({
   onLaunch: function () {
+    //初始化环境云服务的环境变量
+    wx.cloud.init({
+      env: 'march-half-9g5lt2qy94c600b9',
+      traceUser:true
+    })
     // 展示本地存储能力
     var logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())

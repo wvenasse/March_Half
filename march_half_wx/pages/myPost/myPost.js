@@ -22,7 +22,7 @@ Page({
           let imgs = result.data[i].postImg.split(',');
           if (imgs[0]) {
             for (let j=0;j<imgs.length;j++) {
-              imgs[j] = '../image/' + imgs[j];
+              imgs[j] = util.imageUrl(imgs[j]);
             }
           }
           result.data[i].postImg = imgs;

@@ -1,41 +1,40 @@
-// pages/orderDetail/orderDetail.js
+// pages/myEvaluation/myEvaluation.js
 var util = require('../../utils/util.js');
 Page({
-
   /**
    * 页面的初始数据
    */
   data: {
-    order:{},
+    evaluation:[]
   },
-  loadOrder(orderId){
+  loadEvaluation(){
     var that = this;
     let data={
-      orderId: orderId,
+      userId: wx.getStorageSync('userDetail').userId
     };
-    util.baseGet('showOrder',data,
+    util.baseGet('showAllEvaluationByUser',data,
       function (result) {
         console.log(result);
-        result.data.date =  Math.round(((Date.parse(new Date(result.data.orderEndDate)))/1000-(Date.parse(new Date(result.data.orderStartDate)))/1000)/60/60);
-        result.data.serviceImg = util.imageUrl(result.data.serviceImg);
+        for (let i=0;i<result.data.length;i++) {
+          result.data[i].userIcon = result.data[i].userIcon;
+          let imgs = result.data[i].evaluationImg.split(',');
+          for (let j=0;j<imgs.length;j++) {
+            imgs[j] = util.imageUrl(imgs[j])
+          }
+          result.data[i].evaluationImg = imgs;
+        }
         that.setData({
-          order: result.data
+          evaluation: result.data
         })
       },function (err) {
         console.log(err);
       })
   },
-  gotoService(e){
-    wx.navigateTo({
-      url: '../service/service?serviceId='+this.data.order.serviceId+'&serviceName='+this.data.order.orderService
-    })
-  },
-
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.loadOrder(options.orderId);
+    this.loadEvaluation();
   },
 
   /**

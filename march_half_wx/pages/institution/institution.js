@@ -53,7 +53,7 @@ Page({
         result.data.typeId = result.data.typeId.split(',');
         result.data.institutionType = result.data.institutionType.split(',');
         for (let i=0;i<result.data.institutionImg.length;i++) {
-          result.data.institutionImg[i] = '../image/' + result.data.institutionImg[i];
+          result.data.institutionImg[i] = util.imageUrl(result.data.institutionImg[i]);
         }
         that.setData({
           institution: result.data
@@ -71,10 +71,10 @@ Page({
       function (result) {
         console.log(result);
         for (let i=0;i<result.data.length;i++) {
-          result.data[i].userIcon = '../image/' + result.data[i].userIcon;
+          result.data[i].userIcon = result.data[i].userIcon;
           let imgs = result.data[i].evaluationImg.split(',');
           for (let j=0;j<imgs.length;j++) {
-            imgs[j] =  '../image/' + imgs[j];
+            imgs[j] = util.imageUrl(imgs[j]);
           }
           result.data[i].evaluationImg = imgs;
         }

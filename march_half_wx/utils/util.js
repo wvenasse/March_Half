@@ -8,6 +8,16 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+const formatTime2 = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return [year, month, day].map(formatNumber).join('') + [hour, minute, second].map(formatNumber).join('')
+}
 
 const formatNumber = n => {
   n = n.toString()
@@ -70,7 +80,7 @@ const basePost = function (url, data, successCallback, errorCallback, header) {
 const baseGet = function (url, data, successCallback, errorCallback, isMsg, header) {
   // wx.showLoading({
   //   title: "正在加载中...",
-  // })192.168.43.6/localhost
+  // })192.168.43.6/localhost、172.20.10.9
   wx.request({
     url: "http://localhost:8088/"+url,
     data: data,
@@ -183,13 +193,27 @@ const hideLoading = () => {
   })
 }
 
+const imageUrl = name => {
+  if (name.indexOf('-') > -1) {
+    return 'cloud://march-half-9g5lt2qy94c600b9.6d61-march-half-9g5lt2qy94c600b9-1305397103/' + name;
+  }
+  else if (name.indexOf('http') > -1 || name.indexOf('https') > -1){
+    return name;
+  }
+  else {
+    return '../image/' + name;
+  }
+}
+
 module.exports = {
   formatTime: formatTime,
+  formatTime2,
   basePost:basePost,
   baseGet:baseGet,
   SplitArray:SplitArray,
   getData,
   postData,
   showLoading,
-  hideLoading
+  hideLoading,
+  imageUrl
 }

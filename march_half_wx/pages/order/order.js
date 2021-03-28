@@ -68,7 +68,7 @@ Page({
         console.log(result);
         for (let i=0;i<result.data.length;i++) {
           result.data[i].date =  Math.round(((Date.parse(new Date(result.data[i].orderEndDate)))/1000-(Date.parse(new Date(result.data[i].orderStartDate)))/1000)/60/60);
-          result.data[i].serviceImg = '../image/'+result.data[i].serviceImg.split(',')[0];
+          result.data[i].serviceImg = util.imageUrl(result.data[i].serviceImg.split(',')[0]);
         }
         that.setData({
           orderList: result.data.reverse()

@@ -1,0 +1,152 @@
+/* pages/myEvaluation/myEvaluation.wxss */
+page {
+    background-color: #f7f8fa;
+    height: 100%;
+}
+
+.content {
+    height: 100%;
+}
+
+.serviceCard {
+    padding: 0rpx 20rpx;
+    background: #fff;
+}
+
+.scontent {
+    padding: 30rpx 0
+}
+
+.serviceIcons {}
+
+.serviceIcon {
+    width: 200rpx;
+    height: 200rpx;
+    margin-right: 10rpx;
+}
+
+.serviceIntro {
+    color: #616161;
+    line-height: 50rpx;
+    font-size: 28rpx;
+}
+
+.pay-hint-content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.ellipsis {
+    -webkit-line-clamp: 2;
+    opacity: 0.75;
+}
+
+.unellipsis {
+    -webkit-line-clamp: 0;
+    opacity: 1;
+}
+
+.bg-white-ellipsis {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.serviceTab {
+    margin-top: 30rpx;
+    background: #fff;
+    margin-bottom: 50rpx;
+}
+
+.serviceDetail {
+    background: #fff;
+}
+
+.serviceEvas {}
+
+.serviceEva {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #eeeeee;
+    padding: 20rpx 0;
+}
+
+.userIcons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.userIcon {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.userContent {
+    padding: 0 10rpx;
+    width: 85%;
+}
+
+.userEva {
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10rpx;
+}
+
+.evaluationUser {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.evaluationStar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 26rpx;
+    color: #929292;
+}
+
+.evaluationStars {
+    display: flex;
+}
+
+.evaluationStatus {}
+
+.evaluationTime {}
+
+.evaluationDetail {
+    color: #222222;
+    line-height: 60rpx;
+    font-size: 30rpx;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.evaluationImgs {
+    display: flex;
+    align-items: flex-end;
+}
+
+.evaluationImg {
+    width: 180rpx;
+    height: 180rpx;
+    margin-right: 10rpx;
+}
+
+.evaluationImgLength {
+    position: relative;
+    right: 100rpx;
+    background: #73737396;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    bottom: 10rpx;
+    height: fit-content;
+}

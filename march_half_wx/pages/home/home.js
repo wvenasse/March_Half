@@ -34,20 +34,18 @@ Page({
       't-icon-gengduo',
     ]
   },
-
   async init () {
     await util.showLoading() // 显示loading
     await Promise.all([this.loadNotice(), this.loadInstitution(), this.loadService(), this.loadType(), this.loadPost()]); // 请求数据
     await util.hideLoading() // 等待请求数据成功后，隐藏loading
   },
-  
   loadNotice(){
     var that = this;
     let data;
     return new Promise((resolve, reject) => {
       util.getData('showAllNotice', data).then((res) => {
         for (let i=0;i<res.length;i++) {
-          res[i].noticeImg = '../image/'+res[i].noticeImg;
+          res[i].noticeImg = util.imageUrl(res[i].noticeImg)
         }
         this.setData({
           notice: res
@@ -67,7 +65,7 @@ Page({
     return new Promise((resolve, reject) => {
       util.getData('showAllInstitution', data).then((res) => {
         for (let i=0;i<res.length;i++) {
-          res[i].institutionImg = '../image/'+res[i].institutionImg.split(',')[0];
+          res[i].institutionImg = util.imageUrl(res[i].institutionImg.split(',')[0]);
         }
         this.setData({
           institution: res
@@ -87,7 +85,7 @@ Page({
     return new Promise((resolve, reject) => {
       util.getData('showAllGoodService', data).then((res) => {
         for (let i=0;i<res.length;i++) {
-          res[i].serviceIcon = '../image/'+res[i].serviceIcon.split(',')[0];
+          res[i].serviceIcon = util.imageUrl(res[i].serviceIcon.split(',')[0]);
         }
         this.setData({
           service: res

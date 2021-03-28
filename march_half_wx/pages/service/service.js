@@ -32,7 +32,7 @@ Page({
         result.data.year = year-syear;
         result.data.serviceIcon = result.data.serviceIcon.split(',');
         for (let i=0;i<result.data.serviceIcon.length;i++) {
-          result.data.serviceIcon[i] = '../image/' + result.data.serviceIcon[i];
+          result.data.serviceIcon[i] = util.imageUrl(result.data.serviceIcon[i])
         }
         that.setData({
           service: result.data
@@ -50,10 +50,10 @@ Page({
       function (result) {
         console.log(result);
         for (let i=0;i<result.data.length;i++) {
-          result.data[i].userIcon = '../image/' + result.data[i].userIcon;
+          result.data[i].userIcon = result.data[i].userIcon;
           let imgs = result.data[i].evaluationImg.split(',');
           for (let j=0;j<imgs.length;j++) {
-            imgs[j] =  '../image/' + imgs[j];
+            imgs[j] = util.imageUrl(imgs[j])
           }
           result.data[i].evaluationImg = imgs;
         }

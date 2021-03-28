@@ -41,15 +41,23 @@
           <el-table-column prop="serviceIcon" label="人员图片" width="100" align="center">
             <template slot-scope="scope">
               <!-- ../../assets/imgs/Upload/ -->
+              <img class="serviceIcon" :src="scope.row.serviceIcon"
+                :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon&&(scope.row.serviceIcon.indexOf('https')>-1||scope.row.serviceIcon.indexOf('http')>-1)">
+              <img class="serviceIcon" :src="'https://6d61-march-half-9g5lt2qy94c600b9-1305397103.tcb.qcloud.la/'+ scope.row.serviceIcon"
+                :alt="scope.row.serviceIcon" v-else-if="scope.row.serviceIcon&&scope.row.serviceIcon.indexOf('-')>-1">
               <img class="serviceIcon" :src="require('../../../../march_half_wx/pages/image/'+scope.row.serviceIcon)"
-                :alt="scope.row.serviceIcon" v-if="scope.row.serviceIcon">
+                :alt="scope.row.serviceIcon" v-else-if="scope.row.serviceIcon">
             </template>
 
             <template slot-scope="scope">
               <div style="display:flex;justify-content: center;">
                 <div class="serviceIcons" v-for="(img,index) in scope.row.serviceIcon" :key="index">
+                  <img class="serviceIcon" :src="img"
+                  :alt="img" v-if="index<2&&(img.indexOf('https')>-1||img.indexOf('http')>-1)" @click="openImgPreDialog(scope.row.serviceIcon)">
+                  <img class="serviceIcon" :src="'https://6d61-march-half-9g5lt2qy94c600b9-1305397103.tcb.qcloud.la/'+ img"
+                  :alt="img" v-else-if="index<2&&img.indexOf('-')>-1" @click="openImgPreDialog(scope.row.serviceIcon)">
                   <img class="serviceIcon" :src="require('../../../../march_half_wx/pages/image/'+ img)"
-                  :alt="img" v-if="index<2" @click="openImgPreDialog(scope.row.serviceIcon)">
+                  :alt="img" v-else-if="index<2" @click="openImgPreDialog(scope.row.serviceIcon)">
                   <div class="imgNum" v-if="index===1 && scope.row.serviceIcon.length>2">+{{scope.row.serviceIcon.length}}</div>
                 </div>
               </div>
@@ -236,7 +244,9 @@
       <el-carousel >
         <el-carousel-item v-for="(img,index) in imgPreDialog.imgList" :key="index">
           <div class="imgsPre">
-            <img class="imgPre" :src="require('../../../../march_half_wx/pages/image/'+ img)" alt="" srcset="">
+            <img class="imgPre" v-if="img.indexOf('https')>-1||img.indexOf('http')>-1" :src="img" alt="" srcset="">
+            <img class="imgPre" v-else-if="img.indexOf('-')>-1" :src="'https://6d61-march-half-9g5lt2qy94c600b9-1305397103.tcb.qcloud.la/'+ img" alt="" srcset="">
+            <img class="imgPre" v-else :src="require('../../../../march_half_wx/pages/image/'+ img)" alt="" srcset="">
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -254,7 +264,8 @@
     ref
   } from "@vue/composition-api";
   import request from "@/utils/request";
-  import city from "@/utils/city"
+  import city from "@/utils/city";
+  import {changeImageUrl} from "@/utils/imageUrl";
   import {
     UpdateService,
     AddService,
