@@ -23,6 +23,7 @@ public class Service {
     private  Integer serviceLove;
 
     private  String serviceTime;
+    private  String serviceWeChat;
 
     public String getServiceTime() {
         return serviceTime;
@@ -174,5 +175,13 @@ public class Service {
 
     public void setServicePrice(Integer servicePrice) {
         this.servicePrice = servicePrice;
+    }
+
+    public String getServiceWeChat() {
+        return serviceWeChat;
+    }
+
+    public void setServiceWeChat(String serviceWeChat) {
+        this.serviceWeChat = serviceWeChat;
     }
 }

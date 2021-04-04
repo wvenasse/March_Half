@@ -24,7 +24,7 @@
             <van-tag color="#ab0014" plain>{{post.postType}}</van-tag>
         </view>
     </view>
-    <view class="postComment">
+    <view class="postComment" >
         <view class="commentLength">
             共{{firstComment.length}}条回答
         </view>
@@ -82,7 +82,7 @@
             </view>
         </view>
     </view>
-    <view class="footer">
+    <view class="footer" wx:if="{{identity=='user'}}">
         <view class="fooerLeft">
             <view class="cinput" bindtap="sendComment">发表评论……</view>
         </view>

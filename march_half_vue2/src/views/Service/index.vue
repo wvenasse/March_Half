@@ -48,7 +48,6 @@
               <img class="serviceIcon" :src="require('../../../../march_half_wx/pages/image/'+scope.row.serviceIcon)"
                 :alt="scope.row.serviceIcon" v-else-if="scope.row.serviceIcon">
             </template>
-
             <template slot-scope="scope">
               <div style="display:flex;justify-content: center;">
                 <div class="serviceIcons" v-for="(img,index) in scope.row.serviceIcon" :key="index">
@@ -128,8 +127,22 @@
               <span class="serviceChange">{{scope.row.serviceLove ? scope.row.serviceLove:0}}</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" fixed="right" align="center" width="150px">
+          <el-table-column label="操作" fixed="right" align="center" width="200px">
             <template slot-scope="scope">
+              <el-popover
+                placement="left"
+                width="200"
+                trigger="click">
+                <div class="serviceOpenId">
+                  <div class="popoverContent">
+                    <div class="popoverInput"><el-input v-model="scope.row.serviceWeChat" placeholder="请输入要绑定的微信账号"></el-input></div>
+                    <div class="popoverButton" style="padding-top: 12px;text-align: right;">
+                      <el-button size="mini" type="primary" @click="updateWeChat(scope.row)">确定</el-button>
+                    </div>
+                  </div>
+                </div>
+                <el-button style="margin-right: 10px;color:#909399;" size="small" type="text" slot="reference">绑定微信</el-button>
+              </el-popover>
               <el-button size="small" type="text" @click="openDiaog(scope.row)">修改信息</el-button>
               <el-button @click="deleteData(scope.row)" size="small" type="text" class="danger" style="color: red">删除
               </el-button>
@@ -227,8 +240,6 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-        
-
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="serviceDialog.visible = false">取 消</el-button>
@@ -268,6 +279,7 @@
   import {changeImageUrl} from "@/utils/imageUrl";
   import {
     UpdateService,
+    UpdateServiceWeChat,
     AddService,
     DelService,
     FindAllService
@@ -493,6 +505,24 @@
             });
           });
       };
+      const updateWeChat  = (service) => {
+        let data = {
+          serviceId: service.serviceId,
+          serviceWeChat:  service.serviceWeChat,
+        };
+        UpdateServiceWeChat(data)
+            .then(function (response) {
+              console.log(response);
+              root.$message({
+                type: "success",
+                message: response.data.msg,
+              });
+              loadData();
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+      };
 
       //类别、机构
       let optionList = reactive({
@@ -601,6 +631,7 @@
         closeDialog,
         submitService,
         deleteData,
+        updateWeChat,
 
         optionList,
         loadType,

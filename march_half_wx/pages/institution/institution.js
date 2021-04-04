@@ -37,7 +37,8 @@ Page({
     likeNum:0,
     loveNum:0,
     likeId:0,
-    loveId:0
+    loveId:0,
+    identity: wx.getStorageSync('identity')||'user'
   },
   
   loadinstitution(){

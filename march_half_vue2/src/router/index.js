@@ -99,14 +99,6 @@ const routes = [{
         component: () => import("../views/Inform/index.vue")
       },
       {
-        path: '/message',
-        name: "message",
-        meta: {
-          name: "消息管理"
-        },
-        component: () => import("../views/Message/index.vue")
-      },
-      {
         path: '/type',
         name: "type",
         meta: {

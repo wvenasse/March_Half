@@ -164,7 +164,7 @@
         </van-tabs>
     </view>
 
-    <view class="footer">
+    <view class="footer" wx:if="{{identity=='user'}}">
         <view class="fooerLeft">
             <view class="footLike" bindtap="onLikeChange">
                 <van-icon name="like-o" size="50rpx" wx:if="{{!isLike}}"/>

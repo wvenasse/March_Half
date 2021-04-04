@@ -24,6 +24,14 @@ export function UpdateService(data){
     })
 }
 
+export function UpdateServiceWeChat(data){
+    return request.request({
+        method: "get",
+        url: "/updateServiceWeChat",
+        params: data
+    })
+}
+
 export function UpdateServiceLikeNum(data){
     return request.request({
         method: "get",

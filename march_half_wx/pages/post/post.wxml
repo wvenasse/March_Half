@@ -61,7 +61,7 @@
             </view>
         </view>
     </view>
-    <view class="footer" bindtap="sendPost">
+    <view class="footer" bindtap="sendPost" wx:if="{{identity=='user'}}">
         <van-button icon="edit" color="#ad0014" round />
     </view>
 </view>

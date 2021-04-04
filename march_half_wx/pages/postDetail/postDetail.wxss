@@ -1,6 +1,6 @@
 /* pages/postDetail/postDetail.wxss */
 page {
-    background-color: #f7f8fa;
+    background-color: #ffffff;
     height: 100%;
 }
 

@@ -52,7 +52,16 @@ public class ServiceController {
             return R.error("修改用户失败！");
         }
     }
-
+    @RequestMapping("/updateServiceWeChat")
+    public R updateServiceWeChat(Integer serviceId,String serviceWeChat) {
+        Integer count = serviceDao.updateServiceWeChat(serviceId, serviceWeChat);
+        if (count == null) {
+            return R.ok();
+        }
+        else {
+            return R.error("修改用户微信失败！");
+        }
+    }
     @RequestMapping("/updateServiceLikeNum")
     public R updateServiceLikeNum(Integer serviceId) {
         Integer count = serviceDao.updateServiceLikeNum(serviceId);
@@ -155,6 +164,12 @@ public class ServiceController {
     @RequestMapping(value = "/showService", produces = "text/json;charset=UTF-8")
     public String showService(Integer serviceId){
         Service service = serviceDao.getServiceById(serviceId);
+        String serviceJson = JSON.toJSONString(service);
+        return serviceJson;
+    }
+    @RequestMapping(value = "/showServiceByOpenId", produces = "text/json;charset=UTF-8")
+    public String showServiceByOpenId(String serviceWeChat){
+        Service service = serviceDao.getServiceByOpenId(serviceWeChat);
         String serviceJson = JSON.toJSONString(service);
         return serviceJson;
     }

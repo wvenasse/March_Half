@@ -59,7 +59,7 @@ page {
   line-height: 120rpx;
 }
 
-.userCard {
+.userCard, .serviceCard {
   width: 90%;
   height: 300rpx;
   background-color: #ffffff;

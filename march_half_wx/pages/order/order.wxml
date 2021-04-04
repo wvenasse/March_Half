@@ -58,28 +58,43 @@
 
                 </view>
                 <view class="orderEdit" wx:if="{{orderStatus !== 4}}">
-                    <view class="exitButton" wx:if="{{orderStatus == 0 ||orderStatus == 1}}">
+                    <view class="exitButton" wx:if="{{identity=='user' && (orderStatus == 0 ||orderStatus == 1)}}">
                         <van-button color="#ad0014" plain round size="small" bindtap="editOrder" data-order="{{item}}">
                             修改订单
                         </van-button>
                     </view>
-                    <view class="exitButton" wx:if="{{orderStatus == 0 ||orderStatus == 1}}">
+                    <view class="exitButton" wx:if="{{identity=='user' && (orderStatus == 0 ||orderStatus == 1)}}">
                         <van-button color="#ad0014" plain round size="small" bindtap="openDetele" data-order="{{item}}">
                             删除订单
                         </van-button>
                     </view>
-                    <view class="exitButton" wx:if="{{orderStatus == 2}}">
+                    <view class="exitButton" wx:if="{{identity=='user' && orderStatus == 2}}">
                         <van-button color="#ad0014" round size="small" bindtap="openTip" data-order="{{item}}">
                             确认完成
                         </van-button>
                     </view>
-                    <view class="exitButton" wx:if="{{orderStatus == 3}}">
+                    <view class="exitButton" wx:if="{{identity=='user' && orderStatus == 3}}">
                         <van-button color="#ad0014" round size="small" bindtap="openEvaluation" data-order="{{item}}">
                             评价
                         </van-button>
                     </view>
+                    
+                    <view class="exitButton" wx:if="{{identity=='service' && orderStatus == 0}}">
+                        <van-button color="#ad0014" round size="small" bindtap="openTip" data-order="{{item}}">
+                            确定接单
+                        </van-button>
+                    </view>
+                    <view class="exitButton" wx:if="{{identity=='service' && orderStatus == 1}}">
+                        <van-button color="#ad0014" round size="small" bindtap="openTip" data-order="{{item}}">
+                            确定开始
+                        </van-button>
+                    </view>
+                    <view class="exitButton" wx:if="{{identity=='service' && orderStatus == 2}}">
+                        <van-button color="#ad0014" round size="small" bindtap="openTip" data-order="{{item}}">
+                            确定完成
+                        </van-button>
+                    </view>
                 </view>
-
             </view>
         </view>
         <van-empty description="暂无订单" wx:if="{{orderList.length==0}}" />
@@ -87,7 +102,7 @@
     <van-dialog use-slot show="{{ isShowTip }}" show-cancel-button bind:cancel="closeTip"
         bind:confirm="updateOrderStatus">
         <view class="dialog-content">
-            确定该订单已完成吗？
+            {{tipTetx}}
         </view>
     </van-dialog>
     <van-dialog use-slot show="{{ isShowDelete }}" show-cancel-button bind:cancel="closeDelete"

@@ -15,7 +15,7 @@ public interface ServiceDao {
     public int delService(Integer serviceId);
     //改
     public Integer updateService(Service service);
-
+    public Integer updateServiceWeChat(Integer serviceId,String serviceWeChat);
     public Integer updateServiceLikeNum(Integer serviceId);
     public Integer updateServiceLoveNum(Integer serviceId);
     public Integer updateServiceOrderNum(Integer serviceId);
@@ -33,4 +33,5 @@ public interface ServiceDao {
 
     //照id查
     public Service getServiceById(Integer serviceId);
+    public Service getServiceByOpenId(String serviceWeChat);
 }

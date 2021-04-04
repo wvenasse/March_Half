@@ -963,7 +963,6 @@
 
             onMounted(() => {
                 loadData();
-
                 window.onresize = function () {
                     myChart.resize();
                     myChart1.resize();

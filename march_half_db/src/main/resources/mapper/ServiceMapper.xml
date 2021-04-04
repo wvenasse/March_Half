@@ -7,8 +7,6 @@
         insert into services(serviceName,serviceIcon,typeId,serviceType,institutionId,serviceInstitution,servicePrice,serviceSfz,servicePhone,serviceAddress,serviceIntro,serviceYear,serviceTime)
         values (#{serviceName},#{serviceIcon},#{typeId},#{serviceType},#{institutionId},#{serviceInstitution},#{servicePrice},#{serviceSfz},#{servicePhone},#{serviceAddress},#{serviceIntro},#{serviceYear},#{serviceTime})
     </insert>
-<!-- ,serviceStar,serviceOrder,serviceEva,serviceLike,serviceLove,,serviceStar,serviceOrder,serviceEva,serviceLike,serviceLove,-->
-<!--    ,#{serviceStar},#{serviceOrder},#{serviceEva},#{serviceLike},#{serviceLove}-->
     <delete id="delService" parameterType="java.lang.Integer">
         delete from services where serviceId=#{serviceId}
     </delete>
@@ -16,6 +14,9 @@
         update services set serviceName=#{serviceName},serviceIcon=#{serviceIcon},typeId=#{typeId},serviceType=#{serviceType},institutionId=#{institutionId},serviceInstitution=#{serviceInstitution},
         servicePrice=#{servicePrice},serviceSfz=#{serviceSfz},servicePhone=#{servicePhone},serviceAddress=#{serviceAddress},serviceIntro=#{serviceIntro},serviceYear=#{serviceYear},serviceTime=#{serviceTime}
         where serviceId=#{serviceId}
+    </select>
+    <select id="updateServiceWeChat" resultType="java.lang.Integer">
+        update services set serviceWeChat=#{serviceWeChat} where serviceId=#{serviceId}
     </select>
     <select id="updateServiceLikeNum" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         update services set services.serviceLike = (select count(favorId) from favors where favors.serviceId= #{serviceId} AND favors.favorType=1) where services.serviceId = #{serviceId}
@@ -52,9 +53,10 @@
        select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 order by serviceOrder DESC
     </select>
 
-
-
     <select id="getServiceById" resultType="org.example.pojo.Service">
         select * from services where serviceId=#{serviceId}
+     </select>
+    <select id="getServiceByOpenId" resultType="org.example.pojo.Service">
+        select * from services where serviceWeChat=#{serviceWeChat}
      </select>
 </mapper>

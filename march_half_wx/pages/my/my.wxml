@@ -5,8 +5,8 @@
     <!-- open-type="getUserInfo" bindgetuserinfo="getUserInfo" -->
       <button wx:if="{{!hasUserInfo && canIUse}}" bindtap="selectType" > 登录/注册 </button>
       <block wx:else>
-        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userDetail.nickName}}</text>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userDetail.userIcon}}" mode="cover"></image>
       </block>
     </block>
     <block wx:else>
@@ -14,7 +14,7 @@
     </block>
   </view>
   <view class="infomation">
-    <view class="userCard">
+    <view class="userCard" hidden="{{identity !== 'user'}}">
       <view class="cardHead">
         个人操作
       </view>
@@ -46,7 +46,7 @@
       </view>
     </view>
 
-    <view class="userCard">
+    <view class="userCard" hidden="{{identity !== 'user'}}">
       <view class="cardHead">
         个人信息
       </view>
@@ -77,31 +77,77 @@
         </view>
       </view>
     </view>
-
+    
+    <view class="serviceCard" hidden="{{identity !== 'service'}}">
+      <view class="cardHead">
+        服务信息
+      </view>
+      <view class="carfBody">
+        <view class="littleCard cDorm" bindtap="gotoAddress">
+          <view class="littleHead">
+            我的星级
+          </view>
+          <view class="littleBody">
+            {{userDetail.serviceStar ? userDetail.serviceStar:0}}
+          </view>
+        </view>
+        <view class="littleCard cRoom" bindtap="gotoOrder">
+          <view class="littleHead">
+            我的订单
+          </view>
+          <view class="littleBody">
+            {{userDetail.serviceOrder ? userDetail.serviceOrder:0}}
+          </view>
+        </view>
+        <view class="littleCard cBed" bindtap="gotoEvaluation">
+          <view class="littleHead">
+            我的评价
+          </view>
+          <view class="littleBody">
+            {{userDetail.serviceEva ? userDetail.serviceEva:0}}
+          </view>
+        </view>
+      </view>
+    </view>
   </view>
-<van-dialog id="van-dialog" />
-  <van-dialog
-  use-slot
-  title="请选择身份"
-  show="{{ show }}"
-  show-cancel-button
-  bind:close="onClose"
-  confirm-button-open-type="getUserInfo"
-  bind:getuserinfo="getUserInfo"
->
-  <van-radio-group value="{{ radio }}">
-    <van-cell-group>
-      <van-cell title="普通用户" clickable data-name="user" bind:click="onClick">
-        <van-radio slot="right-icon" name="user" />
-      </van-cell>
-      <van-cell title="服务人员" clickable data-name="service" bind:click="onClick">
-        <van-radio slot="right-icon" name="service" />
-      </van-cell>
-      <van-cell title="服务机构" clickable data-name="institution" bind:click="onClick">
-        <van-radio slot="right-icon" name="institution" />
-      </van-cell>
-    </van-cell-group>
-  </van-radio-group>
-</van-dialog>
-
+  
+  <van-dialog id="van-dialog" />
+    <van-dialog
+    use-slot
+    title="请选择身份"
+    show="{{ show }}"
+    show-cancel-button
+    bind:close="onClose"
+    confirm-button-open-type="getUserInfo"
+    bind:getuserinfo="getUserInfo"
+  >
+    <van-radio-group value="{{ radio }}">
+      <van-cell-group>
+        <van-cell title="普通用户" clickable data-name="user" bind:click="onClick">
+          <van-radio slot="right-icon" name="user" />
+        </van-cell>
+        <van-cell title="服务人员" clickable data-name="service" bind:click="onClick">
+          <van-radio slot="right-icon" name="service" />
+        </van-cell>
+      </van-cell-group>
+    </van-radio-group>
+  </van-dialog>
+    <van-dialog
+      use-slot
+      title="请输入绑定的服务号"
+      show="{{ isShowOpen }}"
+      show-cancel-button
+      bind:confirm="updateServiceWeChat"
+      bind:close="onOpenClose"
+    >
+      <van-cell-group>
+    <van-field
+      model:value="{{ serviceId }}"
+      required
+      clearable
+      label="服务编号"
+      placeholder="请输入绑定的服务号"
+    />
+  </van-cell-group>
+  </van-dialog>
 </view>

@@ -19,7 +19,7 @@
                     <el-menu-item index="/institution">服务机构管理</el-menu-item>
                 </el-menu-item-group>
                 <el-menu-item-group title="讨论">
-                    <el-menu-item index="/post">帖子管理</el-menu-item>
+                    <el-menu-item index="/post">讨论管理</el-menu-item>
                 </el-menu-item-group>
                 <el-menu-item-group title="服务">
                     <el-menu-item index="/order">订单管理</el-menu-item>
@@ -29,7 +29,6 @@
                     <template slot="title">信息</template>
                     <el-menu-item index="/notice">公告管理</el-menu-item>
                     <el-menu-item index="/inform">通知管理</el-menu-item>
-                    <el-menu-item index="/message">消息管理</el-menu-item>
                 </el-submenu>
             </el-submenu>
             <el-submenu index="3">

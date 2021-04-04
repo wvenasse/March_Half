@@ -41,6 +41,12 @@
     <select id="getAllOrderByStatus" resultType="org.example.pojo.Order">
         select * from orders where orderStatus=#{orderStatus} And userId=#{userId}
     </select>
+    <select id="getAllOrderByService" resultType="org.example.pojo.Order">
+        select * from orders where serviceId=#{serviceId}
+    </select>
+    <select id="getAllOrderByServiceStatus" resultType="org.example.pojo.Order">
+        select * from orders where orderStatus=#{orderStatus} And serviceId=#{serviceId}
+    </select>
 
     <select id="getOrderById" resultType="org.example.pojo.Order">
         select * from orders where orderId=#{orderId}

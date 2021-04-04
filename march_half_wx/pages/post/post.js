@@ -10,7 +10,8 @@ Page({
     activeType:0,
     searchValue:'',
     post:[],
-    postValue:''
+    postValue:'',
+    identity: wx.getStorageSync('identity')||'user'
   },
 
   loadType(){

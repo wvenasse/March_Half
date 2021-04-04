@@ -30,8 +30,10 @@ Page({
     orderList:[],
     orderStatus:0,
     isShowTip:false,
+    tipTetx:'',
     isShowDelete:false,
-    currentOrder:{}
+    currentOrder:{},
+    identity: wx.getStorageSync('identity')||'user'
   },
   onClickStatus(event) {
     let index = event.detail.index;
@@ -60,10 +62,18 @@ Page({
   loadOrder(){
     var that = this;
     let data={
-      orderStatus: wx.getStorageSync('orderStatus') || this.data.orderStatus,
-      userId: wx.getStorageSync('userDetail').userId
+      orderStatus: wx.getStorageSync('orderStatus') || this.data.orderStatus
     };
-    util.baseGet('showAllOrderByStatus',data,
+    let url
+    if (wx.getStorageSync('identity') == 'user') {
+      url = 'showAllOrderByStatus';
+      data['userId'] = wx.getStorageSync('userDetail').userId;
+    }
+    else if (wx.getStorageSync('identity') == 'service') {
+      url = 'showAllOrderByServiceStatus';
+      data['serviceId'] = wx.getStorageSync('userDetail').serviceId;
+    }
+    util.baseGet(url,data,
       function (result) {
         console.log(result);
         for (let i=0;i<result.data.length;i++) {
@@ -91,9 +101,25 @@ Page({
   },
   openTip(e){
     let order = e.currentTarget.dataset['order'];
+    let text;
+    if (this.data.identity == 'user') {
+      text = '确定该订单已完成吗？';
+    }
+    else {
+      if (order.orderStatus == '0') {
+        text = '是否确定接单？';
+      }
+      else if (order.orderStatus == '1') {
+        text = '是否确定开始？';
+      }
+      else if (order.orderStatus == '2') {
+        text = '是否确定已完成？';
+      }
+    }
     this.setData({
       isShowTip: true,
-      currentOrder:order
+      currentOrder:order,
+      tipTetx: text
     })
   },
   closeTip(){
@@ -104,9 +130,19 @@ Page({
   updateOrderStatus(){
     let order = this.data.currentOrder;
     var that = this;
+    let status;
+    if (order.orderStatus == '0') {
+      status = '1'
+    }
+    else if (order.orderStatus == '1') {
+      status = '2'
+    }
+    else if (order.orderStatus == '2') {
+      status = '3'
+    }
     let data={
       orderId: order.orderId,
-      orderStatus: '3'
+      orderStatus: status
     };
     util.baseGet('updateOrderStatus',data,
       function (result) {
@@ -212,7 +248,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    this.loadOrder();
+    this.onLoad();
   },
 
   /**

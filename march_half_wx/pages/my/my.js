@@ -116,6 +116,8 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     userDetail:{},
+    isShowOpen:false,
+    serviceId:'',
     isAuth: true,
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
@@ -124,6 +126,7 @@ Page({
     },
     show: false,
     radio: '',
+    identity: wx.getStorageSync('identity')||'user'
   },
 
   onClose: function() {
@@ -141,6 +144,7 @@ Page({
     const { name } = event.currentTarget.dataset;
     this.setData({
       radio: name,
+      identity: name
     });
     wx.setStorageSync('identity', this.data.radio);
   },
@@ -153,10 +157,8 @@ Page({
   },
   getUserInfo: function (e) {
     //微信授权
+    console.log(e)
     wx.setStorageSync('userInfo', e.detail.userInfo);
-    if (this.data.radio === 'user') {
-      this.addUser();
-    }
     this.setData({
       userInfo: e.detail.userInfo,
       hasUserInfo: true
@@ -165,18 +167,26 @@ Page({
     this.getCodeTap();
   },
 
-  showUser: function (openid) {
-    wx.request({
-      url:'showUsers',
-      data:{
-        openid:openid
-      },
-      success: (result) => {
+  showUser: function () {
+    var that = this;
+    let data = {
+      openid: wx.getStorageSync('openid')
+    }
+    util.baseGet('showUsers',data,
+      function (result) {
+        console.log(result)
         if (!result.data) {
-          this.addUser();
+          that.addUser();
         }
-      },
-    })
+        else {
+          wx.setStorageSync('userDetail', result.data);
+          that.setData({
+            userDetail: result.data
+          })
+        }
+      },function (err) {
+        console.log(err);
+      })
   },
   addUser: function (){
     var Time = util.formatTime(new Date());
@@ -191,36 +201,52 @@ Page({
       userArea: '',
     }
     console.log(data);
-      wx.request({
-        url: 'addUsers',
-        data: data,
-        header: {
-          'content-type': 'application/json'
-        },
-        method: 'GET',
-        dataType: 'json',
-        responseType: 'text',
-        success: (result) => {
-          console.log(result)
-          if (result.data == 'ok') {
-            wx.setStorageSync('userDetail', this.data.users);
-            wx.showToast({
-              title: '绑定成功！'
-            })
-            wx.reLaunch({
-              url: '../my/my',
-              success: (result) => {
+    util.baseGet('addUsers',data,
+      function (result) {
+        console.log(result);
+        if (result.data == 'ok') {
+          wx.setStorageSync('userDetail', this.data.users);
+          wx.showToast({
+            title: '注册成功！'
+          })
+          wx.reLaunch({
+            url: '../my/my',
+          });
+        }
+      },function (err) {
+        console.log(err);
+      })
+
+      // wx.request({
+      //   url: 'addUsers',
+      //   data: data,
+      //   header: {
+      //     'content-type': 'application/json'
+      //   },
+      //   method: 'GET',
+      //   dataType: 'json',
+      //   responseType: 'text',
+      //   success: (result) => {
+      //     console.log(result)
+      //     if (result.data == 'ok') {
+      //       wx.setStorageSync('userDetail', this.data.users);
+      //       wx.showToast({
+      //         title: '绑定成功！'
+      //       })
+      //       wx.reLaunch({
+      //         url: '../my/my',
+      //         success: (result) => {
                 
-              },
-              fail: () => {},
-              complete: () => {}
-            });
+      //         },
+      //         fail: () => {},
+      //         complete: () => {}
+      //       });
               
-          }
-        },
-        fail: () => {},
-        complete: () => {}
-      });
+      //     }
+      //   },
+      //   fail: () => {},
+      //   complete: () => {}
+      // });
   },
   loadUser(openid){
     var that = this;
@@ -228,6 +254,65 @@ Page({
       openid:openid
     }
     util.baseGet('showUsers',data,
+      function (result) {
+        console.log(result)
+        wx.setStorageSync('userDetail', result.data);
+        that.setData({
+          userDetail: result.data
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
+
+  showService: function () {
+    var that = this;
+    let data = {
+      serviceWeChat: wx.getStorageSync('openid')
+    }
+    util.baseGet('showServiceByOpenId',data,
+      function (result) {
+        console.log(result);
+        if (!result.data) {
+          that.setData({
+            isShowOpen: true,
+          });
+        }
+        else {
+          wx.setStorageSync('userDetail', result.data);
+          that.setData({
+            userDetail: result.data
+          })
+        }
+      },function (err) {
+        console.log(err);
+      })
+  },
+  onOpenClose: function() {
+    this.setData({
+      isShowOpen: false,
+    });
+  },
+  updateServiceWeChat: function () {
+    let data = {
+      serviceId: this.data.serviceId,
+      serviceWeChat: wx.getStorageSync('openid')
+    }
+    let that = this;
+    util.baseGet('updateServiceWeChat',data,
+      function (result) {
+        console.log(result);
+        that.loadService();
+      },function (err) {
+        console.log(err);
+      })
+  },
+  loadService(){
+    var that = this;
+    let data = {
+      serviceId: this.data.serviceId
+    }
+    util.baseGet('showService',data,
       function (result) {
         console.log(result)
         wx.setStorageSync('userDetail', result.data);
@@ -263,9 +348,13 @@ Page({
               openid: res.data.openid.substr(0, 10) + '********' + res.data.openid.substr(res.data.openid.length - 8, res.data.openid.length),
               session_key: res.data.session_key.substr(0, 8) + '********' + res.data.session_key.substr(res.data.session_key.length - 6, res.data.session_key.length)
             })
-            if (wx.getStorageSync('identity') === 'user') {
-              that.showUser(wx.getStorageSync('openid'));
-              that.loadUser(wx.getStorageSync('openid'));
+            if (wx.getStorageSync('identity') == 'user') {
+              console.log('user')
+              that.showUser();
+            }
+            if (wx.getStorageSync('identity') == 'service') {
+              console.log('service')
+              that.showService();
             }
           }
         })
@@ -318,31 +407,19 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if (wx.getStorageSync('userDetail')) {
-      this.setData({
-        userInfo: wx.getStorageSync('userInfo'),
-        userDetail: wx.getStorageSync('userDetail'),
-        hasUserInfo: true
-      })
-      this.loadUser(wx.getStorageSync('openid'));
-      // this.getOpenIdTap();
-      // this.getCodeTap();
-    } else if (this.data.canIUse) {
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
+    this.setData({
+      identity: wx.getStorageSync('identity')
+    })
+      if (wx.getStorageSync('userDetail')) {
         this.setData({
-          userInfo: res.userInfo,
+          userInfo: wx.getStorageSync('userInfo'),
+          userDetail: wx.getStorageSync('userDetail'),
           hasUserInfo: true
         })
-        this.getOpenIdTap();
-        this.getCodeTap();
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          wx.setStorageSync('userInfo',res.userInfo)
+      } else if (this.data.canIUse) {
+        // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
+        // 所以此处加入 callback 以防止这种情况
+        app.userInfoReadyCallback = res => {
           this.setData({
             userInfo: res.userInfo,
             hasUserInfo: true
@@ -350,8 +427,20 @@ Page({
           this.getOpenIdTap();
           this.getCodeTap();
         }
-      })
-    }
+      } else {
+        // 在没有 open-type=getUserInfo 版本的兼容处理
+        wx.getUserInfo({
+          success: res => {
+            wx.setStorageSync('userInfo',res.userInfo)
+            this.setData({
+              userInfo: res.userInfo,
+              hasUserInfo: true
+            })
+            this.getOpenIdTap();
+            this.getCodeTap();
+          }
+        })
+      }
   },
 
 
