@@ -16,11 +16,7 @@ Page({
     evaluationStar:'',
     noteMaxLen: 200,
     currentNoteLen: 0,
-    imageUrlList: [
-      'cloud://march-half-9g5lt2qy94c600b9.6d61-march-half-9g5lt2qy94c600b9-1305397103/20210327192553-0.jpg',
-      'cloud://march-half-9g5lt2qy94c600b9.6d61-march-half-9g5lt2qy94c600b9-1305397103/20210327192553-1.jpg',
-      'cloud://march-half-9g5lt2qy94c600b9.6d61-march-half-9g5lt2qy94c600b9-1305397103/20210327192553-2.jpg'
-    ],
+    imageUrlList: [],
   },
   loadOrder(orderId) {
     var that = this;
@@ -33,6 +29,30 @@ Page({
         result.data.serviceImg = util.imageUrl(result.data.serviceImg);
         that.setData({
           order: result.data
+        })
+      },
+      function (err) {
+        console.log(err);
+      })
+  },
+  loadEvaluation(orderId) {
+    var that = this;
+    let data = {
+      orderId: orderId,
+    };
+    util.baseGet('showEvaluationByOrder', data,
+      function (result) {
+        console.log(result);
+        result.data.evaluationImg = result.data.evaluationImg.split(',');
+        let imgList = [];
+        result.data.evaluationImg.forEach(function(image) {
+          image = util.imageUrl(image);
+          imgList.push(image);
+        });
+        result.data.isNoName = !!result.data.isNoName;
+        that.setData({
+          evaluation: result.data,
+          imageUrlList: imgList
         })
       },
       function (err) {
@@ -264,8 +284,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // 
     this.loadOrder(options.orderId);
+    if (options.flag == '2') {
+      this.loadEvaluation(options.orderId);
+    }
   },
 
   /**

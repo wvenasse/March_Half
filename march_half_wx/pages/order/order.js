@@ -188,9 +188,17 @@ Page({
   openEvaluation(e){
     let order = e.currentTarget.dataset['order'];
     wx.navigateTo({
-      url: '../send-evaluation/send-evaluation?orderId='+order.orderId
+      url: '../send-evaluation/send-evaluation?orderId='+order.orderId+'&flag='+1
     })
   },
+  editEvaluation(e) {
+    let order = e.currentTarget.dataset['order'];
+    wx.navigateTo({
+      url: '../send-evaluation/send-evaluation?orderId='+order.orderId+'&flag='+2
+    })
+  },
+
+
   updateUserOrderNum() {
     var that = this;
     let data = {

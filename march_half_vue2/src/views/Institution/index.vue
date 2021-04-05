@@ -6,7 +6,7 @@
           <el-col :span="20">
             <el-form :inline="true" size="small">
               <el-form-item style=" width:150px;">
-                <el-input placeholder="请输入服务人员名称" v-model="form.institutionName" clearable>
+                <el-input placeholder="请输入服务机构名称" v-model="form.institutionName" clearable>
                 </el-input>
               </el-form-item>
               <el-form-item style="margin-left: 10px">

@@ -22,4 +22,5 @@ public interface EvaluationDao {
     public List<Evaluation> getAllEvaluationByInstitution(Integer institutionId);
     //照id查
     public Evaluation getEvaluationById(Integer evaluationId);
+    public Evaluation getEvaluationByOrderId(Integer orderId);
 }

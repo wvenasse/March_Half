@@ -105,4 +105,11 @@ public class EvaluationController {
         String evaluationJson = JSON.toJSONString(evaluation);
         return evaluationJson;
     }
+
+    @RequestMapping(value = "/showEvaluationByOrder", produces = "text/json;charset=UTF-8")
+    public String showEvaluationByOrder(Integer orderId){
+        Evaluation evaluation = evaluationDao.getEvaluationByOrderId(orderId);
+        String evaluationJson = JSON.toJSONString(evaluation);
+        return evaluationJson;
+    }
 }

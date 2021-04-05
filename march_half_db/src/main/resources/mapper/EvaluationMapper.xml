@@ -40,4 +40,8 @@
     <select id="getEvaluationById" resultType="org.example.pojo.Evaluation">
         select * from evaluations where evaluationId=#{evaluationId}
      </select>
+
+    <select id="getEvaluationByOrderId" resultType="org.example.pojo.Evaluation">
+        select * from evaluations where orderId=#{orderId}
+     </select>
 </mapper>

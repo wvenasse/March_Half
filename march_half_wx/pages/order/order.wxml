@@ -57,7 +57,7 @@
                     </view>
 
                 </view>
-                <view class="orderEdit" wx:if="{{orderStatus !== 4}}">
+                <view class="orderEdit">
                     <view class="exitButton" wx:if="{{identity=='user' && (orderStatus == 0 ||orderStatus == 1)}}">
                         <van-button color="#ad0014" plain round size="small" bindtap="editOrder" data-order="{{item}}">
                             修改订单
@@ -76,6 +76,11 @@
                     <view class="exitButton" wx:if="{{identity=='user' && orderStatus == 3}}">
                         <van-button color="#ad0014" round size="small" bindtap="openEvaluation" data-order="{{item}}">
                             评价
+                        </van-button>
+                    </view>
+                    <view class="exitButton" wx:if="{{identity=='user' && orderStatus == 4}}">
+                        <van-button color="#ad0014" plain round size="small" bindtap="editEvaluation" data-order="{{item}}">
+                            修改评价
                         </van-button>
                     </view>
                     
