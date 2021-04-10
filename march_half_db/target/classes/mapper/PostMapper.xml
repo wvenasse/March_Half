@@ -38,13 +38,13 @@
 
 
     <select id="getAllPost" resultType="org.example.pojo.Post">
-        select * from posts where postName like "%"#{keyWord}"%" order by postTop
+        select * from posts where postName like "%"#{keyWord}"%" order by postTop asc,postTime desc
     </select>
     <select id="getAllPostByUser" resultType="org.example.pojo.Post">
-        select * from posts where userId=#{userId} order by postTop
+        select * from posts where userId=#{userId} order by postTop asc,postTime desc
     </select>
     <select id="getAllPostByType" resultType="org.example.pojo.Post">
-        select * from posts where typeId=#{typeId} order by postTop
+        select * from posts where typeId=#{typeId} order by postTop asc,postTime desc
     </select>
 
     <select id="getPostById" resultType="org.example.pojo.Post">

@@ -119,8 +119,8 @@ page {
 }
 
 .cRem {
-  background-color: #DFDB23;
-  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(223, 210, 35, 0.8);
+  background-color: #ffa500;
+  box-shadow: 5rpx 5rpx 10rpx 5rpx rgba(253, 183, 53, 0.8);
 }
 
 .littleHead,

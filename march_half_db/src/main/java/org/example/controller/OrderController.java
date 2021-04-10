@@ -3,6 +3,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.example.dao.OrderDao;
+import org.example.pojo.OrderNum;
 import org.example.pojo.R;
 import org.example.pojo.Order;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,12 @@ public class OrderController {
         }
     }
 
+    @RequestMapping(value = "/showOrderNum", produces = "text/json;charset=UTF-8")
+    public String showOrderNum(){
+        List<OrderNum> orderNum = orderDao.getOrderNum();
+        String orderJson = JSON.toJSONString(orderNum);
+        return orderJson;
+    }
 
     @RequestMapping(value = "/showAllOrder", produces = "text/json;charset=UTF-8")
     public String showAllOrder(){
@@ -71,9 +78,9 @@ public class OrderController {
         String orderJson = JSON.toJSONString(order);
         return orderJson;
     }
-    @RequestMapping(value = "/showAllOrderByStatus", produces = "text/json;charset=UTF-8")
+    @RequestMapping(value = "/showAllOrderByUserStatus", produces = "text/json;charset=UTF-8")
     public String showAllOrderByStatus(String orderStatus,Integer userId){
-        List<Order> order = orderDao.getAllOrderByStatus(orderStatus,userId);
+        List<Order> order = orderDao.getAllOrderByUserStatus(orderStatus,userId);
         String orderJson = JSON.toJSONString(order);
         return orderJson;
     }
@@ -110,10 +117,9 @@ public class OrderController {
     @RequestMapping("/findAllOrderByStatus")
     public R findAllOrderByStatus(@RequestParam("pageIndex") int pageIndex,
                           @RequestParam("pageSize") int pageSize,
-                          @RequestParam("orderStatus") String orderStatus,
-                                  @RequestParam("userId") Integer userId){
+                          @RequestParam("orderStatus") String orderStatus){
         PageHelper.startPage(pageIndex,pageSize);
-        PageInfo<Order> pageInfo = new PageInfo(orderDao.getAllOrderByStatus(orderStatus,userId));
+        PageInfo<Order> pageInfo = new PageInfo(orderDao.getAllOrderByStatus(orderStatus));
         return R.ok().put("pageInfo", pageInfo);
     }
 

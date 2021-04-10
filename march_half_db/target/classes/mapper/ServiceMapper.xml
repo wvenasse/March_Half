@@ -35,22 +35,22 @@
     </select>
 
     <select id="getAllService" resultType="org.example.pojo.Service">
-        select * from services where serviceName like "%"#{keyWord}"%"
+        select * from services where serviceName like "%"#{keyWord}"%"  ORDER BY serviceTime DESC
     </select>
     <select id="getAllGoodService" resultType="org.example.pojo.Service">
-        select * from services where serviceStar >= 3
+        select * from services where serviceStar >= 3  ORDER BY serviceTime DESC
     </select>
     <select id="getAllServiceByType" resultType="org.example.pojo.Service">
-        select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0
+        select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0  ORDER BY serviceTime DESC
     </select>
     <select id="getAllServiceByTypeIns" resultType="org.example.pojo.Service">
-        select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 AND institutionId=#{institutionId}
+        select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 AND institutionId=#{institutionId}  ORDER BY serviceTime DESC
     </select>
     <select id="getAllServiceByTypePrice" resultType="org.example.pojo.Service">
-        select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 order by servicePrice
+        select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 order by servicePrice ASC ,serviceTime DESC
     </select>
     <select id="getAllServiceByTypeOrder" resultType="org.example.pojo.Service">
-       select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 order by serviceOrder DESC
+       select * from services where (SELECT FIND_IN_SET(#{typeId}, services.typeId)) > 0 order by serviceOrder DESC,serviceTime DESC
     </select>
 
     <select id="getServiceById" resultType="org.example.pojo.Service">

@@ -287,6 +287,14 @@ Page({
     this.loadOrder(options.orderId);
     if (options.flag == '2') {
       this.loadEvaluation(options.orderId);
+      wx.setNavigationBarTitle({
+        title: '修改评价'
+      })
+    }
+    else {
+      wx.setNavigationBarTitle({
+        title: '发表评价'
+      })
     }
   },
 

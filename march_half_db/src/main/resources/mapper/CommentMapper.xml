@@ -23,19 +23,19 @@
     </select>
 
     <select id="getAllComment" resultType="org.example.pojo.Comment">
-        select * from comments where commentDetail like "%"#{keyWord}"%"
+        select * from comments where commentDetail like "%"#{keyWord}"%" order by commentTime desc
     </select>
     <select id="getAllCommentByUser" resultType="org.example.pojo.Comment">
-        select * from comments where userId=#{userId}
+        select * from comments where userId=#{userId} order by commentTime desc
     </select>
     <select id="getAllCommentByPost" resultType="org.example.pojo.Comment">
-        select * from comments where postId=#{postId}
+        select * from comments where postId=#{postId} order by commentTime desc
     </select>
     <select id="getAllCommentFirst" resultType="org.example.pojo.Comment">
-        select * from comments where postId=#{postId} AND commentType='first'
+        select * from comments where postId=#{postId} AND commentType='first' order by commentTime desc
     </select>
     <select id="getAllCommentSecond" resultType="org.example.pojo.Comment">
-        select * from comments where postId=#{postId} AND toCommentId=#{toCommentId} AND  commentType='second'
+        select * from comments where postId=#{postId} AND toCommentId=#{toCommentId} AND  commentType='second' order by commentTime desc
     </select>
 
     <select id="getCommentById" resultType="org.example.pojo.Comment">

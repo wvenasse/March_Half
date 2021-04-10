@@ -11,7 +11,7 @@
                     <view class="userContent">
                         <view class="userEva">
                             <view class="evaluationUser">
-                                {{item.isNoName =='true' ? '匿名用户':item.evaluationUser}}
+                                {{item.evaluationUser}}
                                 <van-tag plain type="primary">{{item.evaluationType}}</van-tag>
                             </view>
                             <view class="evaluationStar">
@@ -42,9 +42,20 @@
                             </view>
 
                         </view>
+                        <view class="footerRight">
+                            <van-button color="#ad0014" plain size="small" bindtap="openDetele" data-evaluation="{{item}}">
+                                删除评价
+                            </van-button>
+                        </view>
                     </view>
                 </view>
             </view>
         </view>
     </view>
+    <van-dialog use-slot show="{{ isShowDelete }}" show-cancel-button bind:cancel="closeDelete"
+        bind:confirm="deleteEvaluation">
+        <view class="dialog-content">
+            确定删除该评价吗？
+        </view>
+    </van-dialog>
 </view>

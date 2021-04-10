@@ -1,6 +1,7 @@
 import cookie from "cookie_js";
 
 const adminToKen = 'admin_token';
+const rootId = '';
 const nickNama = 'nickname';
 const userName = 'userName';
 

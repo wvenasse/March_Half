@@ -15,7 +15,7 @@
         where favorId=#{favorId}
     </select>
     <select id="getAllFavor" resultType="org.example.pojo.Favor">
-        select * from favors where userId=#{userId} AND favorType=#{favorType}
+        select * from favors where userId=#{userId} AND favorType=#{favorType} order by favorTime desc
     </select>
 
     <select id="isFavorService" resultType="org.example.pojo.Favor">

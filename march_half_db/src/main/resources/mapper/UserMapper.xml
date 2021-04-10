@@ -41,7 +41,7 @@
     </select>
 
     <select id="getAllUsers" resultType="org.example.pojo.User">
-        select * from users where userName like "%"#{keyWord}"%" OR nickName like "%"#{keyWord}"%"
+        select * from users where userName like "%"#{keyWord}"%" OR nickName like "%"#{keyWord}"%" ORDER BY userTime desc
     </select>
     
     <select id="getUserById" resultType="org.example.pojo.User">

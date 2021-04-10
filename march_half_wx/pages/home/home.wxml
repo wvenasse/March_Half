@@ -1,5 +1,8 @@
 <!--pages/home/home.wxml-->
 <view class="container">
+    <van-notice-bar color="#ffffff" background="#ab0014" left-icon="info-o" mode="closeable" scrollable 
+    text="{{inform[0].informDetail}}"
+    />
     <view class="header">
         <swiper class="swiper" indicator-dots="true" autoplay="true" interval="5000" duration="1000"
             indicator-color="rgba(255,255,255,0.7)" indicator-active-color="#ad0014" circular="true">
@@ -9,7 +12,7 @@
                 </swiper-item>
             </block>
         </swiper>
-
+        
         <view class="affairs">
             <view class="affairCard" wx:for="{{type}}" wx:for-index="index" wx:key="typeId">
                 <view class="cardIcons" bindtap="gotoType" data-type="{{item}}">

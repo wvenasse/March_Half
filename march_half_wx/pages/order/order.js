@@ -27,6 +27,7 @@ Page({
       't-icon-taolingshangyi',
       't-icon-gengduo',
     ],
+    orderNum:[],
     orderList:[],
     orderStatus:0,
     isShowTip:false,
@@ -59,6 +60,19 @@ Page({
     wx.setStorageSync('orderStatus',status)
     this.loadOrder();
   },
+  loadOrderNum(){
+    let data;
+    let that = this;
+    util.baseGet('showOrderNum',data,
+      function (result) {
+        console.log(result);
+        that.setData({
+          orderNum: result.data
+        })
+      },function (err) {
+        console.log(err);
+      })
+  },
   loadOrder(){
     var that = this;
     let data={
@@ -66,7 +80,7 @@ Page({
     };
     let url
     if (wx.getStorageSync('identity') == 'user') {
-      url = 'showAllOrderByStatus';
+      url = 'showAllOrderByUserStatus';
       data['userId'] = wx.getStorageSync('userDetail').userId;
     }
     else if (wx.getStorageSync('identity') == 'service') {
@@ -81,7 +95,7 @@ Page({
           result.data[i].serviceImg = util.imageUrl(result.data[i].serviceImg.split(',')[0]);
         }
         that.setData({
-          orderList: result.data.reverse()
+          orderList: result.data
         })
       },function (err) {
         console.log(err);
@@ -242,6 +256,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    this.loadOrderNum();
     this.loadOrder();
   },
 

@@ -6,6 +6,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    inform:[],
     notice:[],
     post:[],
     active: 'institution',
@@ -36,8 +37,25 @@ Page({
   },
   async init () {
     await util.showLoading() // 显示loading
-    await Promise.all([this.loadNotice(), this.loadInstitution(), this.loadService(), this.loadType(), this.loadPost()]); // 请求数据
+    await Promise.all([this.loadInform(), this.loadNotice(), this.loadInstitution(), this.loadService(), this.loadType(), this.loadPost()]); // 请求数据
     await util.hideLoading() // 等待请求数据成功后，隐藏loading
+  },
+  loadInform(){
+    var that = this;
+    let data;
+    return new Promise((resolve, reject) => {
+      util.getData('showAllInform', data).then((res) => {
+        this.setData({
+          inform: res
+        })
+        console.log(res)
+        resolve()
+      })
+        .catch((err) => {
+          console.error(err)
+          reject(err)
+        })
+    })
   },
   loadNotice(){
     var that = this;

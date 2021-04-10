@@ -129,7 +129,6 @@ page {
     font-size: 30rpx;
 }
 
-
 .footer {
     position: fixed;
     bottom: 100rpx;

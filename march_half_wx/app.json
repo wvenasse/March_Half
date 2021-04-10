@@ -16,6 +16,7 @@
     "pages/send-post/send-post",
     "pages/send-comment/send-comment",
     "pages/myPost/myPost", 
+    "pages/myComment/myComment", 
 
     "pages/order/order",
     "pages/myEvaluation/myEvaluation",
@@ -85,6 +86,7 @@
     "van-toast": "@vant/weapp/toast/index",
     "van-swipe-cell": "@vant/weapp/swipe-cell/index",
     "van-sidebar": "@vant/weapp/sidebar/index",
-    "van-sidebar-item": "@vant/weapp/sidebar-item/index"
+    "van-sidebar-item": "@vant/weapp/sidebar-item/index",
+    "van-notice-bar": "@vant/weapp/notice-bar/index"
   }
 }

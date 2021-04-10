@@ -25,7 +25,7 @@
                                 </el-select>
                             </el-form-item>
                             <el-form-item style="margin-left: 10px; width:150px;">
-                                <el-input placeholder="请输入用户名称" v-model="form.OrderUser" clearable>
+                                <el-input placeholder="请输入用户名称" v-model="form.orderUser" clearable>
                                 </el-input>
                             </el-form-item>
                             <el-form-item style="margin-left: 10px">
@@ -374,8 +374,6 @@
                             console.log(error);
                         });
                 }
-
-
             };
             const openDiaog = (order) => {
                 console.log(order)

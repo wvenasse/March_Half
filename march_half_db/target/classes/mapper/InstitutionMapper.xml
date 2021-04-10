@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.dao.InstitutionDao">
     <insert id="addInstitution" parameterType="org.example.pojo.Institution">
-        insert into institutions(institutionName,institutionImg,typeId,institutionType,institutionPhone,institutionArea,institutionAddress,institutionIntro,institutionTime)
+        insert into institutions(institutionName,institutionImg,typeId,institutionType,institutionPhone,institutionArea,
+        institutionAddress,institutionIntro,institutionTime)
         values (#{institutionName},#{institutionImg},#{typeId},#{institutionType},#{institutionPhone},#{institutionArea},#{institutionAddress},#{institutionIntro}),#{institutionTime})
     </insert>
 
@@ -38,7 +39,7 @@
     </select>
 
     <select id="getAllInstitution" resultType="org.example.pojo.Institution">
-        select * from institutions where institutionName like "%"#{keyWord}"%"
+        select * from institutions where institutionName like "%"#{keyWord}"%" order by institutionTime desc
     </select>
 
     <select id="getInstitutionById" resultType="org.example.pojo.Institution">

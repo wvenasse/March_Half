@@ -150,3 +150,13 @@ page {
     bottom: 10rpx;
     height: fit-content;
 }
+
+.footerRight {
+    font-size: 30rpx;
+    text-align: right;
+}
+
+.dialog-content {
+    text-align: center;
+    padding: 20rpx 0;
+}

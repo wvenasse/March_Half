@@ -155,17 +155,6 @@ Page({
       url: '../info/info'
     })
   },
-  getUserInfo: function (e) {
-    //微信授权
-    console.log(e)
-    wx.setStorageSync('userInfo', e.detail.userInfo);
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
-    })
-    this.getOpenIdTap();
-    this.getCodeTap();
-  },
 
   showUser: function () {
     var that = this;
@@ -216,37 +205,6 @@ Page({
       },function (err) {
         console.log(err);
       })
-
-      // wx.request({
-      //   url: 'addUsers',
-      //   data: data,
-      //   header: {
-      //     'content-type': 'application/json'
-      //   },
-      //   method: 'GET',
-      //   dataType: 'json',
-      //   responseType: 'text',
-      //   success: (result) => {
-      //     console.log(result)
-      //     if (result.data == 'ok') {
-      //       wx.setStorageSync('userDetail', this.data.users);
-      //       wx.showToast({
-      //         title: '绑定成功！'
-      //       })
-      //       wx.reLaunch({
-      //         url: '../my/my',
-      //         success: (result) => {
-                
-      //         },
-      //         fail: () => {},
-      //         complete: () => {}
-      //       });
-              
-      //     }
-      //   },
-      //   fail: () => {},
-      //   complete: () => {}
-      // });
   },
   loadUser(openid){
     var that = this;
@@ -324,6 +282,17 @@ Page({
       })
   },
   
+  getUserInfo: function (e) {
+    //微信授权
+    console.log(e)
+    wx.setStorageSync('userInfo', e.detail.userInfo);
+    this.setData({
+      userInfo: e.detail.userInfo,
+      hasUserInfo: true
+    })
+    this.getOpenIdTap();
+    this.getCodeTap();
+  },
   getOpenIdTap: function () {
     var that = this;
     wx.login({
@@ -382,9 +351,9 @@ Page({
       url: '../myPost/myPost'
     })
   },
-  gotoOrder(){
-    wx.switchTab({ 
-      url: '../order/order'
+  gotoComment(){
+    wx.navigateTo({ 
+      url: '../myComment/myComment'
     }) 
   },
   gotoEvaluation(){

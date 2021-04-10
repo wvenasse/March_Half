@@ -5,8 +5,8 @@
     <!-- open-type="getUserInfo" bindgetuserinfo="getUserInfo" -->
       <button wx:if="{{!hasUserInfo && canIUse}}" bindtap="selectType" > 登录/注册 </button>
       <block wx:else>
-        <text class="userinfo-nickname">{{userDetail.nickName}}</text>
-        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userDetail.userIcon}}" mode="cover"></image>
+        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       </block>
     </block>
     <block wx:else>
@@ -27,17 +27,17 @@
             {{userDetail.userAddress ? userDetail.userAddress:0}}
           </view>
         </view>
-        <view class="littleCard cRoom" bindtap="gotoOrder">
+        <view class="littleCard cRoom" bindtap="gotoPost">
           <view class="littleHead">
-            我的订单
+            我的提问
           </view>
           <view class="littleBody">
             {{userDetail.userPost ? userDetail.userPost:0}}
           </view>
         </view>
-        <view class="littleCard cBed" bindtap="gotoEvaluation">
+        <view class="littleCard cBed" bindtap="gotoComment">
           <view class="littleHead">
-            我的评价
+            我的回复
           </view>
           <view class="littleBody">
             {{userDetail.userCom ? userDetail.userCom:0}}
@@ -51,12 +51,12 @@
         个人信息
       </view>
       <view class="carfBody">
-        <view class="littleCard cRem" bindtap="gotoPost">
+        <view class="littleCard cRem" bindtap="gotoEvaluation">
           <view class="littleHead">
-            我的提问
+            我的评价
           </view>
           <view class="littleBody">
-            {{userDetail.userOrder ? userDetail.userOrder:0}}
+            {{userDetail.userEva ? userDetail.userEva:0}}
           </view>
         </view>
         <view class="littleCard cFav" bindtap="gotoLike">

@@ -42,7 +42,7 @@
                     </view>
                     <view class="footerRight">
                         <van-button color="#ad0014" plain round size="small" bindtap="openDetele" data-post="{{item}}">
-                            删除订单
+                            删除提问
                         </van-button>
                     </view>
                 </view>

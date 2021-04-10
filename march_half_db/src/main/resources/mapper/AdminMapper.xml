@@ -15,7 +15,7 @@
     </select>
 
     <select id="getAllAdmin" resultType="org.example.pojo.Admin">
-        select * from roots where userName like "%"#{keyWord}"%" OR nickname like "%"#{keyWord}"%"
+        select * from roots where userName like "%"#{keyWord}"%" OR nickname like "%"#{keyWord}"%" order by rootTime desc
     </select>
 
     <select id="getAdmin" resultType="java.lang.Integer">

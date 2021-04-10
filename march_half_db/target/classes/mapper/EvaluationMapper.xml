@@ -25,16 +25,16 @@
     </select>
 
     <select id="getAllEvaluation" resultType="org.example.pojo.Evaluation">
-        select * from evaluations
+        select * from evaluations  order by evaluationTime desc
     </select>
     <select id="getAllEvaluationByUser" resultType="org.example.pojo.Evaluation">
-        select * from evaluations where userId=#{userId}
+        select * from evaluations where userId=#{userId} order by evaluationTime desc
     </select>
     <select id="getAllEvaluationByService" resultType="org.example.pojo.Evaluation">
-        select * from evaluations where serviceId=#{serviceId}
+        select * from evaluations where serviceId=#{serviceId} order by evaluationTime desc
     </select>
     <select id="getAllEvaluationByInstitution" resultType="org.example.pojo.Evaluation">
-        select * from evaluations where institutionId=#{institutionId}
+        select * from evaluations where institutionId=#{institutionId} order by evaluationTime desc
     </select>
 
     <select id="getEvaluationById" resultType="org.example.pojo.Evaluation">

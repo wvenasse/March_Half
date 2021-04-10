@@ -1,11 +1,11 @@
 <view class="content">
     <view class="orderHeader">
         <van-tabs swipeable sticky bind:click="onClickStatus" class="tabs">
-            <van-tab title="待接单"></van-tab>
-            <van-tab title="未服务"></van-tab>
-            <van-tab title="进行中"></van-tab>
-            <van-tab title="待评价"></van-tab>
-            <van-tab title="已完成"></van-tab>
+            <van-tab title="待接单" info="{{orderNum[0].orderNum}}"></van-tab>
+            <van-tab title="未服务" info="{{orderNum[1].orderNum}}"></van-tab>
+            <van-tab title="进行中" info="{{orderNum[2].orderNum}}"></van-tab>
+            <van-tab title="待评价" info="{{orderNum[3].orderNum}}"></van-tab>
+            <van-tab title="已完成" info="{{orderNum[4].orderNum}}"></van-tab>
         </van-tabs>
     </view>
     <view class="orderContent">

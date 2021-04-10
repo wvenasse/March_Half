@@ -1,0 +1,61 @@
+<view class="content">
+    <view class="postComment" >
+        <view class="commentList">
+            <view class="commentCell" wx:for="{{comment}}" wx:for-index="index" wx:key="index">
+                <view class="commentIcon">
+                    <image class="userIcon" src="{{item.userIcon}}" mode="aspectFit" />
+                </view>
+                <view class="commentInfo">
+                    <view class="infoHead">
+                        <view class="commentUser">
+                            {{item.commentUser}}
+                        </view>
+                        <view class="commentTime">
+                            {{item.commentTime}}
+                        </view>
+                    </view>
+                    <view class="commentDetail">
+                        {{item.commentDetail}}
+                    </view>
+                    <view class="postButtons">
+                        <view class="deleteComment" wx:if="{{userId == item.userId}}"
+                        bindtap="openDetele" data-comment="{{item}}">
+                            删除
+                        </view>
+                    </view>
+                    <view wx:if="{{item.commentNum}}" class="commentNum" 
+                    bindtap="openSecondComment" data-firstcomment="{{item}}" data-commentindex="{{index}}">
+                        共有{{item.commentNum}}条回复
+                        <van-icon name="arrow-down" wx:if="{{!item.isSecondComment}}"/>
+                        <van-icon name="arrow-up" wx:if="{{item.isSecondComment}}"/>
+                    </view>
+                    <view class="sCommentList" wx:if="{{item.isSecondComment}}">
+                        <view class="sCommentCell"
+                        wx:for="{{item.secondComment}}" wx:for-index="index" wx:key="index">
+                            <view class="scommentInfo">
+                                <view class="scommentUser">
+                                    {{item.commentUser}}
+                                </view>
+                                ：
+                                <view class="scommentDetail">
+                                    {{item.commentDetail}}
+                                </view>
+                            </view>
+                            <view class="deleteComment" wx:if="{{userId == item.userId}}"
+                            bindtap="openDetele" data-comment="{{item}}">
+                                删除
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <van-dialog use-slot show="{{ isShowDelete }}" show-cancel-button bind:cancel="closeDelete"
+        bind:confirm="deleteComment">
+        <view class="dialog-content">
+            确定删除该评论吗？
+        </view>
+    </van-dialog>
+</view>
+  

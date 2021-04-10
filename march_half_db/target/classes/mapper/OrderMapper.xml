@@ -30,22 +30,27 @@
     <select id="updateOrderStatus" resultType="java.lang.Integer">
         update orders set orderStatus=#{orderStatus} where orderId=#{orderId}
     </select>
-    
 
+    <select id="getOrderNum" resultType="org.example.pojo.OrderNum">
+        select orderStatus,count(orderId) AS orderNum from orders group by orderStatus
+    </select>
     <select id="getAllOrder" resultType="org.example.pojo.Order">
-        select * from orders where orderUser like "%"#{keyWord}"%"
+        select * from orders where orderUser like "%"#{keyWord}"%" order by orderTime desc
     </select>
     <select id="getAllOrderByUser" resultType="org.example.pojo.Order">
-        select * from orders where userId=#{userId}
+        select * from orders where userId=#{userId} order by orderTime desc
     </select>
     <select id="getAllOrderByStatus" resultType="org.example.pojo.Order">
-        select * from orders where orderStatus=#{orderStatus} And userId=#{userId}
+        select * from orders where orderStatus=#{orderStatus} order by orderTime desc
+    </select>
+    <select id="getAllOrderByUserStatus" resultType="org.example.pojo.Order">
+        select * from orders where orderStatus=#{orderStatus} And userId=#{userId} order by orderTime desc
     </select>
     <select id="getAllOrderByService" resultType="org.example.pojo.Order">
-        select * from orders where serviceId=#{serviceId}
+        select * from orders where serviceId=#{serviceId} order by orderTime desc
     </select>
     <select id="getAllOrderByServiceStatus" resultType="org.example.pojo.Order">
-        select * from orders where orderStatus=#{orderStatus} And serviceId=#{serviceId}
+        select * from orders where orderStatus=#{orderStatus} And serviceId=#{serviceId} order by orderTime desc
     </select>
 
     <select id="getOrderById" resultType="org.example.pojo.Order">

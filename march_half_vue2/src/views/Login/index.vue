@@ -193,6 +193,9 @@
             
             ShowUser(data1).then(response => {
               console.log(response);
+              localStorage.setItem('rootId',response.data.rootId);
+              localStorage.setItem('userName',response.data.userName);
+              localStorage.setItem('nickname',response.data.nickname);
               root.$store.commit('SET_NICKNAME',response.data.nickname);
               setNickName(response.data.nickname);
               root.$store.commit('SET_USERNAME',response.data.userName);

@@ -99,6 +99,12 @@ Page({
         } else if (result.data.code == 200 && favorType == 2) {
           that.updateUserLoveNum()
         }
+        wx.showToast({
+          title: '删除成功',
+          icon: 'succes',
+          duration: 1000,
+          mask:true
+        })
       },
       function (err) {
         console.log(err);

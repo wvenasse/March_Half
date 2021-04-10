@@ -124,6 +124,12 @@ Page({
         that.updateUserComNum();
         that.updatePostComNum();
         that.updateCommentNum();
+        wx.showToast({
+          title: '删除成功',
+          icon: 'succes',
+          duration: 1000,
+          mask:true
+        })
       },function (err) {
         console.log(err);
       })
