@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.dao.PowerDao">
+    <insert id="addPower" parameterType="org.example.pojo.Power">
+        insert into powers(powerIdentity,powerMy,powerOrder,powerFavor,powerPost)
+        values (#{powerIdentity},#{powerMy},#{powerOrder},#{powerFavor},#{powerPost})
+    </insert>
+    <delete id="delPower" parameterType="java.lang.Integer">
+        delete from powers where powerId=#{powerId}
+    </delete>
+    <select id="updatePower" parameterType="org.example.pojo.Power" resultType="java.lang.Integer">
+        update powers
+        set powerIdentity=#{powerIdentity},powerMy=#{powerMy},powerOrder=#{powerOrder},powerFavor=#{powerFavor},powerPost=#{powerPost}
+        where powerId=#{powerId}
+    </select>
+
+    <select id="getAllPower" resultType="org.example.pojo.Power">
+        select * from powers where powerIdentity like "%"#{keyWord}"%"
+    </select>
+
+    <select id="getPower" resultType="org.example.pojo.Power">
+        select * from powers where powerId=#{powerId}
+     </select>
+</mapper>
