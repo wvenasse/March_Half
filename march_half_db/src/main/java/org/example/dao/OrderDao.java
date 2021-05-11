@@ -20,7 +20,7 @@ public interface OrderDao {
     public Integer updateOrderStatus(Integer orderId,String orderStatus);
 
     //查
-    public List<OrderNum> getOrderNum();
+    public List<OrderNum> getOrderNum(Integer userId);
     public List<Order> getAllOrder(String keyWord);
     public List<Order> getAllOrderByUser(Integer userId);
     public List<Order> getAllOrderByStatus(String orderStatus);

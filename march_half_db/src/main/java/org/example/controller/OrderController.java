@@ -66,8 +66,8 @@ public class OrderController {
     }
 
     @RequestMapping(value = "/showOrderNum", produces = "text/json;charset=UTF-8")
-    public String showOrderNum(){
-        List<OrderNum> orderNum = orderDao.getOrderNum();
+    public String showOrderNum(Integer userId){
+        List<OrderNum> orderNum = orderDao.getOrderNum(userId);
         String orderJson = JSON.toJSONString(orderNum);
         return orderJson;
     }

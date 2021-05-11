@@ -61,8 +61,18 @@ Page({
     this.loadOrder();
   },
   loadOrderNum(){
-    let data;
     let that = this;
+    that.setData({
+      orderNum: [{orderNum: 0, orderStatus: "0"},
+      {orderNum: 0, orderStatus: "1"},
+      {orderNum: 0, orderStatus: "2"},
+      {orderNum: 0, orderStatus: "3"},
+      {orderNum: 0, orderStatus: "4"},
+      {orderNum: 0, orderStatus: "5"}]
+    })
+    let data={
+      userId: wx.getStorageSync('userDetail').userId
+    };
     util.baseGet('showOrderNum',data,
       function (result) {
         console.log(result);
@@ -78,7 +88,7 @@ Page({
     let data={
       orderStatus: wx.getStorageSync('orderStatus') || this.data.orderStatus
     };
-    let url
+    let url;
     if (wx.getStorageSync('identity') == 'user') {
       url = 'showAllOrderByUserStatus';
       data['userId'] = wx.getStorageSync('userDetail').userId;

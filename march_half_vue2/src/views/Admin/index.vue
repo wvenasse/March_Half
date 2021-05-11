@@ -79,6 +79,7 @@
     DelAdmin,
     FindAllAdmin
   } from "@/api/Admin";
+  import {updateNickName} from "@/utils/app.js"
   export default {
     name: "admin",
     setup(props, {

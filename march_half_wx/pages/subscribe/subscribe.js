@@ -271,7 +271,7 @@ Page({
   updateServiceOrderNum() {
     var that = this;
     let data = {
-      serviceId: this.service.serviceId
+      serviceId: this.data.service.serviceId
     };
     util.baseGet('updateServiceOrderNum', data,
       function (result) {
@@ -284,7 +284,7 @@ Page({
   updateInstitutionOrderNum() {
     var that = this;
     let data = {
-      institutionId: this.service.institutionId
+      institutionId: this.data.service.institutionId
     };
     util.baseGet('updateInstitutionOrderNum', data,
       function (result) {

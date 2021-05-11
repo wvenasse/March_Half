@@ -39,3 +39,11 @@ export function DelAdmin(data){
         params: data
     })
 }
+
+export function ShowAdmin(data){
+    return request.request({
+        method: "get",
+        url: "/showUser",
+        params: data
+    })
+}
