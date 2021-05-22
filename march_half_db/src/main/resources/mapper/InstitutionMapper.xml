@@ -6,7 +6,7 @@
     <insert id="addInstitution" parameterType="org.example.pojo.Institution">
         insert into institutions(institutionName,institutionImg,typeId,institutionType,institutionPhone,institutionArea,
         institutionAddress,institutionIntro,institutionTime)
-        values (#{institutionName},#{institutionImg},#{typeId},#{institutionType},#{institutionPhone},#{institutionArea},#{institutionAddress},#{institutionIntro}),#{institutionTime})
+        values (#{institutionName},#{institutionImg},#{typeId},#{institutionType},#{institutionPhone},#{institutionArea},#{institutionAddress},#{institutionIntro},#{institutionTime})
     </insert>
 
     <delete id="delInstitution" parameterType="java.lang.Integer">

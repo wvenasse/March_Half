@@ -14,7 +14,7 @@ Page({
   loadComment(){
     var that = this;
     let data = {
-      userId: this.data.userId
+      userId: wx.getStorageSync('userDetail').userId
     };
     util.baseGet('showAllCommentByUser', data,
       function (result) {

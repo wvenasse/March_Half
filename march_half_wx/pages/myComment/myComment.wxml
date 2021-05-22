@@ -23,12 +23,12 @@
                             删除
                         </view>
                     </view>
-                    <view wx:if="{{item.commentNum}}" class="commentNum" 
+                    <!-- <view wx:if="{{item.commentNum}}" class="commentNum" 
                     bindtap="openSecondComment" data-firstcomment="{{item}}" data-commentindex="{{index}}">
                         共有{{item.commentNum}}条回复
                         <van-icon name="arrow-down" wx:if="{{!item.isSecondComment}}"/>
                         <van-icon name="arrow-up" wx:if="{{item.isSecondComment}}"/>
-                    </view>
+                    </view> -->
                     <view class="sCommentList" wx:if="{{item.isSecondComment}}">
                         <view class="sCommentCell"
                         wx:for="{{item.secondComment}}" wx:for-index="index" wx:key="index">
