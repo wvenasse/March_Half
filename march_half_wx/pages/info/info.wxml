@@ -8,7 +8,7 @@
       <form bindsubmit="formSubmit" class='form'>
         <view class="myno">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/info/mine.png"></image>
+            <van-icon class="infoIcon" name="user-o" color="#ad0014" size="22px"/>
             <view class="weui-cell__bd">
               <input class="weui-input" name="userName" bindinput="userNameinput" value='{{users.userName}}' placeholder="请输入姓名"
                 placeholder-class="phcolor" />
@@ -17,7 +17,7 @@
         </view>
         <view class="mypwd">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/info/pass.png"></image>
+          <van-icon class="infoIcon" name="phone-o" color="#ad0014" size="22px"/>
             <view class="weui-cell__bd">
               <input class="weui-input" name="userPhone" bindinput="userPhoneinput" placeholder="请输入电话" value='{{users.userPhone}}'
                 placeholder-class="phcolor" />
@@ -26,7 +26,7 @@
         </view>
         <view class="mypwd">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/info/stu.png"></image>
+          <van-icon class="infoIcon" name="idcard" color="#ad0014" size="22px"/>
             <view class="weui-cell__bd">
               <input class="weui-input" name="userSfz" bindinput="userSfzinput" placeholder="请输入身份证" value='{{users.userSfz}}'
                 placeholder-class="phcolor" />
@@ -35,7 +35,7 @@
         </view>
         <view class="mypwd">
           <view class="weui-cell weui-cell_input">
-            <image class="nameImage" src="../../utils/imgs/info/location.png"></image>
+          <van-icon class="infoIcon" name="location-o" color="#ad0014" size="22px"/>
             <view class="weui-cell__bd">
               <view class="section">
                 <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">

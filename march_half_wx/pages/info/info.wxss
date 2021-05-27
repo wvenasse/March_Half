@@ -24,7 +24,7 @@ page {
   background: linear-gradient(to right, #ead6ee, #ad0014);
   -webkit-background-clip: text;
   background-clip: text;
-  color: #009E9D;
+  color: #ad0014;
 }
 
 .login-icon{
@@ -51,7 +51,7 @@ page {
   border:1px solid rgba(255, 255, 255,0.7);
   border-radius: 50rpx;
   background:  rgba(255, 255, 255,0.3);
-  box-shadow: 0rpx 10rpx 50rpx 10rpx rgba(0,158,157, 0.10);
+  box-shadow: 0rpx 10rpx 50rpx 10rpx rgba(173,0,20, 0.10);
 }
 .mypwd{
   width: 90%;
@@ -61,7 +61,11 @@ page {
   border-radius: 50rpx;
   margin-top: 50rpx;
   background:  rgba(255, 255, 255,0.3);
-  box-shadow: 0rpx 10rpx 50rpx 10rpx rgba(0,158,157, 0.10);
+  box-shadow: 0rpx 10rpx 50rpx 10rpx rgba(173,0,20, 0.10);
+}
+
+.infoIcon {
+  margin: 0 20rpx;
 }
 
 .weui-cell {
