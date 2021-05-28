@@ -34,6 +34,9 @@
     <select id="getOrderNum" resultType="org.example.pojo.OrderNum">
         select orderStatus,count(orderId) AS orderNum from orders WHERE userId=#{userId} group by orderStatus
     </select>
+    <select id="getServiceOrderNum" resultType="org.example.pojo.OrderNum">
+        select orderStatus,count(serviceId) AS orderNum from orders WHERE serviceId=#{serviceId} group by orderStatus
+    </select>
     <select id="getAllOrder" resultType="org.example.pojo.Order">
         select * from orders where orderUser like "%"#{keyWord}"%" order by orderTime desc
     </select>

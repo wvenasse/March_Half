@@ -21,6 +21,7 @@ public interface OrderDao {
 
     //查
     public List<OrderNum> getOrderNum(Integer userId);
+    public List<OrderNum> getServiceOrderNum(Integer serviceId);
     public List<Order> getAllOrder(String keyWord);
     public List<Order> getAllOrderByUser(Integer userId);
     public List<Order> getAllOrderByStatus(String orderStatus);

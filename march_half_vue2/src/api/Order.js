@@ -10,7 +10,7 @@ export function ShowAllOrder() {
 export function ShowAllOrderByStatus(data) {
     return request.request({
         method: "get",
-        url: "/showAllOrderByStatus",
+        url: "/showAllOrderByUserStatus",
         params: data
     })
 }

@@ -72,6 +72,13 @@ public class OrderController {
         return orderJson;
     }
 
+    @RequestMapping(value = "/showServiceOrderNum", produces = "text/json;charset=UTF-8")
+    public String showServiceOrderNum(Integer serviceId){
+        List<OrderNum> orderNum = orderDao.getServiceOrderNum(serviceId);
+        String orderJson = JSON.toJSONString(orderNum);
+        return orderJson;
+    }
+
     @RequestMapping(value = "/showAllOrder", produces = "text/json;charset=UTF-8")
     public String showAllOrder(){
         List<Order> order = orderDao.getAllOrder("");

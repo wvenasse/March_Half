@@ -70,10 +70,18 @@ Page({
       {orderNum: 0, orderStatus: "4"},
       {orderNum: 0, orderStatus: "5"}]
     })
-    let data={
-      userId: wx.getStorageSync('userDetail').userId
-    };
-    util.baseGet('showOrderNum',data,
+    let url;
+    let data = {};
+    console.log(wx.getStorageSync('userDetail').serviceId)
+    if (wx.getStorageSync('identity') == 'user') {
+      url = 'showOrderNum';
+      data['userId'] = wx.getStorageSync('userDetail').userId;
+    }
+    else if (wx.getStorageSync('identity') == 'service') {
+      url = 'showServiceOrderNum';
+      data['serviceId'] = wx.getStorageSync('userDetail').serviceId;
+    }
+    util.baseGet(url,data,
       function (result) {
         console.log(result);
         that.setData({
@@ -172,6 +180,7 @@ Page({
       function (result) {
         console.log(result);
         that.loadOrder();
+        that.loadOrderNum();
         that.setData({
           isShowTip: false
         })
@@ -201,6 +210,7 @@ Page({
       function (result) {
         console.log(result);
         that.loadOrder();
+        that.loadOrderNum();
         that.setData({
           isShowDelete: false
         })
