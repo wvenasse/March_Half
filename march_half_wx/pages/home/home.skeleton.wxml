@@ -1,0 +1,225 @@
+<!--
+此文件为开发者工具生成，生成时间: 2021/5/29 上午9:12:50 
+使用方法：
+在 D:\WSH\2021\March_Half\march_half_wx\pages\home\home.wxml 引入模板
+
+```
+<import src="home.skeleton.wxml"/>
+<template is="skeleton" wx-if="{{loading}}" />
+```
+
+在 D:\WSH\2021\March_Half\march_half_wx\pages\home\home.wxss 中引入样式
+```
+@import "./home.skeleton.wxss";
+```
+
+更多详细信息可以参考文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/skeleton.html
+-->
+<template name="skeleton">
+  <view class="sk-container">
+    <view class="container">
+      <view is="miniprogram_npm/@vant/weapp/notice-bar/index">
+        <view class=" van-notice-bar bar-index--van-notice-bar van-notice-bar--withicon bar-index--van-notice-bar--withicon" style="color: #ffffff; background-color: ; background: #ab0014">
+          <view is="miniprogram_npm/@vant/weapp/icon/index" class="van-notice-bar__left-icon bar-index--van-notice-bar__left-icon">
+            <view class="van-icon icon-index--van-icon van-icon-info-o icon-index--van-icon-info-o sk-pseudo sk-pseudo-circle" style="color: ;font-size: 16px;">
+            </view>
+          </view>
+          <view class="van-notice-bar__wrap bar-index--van-notice-bar__wrap">
+            <view class="van-notice-bar__content bar-index--van-notice-bar__content sk-transparent sk-text-20-8333-498 sk-text" style=";transition:10109.583740234375ms linear 1ms;transform:translateX(-505.47918701171875px);transition-property:transform;transform-origin:50% 50% 0;-webkit-transition:10109.583740234375ms linear 1ms;-webkit-transform:translateX(-505.47918701171875px);-webkit-transition-property:transform;-webkit-transform-origin:50% 50% 0">
+              2021年5月1日至5号，本系统将进行更新，届时将无法使用，敬请谅解！暗室逢灯
+            </view>
+          </view>
+          <view is="miniprogram_npm/@vant/weapp/icon/index" class="van-notice-bar__right-icon bar-index--van-notice-bar__right-icon">
+            <view class="van-icon icon-index--van-icon van-icon-cross icon-index--van-icon-cross sk-pseudo sk-pseudo-circle" style="color: ;font-size: ;">
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="header">
+        <swiper autoplay="true" circular="true" class="swiper" duration="1000" indicator-active-color="#ad0014" indicator-color="rgba(255,255,255,0.7)" indicator-dots="true" interval="5000">
+          <swiper-item style="position: absolute; width: 100%; height: 100%; transform: translate(0%, 0px) translateZ(0px);">
+            <image class="slide-image sk-image" mode="aspectFit">
+            </image>
+          </swiper-item>
+        </swiper>
+        <view class="affairs">
+          <view class="affairCard">
+            <view class="cardIcons" data-type="[object Object]">
+              <view class="cardIcon">
+                <view class="t-icon t-icon-bangdaiyongyi">
+                </view>
+              </view>
+            </view>
+            <view class="cardHead sk-transparent sk-text-14-2857-241 sk-text" data-type="[object Object]" style="background-position-x: 50%;">
+              月嫂服务
+            </view>
+          </view>
+          <view class="affairCard">
+            <view class="cardIcons" data-type="[object Object]">
+              <view class="cardIcon">
+                <view class="t-icon t-icon-yingerfu">
+                </view>
+              </view>
+            </view>
+            <view class="cardHead sk-transparent sk-text-14-2857-484 sk-text" data-type="[object Object]" style="background-position-x: 50%;">
+              保姆服务
+            </view>
+          </view>
+          <view class="affairCard">
+            <view class="cardIcons" data-type="[object Object]">
+              <view class="cardIcon">
+                <view class="t-icon t-icon-beixin">
+                </view>
+              </view>
+            </view>
+            <view class="cardHead sk-transparent sk-text-14-2857-493 sk-text" data-type="[object Object]" style="background-position-x: 50%;">
+              母乳指导
+            </view>
+          </view>
+          <view class="affairCard">
+            <view class="cardIcons" data-type="[object Object]">
+              <view class="cardIcon">
+                <view class="t-icon t-icon-baozhen">
+                </view>
+              </view>
+            </view>
+            <view class="cardHead sk-transparent sk-text-14-2857-428 sk-text" data-type="[object Object]" style="background-position-x: 50%;">
+              综合维修
+            </view>
+          </view>
+          <view class="affairCard">
+            <view class="cardIcons" data-type="[object Object]">
+              <view class="cardIcon">
+                <view class="t-icon t-icon-maoyi">
+                </view>
+              </view>
+            </view>
+            <view class="cardHead sk-transparent sk-text-14-2857-367 sk-text" data-type="[object Object]" style="background-position-x: 50%;">
+              育婴服务
+            </view>
+          </view>
+          <view class="affairCard">
+            <view class="cardIcons" data-type="[object Object]">
+              <view class="cardIcon">
+                <view class="t-icon t-icon-weiyi">
+                </view>
+              </view>
+            </view>
+            <view class="cardHead sk-transparent sk-text-14-2857-753 sk-text" data-type="[object Object]" style="background-position-x: 50%;">
+              衣物清洗
+            </view>
+          </view>
+          <view class="affairCard">
+            <view class="cardIcons" data-type="[object Object]">
+              <view class="cardIcon">
+                <view class="t-icon t-icon-gaolingmaoyi">
+                </view>
+              </view>
+            </view>
+            <view class="cardHead sk-transparent sk-text-14-2857-167 sk-text" data-type="[object Object]" style="background-position-x: 50%;">
+              钟点工
+            </view>
+          </view>
+          <view class="affairCard ceight">
+            <view class="cardIcons">
+              <view class="cardIcon">
+                <view class="t-icon t-icon-gengduo">
+                </view>
+              </view>
+            </view>
+            <view class="cardHead sk-transparent sk-text-14-2857-670 sk-text" style="background-position-x: 50%;">
+              更多
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="content">
+        <view class="posts">
+          <view class="postHead">
+            <view class="postName sk-transparent sk-text-14-2857-675 sk-text">
+              问大家
+            </view>
+            <view class="postAll sk-transparent">
+              查看全部
+              <view is="miniprogram_npm/@vant/weapp/icon/index">
+                <view class="van-icon icon-index--van-icon van-icon-arrow icon-index--van-icon-arrow sk-pseudo sk-pseudo-circle" style="color: #ab0014;font-size: 13px;">
+                </view>
+              </view>
+            </view>
+          </view>
+          <view class="postContent">
+            <view class="postCell">
+              <view class="cellLeft">
+                <view class="postIcon sk-transparent sk-text-14-2857-595 sk-text">
+                  问
+                </view>
+                <view class="postTitle sk-transparent sk-text-14-2857-522 sk-text">
+                  嗡嗡嗡
+                </view>
+              </view>
+              <view class="postRight sk-transparent sk-text-14-2857-236 sk-text">
+                5条回答
+              </view>
+            </view>
+            <view class="postCell">
+              <view class="cellLeft">
+                <view class="postIcon sk-transparent sk-text-14-2857-701 sk-text">
+                  问
+                </view>
+                <view class="postTitle sk-transparent sk-text-14-2857-709 sk-text">
+                  照顾孩子
+                </view>
+              </view>
+              <view class="postRight sk-transparent sk-text-14-2857-575 sk-text">
+                条回答
+              </view>
+            </view>
+            <view class="postCell">
+              <view class="cellLeft">
+                <view class="postIcon sk-transparent sk-text-14-2857-858 sk-text">
+                  问
+                </view>
+                <view class="postTitle sk-transparent sk-text-14-2857-997 sk-text">
+                  色色得瑟得瑟
+                </view>
+              </view>
+              <view class="postRight sk-transparent sk-text-14-2857-580 sk-text">
+                1条回答
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="content">
+        <view class="tabs">
+          <view is="miniprogram_npm/@vant/weapp/tabs/index">
+            <view class=" van-tabs tabs-index--van-tabs van-tabs--line tabs-index--van-tabs--line">
+              <view is="miniprogram_npm/@vant/weapp/sticky/index">
+                <view class=" van-sticky sticky-index--van-sticky" style="z-index: 1;">
+                  <view class="van-sticky-wrap sticky-index--van-sticky-wrap" style="z-index: 1;">
+                    <view class="van-tabs__wrap tabs-index--van-tabs__wrap">
+                      <scroll-view scroll-with-animation="true" class="van-tabs__scroll tabs-index--van-tabs__scroll van-tabs__scroll--line tabs-index--van-tabs__scroll--line" scroll-left="0" style="true">
+                        <view class="van-tabs__nav tabs-index--van-tabs__nav van-tabs__nav--line tabs-index--van-tabs__nav--line " style="true">
+                          <view class=" van-ellipsis tabs-index--van-ellipsis van-tab tabs-index--van-tab" data-index="0" style="true">
+                            <view class="van-ellipsis tabs-index--van-ellipsis sk-transparent sk-text-34-0909-843 sk-text" style="background-position-x: 50%;">
+                              服务机构
+                            </view>
+                          </view>
+                          <view class="  van-ellipsis tabs-index--van-ellipsis van-tab tabs-index--van-tab van-tab--active tabs-index--van-tab--active" data-index="1" style="true">
+                            <view class="van-ellipsis tabs-index--van-ellipsis sk-transparent sk-text-34-0909-288 sk-text" style="background-position-x: 50%;">
+                              服务人员
+                            </view>
+                          </view>
+                        </view>
+                      </scroll-view>
+                    </view>
+                  </view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

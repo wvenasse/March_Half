@@ -96,7 +96,7 @@ public class NoticeController {
         suffix = suffix.toLowerCase();
         if(suffix.equals(".jpg") || suffix.equals(".jpeg") || suffix.equals(".png")){
             File targetFile = new File(path, fileName);
-            if(!targetFile.getParentFile().exists()){    //注意，判断父级路径是否存在
+            if(!targetFile.getParentFile().exists()){    //判断父级路径是否存在
                 targetFile.getParentFile().mkdirs();
             }
             long size = 0;

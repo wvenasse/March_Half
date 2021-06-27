@@ -220,3 +220,7 @@ page{
 .selectType {
     background: #ad0014;
 }
+.dialog-content {
+    text-align: center;
+    padding: 20rpx 0;
+}

@@ -144,4 +144,10 @@
             </view>
         </view>
     </van-action-sheet>
+    <van-dialog use-slot show="{{ isShowTip }}" bind:cancel="closeTip"
+        bind:confirm="sureTip">
+        <view class="dialog-content">
+            结束时间不可早于开始时间
+        </view>
+    </van-dialog>
 </view>

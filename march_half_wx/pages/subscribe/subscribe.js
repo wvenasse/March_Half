@@ -27,6 +27,7 @@ Page({
       orderPriceTotal:'',
       serviceImg:'',
     },
+    isShowTip:false,
     focus: false,
     address:[],
     isShowAddress:false,
@@ -202,7 +203,14 @@ Page({
     }
     let startTime = (Date.parse(new Date(orderInfo.orderStartDate)))/1000;
     let endTime = (Date.parse(new Date(orderInfo.orderEndDate)))/1000;
+    
     let time = (endTime-startTime)/60/60;
+    if (time < 0) {
+      this.setData({
+        isShowTip: true
+      })
+      return;
+    }
     let total = Math.round(service.servicePrice * time);
     let data = {
       orderName: Name,
